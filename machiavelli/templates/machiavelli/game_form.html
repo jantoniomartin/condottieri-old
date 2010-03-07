@@ -34,7 +34,7 @@ phases of the game. This time limit is reset when all the players have completed
 <div class="p_form">
 <form action="{% url new-game %}" method="post">
 {{ form.as_p }}
-<p><input type="submit" value="Submit" /></p>
+<p><input type="submit" value="{% trans "Save" %}" /></p>
 </form>
 </div>
 

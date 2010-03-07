@@ -2,12 +2,19 @@ import django.forms as forms
 from django.forms.formsets import BaseFormSet
 from django.utils.safestring import mark_safe
 from django.db.models import Q
-#from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 
 from machiavelli.models import *
 import machiavelli.utils as utils
 
 class GameForm(forms.ModelForm):
+	slug = forms.SlugField(label=_("Slug"))
+	scenario = forms.ModelChoiceField(queryset=Scenario.objects.all(),
+									empty_label=None,
+									cache_choices=True,
+									label=_("Scenario"))
+	time_limit = forms.ChoiceField(choices=TIME_LIMITS, label=_("Time limit"))
+	
 	def __init__(self, user, **kwargs):
 		super(GameForm, self).__init__(**kwargs)
 		self.instance.created_by = user
