@@ -7,13 +7,25 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-07 20:33+0100\n"
+"POT-Creation-Date: 2010-03-07 21:16+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: machiavelli/forms.py:11
+msgid "Slug"
+msgstr "Nombre"
+
+#: machiavelli/forms.py:15 machiavelli/templates/machiavelli/game_list.html:17
+msgid "Scenario"
+msgstr "Escenario"
+
+#: machiavelli/forms.py:16 machiavelli/templates/machiavelli/game_list.html:19
+msgid "Time limit"
+msgstr "Límite de tiempo"
 
 #: machiavelli/models.py:15
 msgid "Army"
@@ -524,7 +536,6 @@ msgstr ""
 "número de jugadores, los paises disponibles y el despliegue inicial."
 
 #: machiavelli/templates/machiavelli/game_form.html:13
-#, fuzzy
 msgid ""
 "When playing a game, each player has a <b>time limit</b> to complete any of "
 "the\n"
@@ -560,6 +571,10 @@ msgstr "Ciudades para ganar"
 msgid "Create a new game"
 msgstr "Crear un nuevo juego"
 
+#: machiavelli/templates/machiavelli/game_form.html:37
+msgid "Save"
+msgstr "Guardar"
+
 #: machiavelli/templates/machiavelli/game_list.html:8
 msgid "Game list"
 msgstr "Lista de juegos"
@@ -582,17 +597,9 @@ msgstr ""
 msgid "Game"
 msgstr "Juego"
 
-#: machiavelli/templates/machiavelli/game_list.html:17
-msgid "Scenario"
-msgstr "Escenario"
-
 #: machiavelli/templates/machiavelli/game_list.html:18
 msgid "Creator"
 msgstr "Creador"
-
-#: machiavelli/templates/machiavelli/game_list.html:19
-msgid "Time limit"
-msgstr "Límite de tiempo"
 
 #: machiavelli/templates/machiavelli/game_list.html:20
 #: machiavelli/templates/machiavelli/show_game.html:11
@@ -844,17 +851,16 @@ msgstr ""
 "la unidad aguantará, en lugar de llevar a cabo su orden. Ten cuidado."
 
 #: machiavelli/templates/machiavelli/phase_3.html:5
-#, fuzzy
 msgid ""
 "At least one player has not yet retreated his units. You have to wait until "
 "all\n"
 "players have done it or the time limit is reached."
 msgstr ""
-"Al menos uno de los jugadores no ha retirado sus unidades. Tendrás que\n"
-"esperar a que todos lo hayan hecho, o se alcance el límite de tiempo.\n"
+"Al menos uno de los jugadores no ha retirado sus unidades. Tendrás "
+"que\n"
+"esperar a que todos lo hayan hecho, o se alcance el límite de tiempo."
 
 #: machiavelli/templates/machiavelli/phase_3.html:10
-#, fuzzy
 msgid ""
 "\n"
 "Some of your units have been defeated and must retreat. For each unit, you "
@@ -945,8 +951,8 @@ msgid ""
 "\t\t"
 msgstr ""
 "\n"
-"\t\tEsta proyecto se ha hecho sólo como hobby y sin ánimo de lucro, y no está relacionado "
-"en modo alguno con Avalon Hill.\n"
+"\t\tEsta proyecto se ha hecho sólo como hobby y sin ánimo de lucro, y no "
+"está relacionado en modo alguno con Avalon Hill.\n"
 "\t\t"
 
 #: templates/homepage.html:22
@@ -963,8 +969,8 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"\t\t<b>Condottieri</b> está siendo desarrollado sobre <a href=\"http://djangoproject."
-"com\">Django</a>,\n"
+"\t\t<b>Condottieri</b> está siendo desarrollado sobre <a href=\"http://"
+"djangoproject.com\">Django</a>,\n"
 "\t\t<a href=\"http://pinaxproject.com\">Pinax</a> y, por supuesto,\n"
 "\t\t<a href=\"http://www.python.org\">Python</a>.\n"
 "        "
@@ -977,8 +983,9 @@ msgid ""
 "\t\t"
 msgstr ""
 "\n"
-"\t\tEste proyecto está en estado <i>beta</i>, por lo que puede tener (seguro que los tiene) "
-"errores. Estos errores se corregirán tan pronto como sean detectados.\n"
+"\t\tEste proyecto está en estado <i>beta</i>, por lo que puede tener (seguro "
+"que los tiene) errores. Estos errores se corregirán tan pronto como sean "
+"detectados.\n"
 "\t\t"
 
 #: templates/site_base.html:15
