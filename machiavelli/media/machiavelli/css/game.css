@@ -60,8 +60,26 @@
 	-moz-border-radius: 10px;
 }
 
+/*
+ * Country styles
+ */
+.france {
+	background: #a375d1;
+	color: black;
+}
+
+.milan {
+	background: #cc0000;
+	color: black;
+}
+
 .florence {
 	background: #66ccff;
+	color: black;
+}
+
+.austria {
+	background: #b8b8b8;
 	color: black;
 }
 
@@ -70,10 +88,37 @@
 	color: black;
 }
 
+.venice {
+	background: #996600;
+	color: black;
+}
+
+.turks {
+	background: #00cccc;
+	color: black;
+}
+
+.naples {
+	background: #3d3dff;
+	color: black;
+}
+
+.france a,
+.france a:visited,
+.milan a,
+.milan a:visited,
 .florence a,
 .florence a:visited,
+.austria a,
+.austria a:visited,
 .papacy a,
-.papacy a:visited {
+.papacy a:visited,
+.venice a,
+.venice a:visited,
+.turks a,
+.turks a:visited,
+.naples a,
+.naples a:visited {
 	color: #111;
 }
 
