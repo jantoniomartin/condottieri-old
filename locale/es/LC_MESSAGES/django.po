@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-07 14:52+0100\n"
+"POT-Creation-Date: 2010-03-07 20:33+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -928,40 +928,74 @@ msgstr "Bienvenido a Condottieri"
 #: templates/homepage.html:13
 msgid ""
 "\n"
-"\t\t<b>Condottieri</b> is a gaming site to play the Avalon Hill's classic\n"
-"\t\tstrategy game <b>Machiavelli</b>.\n"
+"\t\t<b>Condottieri</b> is a gaming site to play the Avalon Hill's classic "
+"strategy game <b>Machiavelli</b>.\n"
 "        "
 msgstr ""
+"\n"
+"\t\t<b>Condottieri</b> es una aplicación para jugar al clásico juego de "
+"estrategia de Avalon Hill, <b>Machiavelli</b>.\n"
+"        "
 
 #: templates/homepage.html:18
-msgid "About this project"
-msgstr ""
-
-#: templates/homepage.html:21
 msgid ""
 "\n"
-"\t\t<b>Condottieri</b> has been developed on Django and Pinax.\n"
+"\t\tThis is only a fan, non-profit oriented, site that is in no way "
+"affiliated with Avalon Hill.\n"
+"\t\t"
+msgstr ""
+"\n"
+"\t\tEsta proyecto se ha hecho sólo como hobby y sin ánimo de lucro, y no está relacionado "
+"en modo alguno con Avalon Hill.\n"
+"\t\t"
+
+#: templates/homepage.html:22
+msgid "About this project"
+msgstr "Sobre este proyecto"
+
+#: templates/homepage.html:24
+msgid ""
+"\n"
+"\t\t<b>Condottieri</b> is being developed on <a href=\"http://djangoproject."
+"com\">Django</a>,\n"
+"\t\t<a href=\"http://pinaxproject.com\">Pinax</a> and, of course,\n"
+"\t\t<a href=\"http://www.python.org\">Python</a>.\n"
 "        "
 msgstr ""
+"\n"
+"\t\t<b>Condottieri</b> está siendo desarrollado sobre <a href=\"http://djangoproject."
+"com\">Django</a>,\n"
+"\t\t<a href=\"http://pinaxproject.com\">Pinax</a> y, por supuesto,\n"
+"\t\t<a href=\"http://www.python.org\">Python</a>.\n"
+"        "
+
+#: templates/homepage.html:31
+msgid ""
+"\n"
+"\t\tThis project is in <i>beta</i> status, so it can have (sure it has) "
+"errors. Hopefully these errors will be fixed as soon as they are detected.\n"
+"\t\t"
+msgstr ""
+"\n"
+"\t\tEste proyecto está en estado <i>beta</i>, por lo que puede tener (seguro que los tiene) "
+"errores. Estos errores se corregirán tan pronto como sean detectados.\n"
+"\t\t"
 
 #: templates/site_base.html:15
-#, fuzzy
 msgid "Account"
-msgstr "Ancona"
+msgstr "Cuenta"
 
 #: templates/site_base.html:15
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: templates/site_base.html:15
-#, fuzzy
 msgid "Logout"
-msgstr "Diario"
+msgstr "Salir"
 
 #: templates/site_base.html:17
-#, fuzzy
 msgid "Login"
-msgstr "Diario"
+msgstr "Acceder"
 
 #: templates/site_base.html:17
 msgid "or"
@@ -977,23 +1011,23 @@ msgstr "Perfil"
 
 #: templates/site_base.html:30
 msgid "Notices"
-msgstr ""
+msgstr "Avisos"
 
 #: templates/site_base.html:37
 msgid "&copy; 2010 Jos&eacute; Antonio Mart&iacute;n Prieto"
-msgstr ""
+msgstr "&copy; 2020 Jos&eacute; Antonio Mart&iacute;n Prieto"
 
 #: templates/site_base.html:38
 msgid "About"
-msgstr ""
+msgstr "Acerca"
 
 #: templates/site_base.html:39
 msgid "Terms of Service"
-msgstr ""
+msgstr "Condiciones de servicio"
 
 #: templates/site_base.html:40
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Privacidad"
 
 #: templates/site_base.html:41
 msgid "DMCA Notice"
@@ -1001,7 +1035,7 @@ msgstr ""
 
 #: templates/about/what_next.html:6 templates/about/what_next.html.py:9
 msgid "What Next?"
-msgstr ""
+msgstr "¿Y ahora qué?"
 
 #: templates/about/what_next.html:35
 #, python-format
@@ -1009,45 +1043,46 @@ msgid ""
 "Start by <a href=\"%(signup_url)s\">signing up</a> and <a href=\"%(login_url)"
 "s\">logging in</a>."
 msgstr ""
+"Empieza <a href=\"%(signup_url)s\">registrándote</a> y <a href=\"%(login_url)"
+"s\">accediendo</a>."
 
 #: templates/about/what_next.html:37
 #, python-format
 msgid "Start by <a href=\"%(login_url)s\">logging in</a>."
-msgstr ""
+msgstr "Empieza <a href=\"%(login_url)s\">accediendo</a>."
 
 #: templates/account/base.html:10
 msgid "E-Mail Addresses"
-msgstr ""
+msgstr "Direcciones de correo electrónico"
 
 #: templates/account/base.html:11
 msgid "OpenID Associations"
-msgstr ""
+msgstr "Asociaciones OpenID"
 
 #: templates/account/base.html:13
 msgid "Change Password"
-msgstr ""
+msgstr "Cambiar Contraseña"
 
 #: templates/account/base.html:15
 msgid "Set Password"
-msgstr ""
+msgstr "Guardar Contraseña"
 
 #: templates/account/base.html:18
 msgid "Delete Password"
-msgstr ""
+msgstr "Borrar Contraseña"
 
 #: templates/account/base.html:20
 msgid "Language"
-msgstr ""
+msgstr "Idioma"
 
 #: templates/account/base.html:21
 msgid "Timezone"
-msgstr ""
+msgstr "Zona horaria"
 
 #: templates/default/base.html:37
 msgid "Hide announcement"
-msgstr ""
+msgstr "Ocultar anuncio"
 
 #: templates/default/base.html:57
-#, fuzzy
 msgid "clear"
-msgstr "Año"
+msgstr "quitar"
