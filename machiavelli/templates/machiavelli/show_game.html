@@ -1,0 +1,118 @@
+{% extends "machiavelli/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Game:" %} {{ game.slug }}{% endblock %}
+
+{% block body %}
+<div id="game_info">
+<ul>
+<li>{% trans "Game" %}: {{ game.slug }}</li>
+<li>{% trans "Year" %}: {{ game.year }}</li>
+<li>{% trans "Season" %}: {{ game.get_season_display }}</li>
+<li>{% trans "Phase" %}: {{ game.get_phase_display }}</li>
+<li>{% trans "Time left" %}: {{ game.next_phase_change|timeuntil }}</li>
+{% if player %}
+<li>{% trans "Power" %}: {% trans player.country %}</li>
+{% endif %}
+</ul>
+</div>
+
+<div class="col1">
+<div id="powers">
+{% for p in game.player_set.all %}
+	{% if p.user %}
+	<div class="player {{ p.country.css_class }}">
+	<div><strong>{% trans p.country %}</strong></div>
+	<div>{% trans "Cities:" %} {{ p.number_of_cities }}</div>
+{% if player %}
+	{% ifnotequal p player %}
+	<div><a href="{% url new-letter sender_id=player.id receiver_id=p.id %}">{% trans "Send message" %}</a></div>
+	{% endifnotequal %}
+{% endif %}
+	</div>
+	{% endif %}
+{% endfor %}
+</div>
+</div>
+
+<div class="col2">
+<div id="map">
+{% blocktrans %}Our cartographers are drawing a new map for you. Please, reload
+the page in a few seconds.{% endblocktrans %}
+</div>
+</div>
+
+<div class="col3">
+<div id="diplomacy">
+<h3>{% trans "Diplomacy" %}</h3>
+<ul>
+{% for letter in inbox %}
+<li><a href="{% url show-letter letter.id %}">{{ letter.inbox_color_output|safe }}</a></li>
+{% endfor %}
+</ul>
+</div>
+<div class="menu">
+<p><a href="{% url inbox game.id %}">{% trans "Inbox" %}</a> |
+<a href="{% url outbox game.id %}">{% trans "Outbox" %}</a></p>
+</div>
+
+<div id="log">
+<h3>{% trans "Campaign log" %}</h3>
+<ul>
+{% for l in log %}
+{{ l.color_output|safe }}
+{% endfor %}
+</ul>
+</div>
+<div class="menu">
+<p><a href="{% url game-log game.id %}">{% trans "See all" %}</a></p>
+</div>
+</div>
+
+<div class="clear"></div>
+
+<div id="actions">
+{% if phase_partial %}
+{% include phase_partial %}
+{% else %}
+<p>{% trans "This game is inactive or you are not playing in it." %}</p>
+{% endif %}
+</div><!-- id=actions -->
+{% endblock %}
+
+
+{% block extra_body %}
+{% if map %}
+{% ifequal game.map_outdated 0 %}
+	<script type="text/javascript">
+		var STATIC_URL = "{{ STATIC_URL }}"
+	</script>
+	<!-- Import the prototype library -->
+	<script type="text/javascript" src="{{ STATIC_URL }}machiavelli/js/prototype-1.5.0.js"></script>
+	<!-- Import the base Experience namespace -->
+	<script type="text/javascript" src="{{ STATIC_URL }}machiavelli/js/experience.js"></script>
+	<!-- Import Experience::Panorama files -->
+	<script type="text/javascript" src="{{ STATIC_URL }}machiavelli/js/experience.panorama.js"></script>
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}machiavelli/css/experience.panorama.css" />
+	<!-- Initialize Panorama -->
+	<script type="text/javascript">
+	var	viewer;
+	
+	window.onload = function() {
+		viewer = new experience.panorama.Viewer({
+			ImageURL: STATIC_URL + "machiavelli/maps/{{ map }}",
+			ImageWidth: 1250,
+			ImageHeight: 1780,
+			RenderIn: 'map',
+			IconDirectory: STATIC_URL + "machiavelli/js/icons",
+			InnerUpperOffset: -300,
+			ShowNavigator: false,
+			ShowZoomSelectBox: true
+		});
+	}
+	</script>
+{% endifequal %}
+{% endif %}
+
+{% endblock %}

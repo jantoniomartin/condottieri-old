@@ -1,0 +1,12 @@
+Esta es una invitacion para que puedas registrarte en {{ domain }}.
+
+Si quieres registrarte, pulsa el siguiente enlace:
+http://{{ domain }}/account/signup/?code={{ signup_code.code }}
+
+Por favor, no respondas a este correo.
+
+You have been invited to signup at {{ domain }}.
+
+http://{{ domain }}/account/signup/?code={{ signup_code.code }}
+
+Please, do not reply this message.

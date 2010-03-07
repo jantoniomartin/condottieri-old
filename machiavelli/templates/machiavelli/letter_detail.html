@@ -1,0 +1,19 @@
+{% extends 'machiavelli/base.html' %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Inbox" %}{% endblock %}
+
+{% block body %}
+<h1>{% trans "Letter" %}</h1>
+
+<dl>
+<dt>{% trans "From" %}:</dt>
+<dd>{{ letter.sender.country }}</dd>
+<dt>{% trans "To" %}:</dt>
+<dd>{{ letter.receiver.country }}</dd>
+<dt>{% trans "Body" %}:<dt>
+<dd>{{ letter.body }}</dd>
+</dl>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'site_base.html' %}
+
+{% load i18n %}
+
+{% block extra_head %}{% endblock %}
+
+{% block rtab_id %}id="machiavelli_tab"{% endblock %}
+
+{% block subnav %}
+	<ul>
+		<li><a href="{% url game-list %}">{% trans "All games" %}</a></li>
+		<li><a href="{% url hall-of-fame %}">{% trans "Hall of Fame" %}</a></li>
+	</ul>
+{% endblock %}

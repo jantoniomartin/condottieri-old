@@ -1,0 +1,45 @@
+{% extends "machiavelli/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% blocktrans %}Games{% endblocktrans %}{% endblock %}
+
+{% block body %}
+<h1>{% trans "Game list" %}</h1>
+<p>{% blocktrans %}This is a list of all the games in this server. The first are the ones that you
+are a player in. If a game has empty slots, you can join it. If you can't find any available games,
+you can also create one, but it's better if you join an existing game.{% endblocktrans %}</p>
+
+<table>
+	<thead>
+	<tr>
+	<th>{% trans "Game" %}</th>
+	<th>{% trans "Scenario" %}</th>
+	<th>{% trans "Creator" %}</th>
+	<th>{% trans "Time limit" %}</th>
+	<th>{% trans "Year" %}</th>
+	<th>{% trans "Season" %}</th>
+	<th>{% trans "Phase" %}</th>
+	<th>{% trans "Slots" %}</th>
+	</tr>
+	</thead>
+	{% for game in your_games %}
+	<tr>
+		{% include 'machiavelli/game_row_inc.html' %}
+		<td>{{ game.slots }}</td>
+	</tr>
+	{% endfor %}
+	{% for game in other_games %}
+	<tr>
+		{% include 'machiavelli/game_row_inc.html' %}
+		<td>{{ game.slots }}
+		{% ifnotequal game.slots 0 %}
+			<a href="{% url machiavelli.views.join_game game.pk %}">{% trans "Join game" %}</a>
+		{% endifnotequal %}
+		</td>
+	</tr>
+	{% endfor %}
+
+</table>
+<p><a href="{% url new-game %}">{% trans "New game" %}</a></p>
+{% endblock %}

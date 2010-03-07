@@ -1,0 +1,25 @@
+{% extends 'machiavelli/base.html' %}
+
+{% block content %}
+	<dl>
+		<dt>Name:</dt>
+		<dd>{{ object.name }}</dd>
+		<dt>Title:</dt>
+		<dd>{{ object.title }}</dd>
+		<dt>Start year:</dt>
+		<dd>{{ object.start_year }}</dd>
+	</dl>
+	<h2>Initial Setup</h2>
+	<table>
+	<tr>
+	<th>Country</th><th>Area</th><th>Unit type</th>
+	</tr>
+	{% for s in object.setup_set.all %}
+		<tr>
+			<td>{{ s.country.name }}</td>
+			<td>{{ s.area.name }}</td>
+			<td>{{ s.unit_type }}</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% endblock %}

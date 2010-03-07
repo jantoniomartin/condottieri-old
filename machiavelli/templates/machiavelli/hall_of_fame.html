@@ -1,0 +1,27 @@
+{% extends "machiavelli/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Hall of Fame" %}{% endblock %}
+
+{% block body %}
+<h1>{% trans "Hall of Fame" %}</h1>
+<p>{% blocktrans %}These are the global scores for all the users in this
+server{% endblocktrans %}</p>
+
+<table style="width: 30%">
+	<thead>
+	<tr>
+	<th>{% trans "User" %}</th>
+	<th>{% trans "Score" %}</th>
+	</tr>
+	</thead>
+	{% for u in users %}
+	<tr>
+	<td><a href="{% url profile_detail username=u.username %}">{{ u }}</a></td>
+	<td class="data_c">{{ u.total_score }}</td>
+	</tr>
+	{% endfor %}
+
+</table>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% load i18n %}
+
+<h2>{% trans "Military Adjustment" %}</h2>
+{% if done %}
+
+<p>{% blocktrans %}At least one player has not yet adjusted his units. You have to wait until all
+players have done it or the time limit is reached.{% endblocktrans %}</p>
+
+{% else %}
+
+<p>{% blocktrans count cities_qty as counter %}You have currently {{ cities_qty }} city
+{% plural %}You have currently {{ cities_qty }} cities
+{% endblocktrans %}
+
+{% blocktrans count cur_units as counter %} and {{ cur_units }} unit.
+{% plural %} and {{ cur_units }} units.
+{% endblocktrans %}</p>
+
+<form action="{% url show-game game.id %}" method="post">
+
+{% if reinforce_form %}
+<p>{% blocktrans count units_to_place as counter %} You have to place <b>{{ units_to_place }}</b> unit in the map.
+{% plural %} You have to place <b>{{ units_to_place }}</b> units in the map.
+{% endblocktrans %}</p>
+<p>{% blocktrans %} Remember the following restrictions when placing units:{% endblocktrans %}</p>
+<ul>
+<li>{% blocktrans %}Any unit: Only in cities with your flag <b>and</b> under your control.{% endblocktrans %}</li>
+<li>{% blocktrans %}Fleets: Only in port cities.{% endblocktrans %}</li>
+<li>{% blocktrans %}Garrisons: Only in fortified cities.{% endblocktrans %}</li>
+<li>{% blocktrans %}You cannot place more than one unit in the same area.{% endblocktrans %}</li>
+</ul>
+<div class="action_form">
+<p>{{ reinforce_form.non_form_errors }}</p>
+<table style="width: 30%">
+{{ reinforce_form }}
+</table>
+<p><input type="submit" value="{% trans "Reinforce" %}" /></p>
+</div>
+{% endif %}
+
+{% if disband_form %}
+<p>{% blocktrans count units_to_disband as counter %} You must select exactly {{ units_to_disband }} unit to be disbanded.
+{% plural %} You must select exactly {{ units_to_disband }} units to be disbanded. Use Ctrl key to select more than one unit.
+{% endblocktrans %}</p>
+
+<p>{{ disband_form.non_form_errors }}</p>
+<table>
+{{ disband_form }}
+</table>
+<p><input type="submit" value="{% trans "Disband!" %}"/></p>
+{% endif %}
+
+</form>
+{% endif %}

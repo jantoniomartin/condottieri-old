@@ -1,0 +1,19 @@
+{% extends 'machiavelli/base.html' %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Write a letter" %}{% endblock %}
+
+{% block body %}
+<h1>{% trans "New letter" %}</h1>
+<p>{% blocktrans with receiver.country as country %}
+New letter for {{ country }}
+{% endblocktrans %}</p>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<form action="{% url new-letter sender.id receiver.id %}" method="post">
+{{ form.body.errors }}
+<p>{{ form.body }}</p>
+<p><input type="submit" value="{% trans "Send" %}" />
+</form>
+
+{% endblock %}

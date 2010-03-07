@@ -1,0 +1,41 @@
+{% extends "machiavelli/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% blocktrans %}Games{% endblocktrans %}{% endblock %}
+
+{% block body %}
+<h1>{% trans "New game" %}</h1>
+<p>{% blocktrans %}Here you can create a new game. You will be the first player of any game
+you create. You must choose a short name for the game, that will be used only to identify it.{% endblocktrans %}</p>
+<p>{% blocktrans %}Every game must begin with a <b>scenario</b>. The scenario determines the number
+of players, the available countries and the initial setup.{% endblocktrans %}</p>
+<p>{% blocktrans %}When playing a game, each player has a <b>time limit</b> to complete any of the
+phases of the game. This time limit is reset when all the players have completed their actions.
+{% endblocktrans %}</p>
+<h2>{% trans "Available scenarios" %}</h2>
+<table>
+<thead><tr>
+<th>{% trans "Title" %}</th>
+<th>{% trans "Start year" %}</th>
+<th>{% trans "Players" %}</th>
+<th>{% trans "Cities to win" %}</th>
+</tr></thead>
+{% for s in scenarios %}
+<tr>
+<td>{% trans s.title %}</td>
+<td class="data_c">{{ s.start_year }}</td>
+<td class="data_c">{{ s.get_slots }}</td>
+<td class="data_c">{{ s.cities_to_win }}</td>
+</tr>
+{% endfor %}
+</table>
+<h2>{% trans "Create a new game" %}</h2>
+<div class="p_form">
+<form action="{% url new-game %}" method="post">
+{{ form.as_p }}
+<p><input type="submit" value="Submit" /></p>
+</form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'machiavelli/base.html' %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Outbox" %}{% endblock %}
+
+{% block body %}
+<h1>{% trans "Sent letters" %}</h1>
+
+<table>
+<thead>
+<tr>
+<th>{% trans "To" %}</th>
+<th>{% trans "Summary" %}</th>
+</tr>
+</thead>
+{% for letter in letters_list %}
+<tr>
+<td>{{ letter.receiver.country }}</td>
+<td>
+<a href="{% url show-letter letter.id %}">{{ letter.outbox_color_output|safe }}
+</a>
+</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

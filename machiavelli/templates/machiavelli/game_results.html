@@ -1,0 +1,28 @@
+{% extends "machiavelli/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Game results" %}: {{ game.slug }}{% endblock %}
+
+{% block body %}
+<h1>{% trans "Results of game" %} "{{ game.slug }}"</h1>
+<p>{% blocktrans %}These are the scores for each player in the game{% endblocktrans %}</p>
+
+<table>
+	<thead>
+	<tr>
+	<th>{% trans "Player" %}</th>
+	<th>{% trans "Country" %}</th>
+	<th>{% trans "Score" %}</th>
+	</tr>
+	</thead>
+	{% for p in players %}
+	<tr>
+	<td>{{ p.user }}</td>
+	<td>{{ p.country }}</td>
+	<td class="data_c">{{ p.score }}</td>
+	</tr>
+	{% endfor %}
+
+</table>
+{% endblock %}

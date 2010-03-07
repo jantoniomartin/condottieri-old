@@ -1,0 +1,27 @@
+{% load i18n %}
+
+<h2>{% trans "Orders writing" %}</h2>
+{% if done %}
+<p>{% blocktrans %}At least one player has not yet sent his orders. You have to wait until all
+players have done it or the time limit is reached.{% endblocktrans %}</p>
+{% else %}
+<script type="text/javascript" src="{{ STATIC_URL }}machiavelli/js/orders_form.js"></script>
+<p>{% blocktrans %}
+In the next form, you have to compose an order for each of your units. You cannot give a unit two
+orders. If you want a unit to do nothing, select the "Hold" option for it.
+{% endblocktrans %}</p>
+<p>{% blocktrans %}If you compose an order that break the rules, you should see an error and you will have to fix the order. However, if you compose an impossible order, this unit will hold, instead of carrying out its order. Be careful.{% endblocktrans %}</p>
+<div class="action_form">
+<p>{{ orders_formset.non_form_errors}}</p>
+<form action="{% url show-game game.id %}" method="post">
+<table>
+<tr>
+<th style="width: 12%">Unit</th>
+<th style="width: 12%">Order</th>
+<th colspan="6" style="text-align: left">Parameters</th></tr>
+{{ orders_formset.as_row }}
+</table>
+<p><input type="submit" value="{% trans "Send" %}" /></p>
+</form>
+</div>
+{% endif %}
