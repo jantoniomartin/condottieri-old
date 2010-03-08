@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from django.forms.formsets import formset_factory
 from django.db.models import Sum
 #from django.forms.models import modelformset_factory
-from django.views.decorators.cache import never_cache
+from django.views.decorators.cache import never_cache, cache_page
 
 from machiavelli.models import *
 import machiavelli.utils as utils
@@ -211,6 +211,7 @@ def play_retreats(request, game, player):
 							context,
 							context_instance=RequestContext(request))
 
+@cache_page(60 * 60) # cache 1 hour
 @login_required
 def game_results(request, game_id):
 	game = get_object_or_404(Game, pk=game_id)
@@ -221,6 +222,7 @@ def game_results(request, game_id):
 							context,
 							context_instance=RequestContext(request))
 
+@never_cache
 @login_required
 def logs_by_game(request, game_id):
 	game = get_object_or_404(Game, pk=game_id)
@@ -243,6 +245,7 @@ def logs_by_game(request, game_id):
 		extra_context = extra_context
 	)
 
+@cache_page(60 * 60)
 @login_required
 def create_game(request):
 	context = {'user': request.user,}
@@ -281,6 +284,7 @@ def join_game(request, game_id=''):
 			g.player_joined()
 	return redirect('game-list')
 
+@never_cache
 @login_required
 def box_list(request, game_id='', box='inbox'):
 	game = get_object_or_404(Game, pk=game_id)
@@ -327,6 +331,7 @@ def new_letter(request, sender_id, receiver_id):
 							'receiver': receiver,},
 							context_instance=RequestContext(request))
 
+@cache_page(60 * 10)
 @login_required
 def show_letter(request, letter_id):
 	letters = Letter.objects.all()
@@ -345,6 +350,7 @@ def show_letter(request, letter_id):
 	template_object_name = 'letter'
 	)
 
+@cache_page(60 * 10)
 @login_required
 def hall_of_fame(request):
 	users = User.objects.all().annotate(total_score=Sum('player__score')).order_by('-total_score')
