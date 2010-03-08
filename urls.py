@@ -2,7 +2,7 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-
+from django.views.decorators.cache import cache_page
 from django.views.generic.simple import direct_to_template
 
 from django.contrib import admin
@@ -33,7 +33,7 @@ else:
 
 
 urlpatterns = patterns('',
-    url(r'^$', homepage, name="home"),
+    url(r'^$', cache_page(homepage, 60*10), name="home"),
     url(r'^success/$', direct_to_template, {"template": "waitinglist/success.html"}, name="waitinglist_sucess"),
     
     url(r'^admin/invite_user/$', 'signup_codes.views.admin_invite_user', name="admin_invite_user"),
