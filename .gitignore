@@ -4,3 +4,4 @@ local_settings.py
 *.db
 logs/
 site_media/static/machiavelli/maps/
+machiavelli/media/machiavelli/maps/

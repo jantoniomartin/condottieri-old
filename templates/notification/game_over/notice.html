@@ -1,0 +1,4 @@
+{% load i18n %}
+
+{% blocktrans with game.slug as slug %}The game '{{ slug }}' has is over. You can {% endblocktrans %}
+<a href="{% url show-game game.id %}">{% trans "see the results" %}</a>.

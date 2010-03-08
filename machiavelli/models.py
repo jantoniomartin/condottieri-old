@@ -9,6 +9,11 @@ import django.forms as forms
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
+if "notification" in settings.INSTALLED_APPS:
+	from notification import models as notification
+else:
+	notification = None
+
 from machiavelli.graphics import make_map
 
 
@@ -205,6 +210,7 @@ Returns the Time of the next compulsory phase change.
 When the time limit is reached and one or more of the players are not done,
 a phase change is forced.
 		"""
+		self.notify_players("phase_change_forced", {"game": self})
 		self.log_event(ETFORCEPHASE)
 		for p in self.player_set.all():
 			if p.done:
@@ -267,6 +273,7 @@ Checks if the time limit has been reached
 			self.place_initial_units()
 			self.map_outdated = True
 			self.last_phase_change = datetime.now()
+			self.notify_players("game_started", {"game": self})
 		self.save()
 		if self.map_outdated == True:
 			self.make_map()
@@ -682,6 +689,7 @@ Returns True if at least one player has reached the cities_to_win
 	def game_over(self):
 		self.phase = PHINACTIVE
 		self.save()
+		self.notify_players("game_over", {"game": self})
 		self.clean_useless_data()
 
 	def clean_useless_data(self):
@@ -698,6 +706,11 @@ In a finished game, delete all the data that is not going to be used anymore.
 			p.sent.all().delete()
 		self.log_set.all().delete()
 		self.gamearea_set.all().delete()
+
+	def notify_players(self, label, extra_context=None, on_site=True):
+		if notification:
+			users = User.objects.filter(player__game=self)
+			notification.send(users, label, extra_context, on_site)
 
 class GameArea(models.Model):
 	game = models.ForeignKey(Game)
