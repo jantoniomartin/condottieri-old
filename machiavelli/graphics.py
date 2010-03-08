@@ -13,7 +13,7 @@ BASEMAP='base-map.png'
 if settings.DEBUG:
 	MAPSDIR = os.path.join(settings.PROJECT_ROOT, 'machiavelli/media/machiavelli/maps')
 else:
-	MAPSDIR = os.path.joing(settings.STATIC_ROOT, 'machiavelli/maps')
+	MAPSDIR = os.path.join(settings.STATIC_ROOT, 'machiavelli/maps')
 
 def make_map(game):
 	"""
