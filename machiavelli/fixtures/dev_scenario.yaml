@@ -1,0 +1,28 @@
+- fields: {name: development, start_year: 1520, title: Development}
+  model: machiavelli.scenario
+  pk: 2
+- fields: {area: 38, country: 6, scenario: 2, unit_type: A}
+  model: machiavelli.setup
+  pk: 56
+- fields: {area: 36, country: 6, scenario: 2, unit_type: F}
+  model: machiavelli.setup
+  pk: 57
+- fields: {area: 47, country: 4, scenario: 2, unit_type: A}
+  model: machiavelli.setup
+  pk: 58
+- fields: {area: 46, country: 4, scenario: 2, unit_type: F}
+  model: machiavelli.setup
+  pk: 59
+- fields: {area: 37, country: 6, scenario: 2, unit_type: ''}
+  model: machiavelli.setup
+  pk: 60
+- fields: {area: 50, country: 4, scenario: 2, unit_type: ''}
+  model: machiavelli.setup
+  pk: 61
+- fields: {area: 44, country: null, scenario: 2, unit_type: G}
+  model: machiavelli.setup
+  pk: 62
+- fields: {area: 42, country: null, scenario: 2, unit_type: G}
+  model: machiavelli.setup
+  pk: 63
+
