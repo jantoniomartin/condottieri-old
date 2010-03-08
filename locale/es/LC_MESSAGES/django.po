@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-08 13:16+0100\n"
+"POT-Creation-Date: 2010-03-08 16:56+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -92,18 +92,30 @@ msgid "Support"
 msgstr "Apoyar"
 
 #: machiavelli/models.py:45
+msgid "5 days"
+msgstr "5 días"
+
+#: machiavelli/models.py:46
+msgid "4 days"
+msgstr "4 días"
+
+#: machiavelli/models.py:47
+msgid "3 days"
+msgstr "3 días"
+
+#: machiavelli/models.py:48
 msgid "2 days"
 msgstr "2 días"
 
-#: machiavelli/models.py:46
+#: machiavelli/models.py:49
 msgid "1 day"
 msgstr "1 día"
 
-#: machiavelli/models.py:47
+#: machiavelli/models.py:50
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: machiavelli/models.py:895
+#: machiavelli/models.py:898
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
@@ -495,10 +507,14 @@ msgid "Western Mediterranean"
 msgstr "Mediterráneo Occidental"
 
 #: machiavelli/templates/machiavelli/base.html:11
+msgid "Map"
+msgstr ""
+
+#: machiavelli/templates/machiavelli/base.html:12
 msgid "All games"
 msgstr "Todos los juegos"
 
-#: machiavelli/templates/machiavelli/base.html:12
+#: machiavelli/templates/machiavelli/base.html:13
 #: machiavelli/templates/machiavelli/hall_of_fame.html:5
 #: machiavelli/templates/machiavelli/hall_of_fame.html:8
 msgid "Hall of Fame"
@@ -1037,7 +1053,7 @@ msgstr "Avisos"
 msgid "&copy; 2010 Jos&eacute; Antonio Mart&iacute;n Prieto"
 msgstr "&copy; 2020 Jos&eacute; Antonio Mart&iacute;n Prieto"
 
-#: templates/site_base.html:38 templates/profiles/profile.html:38
+#: templates/site_base.html:38 templates/default/profiles/profile.html:38
 msgid "About"
 msgstr "Acerca"
 
@@ -1171,139 +1187,141 @@ msgstr "Ocultar anuncio"
 msgid "clear"
 msgstr "quitar"
 
-#: templates/profiles/base.html:10
+#: templates/default/profiles/base.html:10
 msgid "Your Profile"
 msgstr "Tu Perfil"
 
-#: templates/profiles/base.html:11 templates/profiles/profiles.html:9
+#: templates/default/profiles/base.html:11
+#: templates/default/profiles/profiles.html:9
 msgid "All Profiles"
 msgstr "Todos"
 
-#: templates/profiles/profile.html:13
+#: templates/default/profiles/profile.html:13
 #, python-format
 msgid "Profile for %(other_user)s"
 msgstr "Perfil de %(other_user)s"
 
-#: templates/profiles/profile.html:31
+#: templates/default/profiles/profile.html:31
 #, python-format
 msgid "Profile for <span class=\"nickname\">%(other_user)s</span>"
 msgstr "Perfil de <span class=\"nickname\">%(other_user)s</span>"
 
-#: templates/profiles/profile.html:33
+#: templates/default/profiles/profile.html:33
 #, python-format
 msgid "Profile for <span class=\"fn nickname\">%(other_user)s</span>"
 msgstr "Perfil de <span class=\"fn nickname\">%(other_user)s</span>"
 
-#: templates/profiles/profile.html:37 templates/profiles/profiles.html:25
+#: templates/default/profiles/profile.html:37
+#: templates/default/profiles/profiles.html:25
 msgid "Name"
 msgstr "Nombre"
 
-#: templates/profiles/profile.html:39
+#: templates/default/profiles/profile.html:39
 msgid "Location"
 msgstr "Ubicación"
 
-#: templates/profiles/profile.html:40
+#: templates/default/profiles/profile.html:40
 msgid "Website"
 msgstr "Web"
 
-#: templates/profiles/profile.html:49
+#: templates/default/profiles/profile.html:49
 msgid "Followers"
 msgstr "Seguidores"
 
-#: templates/profiles/profile.html:50
+#: templates/default/profiles/profile.html:50
 msgid "Following"
 msgstr "Siguiendo"
 
-#: templates/profiles/profile.html:59
+#: templates/default/profiles/profile.html:59
 msgid "unfollow"
 msgstr "no seguir"
 
-#: templates/profiles/profile.html:61
+#: templates/default/profiles/profile.html:61
 msgid "follow tweets"
 msgstr "seguir tweets"
 
-#: templates/profiles/profile.html:68
+#: templates/default/profiles/profile.html:68
 #, python-format
 msgid "You are friends with %(other_user)s."
 msgstr "Eres amigo de %(other_user)s."
 
-#: templates/profiles/profile.html:68
+#: templates/default/profiles/profile.html:68
 msgid "Send a message"
 msgstr "Enviar una carta"
 
-#: templates/profiles/profile.html:71
+#: templates/default/profiles/profile.html:71
 msgid "remove from friends"
 msgstr "quitar de tus amigos"
 
-#: templates/profiles/profile.html:76
+#: templates/default/profiles/profile.html:76
 #, python-format
 msgid "%(other_user)s has requested friendship."
 msgstr "%(other_user)s ha solicitado tu amistad."
 
-#: templates/profiles/profile.html:84
+#: templates/default/profiles/profile.html:84
 msgid "accept"
 msgstr "aceptar"
 
-#: templates/profiles/profile.html:89
+#: templates/default/profiles/profile.html:89
 msgid "decline"
 msgstr "declinar"
 
-#: templates/profiles/profile.html:95
+#: templates/default/profiles/profile.html:95
 msgid "Friendship request sent."
 msgstr "Solicitud de amistad enviada."
 
-#: templates/profiles/profile.html:97
+#: templates/default/profiles/profile.html:97
 msgid "Add As Friend"
 msgstr "Añadir como amigo"
 
-#: templates/profiles/profile.html:103
+#: templates/default/profiles/profile.html:103
 msgid "invite"
 msgstr "invitar"
 
-#: templates/profiles/profile.html:104
+#: templates/default/profiles/profile.html:104
 #, python-format
 msgid "%(other_user)s to be a friend."
 msgstr "a %(other_user)s a que sea tu amigo."
 
-#: templates/profiles/profile.html:114
+#: templates/default/profiles/profile.html:114
 msgid "Wiki Articles"
 msgstr "Artículos Wiki"
 
-#: templates/profiles/profile.html:131
+#: templates/default/profiles/profile.html:131
 msgid "No wiki articles yet."
 msgstr ""
 
-#: templates/profiles/profile.html:134
+#: templates/default/profiles/profile.html:134
 msgid "Bookmarks"
 msgstr ""
 
-#: templates/profiles/profile.html:154
+#: templates/default/profiles/profile.html:154
 #, python-format
 msgid ""
 "You haven't added any <a href=\"%(add_bookmark_url)s\">bookmarks</a> yet."
 msgstr ""
 
-#: templates/profiles/profile.html:158
+#: templates/default/profiles/profile.html:158
 msgid "Blog Posts"
 msgstr ""
 
-#: templates/profiles/profile.html:165
+#: templates/default/profiles/profile.html:165
 msgid "No blog posts yet."
 msgstr ""
 
-#: templates/profiles/profile.html:169
+#: templates/default/profiles/profile.html:169
 msgid "Tweets"
 msgstr ""
 
-#: templates/profiles/profile.html:178
+#: templates/default/profiles/profile.html:178
 msgid "Photos"
 msgstr ""
 
-#: templates/profiles/profile.html:191
+#: templates/default/profiles/profile.html:191
 msgid "No photos uploaded yet."
 msgstr ""
 
-#: templates/profiles/profile.html:197
+#: templates/default/profiles/profile.html:197
 #, python-format
 msgid ""
 "<a href=\"%(signup_url)s\">Sign up</a> and <a href=\"%(login_url)s\">log in "
@@ -1312,24 +1330,24 @@ msgstr ""
 "Empieza <a href=\"%(signup_url)s\">registrándote</a> y <a href=\"%(login_url)"
 "s\">accediendo</a>."
 
-#: templates/profiles/profile_edit.html:5
-#: templates/profiles/profile_edit.html:9
-#: templates/profiles/profile_edit_facebox.html:3
+#: templates/default/profiles/profile_edit.html:5
+#: templates/default/profiles/profile_edit.html:9
+#: templates/default/profiles/profile_edit_facebox.html:3
 msgid "Edit Profile"
 msgstr "Editar Perfil"
 
-#: templates/profiles/profiles.html:12
+#: templates/default/profiles/profiles.html:12
 msgid "Profiles"
 msgstr "Perfiles"
 
-#: templates/profiles/profiles.html:23
+#: templates/default/profiles/profiles.html:23
 msgid "Order by:"
 msgstr "Ordenar por:"
 
-#: templates/profiles/profiles.html:27
+#: templates/default/profiles/profiles.html:27
 msgid "Date"
 msgstr "Fecha"
 
-#: templates/profiles/profiles.html:37
+#: templates/default/profiles/profiles.html:37
 msgid "MONTH_DAY_FORMAT"
 msgstr "DAY_MONTH_FORMAT"
