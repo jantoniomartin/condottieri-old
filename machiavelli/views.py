@@ -211,8 +211,8 @@ def play_retreats(request, game, player):
 							context,
 							context_instance=RequestContext(request))
 
-@cache_page(60 * 60) # cache 1 hour
 @login_required
+@cache_page(60 * 60) # cache 1 hour
 def game_results(request, game_id):
 	game = get_object_or_404(Game, pk=game_id)
 	players = game.player_set.filter(user__isnull=False).order_by('-score')
@@ -245,8 +245,8 @@ def logs_by_game(request, game_id):
 		extra_context = extra_context
 	)
 
-@cache_page(60 * 60)
 @login_required
+@cache_page(60 * 60)
 def create_game(request):
 	context = {'user': request.user,}
 	if request.method == 'POST':
@@ -331,8 +331,8 @@ def new_letter(request, sender_id, receiver_id):
 							'receiver': receiver,},
 							context_instance=RequestContext(request))
 
-@cache_page(60 * 10)
 @login_required
+@cache_page(60 * 10)
 def show_letter(request, letter_id):
 	letters = Letter.objects.all()
 	try:
@@ -350,8 +350,8 @@ def show_letter(request, letter_id):
 	template_object_name = 'letter'
 	)
 
-@cache_page(60 * 10)
 @login_required
+@cache_page(60 * 10)
 def hall_of_fame(request):
 	users = User.objects.all().annotate(total_score=Sum('player__score')).order_by('-total_score')
 	context = {'users': users}
