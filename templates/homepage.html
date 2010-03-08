@@ -36,22 +36,24 @@
     <hr />
     
     <p>
-        <b>Condottieri</b> is currently under active development. If you would like to receive a
-        beta code for this please give us your e-mail address below
+        {% blocktrans %}<b>Condottieri</b> is currently under active development. If you would like to receive a
+        beta code for this please give us your e-mail address below.{% endblocktrans %}
     </p>
     
     <form method="POST" action="">
         {{ form.as_p }}
-        <input type="submit" value="Sign up" />
+        <input type="submit" value="{% trans "Sign up" %}" />
     </form>
     
-    <p>- or -</p>
+    <p>- {% trans "or" %} -</p>
     
-    <p>You can use a sign-up code to sign-up with the site right now.</p>
+    <p>
+	{% blocktrans %}You can use a sign-up code to sign-up with the site right now.{% endblocktrans %}
+	</p>
     
     <form method="GET" action="{% url acct_signup %}">
         <input type="text" name="code" />
-        <input type="submit" value="Sign up" />
+        <input type="submit" value="{% trans "Sign up" %}" />
     </form>
     
 {% endblock %}

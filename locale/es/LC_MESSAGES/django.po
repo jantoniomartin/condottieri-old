@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-07 21:16+0100\n"
+"POT-Creation-Date: 2010-03-08 11:43+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -856,8 +856,7 @@ msgid ""
 "all\n"
 "players have done it or the time limit is reached."
 msgstr ""
-"Al menos uno de los jugadores no ha retirado sus unidades. Tendrás "
-"que\n"
+"Al menos uno de los jugadores no ha retirado sus unidades. Tendrás que\n"
 "esperar a que todos lo hayan hecho, o se alcance el límite de tiempo."
 
 #: machiavelli/templates/machiavelli/phase_3.html:10
@@ -988,6 +987,29 @@ msgstr ""
 "detectados.\n"
 "\t\t"
 
+#: templates/homepage.html:39
+msgid ""
+"<b>Condottieri</b> is currently under active development. If you would like "
+"to receive a\n"
+"        beta code for this please give us your e-mail address below."
+msgstr ""
+"<b>Condottieri</b> está en pleno desarrollo. Si quieres "
+"recibir un\n"
+"código de registro, por favor, danos tu dirección de e-mail."
+
+#: templates/homepage.html:45 templates/homepage.html.py:56
+#: templates/site_base.html:17
+msgid "Sign up"
+msgstr "Registro"
+
+#: templates/homepage.html:48 templates/site_base.html:17
+msgid "or"
+msgstr "o"
+
+#: templates/homepage.html:51
+msgid "You can use a sign-up code to sign-up with the site right now."
+msgstr "Puedes usar un código de registro para darte de alta ahora mismo."
+
 #: templates/site_base.html:15
 msgid "Account"
 msgstr "Cuenta"
@@ -1003,14 +1025,6 @@ msgstr "Salir"
 #: templates/site_base.html:17
 msgid "Login"
 msgstr "Acceder"
-
-#: templates/site_base.html:17
-msgid "or"
-msgstr "o"
-
-#: templates/site_base.html:17
-msgid "Sign up"
-msgstr "Registro"
 
 #: templates/site_base.html:29
 msgid "Profile"
@@ -1085,6 +1099,26 @@ msgstr "Idioma"
 #: templates/account/base.html:21
 msgid "Timezone"
 msgstr "Zona horaria"
+
+#: templates/default/404.html:5
+msgid "Not Found"
+msgstr "No Encontrado"
+
+#: templates/default/404.html:8
+msgid "We're sorry but that page could not be found."
+msgstr "La página que buscas no se ha encontrado."
+
+#: templates/default/500.html:5
+msgid "Server Error"
+msgstr "Error del servidor"
+
+#: templates/default/500.html:8
+msgid ""
+"We're sorry but a server error has occurred. We've been notified and will "
+"look into it as soon as possible."
+msgstr ""
+"Lamentablemente ha ocurrido un error en el servidor. Se investigará el "
+"error lo antes posible"
 
 #: templates/default/base.html:37
 msgid "Hide announcement"
