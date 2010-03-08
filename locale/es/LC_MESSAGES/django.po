@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-08 11:43+0100\n"
+"POT-Creation-Date: 2010-03-08 12:46+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -993,8 +993,7 @@ msgid ""
 "to receive a\n"
 "        beta code for this please give us your e-mail address below."
 msgstr ""
-"<b>Condottieri</b> está en pleno desarrollo. Si quieres "
-"recibir un\n"
+"<b>Condottieri</b> está en pleno desarrollo. Si quieres recibir un\n"
 "código de registro, por favor, danos tu dirección de e-mail."
 
 #: templates/homepage.html:45 templates/homepage.html.py:56
@@ -1054,11 +1053,55 @@ msgstr "Privacidad"
 msgid "DMCA Notice"
 msgstr ""
 
-#: templates/about/what_next.html:6 templates/about/what_next.html.py:9
+#: templates/about/what_next.html:6
 msgid "What Next?"
 msgstr "¿Y ahora qué?"
 
-#: templates/about/what_next.html:35
+#: templates/about/what_next.html:11
+msgid "If you want to start playing, go to"
+msgstr "Si quieres empezar a jugar, ve a"
+
+#: templates/about/what_next.html:12
+msgid "the game list"
+msgstr "la lista de juegos"
+
+#: templates/about/what_next.html:15
+msgid "However, there are some things that you may want to do before:"
+msgstr "Sin embargo, hay algunas cosas que quizá quieras hacer antes:"
+
+#: templates/about/what_next.html:19
+msgid "verify an email address"
+msgstr "verifica una dirección de email"
+
+#: templates/about/what_next.html:20
+msgid ""
+"so you can receive notifications, reset your password and so people can find "
+"you more easily."
+msgstr ""
+"para que puedas recibir notificaciones, recuperar tu contraseña y para que "
+"se te pueda encontrar más fácilmente."
+
+#: templates/about/what_next.html:22
+msgid "fill out your profile"
+msgstr "rellena tu perfil"
+
+#: templates/about/what_next.html:23
+msgid "to tell the world a little about yourself."
+msgstr "para contarle al mundo algo sobre ti"
+
+#: templates/about/what_next.html:28
+msgid "invite more people to the site"
+msgstr "invitar a más gente"
+
+#: templates/about/what_next.html:28
+msgid "admin only"
+msgstr "sólo admin"
+
+#: templates/about/what_next.html:29
+msgid "so more people can share in the fun."
+msgstr "para que más gente pueda jugar."
+
+#: templates/about/what_next.html:39
 #, python-format
 msgid ""
 "Start by <a href=\"%(signup_url)s\">signing up</a> and <a href=\"%(login_url)"
@@ -1067,7 +1110,7 @@ msgstr ""
 "Empieza <a href=\"%(signup_url)s\">registrándote</a> y <a href=\"%(login_url)"
 "s\">accediendo</a>."
 
-#: templates/about/what_next.html:37
+#: templates/about/what_next.html:41
 #, python-format
 msgid "Start by <a href=\"%(login_url)s\">logging in</a>."
 msgstr "Empieza <a href=\"%(login_url)s\">accediendo</a>."
@@ -1117,8 +1160,8 @@ msgid ""
 "We're sorry but a server error has occurred. We've been notified and will "
 "look into it as soon as possible."
 msgstr ""
-"Lamentablemente ha ocurrido un error en el servidor. Se investigará el "
-"error lo antes posible"
+"Lamentablemente ha ocurrido un error en el servidor. Se investigará el error "
+"lo antes posible"
 
 #: templates/default/base.html:37
 msgid "Hide announcement"
