@@ -10,7 +10,10 @@ from django.conf import settings
 
 BASEDIR=os.path.join(settings.PROJECT_ROOT, 'machiavelli/media/machiavelli/tokens')
 BASEMAP='base-map.png'
-MAPSDIR = os.path.join(settings.PROJECT_ROOT, 'machiavelli/media/machiavelli/maps')
+if settings.DEBUG:
+	MAPSDIR = os.path.join(settings.PROJECT_ROOT, 'machiavelli/media/machiavelli/maps')
+else:
+	MAPSDIR = os.path.joing(settings.STATIC_ROOT, 'machiavelli/maps')
 
 def make_map(game):
 	"""
