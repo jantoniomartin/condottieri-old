@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-09 09:05+0100\n"
+"POT-Creation-Date: 2010-03-09 11:50+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -51,95 +51,95 @@ msgstr "Juego terminado"
 msgid "a game that you're playing is over"
 msgstr "un juego en el que estás jugando ha terminado"
 
-#: machiavelli/models.py:20
+#: machiavelli/models.py:29
 msgid "Army"
 msgstr "Ejército"
 
-#: machiavelli/models.py:21
+#: machiavelli/models.py:30
 msgid "Fleet"
 msgstr "Flota"
 
-#: machiavelli/models.py:22
+#: machiavelli/models.py:31
 msgid "Garrison"
 msgstr "Guarnición"
 
-#: machiavelli/models.py:25
+#: machiavelli/models.py:34
 msgid "Spring"
 msgstr "Primavera"
 
-#: machiavelli/models.py:26
+#: machiavelli/models.py:35
 msgid "Summer"
 msgstr "Verano"
 
-#: machiavelli/models.py:27
+#: machiavelli/models.py:36
 msgid "Fall"
 msgstr "Otoño"
 
-#: machiavelli/models.py:35
+#: machiavelli/models.py:44
 msgid "Inactive game"
 msgstr "Juego inactivo"
 
-#: machiavelli/models.py:36
+#: machiavelli/models.py:45
 msgid "Military adjustments"
 msgstr "Ajustes militares"
 
-#: machiavelli/models.py:37
+#: machiavelli/models.py:46
 msgid "Order writing"
 msgstr "Emisión de órdenes"
 
-#: machiavelli/models.py:38 machiavelli/templates/machiavelli/phase_3.html:3
+#: machiavelli/models.py:47 machiavelli/templates/machiavelli/phase_3.html:3
 msgid "Retreats"
 msgstr "Retiradas"
 
-#: machiavelli/models.py:41
+#: machiavelli/models.py:50
 msgid "Hold"
 msgstr "Aguantar"
 
-#: machiavelli/models.py:42
+#: machiavelli/models.py:51
 msgid "Besiege"
 msgstr "Asediar"
 
-#: machiavelli/models.py:43
+#: machiavelli/models.py:52
 msgid "Advance"
 msgstr "Avanzar"
 
-#: machiavelli/models.py:44
+#: machiavelli/models.py:53
 msgid "Conversion"
 msgstr "Conversión"
 
-#: machiavelli/models.py:45
+#: machiavelli/models.py:54
 msgid "Convoy"
 msgstr "Convoy"
 
-#: machiavelli/models.py:46
+#: machiavelli/models.py:55
 msgid "Support"
 msgstr "Apoyar"
 
-#: machiavelli/models.py:50
+#: machiavelli/models.py:59
 msgid "5 days"
 msgstr "5 días"
 
-#: machiavelli/models.py:51
+#: machiavelli/models.py:60
 msgid "4 days"
 msgstr "4 días"
 
-#: machiavelli/models.py:52
+#: machiavelli/models.py:61
 msgid "3 days"
 msgstr "3 días"
 
-#: machiavelli/models.py:53
+#: machiavelli/models.py:62
 msgid "2 days"
 msgstr "2 días"
 
-#: machiavelli/models.py:54
+#: machiavelli/models.py:63
 msgid "1 day"
 msgstr "1 día"
 
-#: machiavelli/models.py:55
+#: machiavelli/models.py:64
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: machiavelli/models.py:911
+#: machiavelli/models.py:942
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
@@ -553,7 +553,7 @@ msgstr "Salón de la Fama"
 msgid "Frequently Asked Questions"
 msgstr "Preguntas Frequentes"
 
-#: machiavelli/templates/machiavelli/faq.html:9 templates/homepage.html:22
+#: machiavelli/templates/machiavelli/faq.html:9 templates/homepage.html:26
 msgid "About this project"
 msgstr "Sobre este proyecto"
 
@@ -569,11 +569,11 @@ msgid ""
 "the secrets of the wonderful framework <a href=\"http://djangoproject.com"
 "\">Django</a>."
 msgstr ""
-"Hay dos razones principales para hacer este proyecto. La primera es que "
-"me gusta el Machiavelli, pero es muy difícil reunir a seis o más personas "
+"Hay dos razones principales para hacer este proyecto. La primera es que me "
+"gusta el Machiavelli, pero es muy difícil reunir a seis o más personas "
 "alrededor de una mesa durante más de cuatro horas. Además, es una excusa "
-"para aprender los secretos del estupendo <i>framework</i> "
-"<a href=\"http://djangoproject.com\">Django</a>."
+"para aprender los secretos del estupendo <i>framework</i> <a href=\"http://"
+"djangoproject.com\">Django</a>."
 
 #: machiavelli/templates/machiavelli/faq.html:14
 msgid "About the game"
@@ -593,17 +593,20 @@ msgstr ""
 
 #: machiavelli/templates/machiavelli/faq.html:19
 msgid "If you have to place new units, you can't place them this turn."
-msgstr "Si tienes que colocar nuevas unidades, no las podrás colocar ese turno."
+msgstr ""
+"Si tienes que colocar nuevas unidades, no las podrás colocar ese turno."
 
 #: machiavelli/templates/machiavelli/faq.html:20
 msgid "If you have to disband n units, your latest n units will be disbanded."
-msgstr "Si tienes que desbandar n unidades, tus últimas n unidades serán desbandadas."
+msgstr ""
+"Si tienes que desbandar n unidades, tus últimas n unidades serán desbandadas."
 
 #: machiavelli/templates/machiavelli/faq.html:21
 msgid ""
 "If you have to write your orders, all your units will get a 'Hold' order."
 msgstr ""
-"Si tienes que escribir tus órdenes, todas tus unidades recibirán la orden de 'Aguantar'."
+"Si tienes que escribir tus órdenes, todas tus unidades recibirán la orden de "
+"'Aguantar'."
 
 #: machiavelli/templates/machiavelli/faq.html:22
 msgid "If you have to retreat any units, these units will be disbanded."
@@ -1059,7 +1062,19 @@ msgstr ""
 "está relacionado en modo alguno con Avalon Hill.\n"
 "\t\t"
 
+#: templates/homepage.html:22
+msgid "Follow Condottieri in Twitter"
+msgstr "Sigue a Condottier en Twitter"
+
 #: templates/homepage.html:24
+msgid ""
+"You can get news, updates and game messages in <a href=\"http://twitter.com/"
+"condottierigame\">twitter</a>!"
+msgstr ""
+"Puedes enterarte de noticias, actualizaciones y mensajes del juego en "
+"<a href=\"http://twitter.com/condottierigame\">twitter</a>."
+
+#: templates/homepage.html:28
 msgid ""
 "\n"
 "\t\t<b>Condottieri</b> is being developed on <a href=\"http://djangoproject."
@@ -1075,7 +1090,7 @@ msgstr ""
 "\t\t<a href=\"http://www.python.org\">Python</a>.\n"
 "        "
 
-#: templates/homepage.html:31
+#: templates/homepage.html:35
 msgid ""
 "\n"
 "\t\tThis project is in <i>beta</i> status, so it can have (sure it has) "
@@ -1088,7 +1103,7 @@ msgstr ""
 "detectados.\n"
 "\t\t"
 
-#: templates/homepage.html:39
+#: templates/homepage.html:43
 msgid ""
 "<b>Condottieri</b> is currently under active development. If you would like "
 "to receive a\n"
@@ -1097,16 +1112,16 @@ msgstr ""
 "<b>Condottieri</b> está en pleno desarrollo. Si quieres recibir un\n"
 "código de registro, por favor, danos tu dirección de e-mail."
 
-#: templates/homepage.html:45 templates/homepage.html.py:56
+#: templates/homepage.html:49 templates/homepage.html.py:60
 #: templates/site_base.html:17
 msgid "Sign up"
 msgstr "Registro"
 
-#: templates/homepage.html:48 templates/site_base.html:17
+#: templates/homepage.html:52 templates/site_base.html:17
 msgid "or"
 msgstr "o"
 
-#: templates/homepage.html:51
+#: templates/homepage.html:55
 msgid "You can use a sign-up code to sign-up with the site right now."
 msgstr "Puedes usar un código de registro para darte de alta ahora mismo."
 
