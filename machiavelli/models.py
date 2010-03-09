@@ -16,6 +16,15 @@ else:
 
 from machiavelli.graphics import make_map
 
+try:
+	settings.TWITTER_USER
+except:
+	twitter_api = None
+else:
+	import twitter
+	twitter_api = twitter.Api(username=settings.TWITTER_USER,
+							  password=settings.TWITTER_PASSWORD)
+
 
 UNIT_TYPES = (('A', _('Army')),
               ('F', _('Fleet')),
@@ -102,6 +111,13 @@ class Scenario(models.Model):
 	def get_absolute_url(self):
 		return ('scenario-detail', (), {'object_id': self.id})
 	get_absolute_url = permalink(get_absolute_url)
+
+def tweet_new_scenario(sender, instance, **kw):
+	if tweeter_api and isinstance(instance, Scenario):
+		message = "A new scenario has been created: %s" % instance.title
+		tweeter_api.PostUpdate(message)
+
+models.signals.post_save.connect(tweet_new_scenario, sender=Scenario)
 
 class Country(models.Model):
     name = AutoTranslateField(max_length=20, unique=True)
@@ -690,6 +706,7 @@ Returns True if at least one player has reached the cities_to_win
 		self.phase = PHINACTIVE
 		self.save()
 		self.notify_players("game_over", {"game": self})
+		self.tweet_message("The game %(game)s is over" % {'game': self.slug})
 		self.clean_useless_data()
 
 	def clean_useless_data(self):
@@ -711,6 +728,20 @@ In a finished game, delete all the data that is not going to be used anymore.
 		if notification:
 			users = User.objects.filter(player__game=self)
 			notification.send(users, label, extra_context, on_site)
+
+	def tweet_message(self, message):
+		if tweeter_api:
+			thread.start_new_thread(tweeter_api.PostUpdate, (message,))
+			#tweeter_api.PostUpdate(message)
+
+	def tweet_results(self):
+		if tweeter_api:
+			winners = self.player_set.order_by('-score')
+			message = "'%s' - Winner: %s; 2nd: %s; 3rd: %s" % (self.slug,
+							winners[0].user,
+							winners[1].user,
+							winners[2].user)
+			self.tweet_message(message)
 
 class GameArea(models.Model):
 	game = models.ForeignKey(Game)
