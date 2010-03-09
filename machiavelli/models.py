@@ -25,6 +25,14 @@ else:
 	twitter_api = twitter.Api(username=settings.TWITTER_USER,
 							  password=settings.TWITTER_PASSWORD)
 
+if settings.TWITT_NEW_USERS:
+	def twitt_new_user(sender, instance, created, **kw):
+		if twitter_api and isinstance(instance, User):
+			if created == True:
+				message = "New user: %s" % instance.username
+				twitter_api.PostUpdate(message)
+	
+	models.signals.post_save.connect(twitt_new_user, sender=User)
 
 UNIT_TYPES = (('A', _('Army')),
               ('F', _('Fleet')),
@@ -112,13 +120,13 @@ class Scenario(models.Model):
 		return ('scenario-detail', (), {'object_id': self.id})
 	get_absolute_url = permalink(get_absolute_url)
 
-def tweet_new_scenario(sender, instance, created, **kw):
-	if tweeter_api and isinstance(instance, Scenario):
+def twitt_new_scenario(sender, instance, created, **kw):
+	if twitter_api and isinstance(instance, Scenario):
 		if created == True:
 			message = "A new scenario has been created: %s" % instance.title
-			tweeter_api.PostUpdate(message)
+			twitter_api.PostUpdate(message)
 
-models.signals.post_save.connect(tweet_new_scenario, sender=Scenario)
+models.signals.post_save.connect(twitt_new_scenario, sender=Scenario)
 
 class Country(models.Model):
     name = AutoTranslateField(max_length=20, unique=True)
@@ -707,7 +715,7 @@ Returns True if at least one player has reached the cities_to_win
 		self.phase = PHINACTIVE
 		self.save()
 		self.notify_players("game_over", {"game": self})
-		self.tweet_message("The game %(game)s is over" % {'game': self.slug})
+		self.twitt_message("The game %(game)s is over" % {'game': self.slug})
 		self.clean_useless_data()
 
 	def clean_useless_data(self):
@@ -730,27 +738,27 @@ In a finished game, delete all the data that is not going to be used anymore.
 			users = User.objects.filter(player__game=self)
 			notification.send(users, label, extra_context, on_site)
 
-	def tweet_message(self, message):
-		if tweeter_api:
-			thread.start_new_thread(tweeter_api.PostUpdate, (message,))
-			#tweeter_api.PostUpdate(message)
+	def twitt_message(self, message):
+		if twitter_api:
+			thread.start_new_thread(twitter_api.PostUpdate, (message,))
+			#twitter_api.PostUpdate(message)
 
-	def tweet_results(self):
-		if tweeter_api:
+	def twitt_results(self):
+		if twitter_api:
 			winners = self.player_set.order_by('-score')
 			message = "'%s' - Winner: %s; 2nd: %s; 3rd: %s" % (self.slug,
 							winners[0].user,
 							winners[1].user,
 							winners[2].user)
-			self.tweet_message(message)
+			self.twitt_message(message)
 
-def tweet_new_game(sender, instance, created, **kw):
-	if tweeter_api and isinstance(instance, Game):
+def twitt_new_game(sender, instance, created, **kw):
+	if twitter_api and isinstance(instance, Game):
 		if created == True:
 			message = "New game: %s" % instance.slug
-			tweeter_api.PostUpdate(message)
+			twitter_api.PostUpdate(message)
 
-models.signals.post_save.connect(tweet_new_game, sender=Game)
+models.signals.post_save.connect(twitt_new_game, sender=Game)
 
 class GameArea(models.Model):
 	game = models.ForeignKey(Game)
