@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-09 11:50+0100\n"
+"POT-Creation-Date: 2010-03-09 19:47+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -51,95 +51,95 @@ msgstr "Juego terminado"
 msgid "a game that you're playing is over"
 msgstr "un juego en el que estás jugando ha terminado"
 
-#: machiavelli/models.py:29
+#: machiavelli/models.py:37
 msgid "Army"
 msgstr "Ejército"
 
-#: machiavelli/models.py:30
+#: machiavelli/models.py:38
 msgid "Fleet"
 msgstr "Flota"
 
-#: machiavelli/models.py:31
+#: machiavelli/models.py:39
 msgid "Garrison"
 msgstr "Guarnición"
 
-#: machiavelli/models.py:34
+#: machiavelli/models.py:42
 msgid "Spring"
 msgstr "Primavera"
 
-#: machiavelli/models.py:35
+#: machiavelli/models.py:43
 msgid "Summer"
 msgstr "Verano"
 
-#: machiavelli/models.py:36
+#: machiavelli/models.py:44
 msgid "Fall"
 msgstr "Otoño"
 
-#: machiavelli/models.py:44
+#: machiavelli/models.py:52
 msgid "Inactive game"
 msgstr "Juego inactivo"
 
-#: machiavelli/models.py:45
+#: machiavelli/models.py:53
 msgid "Military adjustments"
 msgstr "Ajustes militares"
 
-#: machiavelli/models.py:46
+#: machiavelli/models.py:54
 msgid "Order writing"
 msgstr "Emisión de órdenes"
 
-#: machiavelli/models.py:47 machiavelli/templates/machiavelli/phase_3.html:3
+#: machiavelli/models.py:55 machiavelli/templates/machiavelli/phase_3.html:3
 msgid "Retreats"
 msgstr "Retiradas"
 
-#: machiavelli/models.py:50
+#: machiavelli/models.py:58
 msgid "Hold"
 msgstr "Aguantar"
 
-#: machiavelli/models.py:51
+#: machiavelli/models.py:59
 msgid "Besiege"
 msgstr "Asediar"
 
-#: machiavelli/models.py:52
+#: machiavelli/models.py:60
 msgid "Advance"
 msgstr "Avanzar"
 
-#: machiavelli/models.py:53
+#: machiavelli/models.py:61
 msgid "Conversion"
 msgstr "Conversión"
 
-#: machiavelli/models.py:54
+#: machiavelli/models.py:62
 msgid "Convoy"
 msgstr "Convoy"
 
-#: machiavelli/models.py:55
+#: machiavelli/models.py:63
 msgid "Support"
 msgstr "Apoyar"
 
-#: machiavelli/models.py:59
+#: machiavelli/models.py:67
 msgid "5 days"
 msgstr "5 días"
 
-#: machiavelli/models.py:60
+#: machiavelli/models.py:68
 msgid "4 days"
 msgstr "4 días"
 
-#: machiavelli/models.py:61
+#: machiavelli/models.py:69
 msgid "3 days"
 msgstr "3 días"
 
-#: machiavelli/models.py:62
+#: machiavelli/models.py:70
 msgid "2 days"
 msgstr "2 días"
 
-#: machiavelli/models.py:63
+#: machiavelli/models.py:71
 msgid "1 day"
 msgstr "1 día"
 
-#: machiavelli/models.py:64
+#: machiavelli/models.py:72
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: machiavelli/models.py:942
+#: machiavelli/models.py:959
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
@@ -533,7 +533,11 @@ msgstr "Mediterráneo Occidental"
 #: machiavelli/templates/machiavelli/base.html:11
 #: machiavelli/templates/machiavelli/faq.html:5
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
+
+#: machiavelli/templates/machiavelli/base.html:12
+msgid "empty-map_en.jpg"
+msgstr "empty-map_es.jpg"
 
 #: machiavelli/templates/machiavelli/base.html:12
 msgid "Map"
@@ -1071,8 +1075,8 @@ msgid ""
 "You can get news, updates and game messages in <a href=\"http://twitter.com/"
 "condottierigame\">twitter</a>!"
 msgstr ""
-"Puedes enterarte de noticias, actualizaciones y mensajes del juego en "
-"<a href=\"http://twitter.com/condottierigame\">twitter</a>."
+"Puedes enterarte de noticias, actualizaciones y mensajes del juego en <a "
+"href=\"http://twitter.com/condottierigame\">twitter</a>."
 
 #: templates/homepage.html:28
 msgid ""
