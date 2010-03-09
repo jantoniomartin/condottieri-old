@@ -112,10 +112,11 @@ class Scenario(models.Model):
 		return ('scenario-detail', (), {'object_id': self.id})
 	get_absolute_url = permalink(get_absolute_url)
 
-def tweet_new_scenario(sender, instance, **kw):
+def tweet_new_scenario(sender, instance, created, **kw):
 	if tweeter_api and isinstance(instance, Scenario):
-		message = "A new scenario has been created: %s" % instance.title
-		tweeter_api.PostUpdate(message)
+		if created == True:
+			message = "A new scenario has been created: %s" % instance.title
+			tweeter_api.PostUpdate(message)
 
 models.signals.post_save.connect(tweet_new_scenario, sender=Scenario)
 
@@ -742,6 +743,14 @@ In a finished game, delete all the data that is not going to be used anymore.
 							winners[1].user,
 							winners[2].user)
 			self.tweet_message(message)
+
+def tweet_new_game(sender, instance, created, **kw):
+	if tweeter_api and isinstance(instance, Game):
+		if created == True:
+			message = "New game: %s" % instance.slug
+			tweeter_api.PostUpdate(message)
+
+models.signals.post_save.connect(tweet_new_game, sender=Game)
 
 class GameArea(models.Model):
 	game = models.ForeignKey(Game)
