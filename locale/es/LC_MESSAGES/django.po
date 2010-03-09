@@ -1075,7 +1075,7 @@ msgstr "Avisos"
 
 #: templates/site_base.html:37
 msgid "&copy; 2010 Jos&eacute; Antonio Mart&iacute;n Prieto"
-msgstr "&copy; 2020 Jos&eacute; Antonio Mart&iacute;n Prieto"
+msgstr "&copy; 2010 Jos&eacute; Antonio Mart&iacute;n Prieto"
 
 #: templates/site_base.html:38 templates/default/profiles/profile.html:38
 msgid "About"
