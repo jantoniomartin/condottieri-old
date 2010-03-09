@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-08 23:03+0100\n"
+"POT-Creation-Date: 2010-03-09 09:05+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -531,18 +531,83 @@ msgid "Western Mediterranean"
 msgstr "Mediterráneo Occidental"
 
 #: machiavelli/templates/machiavelli/base.html:11
+#: machiavelli/templates/machiavelli/faq.html:5
+msgid "FAQ"
+msgstr ""
+
+#: machiavelli/templates/machiavelli/base.html:12
 msgid "Map"
 msgstr "Mapa"
 
-#: machiavelli/templates/machiavelli/base.html:12
+#: machiavelli/templates/machiavelli/base.html:13
 msgid "All games"
 msgstr "Todos los juegos"
 
-#: machiavelli/templates/machiavelli/base.html:13
+#: machiavelli/templates/machiavelli/base.html:14
 #: machiavelli/templates/machiavelli/hall_of_fame.html:5
 #: machiavelli/templates/machiavelli/hall_of_fame.html:8
 msgid "Hall of Fame"
 msgstr "Salón de la Fama"
+
+#: machiavelli/templates/machiavelli/faq.html:8
+msgid "Frequently Asked Questions"
+msgstr "Preguntas Frequentes"
+
+#: machiavelli/templates/machiavelli/faq.html:9 templates/homepage.html:22
+msgid "About this project"
+msgstr "Sobre este proyecto"
+
+#: machiavelli/templates/machiavelli/faq.html:11
+msgid "Why?"
+msgstr "¿Por qué?"
+
+#: machiavelli/templates/machiavelli/faq.html:12
+msgid ""
+"There are two main reasons to make this project. The first one is that I "
+"like Machiavelli, but it's really difficult gathering six or more people "
+"around a table for more than four hours. Also, this is an excuse to learn "
+"the secrets of the wonderful framework <a href=\"http://djangoproject.com"
+"\">Django</a>."
+msgstr ""
+"Hay dos razones principales para hacer este proyecto. La primera es que "
+"me gusta el Machiavelli, pero es muy difícil reunir a seis o más personas "
+"alrededor de una mesa durante más de cuatro horas. Además, es una excusa "
+"para aprender los secretos del estupendo <i>framework</i> "
+"<a href=\"http://djangoproject.com\">Django</a>."
+
+#: machiavelli/templates/machiavelli/faq.html:14
+msgid "About the game"
+msgstr "Sobre el juego"
+
+#: machiavelli/templates/machiavelli/faq.html:16
+msgid "What happens when the time limit is reached?"
+msgstr "¿Qué ocurre cuando se cumple el límite de tiempo?"
+
+#: machiavelli/templates/machiavelli/faq.html:17
+msgid ""
+"It depends on your current status. If you have completed your phase, nothing "
+"happens. However, if you haven't, the following will happen:"
+msgstr ""
+"Depende de tu situación. Si has completado tu fase, no pasa nada. Sin "
+"embargo, si no lo has hecho, ocurrirá lo siguiente:"
+
+#: machiavelli/templates/machiavelli/faq.html:19
+msgid "If you have to place new units, you can't place them this turn."
+msgstr "Si tienes que colocar nuevas unidades, no las podrás colocar ese turno."
+
+#: machiavelli/templates/machiavelli/faq.html:20
+msgid "If you have to disband n units, your latest n units will be disbanded."
+msgstr "Si tienes que desbandar n unidades, tus últimas n unidades serán desbandadas."
+
+#: machiavelli/templates/machiavelli/faq.html:21
+msgid ""
+"If you have to write your orders, all your units will get a 'Hold' order."
+msgstr ""
+"Si tienes que escribir tus órdenes, todas tus unidades recibirán la orden de 'Aguantar'."
+
+#: machiavelli/templates/machiavelli/faq.html:22
+msgid "If you have to retreat any units, these units will be disbanded."
+msgstr "Si tienes que retirar unidades, esas unidades serán desbandadas."
 
 #: machiavelli/templates/machiavelli/game_form.html:5
 #: machiavelli/templates/machiavelli/game_list.html:5
@@ -993,10 +1058,6 @@ msgstr ""
 "\t\tEsta proyecto se ha hecho sólo como hobby y sin ánimo de lucro, y no "
 "está relacionado en modo alguno con Avalon Hill.\n"
 "\t\t"
-
-#: templates/homepage.html:22
-msgid "About this project"
-msgstr "Sobre este proyecto"
 
 #: templates/homepage.html:24
 msgid ""

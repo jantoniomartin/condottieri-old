@@ -1,12 +1,15 @@
 from django.conf.urls.defaults import *
-from django.views.generic import list_detail
-from django.views.generic.create_update import create_object
+#from django.views.generic import list_detail
+#from django.views.generic.create_update import create_object
+from django.views.generic.simple import direct_to_template
+from django.views.decorators.cache import cache_page
 
 
 #urlpatterns = patterns('inon.machiavelli.views',
 urlpatterns = patterns('machiavelli.views',
     url(r'^$', 'game_list', name='game-list'),
 	#url(r'^scenario/(?P<object_id>\d+)', list_detail.object_detail, scenario_context, name='scenario-detail'),
+	url(r'^faq$', cache_page(direct_to_template, 24*60*60), {'template': 'machiavelli/faq.html'}, name='faq'),
 	url(r'^ranking$', 'hall_of_fame', name='hall-of-fame'),
 	url(r'^game/new$', 'create_game', name='new-game'),
 	url(r'^game/join/(?P<game_id>\d+)', 'join_game', name='join-game'),

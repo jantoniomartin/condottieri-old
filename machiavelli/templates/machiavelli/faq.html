@@ -1,0 +1,26 @@
+{% extends "machiavelli/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "FAQ" %}{% endblock %}
+
+{% block body %}
+<h1>{% trans "Frequently Asked Questions" %}</h1>
+<h2>{% trans "About this project" %}</h2>
+<dl>
+	<dt>{% blocktrans %}Why?{% endblocktrans %}</dt>
+	<dd>{% blocktrans %}There are two main reasons to make this project. The first one is that I like Machiavelli, but it's really difficult gathering six or more people around a table for more than four hours. Also, this is an excuse to learn the secrets of the wonderful framework <a href="http://djangoproject.com">Django</a>.{% endblocktrans %}</dd>
+</dl>
+<h2>{% trans "About the game" %}</h2>
+<dl>
+	<dt>{% blocktrans %}What happens when the time limit is reached?{% endblocktrans %}</dt>
+	<dd>{% blocktrans %}It depends on your current status. If you have completed your phase, nothing happens. However, if you haven't, the following will happen:{% endblocktrans %}
+	<ul>
+		<li>{% blocktrans %}If you have to place new units, you can't place them this turn.{% endblocktrans %}</li>
+		<li>{% blocktrans %}If you have to disband n units, your latest n units will be disbanded.{% endblocktrans %}</li>
+		<li>{% blocktrans %}If you have to write your orders, all your units will get a 'Hold' order.{% endblocktrans %}</li>
+		<li>{% blocktrans %}If you have to retreat any units, these units will be disbanded.{% endblocktrans %}</li>
+	</ul>
+	</dd>
+</dl>
+{% endblock %}
