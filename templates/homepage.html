@@ -7,8 +7,7 @@
 {% block tab_id %}id="home_tab"{% endblock %}
 
 {% block body %}
-    <h1>{% trans "Welcome to Condottieri" %}</h1>
-    
+    <h1>{% trans "Welcome to Condottieri" %}</h1> 
     <p>
         {% blocktrans %}
 		<b>Condottieri</b> is a gaming site to play the Avalon Hill's classic strategy game <b>Machiavelli</b>.
@@ -36,7 +35,22 @@
 		This project is in <i>beta</i> status, so it can have (sure it has) errors. Hopefully these errors will be fixed as soon as they are detected.
 		{% endblocktrans %}
 	</p>
-   
+	<h2>{% trans "Features" %}</h2>
+	<p>{% blocktrans %}The following is a list of the main current features of this site.{% endblocktrans %}</p>
+	<ul>
+	<li>{% blocktrans %}Supported languages: English and Spanish.{% endblocktrans %}</li>
+	<li>{% blocktrans %}OpenID support.{% endblocktrans %}</li>
+	<li>{% blocktrans %}Profiles support.{% endblocktrans %}</li>
+	<li>{% blocktrans %}Receive notices by email or read them online.{% endblocktrans %}</li>
+	<li>{% blocktrans %}You can play many games at a time.{% endblocktrans %}</li>
+	<li>{% blocktrans %}Per-game scores and global scores.{% endblocktrans %}</li>
+	<li>{% blocktrans %}Send diplomacy messages to other players.{% endblocktrans %}</li>
+	<li>{% blocktrans %}Automatic resolution of orders.{% endblocktrans %}</li>
+	<li>{% blocktrans %}Automatic map drawing.{% endblocktrans %}</li>
+	<li>{% blocktrans %}Complete list of events.{% endblocktrans %}</li>
+	<li>{% blocktrans %}Some events are posted to {% endblocktrans %}<a href="http://twitter.com/condottierigame">twitter</a></li>
+	</ul>
+
 {% if request.user.is_authenticated %}
 {% else %}
 	<h2>{% trans "Invitation codes" %}</h2>

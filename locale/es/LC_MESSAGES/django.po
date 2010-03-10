@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-09 19:47+0100\n"
+"POT-Creation-Date: 2010-03-10 12:10+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -557,7 +557,7 @@ msgstr "Salón de la Fama"
 msgid "Frequently Asked Questions"
 msgstr "Preguntas Frequentes"
 
-#: machiavelli/templates/machiavelli/faq.html:9 templates/homepage.html:26
+#: machiavelli/templates/machiavelli/faq.html:9 templates/homepage.html:25
 msgid "About this project"
 msgstr "Sobre este proyecto"
 
@@ -1042,7 +1042,7 @@ msgstr ""
 msgid "Welcome to Condottieri"
 msgstr "Bienvenido a Condottieri"
 
-#: templates/homepage.html:13
+#: templates/homepage.html:12
 msgid ""
 "\n"
 "\t\t<b>Condottieri</b> is a gaming site to play the Avalon Hill's classic "
@@ -1054,7 +1054,7 @@ msgstr ""
 "estrategia de Avalon Hill, <b>Machiavelli</b>.\n"
 "        "
 
-#: templates/homepage.html:18
+#: templates/homepage.html:17
 msgid ""
 "\n"
 "\t\tThis is only a fan, non-profit oriented, site that is in no way "
@@ -1066,11 +1066,11 @@ msgstr ""
 "está relacionado en modo alguno con Avalon Hill.\n"
 "\t\t"
 
-#: templates/homepage.html:22
+#: templates/homepage.html:21
 msgid "Follow Condottieri in Twitter"
 msgstr "Sigue a Condottier en Twitter"
 
-#: templates/homepage.html:24
+#: templates/homepage.html:23
 msgid ""
 "You can get news, updates and game messages in <a href=\"http://twitter.com/"
 "condottierigame\">twitter</a>!"
@@ -1078,7 +1078,7 @@ msgstr ""
 "Puedes enterarte de noticias, actualizaciones y mensajes del juego en <a "
 "href=\"http://twitter.com/condottierigame\">twitter</a>."
 
-#: templates/homepage.html:28
+#: templates/homepage.html:27
 msgid ""
 "\n"
 "\t\t<b>Condottieri</b> is being developed on <a href=\"http://djangoproject."
@@ -1094,7 +1094,7 @@ msgstr ""
 "\t\t<a href=\"http://www.python.org\">Python</a>.\n"
 "        "
 
-#: templates/homepage.html:35
+#: templates/homepage.html:34
 msgid ""
 "\n"
 "\t\tThis project is in <i>beta</i> status, so it can have (sure it has) "
@@ -1107,7 +1107,63 @@ msgstr ""
 "detectados.\n"
 "\t\t"
 
+#: templates/homepage.html:38
+msgid "Features"
+msgstr "Características"
+
+#: templates/homepage.html:39
+msgid "The following is a list of the main current features of this site."
+msgstr "La siguiente es una lista de las características más destacables de esta web."
+
+#: templates/homepage.html:41
+msgid "Supported languages: English and Spanish."
+msgstr "Idiomas soportados: Español e Inglés."
+
+#: templates/homepage.html:42
+msgid "OpenID support."
+msgstr "Soporte de OpenID."
+
 #: templates/homepage.html:43
+msgid "Profiles support."
+msgstr "Perfiles de usuario."
+
+#: templates/homepage.html:44
+msgid "Receive notices by email or read them online."
+msgstr "Recibe avisos por email o leelos online."
+
+#: templates/homepage.html:45
+msgid "You can play many games at a time."
+msgstr "Puedes jugar muchas partidas a la vez."
+
+#: templates/homepage.html:46
+msgid "Per-game scores and global scores."
+msgstr "Puntuaciones por juego y totales."
+
+#: templates/homepage.html:47
+msgid "Send diplomacy messages to other players."
+msgstr "Envía mensajes de diplomacia a otros jugadores."
+
+#: templates/homepage.html:48
+msgid "Automatic resolution of orders."
+msgstr "Resolución automática de órdenes."
+
+#: templates/homepage.html:49
+msgid "Automatic map drawing."
+msgstr "Generación automática del mapa."
+
+#: templates/homepage.html:50
+msgid "Complete list of events."
+msgstr "Lista completa de eventos."
+
+#: templates/homepage.html:51
+msgid "Some events are posted to "
+msgstr "Algunos eventos son enviados a "
+
+#: templates/homepage.html:56
+msgid "Invitation codes"
+msgstr "Códigos de invitación"
+
+#: templates/homepage.html:58
 msgid ""
 "<b>Condottieri</b> is currently under active development. If you would like "
 "to receive a\n"
@@ -1116,16 +1172,16 @@ msgstr ""
 "<b>Condottieri</b> está en pleno desarrollo. Si quieres recibir un\n"
 "código de registro, por favor, danos tu dirección de e-mail."
 
-#: templates/homepage.html:49 templates/homepage.html.py:60
+#: templates/homepage.html:64 templates/homepage.html.py:75
 #: templates/site_base.html:17
 msgid "Sign up"
 msgstr "Registro"
 
-#: templates/homepage.html:52 templates/site_base.html:17
+#: templates/homepage.html:67 templates/site_base.html:17
 msgid "or"
 msgstr "o"
 
-#: templates/homepage.html:55
+#: templates/homepage.html:70
 msgid "You can use a sign-up code to sign-up with the site right now."
 msgstr "Puedes usar un código de registro para darte de alta ahora mismo."
 
@@ -1454,7 +1510,7 @@ msgstr "Fecha"
 
 #: templates/default/profiles/profiles.html:37
 msgid "MONTH_DAY_FORMAT"
-msgstr "DAY_MONTH_FORMAT"
+msgstr "j N, Y, P"
 
 #: templates/notification/game_over/notice.html:3
 #, python-format
