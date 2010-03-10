@@ -36,9 +36,10 @@
 		This project is in <i>beta</i> status, so it can have (sure it has) errors. Hopefully these errors will be fixed as soon as they are detected.
 		{% endblocktrans %}
 	</p>
-    
-    <hr />
-    
+   
+{% if request.user.is_authenticated %}
+{% else %}
+	<h2>{% trans "Invitation codes" %}</h2>
     <p>
         {% blocktrans %}<b>Condottieri</b> is currently under active development. If you would like to receive a
         beta code for this please give us your e-mail address below.{% endblocktrans %}
@@ -59,5 +60,6 @@
         <input type="text" name="code" />
         <input type="submit" value="{% trans "Sign up" %}" />
     </form>
-    
+{% endif %}
+
 {% endblock %}
