@@ -103,3 +103,6 @@ _("Venice")
 _("Verona")
 _("Western Mediterranean")
 
+
+## subject of the signup code email
+_("Create an acccount on %(domain)s")

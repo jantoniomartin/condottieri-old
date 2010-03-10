@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-10 12:10+0100\n"
+"POT-Creation-Date: 2010-03-10 13:01+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -529,6 +529,11 @@ msgstr "Verona"
 #: machiavelli/translate.py:104
 msgid "Western Mediterranean"
 msgstr "Mediterráneo Occidental"
+
+#: machiavelli/translate.py:108
+#, python-format
+msgid "Create an acccount on %(domain)s"
+msgstr "Invitación para registrarte en Condottieri: %(domain)s"
 
 #: machiavelli/templates/machiavelli/base.html:11
 #: machiavelli/templates/machiavelli/faq.html:5
@@ -1113,7 +1118,8 @@ msgstr "Características"
 
 #: templates/homepage.html:39
 msgid "The following is a list of the main current features of this site."
-msgstr "La siguiente es una lista de las características más destacables de esta web."
+msgstr ""
+"La siguiente es una lista de las características más destacables de esta web."
 
 #: templates/homepage.html:41
 msgid "Supported languages: English and Spanish."
