@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-10 13:01+0100\n"
+"POT-Creation-Date: 2010-03-11 08:37+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -20,10 +20,12 @@ msgid "Slug"
 msgstr "Nombre"
 
 #: machiavelli/forms.py:15 machiavelli/templates/machiavelli/game_list.html:17
+#: machiavelli/templates/machiavelli/game_list.html:39
 msgid "Scenario"
 msgstr "Escenario"
 
 #: machiavelli/forms.py:16 machiavelli/templates/machiavelli/game_list.html:19
+#: machiavelli/templates/machiavelli/game_list.html:41
 msgid "Time limit"
 msgstr "Límite de tiempo"
 
@@ -139,7 +141,7 @@ msgstr "1 día"
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: machiavelli/models.py:959
+#: machiavelli/models.py:961
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
@@ -628,7 +630,8 @@ msgid "Games"
 msgstr "Juegos"
 
 #: machiavelli/templates/machiavelli/game_form.html:8
-#: machiavelli/templates/machiavelli/game_list.html:44
+#: machiavelli/templates/machiavelli/game_list.html:33
+#: machiavelli/templates/machiavelli/game_list.html:60
 msgid "New game"
 msgstr "Nuevo juego"
 
@@ -709,35 +712,49 @@ msgstr ""
 "puedes unirte a él. Si no encuentras ningún juego disponible, también "
 "puedescrear uno, pero es mejor si te unes a un juego abierto."
 
+#: machiavelli/templates/machiavelli/game_list.html:12
+msgid "Your games"
+msgstr "Tus partidas"
+
 #: machiavelli/templates/machiavelli/game_list.html:16
+#: machiavelli/templates/machiavelli/game_list.html:38
 #: machiavelli/templates/machiavelli/show_game.html:10
 msgid "Game"
 msgstr "Juego"
 
 #: machiavelli/templates/machiavelli/game_list.html:18
+#: machiavelli/templates/machiavelli/game_list.html:40
 msgid "Creator"
 msgstr "Creador"
 
 #: machiavelli/templates/machiavelli/game_list.html:20
+#: machiavelli/templates/machiavelli/game_list.html:42
 #: machiavelli/templates/machiavelli/show_game.html:11
 msgid "Year"
 msgstr "Año"
 
 #: machiavelli/templates/machiavelli/game_list.html:21
+#: machiavelli/templates/machiavelli/game_list.html:43
 #: machiavelli/templates/machiavelli/show_game.html:12
 msgid "Season"
 msgstr "Estación"
 
 #: machiavelli/templates/machiavelli/game_list.html:22
+#: machiavelli/templates/machiavelli/game_list.html:44
 #: machiavelli/templates/machiavelli/show_game.html:13
 msgid "Phase"
 msgstr "Fase"
 
 #: machiavelli/templates/machiavelli/game_list.html:23
+#: machiavelli/templates/machiavelli/game_list.html:45
 msgid "Slots"
 msgstr "Plazas"
 
-#: machiavelli/templates/machiavelli/game_list.html:37
+#: machiavelli/templates/machiavelli/game_list.html:34
+msgid "Games you are not playing"
+msgstr "Partidas en las que no estás jugando"
+
+#: machiavelli/templates/machiavelli/game_list.html:53
 msgid "Join game"
 msgstr "Únete"
 
