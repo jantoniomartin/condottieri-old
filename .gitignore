@@ -5,3 +5,4 @@ local_settings.py
 logs/
 site_media/static/machiavelli/maps/
 machiavelli/media/machiavelli/maps/
+.htaccess
