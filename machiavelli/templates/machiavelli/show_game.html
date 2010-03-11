@@ -26,11 +26,11 @@
 	<div><strong>{% trans p.country %}</strong></div>
 	<div>{% trans "Cities:" %} {{ p.number_of_cities }}</div>
 {% if player %}
-	{% ifequal game.slots 0 %}
+	{% ifnotequal game.phase 0 %}
 	{% ifnotequal p player %}
 	<div><a href="{% url new-letter sender_id=player.id receiver_id=p.id %}">{% trans "Send message" %}</a></div>
 	{% endifnotequal %}
-	{% endifequal %}
+	{% endifnotequal %}
 {% endif %}
 	</div>
 	{% endif %}
