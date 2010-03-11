@@ -15,6 +15,7 @@ else:
 	notification = None
 
 from machiavelli.graphics import make_map
+from machiavelli.logging import save_snapshot
 
 try:
 	settings.TWITTER_USER
@@ -362,6 +363,8 @@ start of the game.
 		self.place_initial_garrisons()
 	
 	def _next_season(self):
+		## take a snapshot of the units layout
+		thread.start_new_thread(save_snapshot, (self,))
 		if self.season == 3:
 			self.season = 1
 			self.year += 1
