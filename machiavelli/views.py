@@ -316,6 +316,7 @@ def box_list(request, game_id='', box='inbox'):
 def new_letter(request, sender_id, receiver_id):
 	sender = get_object_or_404(Player, user=request.user, id=sender_id)
 	receiver = get_object_or_404(Player, id=receiver_id)
+	## TODO: REDIRECT TO ERROR PAGE IF GAME IS INACTIVE
 	if request.method == 'POST':
 		letter_form = forms.LetterForm(sender, receiver, data=request.POST)
 		if letter_form.is_valid():
