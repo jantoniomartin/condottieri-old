@@ -1139,9 +1139,9 @@ class Letter(models.Model):
 
 	def get_style(self, box):
 		if box == 'inbox':
-			style = "%(country)s" % {'country': self.sender.country}
+			style = "%(country)s" % {'country': self.sender.country.css_class}
 		else:
-			style = "%(country)s" % {'country': self.receiver.country}
+			style = "%(country)s" % {'country': self.receiver.country.css_class}
 		if box == 'inbox' and not self.read:
 			style += " unread"
 		return style
