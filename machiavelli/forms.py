@@ -126,7 +126,7 @@ def make_retreat_form(u):
 			except:
 				cond = cond | Q(id__exact=u.area.id)
 	
-	possible_retreats = GameArea.objects.filter(cond)
+	possible_retreats = GameArea.objects.filter(cond).distinct()
 	
 	class RetreatForm(forms.Form):
 		unitid = forms.IntegerField(widget=forms.HiddenInput, initial=u.id)
