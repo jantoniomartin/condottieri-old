@@ -1,10 +1,12 @@
 /* SITE-SPECIFIC TAB STYLING */
 
+body.machiavelli #tab_machiavelli a,
 body.profile #tab_profile a,
 body.notices #tab_notices a
 {
     color: #000; /* selected tab text colour */
 }
+body.machiavelli #tab_machiavelli,
 body.profile #tab_profile,
 body.notices #tab_notices
 {
