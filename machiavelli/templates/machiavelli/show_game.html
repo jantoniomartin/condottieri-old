@@ -20,6 +20,7 @@
 
 <div class="col1">
 <div id="powers">
+{% ifequal game.slots 0 %}
 {% for p in game.player_set.all %}
 	{% if p.user %}
 	<div class="player {{ p.country.css_class }}">
@@ -35,6 +36,7 @@
 	</div>
 	{% endif %}
 {% endfor %}
+{% endifequal %}
 </div>
 </div>
 
