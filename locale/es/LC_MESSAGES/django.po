@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-11 08:37+0100\n"
+"POT-Creation-Date: 2010-03-14 11:01+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -53,95 +53,95 @@ msgstr "Juego terminado"
 msgid "a game that you're playing is over"
 msgstr "un juego en el que estás jugando ha terminado"
 
-#: machiavelli/models.py:37
+#: machiavelli/models.py:38
 msgid "Army"
 msgstr "Ejército"
 
-#: machiavelli/models.py:38
+#: machiavelli/models.py:39
 msgid "Fleet"
 msgstr "Flota"
 
-#: machiavelli/models.py:39
+#: machiavelli/models.py:40
 msgid "Garrison"
 msgstr "Guarnición"
 
-#: machiavelli/models.py:42
+#: machiavelli/models.py:43
 msgid "Spring"
 msgstr "Primavera"
 
-#: machiavelli/models.py:43
+#: machiavelli/models.py:44
 msgid "Summer"
 msgstr "Verano"
 
-#: machiavelli/models.py:44
+#: machiavelli/models.py:45
 msgid "Fall"
 msgstr "Otoño"
 
-#: machiavelli/models.py:52
+#: machiavelli/models.py:53
 msgid "Inactive game"
 msgstr "Juego inactivo"
 
-#: machiavelli/models.py:53
+#: machiavelli/models.py:54
 msgid "Military adjustments"
 msgstr "Ajustes militares"
 
-#: machiavelli/models.py:54
+#: machiavelli/models.py:55
 msgid "Order writing"
 msgstr "Emisión de órdenes"
 
-#: machiavelli/models.py:55 machiavelli/templates/machiavelli/phase_3.html:3
+#: machiavelli/models.py:56 machiavelli/templates/machiavelli/phase_3.html:3
 msgid "Retreats"
 msgstr "Retiradas"
 
-#: machiavelli/models.py:58
+#: machiavelli/models.py:59
 msgid "Hold"
 msgstr "Aguantar"
 
-#: machiavelli/models.py:59
+#: machiavelli/models.py:60
 msgid "Besiege"
 msgstr "Asediar"
 
-#: machiavelli/models.py:60
+#: machiavelli/models.py:61
 msgid "Advance"
 msgstr "Avanzar"
 
-#: machiavelli/models.py:61
+#: machiavelli/models.py:62
 msgid "Conversion"
 msgstr "Conversión"
 
-#: machiavelli/models.py:62
+#: machiavelli/models.py:63
 msgid "Convoy"
 msgstr "Convoy"
 
-#: machiavelli/models.py:63
+#: machiavelli/models.py:64
 msgid "Support"
 msgstr "Apoyar"
 
-#: machiavelli/models.py:67
+#: machiavelli/models.py:68
 msgid "5 days"
 msgstr "5 días"
 
-#: machiavelli/models.py:68
+#: machiavelli/models.py:69
 msgid "4 days"
 msgstr "4 días"
 
-#: machiavelli/models.py:69
+#: machiavelli/models.py:70
 msgid "3 days"
 msgstr "3 días"
 
-#: machiavelli/models.py:70
+#: machiavelli/models.py:71
 msgid "2 days"
 msgstr "2 días"
 
-#: machiavelli/models.py:71
+#: machiavelli/models.py:72
 msgid "1 day"
 msgstr "1 día"
 
-#: machiavelli/models.py:72
+#: machiavelli/models.py:73
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: machiavelli/models.py:961
+#: machiavelli/models.py:964
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
@@ -625,7 +625,7 @@ msgstr "Si tienes que retirar unidades, esas unidades serán desbandadas."
 
 #: machiavelli/templates/machiavelli/game_form.html:5
 #: machiavelli/templates/machiavelli/game_list.html:5
-#: templates/site_base.html:28
+#: templates/site_base.html:29
 msgid "Games"
 msgstr "Juegos"
 
@@ -796,7 +796,7 @@ msgstr "Usuario"
 
 #: machiavelli/templates/machiavelli/letter_detail.html:5
 #: machiavelli/templates/machiavelli/letter_inbox.html:5
-#: machiavelli/templates/machiavelli/show_game.html:56
+#: machiavelli/templates/machiavelli/show_game.html:60
 msgid "Inbox"
 msgstr "Entrada"
 
@@ -850,7 +850,7 @@ msgid "Summary"
 msgstr "Resumen"
 
 #: machiavelli/templates/machiavelli/letter_outbox.html:5
-#: machiavelli/templates/machiavelli/show_game.html:57
+#: machiavelli/templates/machiavelli/show_game.html:61
 msgid "Outbox"
 msgstr "Salida"
 
@@ -1024,15 +1024,15 @@ msgstr "Tiempo restante"
 msgid "Power"
 msgstr "Estado"
 
-#: machiavelli/templates/machiavelli/show_game.html:27
+#: machiavelli/templates/machiavelli/show_game.html:28
 msgid "Cities:"
 msgstr "Ciudades"
 
-#: machiavelli/templates/machiavelli/show_game.html:30
+#: machiavelli/templates/machiavelli/show_game.html:32
 msgid "Send message"
 msgstr "Enviar carta"
 
-#: machiavelli/templates/machiavelli/show_game.html:41
+#: machiavelli/templates/machiavelli/show_game.html:45
 msgid ""
 "Our cartographers are drawing a new map for you. Please, reload\n"
 "the page in a few seconds."
@@ -1040,19 +1040,19 @@ msgstr ""
 "Nuestros cartógrafos están dibujando un nuevo mapa. Por favor, recarga la "
 "página dentro de unos segundos."
 
-#: machiavelli/templates/machiavelli/show_game.html:48
+#: machiavelli/templates/machiavelli/show_game.html:52
 msgid "Diplomacy"
 msgstr "Diplomacia"
 
-#: machiavelli/templates/machiavelli/show_game.html:61
+#: machiavelli/templates/machiavelli/show_game.html:65
 msgid "Campaign log"
 msgstr "Diario de campaña"
 
-#: machiavelli/templates/machiavelli/show_game.html:69
+#: machiavelli/templates/machiavelli/show_game.html:73
 msgid "See all"
 msgstr "Ver todo"
 
-#: machiavelli/templates/machiavelli/show_game.html:79
+#: machiavelli/templates/machiavelli/show_game.html:83
 msgid "This game is inactive or you are not playing in it."
 msgstr "Este juego está inactivo o no estás jugando en él."
 
@@ -1196,11 +1196,11 @@ msgstr ""
 "código de registro, por favor, danos tu dirección de e-mail."
 
 #: templates/homepage.html:64 templates/homepage.html.py:75
-#: templates/site_base.html:17
+#: templates/site_base.html:18
 msgid "Sign up"
 msgstr "Registro"
 
-#: templates/homepage.html:67 templates/site_base.html:17
+#: templates/homepage.html:67 templates/site_base.html:18
 msgid "or"
 msgstr "o"
 
@@ -1208,47 +1208,47 @@ msgstr "o"
 msgid "You can use a sign-up code to sign-up with the site right now."
 msgstr "Puedes usar un código de registro para darte de alta ahora mismo."
 
-#: templates/site_base.html:15
+#: templates/site_base.html:16
 msgid "Account"
 msgstr "Cuenta"
 
-#: templates/site_base.html:15
+#: templates/site_base.html:16
 msgid "Admin"
 msgstr "Admin"
 
-#: templates/site_base.html:15
+#: templates/site_base.html:16
 msgid "Logout"
 msgstr "Salir"
 
-#: templates/site_base.html:17
+#: templates/site_base.html:18
 msgid "Login"
 msgstr "Acceder"
 
-#: templates/site_base.html:29
+#: templates/site_base.html:30
 msgid "Profile"
 msgstr "Perfil"
 
-#: templates/site_base.html:30
+#: templates/site_base.html:31
 msgid "Notices"
 msgstr "Avisos"
 
-#: templates/site_base.html:37
+#: templates/site_base.html:38
 msgid "&copy; 2010 Jos&eacute; Antonio Mart&iacute;n Prieto"
 msgstr "&copy; 2010 Jos&eacute; Antonio Mart&iacute;n Prieto"
 
-#: templates/site_base.html:38 templates/default/profiles/profile.html:38
+#: templates/site_base.html:39 templates/default/profiles/profile.html:38
 msgid "About"
 msgstr "Acerca"
 
-#: templates/site_base.html:39
+#: templates/site_base.html:40
 msgid "Terms of Service"
 msgstr "Condiciones de servicio"
 
-#: templates/site_base.html:40
+#: templates/site_base.html:41
 msgid "Privacy Policy"
 msgstr "Privacidad"
 
-#: templates/site_base.html:41
+#: templates/site_base.html:42
 msgid "DMCA Notice"
 msgstr ""
 
@@ -1533,7 +1533,7 @@ msgstr "Fecha"
 
 #: templates/default/profiles/profiles.html:37
 msgid "MONTH_DAY_FORMAT"
-msgstr "j N, Y, P"
+msgstr "j F"
 
 #: templates/notification/game_over/notice.html:3
 #, python-format
@@ -1553,7 +1553,7 @@ msgstr "El juego '%(slug)s' acaba de empezar. Puedes "
 msgid "play it now"
 msgstr "jugar ahora"
 
-#: templates/notification/phase_change_forced/notice.html:3
+#: templates/notification/phase_change_forced/notice.html:2
 #, python-format
 msgid "A change of phase has been forced in the game '%(slug)s'."
 msgstr "Se ha forzado un cambio de fase en el juego '%(slug)s'."
