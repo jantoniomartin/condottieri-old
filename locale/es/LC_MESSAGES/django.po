@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-14 11:01+0100\n"
+"POT-Creation-Date: 2010-03-14 12:41+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -28,6 +28,22 @@ msgstr "Escenario"
 #: machiavelli/templates/machiavelli/game_list.html:41
 msgid "Time limit"
 msgstr "Límite de tiempo"
+
+#: machiavelli/forms.py:42 machiavelli/models.py:59
+msgid "Hold"
+msgstr "Aguantar"
+
+#: machiavelli/forms.py:43 machiavelli/models.py:61
+msgid "Advance"
+msgstr "Avanzar"
+
+#: machiavelli/forms.py:44 machiavelli/models.py:62
+msgid "Conversion"
+msgstr "Conversión"
+
+#: machiavelli/forms.py:45 machiavelli/models.py:60
+msgid "Besiege"
+msgstr "Asediar"
 
 #: machiavelli/management.py:10
 msgid "Change of phase forced"
@@ -92,22 +108,6 @@ msgstr "Emisión de órdenes"
 #: machiavelli/models.py:56 machiavelli/templates/machiavelli/phase_3.html:3
 msgid "Retreats"
 msgstr "Retiradas"
-
-#: machiavelli/models.py:59
-msgid "Hold"
-msgstr "Aguantar"
-
-#: machiavelli/models.py:60
-msgid "Besiege"
-msgstr "Asediar"
-
-#: machiavelli/models.py:61
-msgid "Advance"
-msgstr "Avanzar"
-
-#: machiavelli/models.py:62
-msgid "Conversion"
-msgstr "Conversión"
 
 #: machiavelli/models.py:63
 msgid "Convoy"
@@ -537,24 +537,24 @@ msgstr "Mediterráneo Occidental"
 msgid "Create an acccount on %(domain)s"
 msgstr "Invitación para registrarte en Condottieri: %(domain)s"
 
-#: machiavelli/templates/machiavelli/base.html:11
+#: machiavelli/templates/machiavelli/base.html:12
 #: machiavelli/templates/machiavelli/faq.html:5
 msgid "FAQ"
 msgstr "FAQ"
 
-#: machiavelli/templates/machiavelli/base.html:12
+#: machiavelli/templates/machiavelli/base.html:13
 msgid "empty-map_en.jpg"
 msgstr "empty-map_es.jpg"
 
-#: machiavelli/templates/machiavelli/base.html:12
+#: machiavelli/templates/machiavelli/base.html:13
 msgid "Map"
 msgstr "Mapa"
 
-#: machiavelli/templates/machiavelli/base.html:13
+#: machiavelli/templates/machiavelli/base.html:14
 msgid "All games"
 msgstr "Todos los juegos"
 
-#: machiavelli/templates/machiavelli/base.html:14
+#: machiavelli/templates/machiavelli/base.html:15
 #: machiavelli/templates/machiavelli/hall_of_fame.html:5
 #: machiavelli/templates/machiavelli/hall_of_fame.html:8
 msgid "Hall of Fame"
@@ -983,6 +983,18 @@ msgstr ""
 "Si compones una orden que va contra las reglas, deberías ver un error y "
 "tendrás que corregir la orden. Sin embargo, si compones una orden imposible, "
 "la unidad aguantará, en lugar de llevar a cabo su orden. Ten cuidado."
+
+#: machiavelli/templates/machiavelli/phase_2.html:19
+msgid "Unit"
+msgstr "Unidad"
+
+#: machiavelli/templates/machiavelli/phase_2.html:20
+msgid "Order"
+msgstr "Orden"
+
+#: machiavelli/templates/machiavelli/phase_2.html:21
+msgid "Parameters"
+msgstr "Parámetros"
 
 #: machiavelli/templates/machiavelli/phase_3.html:5
 msgid ""

@@ -16,9 +16,9 @@ orders. If you want a unit to do nothing, select the "Hold" option for it.
 <form action="{% url show-game game.id %}" method="post">
 <table>
 <tr>
-<th style="width: 12%">Unit</th>
-<th style="width: 12%">Order</th>
-<th colspan="6" style="text-align: left">Parameters</th></tr>
+<th style="width: 12%">{% trans "Unit" %}</th>
+<th style="width: 12%">{% trans "Order" %}</th>
+<th colspan="6" style="text-align: left">{% trans "Parameters" %}</th></tr>
 {{ orders_formset.as_row }}
 </table>
 <p><input type="submit" value="{% trans "Send" %}" /></p>
