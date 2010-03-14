@@ -39,10 +39,10 @@ def make_jsorder_form(player):
 									type__in=['A','F'],
 									player__user__isnull=False)
 	all_areas = player.game.gamearea_set.all()
-	SUBCODES = (('H', 'Hold'),
-				('-', 'Advance'),
-				('=', 'Convert'),
-				('B', 'Besiege'))
+	SUBCODES = (('H', _('Hold')),
+				('-', _('Advance')),
+				('=', _('Conversion')),
+				('B', _('Besiege')))
 	class OrderForm(forms.Form):
 		unit = forms.ModelChoiceField(queryset=player.unit_set.all())
 		code = forms.ChoiceField(choices=ORDER_CODES, label='Order',
