@@ -889,7 +889,7 @@ msgstr ""
 msgid "You have currently %(cities_qty)s city\n"
 msgid_plural "You have currently %(cities_qty)s cities\n"
 msgstr[0] "En este momento tienes %(cities_qty)s ciudad\n"
-msgstr[1] "En este mometno tienes %(cities_qty)s ciudades\n"
+msgstr[1] "En este momento tienes %(cities_qty)s ciudades\n"
 
 #: machiavelli/templates/machiavelli/phase_1.html:15
 #, python-format
