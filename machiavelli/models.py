@@ -121,7 +121,7 @@ class Scenario(models.Model):
 		return ('scenario-detail', (), {'object_id': self.id})
 	get_absolute_url = permalink(get_absolute_url)
 
-if settings.TWEET_NEW_SCENARIO:
+if twitter_api and settings.TWEET_NEW_SCENARIO:
 	def tweet_new_scenario(sender, instance, created, **kw):
 		if twitter_api and isinstance(instance, Scenario):
 			if created == True:
@@ -756,7 +756,7 @@ In a finished game, delete all the data that is not going to be used anymore.
 							winners[2].user)
 			self.tweet_message(message)
 
-if settings.TWEET_NEW_GAME:
+if twitter_api and settings.TWEET_NEW_GAME:
 	def tweet_new_game(sender, instance, created, **kw):
 		if twitter_api and isinstance(instance, Game):
 			if created == True:
