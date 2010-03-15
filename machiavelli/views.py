@@ -106,7 +106,7 @@ def play_reinforcements(request, game, player):
 							area=f.cleaned_data['area'],
 							player=player)
 					new_unit.place()
-				game.map_changed()
+				#game.map_changed()
 				player = Player.objects.get(id=player.pk) ## see below
 				player.end_phase()
 				return HttpResponseRedirect(request.path)

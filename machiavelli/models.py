@@ -253,8 +253,7 @@ a phase change is forced.
 				elif self.phase == PHRETREATS:
 					## disband the units that should retreat
 					Unit.objects.filter(player=p).exclude(must_retreat__exact='').delete()
-				p.new_phase()
-		self._next_phase()
+				p.end_phase()
 		
 	def check_time_limit(self):
 		"""
@@ -375,19 +374,23 @@ start of the game.
 		Unit.objects.filter(player__game=self).update(must_retreat='')
 		GameArea.objects.filter(game=self).update(standoff=False)
 
-	def _next_phase(self):
-		if self.phase == PHORDERS:
+	def all_players_done(self):
+		if self.phase == PHINACTIVE:
+			return
+		elif self.phase == PHREINFORCE:
+			pass
+		elif self.phase == PHORDERS:
 			self.process_orders()
-			self.map_changed()
 		elif self.phase == PHRETREATS:
 			self.process_retreats()
 			if self.season == 3:
 				self.update_controls()
+				Order.objects.filter(unit__player__game=self).delete()
 				if self.check_winner() == True:
 					self.assign_scores()
 					self.game_over()
 					return
-			self.map_changed()
+		self.map_changed()
 		if self.phase == len(GAME_PHASES) - 1:
 			self._next_season()
 			if self.season == 1:
@@ -399,11 +402,7 @@ start of the game.
 		self.log_event(ETNEWPHASE, "phase:%s" % self.get_phase_display())
 		self.last_phase_change = datetime.now()
 		self.save()
-		if self.phase == PHRETREATS:
-			Order.objects.filter(unit__player__game=self).delete()
-		if self.map_outdated == True:
-			print "Map is outdated"
-			self.make_map()
+		self.make_map()
     
 	def check_next_phase(self):
 		"""
@@ -413,7 +412,7 @@ if all the players have finished.
 		for p in self.player_set.all():
 			if not p.done:
 				return False
-		self._next_phase()
+		self.all_players_done()
 		for p in self.player_set.all():
 			p.new_phase()
 

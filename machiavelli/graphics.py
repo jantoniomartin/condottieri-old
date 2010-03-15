@@ -4,6 +4,7 @@
 
 import Image
 import os
+from datetime import datetime
 
 from django.conf import settings
 
@@ -20,6 +21,7 @@ def make_map(game):
 	Open the base map, and add flags, control markers and unit tokens
 	"""
 	print "making map for game %s" % game
+	start_dt = datetime.now()
 	base_map = Image.open(os.path.join(BASEDIR, BASEMAP))
 	garrisons = []
 	for player in game.player_set.filter(user__isnull=False):
@@ -64,4 +66,6 @@ def make_map(game):
 	filename = os.path.join(MAPSDIR, "map-%s.jpg" % game.pk)
 	result.save(filename)
 	game.map_saved()
+	td_lapse = datetime.now() - start_dt
+	print "Processed map in %s seconds." % td_lapse.seconds
 	return True
