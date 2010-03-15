@@ -62,7 +62,7 @@ def make_map(game):
 			coords = (unit.area.board_area.gtoken.x, unit.area.board_area.gtoken.y)
 			base_map.paste(garrison, coords, garrison)
 	## save the map
-	result = base_map.resize((1250, 1780), Image.ANTIALIAS)
+	result = base_map #.resize((1250, 1780), Image.ANTIALIAS)
 	filename = os.path.join(MAPSDIR, "map-%s.jpg" % game.pk)
 	result.save(filename)
 	game.map_saved()
