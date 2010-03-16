@@ -38,7 +38,7 @@ def make_jsorder_form(player):
 	all_units = Unit.objects.filter(player__game=player.game,
 									type__in=['A','F'],
 									player__user__isnull=False)
-	all_areas = player.game.gamearea_set.all()
+	all_areas = player.game.gamearea_set.order_by('board_area__code')
 	SUBCODES = (('H', _('Hold')),
 				('-', _('Advance')),
 				('=', _('Conversion')),
