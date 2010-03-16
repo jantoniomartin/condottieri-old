@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-16 19:13+0100\n"
+"POT-Creation-Date: 2010-03-16 19:50+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -1250,20 +1250,91 @@ msgstr "Avisos"
 msgid "&copy; 2010 J. A. Mart&iacute;n Prieto"
 msgstr "&copy; 2010 Jos&eacute; Antonio Mart&iacute;n Prieto"
 
-#: templates/site_base.html:39 templates/default/profiles/profile.html:38
+#: templates/site_base.html:39 templates/about/about.html:5
+#: templates/default/profiles/profile.html:38
 msgid "About"
 msgstr "Acerca"
 
-#: templates/site_base.html:40
+#: templates/site_base.html:40 templates/about/terms.html:5
 msgid "Terms of Service"
 msgstr "Condiciones de servicio"
 
-#: templates/site_base.html:41
+#: templates/site_base.html:41 templates/about/privacy.html:5
 msgid "Privacy Policy"
 msgstr "Privacidad"
 
 #: templates/site_base.html:42
 msgid "DMCA Notice"
+msgstr ""
+
+#: templates/about/about.html:9
+msgid ""
+"<b>Condottieri</b> has been developed with the help of the following pieces "
+"of free, open source software:"
+msgstr ""
+"<b>Condottieri</b> ha sido desarrollado con la ayuda de las siguientes herramientas "
+"de software libre:"
+
+#: templates/about/about.html:13
+msgid ""
+"<a href=\"http://python.org\">Python</a>. The whole application has been "
+"written in Python."
+msgstr ""
+"<a href=\"http://python.org\">Python</a>. Toda la aplicación se ha escrito "
+"en Python."
+
+#: templates/about/about.html:16
+msgid ""
+"<a href=\"http://www.djangoproject.com\">Django</a>, \"The Web framework for "
+"perfectionists with deadlines\". One of the best frameworks with probably "
+"the best documentation."
+msgstr ""
+"<a href=\"http://www.djangoproject.com\">Django</a>, \"El entorno de desarrollo web para "
+"perfeccionistas con límites de tiempo\". Uno de los mejores entornos de desarrollo con, probablemente,"
+"la mejor documentación."
+
+#: templates/about/about.html:19
+msgid ""
+"<a href=\"http://pinaxproject.com\">Pinax</a>. An integrated collection of "
+"Django applications that provides the social networking features in this "
+"website."
+msgstr ""
+"<a href=\"http://pinaxproject.com\">Pinax</a>. Una colección de aplicaciones para "
+"Django que proporcionan las funcionalidades de red social en esta "
+"web."
+
+#: templates/about/about.html:22
+msgid ""
+"<a href=\"http://www.pythonware.com/products/pil\">Python Image Library</a>. "
+"Provides image processing functionality."
+msgstr ""
+"<a href=\"http://www.pythonware.com/products/pil\">Python Image Library</a>. "
+"Proporciona la funcionalidad de procesamiento de imágenes."
+
+#: templates/about/about.html:25
+msgid ""
+"<a href=\"http://experience.sourceforge.net/\">Experience</a>::Panorama. An "
+"image viewer with panning and zooming support."
+msgstr ""
+"<a href=\"http://experience.sourceforge.net/\">Experience</a>::Panorama. Un "
+"visor de imagen con encuadre y zoom."
+
+#: templates/about/dmca.html:5
+msgid "Digital Millennium Copyright Act Notice"
+msgstr ""
+
+#: templates/about/dmca.html:8
+msgid ""
+"<p>Your <b>Digital Millennium Copyright Act Notice</b> would normally go "
+"here...</p>"
+msgstr ""
+
+#: templates/about/privacy.html:8
+msgid "<p>Your <b>Privacy Policy</b> would normally go here...</p>"
+msgstr ""
+
+#: templates/about/terms.html:8
+msgid "<p>Your <b>Terms of Service</b> would normally go here...</p>"
 msgstr ""
 
 #: templates/about/what_next.html:6
@@ -1575,8 +1646,8 @@ msgid ""
 "You can see all times into your preferred timezone. Change your timezone "
 "below."
 msgstr ""
-"Puedes ver todas las horas según la zona horaria que prefieras. Cambia tu zona horaria "
-"abajo."
+"Puedes ver todas las horas según la zona horaria que prefieras. Cambia tu "
+"zona horaria abajo."
 
 #: templates/account/timezone_change.html:17
 msgid "Change my timezone"
@@ -1595,9 +1666,9 @@ msgid ""
 "within a few minutes, contact us at <a href=\"mailto:%(CONTACT_EMAIL)s\">%"
 "(CONTACT_EMAIL)s</a>."
 msgstr ""
-"Se ha enviado un email a <b>%(email)s</b> para verificar tu dirección. Sigue el "
-"enlace enviado para finalizar el proceso de registro. Si no lo recibes "
-"en unos minutos, envía un correo a <a href=\"mailto:%(CONTACT_EMAIL)s\">%"
+"Se ha enviado un email a <b>%(email)s</b> para verificar tu dirección. Sigue "
+"el enlace enviado para finalizar el proceso de registro. Si no lo recibes en "
+"unos minutos, envía un correo a <a href=\"mailto:%(CONTACT_EMAIL)s\">%"
 "(CONTACT_EMAIL)s</a>."
 
 #: templates/default/404.html:5
