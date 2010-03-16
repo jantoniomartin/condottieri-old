@@ -2,6 +2,8 @@
 	clear: both;
 }
 
+.uniForm .focused{ background: #444; }
+
 tr.open_game {
 	background: #c4efc2;
 	color: #333;
