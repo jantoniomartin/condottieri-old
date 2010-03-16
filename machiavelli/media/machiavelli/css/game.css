@@ -132,13 +132,19 @@
  * 3:Fall
  */
 .season_1 {
-	color: #80CD8D;
+	background: #80CD8D;
+	color: #000;
+	border-top: solid 1px #111;
 }
 .season_2 {
-	color: #FFCC00;
+	background: #FFCC00;
+	color: #000;
+	border-top: solid 1px #111;
 }
 .season_3 {
-	color: #B47D5B;
+	background: #B47D5B;
+	color: #000;
+	border-top: solid 1px #111;
 }
 
 #map {

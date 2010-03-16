@@ -20,8 +20,8 @@ def make_map(game):
 	"""
 	Open the base map, and add flags, control markers and unit tokens
 	"""
-	print "making map for game %s" % game
 	start_dt = datetime.now()
+	print "Starting map generation for game %s at %s" % (game, start_dt)
 	base_map = Image.open(os.path.join(BASEDIR, BASEMAP))
 	garrisons = []
 	for player in game.player_set.filter(user__isnull=False):
