@@ -206,7 +206,8 @@ ul#messages {
 }
 ul#messages li {
     padding: 5px 10px;
-    background: #EFD;
+    background: #efd;
+	color: #693;
     margin: 3px;
     border: 1px solid #BC9;
 }
