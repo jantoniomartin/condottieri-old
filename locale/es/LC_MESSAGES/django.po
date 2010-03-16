@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-14 12:41+0100\n"
+"POT-Creation-Date: 2010-03-16 19:13+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -141,7 +141,7 @@ msgstr "1 día"
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: machiavelli/models.py:964
+#: machiavelli/models.py:963
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
@@ -631,7 +631,7 @@ msgstr "Juegos"
 
 #: machiavelli/templates/machiavelli/game_form.html:8
 #: machiavelli/templates/machiavelli/game_list.html:33
-#: machiavelli/templates/machiavelli/game_list.html:60
+#: machiavelli/templates/machiavelli/game_list.html:65
 msgid "New game"
 msgstr "Nuevo juego"
 
@@ -754,7 +754,7 @@ msgstr "Plazas"
 msgid "Games you are not playing"
 msgstr "Partidas en las que no estás jugando"
 
-#: machiavelli/templates/machiavelli/game_list.html:53
+#: machiavelli/templates/machiavelli/game_list.html:58
 msgid "Join game"
 msgstr "Únete"
 
@@ -796,7 +796,7 @@ msgstr "Usuario"
 
 #: machiavelli/templates/machiavelli/letter_detail.html:5
 #: machiavelli/templates/machiavelli/letter_inbox.html:5
-#: machiavelli/templates/machiavelli/show_game.html:60
+#: machiavelli/templates/machiavelli/show_game.html:64
 msgid "Inbox"
 msgstr "Entrada"
 
@@ -850,7 +850,7 @@ msgid "Summary"
 msgstr "Resumen"
 
 #: machiavelli/templates/machiavelli/letter_outbox.html:5
-#: machiavelli/templates/machiavelli/show_game.html:61
+#: machiavelli/templates/machiavelli/show_game.html:65
 msgid "Outbox"
 msgstr "Salida"
 
@@ -1036,15 +1036,15 @@ msgstr "Tiempo restante"
 msgid "Power"
 msgstr "Estado"
 
-#: machiavelli/templates/machiavelli/show_game.html:28
+#: machiavelli/templates/machiavelli/show_game.html:32
 msgid "Cities:"
 msgstr "Ciudades"
 
-#: machiavelli/templates/machiavelli/show_game.html:32
+#: machiavelli/templates/machiavelli/show_game.html:36
 msgid "Send message"
 msgstr "Enviar carta"
 
-#: machiavelli/templates/machiavelli/show_game.html:45
+#: machiavelli/templates/machiavelli/show_game.html:49
 msgid ""
 "Our cartographers are drawing a new map for you. Please, reload\n"
 "the page in a few seconds."
@@ -1052,19 +1052,19 @@ msgstr ""
 "Nuestros cartógrafos están dibujando un nuevo mapa. Por favor, recarga la "
 "página dentro de unos segundos."
 
-#: machiavelli/templates/machiavelli/show_game.html:52
+#: machiavelli/templates/machiavelli/show_game.html:56
 msgid "Diplomacy"
 msgstr "Diplomacia"
 
-#: machiavelli/templates/machiavelli/show_game.html:65
+#: machiavelli/templates/machiavelli/show_game.html:69
 msgid "Campaign log"
 msgstr "Diario de campaña"
 
-#: machiavelli/templates/machiavelli/show_game.html:73
+#: machiavelli/templates/machiavelli/show_game.html:77
 msgid "See all"
 msgstr "Ver todo"
 
-#: machiavelli/templates/machiavelli/show_game.html:83
+#: machiavelli/templates/machiavelli/show_game.html:87
 msgid "This game is inactive or you are not playing in it."
 msgstr "Este juego está inactivo o no estás jugando en él."
 
@@ -1220,7 +1220,8 @@ msgstr "o"
 msgid "You can use a sign-up code to sign-up with the site right now."
 msgstr "Puedes usar un código de registro para darte de alta ahora mismo."
 
-#: templates/site_base.html:16
+#: templates/site_base.html:16 templates/account/email.html:6
+#: templates/account/email.html.py:9
 msgid "Account"
 msgstr "Cuenta"
 
@@ -1228,11 +1229,11 @@ msgstr "Cuenta"
 msgid "Admin"
 msgstr "Admin"
 
-#: templates/site_base.html:16
+#: templates/site_base.html:16 templates/account/logout.html:5
 msgid "Logout"
 msgstr "Salir"
 
-#: templates/site_base.html:18
+#: templates/site_base.html:18 templates/account/login.html:7
 msgid "Login"
 msgstr "Acceder"
 
@@ -1245,7 +1246,8 @@ msgid "Notices"
 msgstr "Avisos"
 
 #: templates/site_base.html:38
-msgid "&copy; 2010 Jos&eacute; Antonio Mart&iacute;n Prieto"
+#, fuzzy
+msgid "&copy; 2010 J. A. Mart&iacute;n Prieto"
 msgstr "&copy; 2010 Jos&eacute; Antonio Mart&iacute;n Prieto"
 
 #: templates/site_base.html:39 templates/default/profiles/profile.html:38
@@ -1326,33 +1328,277 @@ msgstr ""
 msgid "Start by <a href=\"%(login_url)s\">logging in</a>."
 msgstr "Empieza <a href=\"%(login_url)s\">accediendo</a>."
 
-#: templates/account/base.html:10
+#: templates/account/base.html:11
 msgid "E-Mail Addresses"
 msgstr "Direcciones de correo electrónico"
 
-#: templates/account/base.html:11
+#: templates/account/base.html:12
 msgid "OpenID Associations"
 msgstr "Asociaciones OpenID"
 
-#: templates/account/base.html:13
+#: templates/account/base.html:14 templates/account/password_change.html:5
+#: templates/account/password_change.html:8
+#: templates/account/password_reset_from_key.html:5
+#: templates/account/password_reset_from_key.html:8
 msgid "Change Password"
 msgstr "Cambiar Contraseña"
 
-#: templates/account/base.html:15
+#: templates/account/base.html:16 templates/account/password_set.html:6
+#: templates/account/password_set.html:9
 msgid "Set Password"
 msgstr "Guardar Contraseña"
 
-#: templates/account/base.html:18
+#: templates/account/base.html:19 templates/account/password_delete.html:5
+#: templates/account/password_delete.html:8
 msgid "Delete Password"
 msgstr "Borrar Contraseña"
 
-#: templates/account/base.html:20
+#: templates/account/base.html:21 templates/account/language_change.html:6
+#: templates/account/language_change.html:9
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/account/base.html:21
+#: templates/account/base.html:22 templates/account/timezone_change.html:6
+#: templates/account/timezone_change.html:9
 msgid "Timezone"
 msgstr "Zona horaria"
+
+#: templates/account/email.html:11
+msgid "Email Addresses"
+msgstr "Direcciones de correo electrónico"
+
+#: templates/account/email.html:20
+msgid "verified"
+msgstr "verificado"
+
+#: templates/account/email.html:22
+msgid "primary"
+msgstr "principal"
+
+#: templates/account/email.html:29
+msgid "make primary"
+msgstr "hacer principal"
+
+#: templates/account/email.html:34
+msgid "unverified"
+msgstr "sin verificar"
+
+#: templates/account/email.html:40
+msgid "re-send verification email"
+msgstr "reenviar email de verificación"
+
+#: templates/account/email.html:50
+msgid "remove"
+msgstr "eliminar"
+
+#: templates/account/email.html:57
+msgid "None"
+msgstr "Ninguno"
+
+#: templates/account/email.html:57
+msgid ""
+"You should really add one so you can receive notifications, reset your "
+"password if you forget it, etc."
+msgstr ""
+"Deberías añadir uno para poder recibir notificaciones, reiniciar tu "
+"contraseña si la olvidas, etc."
+
+#: templates/account/email.html:60
+msgid "Add Email Address"
+msgstr "Dirección de correo electrónico"
+
+#: templates/account/email.html:67
+msgid "add"
+msgstr "añadir"
+
+#: templates/account/language_change.html:11
+msgid "Condottieri can be used in your preferred language."
+msgstr "Puedes usar Condottieri en el idioma que prefieras."
+
+#: templates/account/language_change.html:17
+msgid "Change my language"
+msgstr "Cambiar mi idioma"
+
+#: templates/account/login.html:15 templates/account/signup.html:14
+msgid "Log In"
+msgstr "Acceder"
+
+#: templates/account/login.html:18 templates/account/password_reset.html:12
+#: templates/account/password_reset_done.html:11
+msgid "Note"
+msgstr "Aviso"
+
+#: templates/account/login.html:18 templates/account/password_reset.html:12
+#: templates/account/password_reset_done.html:11
+#, python-format
+msgid "you are already logged in as %(user)s."
+msgstr "ya habías ingresado como %(user)s."
+
+#: templates/account/login.html:22
+#, python-format
+msgid "Don't have an account? <a href=\"%(signup_url)s\">Sign up</a>!"
+msgstr "¿No tienes una cuenta? ¡<a href=\"%(signup_url)s\">Regístrate</a>!"
+
+#: templates/account/login.html:29
+msgid "Forgot password?"
+msgstr "¿Olvidaste la contraseña?"
+
+#: templates/account/login.html:33 templates/account/login.html.py:57
+msgid "Log in &raquo;"
+msgstr "Entrar &raquo;"
+
+#: templates/account/login.html:38
+msgid "Or sign in with your OpenID"
+msgstr "O accede con tu OpenID"
+
+#: templates/account/login.html:62
+#, python-format
+msgid ""
+"If you have any trouble logging in to your account, contact us at <a href="
+"\"mailto:%(CONTACT_EMAIL)s\">%(CONTACT_EMAIL)s</a>."
+msgstr ""
+"Si tienes algún problema para entrar en tu cuenta, envia un email a <a href="
+"\"mailto:%(CONTACT_EMAIL)s\">%(CONTACT_EMAIL)s</a>."
+
+#: templates/account/logout.html:8
+msgid "You've been logged out."
+msgstr "Has cerrado la sesión."
+
+#: templates/account/password_change.html:14
+#: templates/account/password_reset_from_key.html:17
+msgid "change password"
+msgstr "cambiar contraseña"
+
+#: templates/account/password_delete.html:9
+msgid ""
+"You may delete your password since you are currently logged in using OpenID."
+msgstr "Puedes borrar tu contraseña, ya que estás usando OpenID."
+
+#: templates/account/password_delete.html:11
+msgid "delete my password"
+msgstr "borrar mi contraseña"
+
+#: templates/account/password_delete_done.html:5
+#: templates/account/password_delete_done.html:8
+msgid "Password Deleted"
+msgstr "Contraseña Borrada"
+
+#: templates/account/password_delete_done.html:9
+msgid "Your password has been deleted."
+msgstr "Tu contraseña ha sido borrada."
+
+#: templates/account/password_reset.html:6
+#: templates/account/password_reset.html:10
+#: templates/account/password_reset_done.html:5
+#: templates/account/password_reset_done.html:8
+msgid "Password Reset"
+msgstr "Reiniciar Contraseña"
+
+#: templates/account/password_reset.html:15
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+msgstr ""
+"¿Olvidaste tu contraseña? Escribe tu dirección de email, y te enviaremos un "
+"correo que te permita reiniciarla."
+
+#: templates/account/password_reset.html:21
+msgid "Reset my password"
+msgstr "Reiniciar mi Contraseña"
+
+#: templates/account/password_reset.html:26
+#, python-format
+msgid ""
+"If you have any trouble resetting your password, contact us at <a href="
+"\"mailto:%(CONTACT_EMAIL)s\">%(CONTACT_EMAIL)s</a>."
+msgstr ""
+"Si tienes algún problema reiniciando tu contraseña, envía un correo a <a "
+"href=\"mailto:%(CONTACT_EMAIL)s\">%(CONTACT_EMAIL)s</a>."
+
+#: templates/account/password_reset_done.html:14
+#, python-format
+msgid ""
+"We have sent you an e-mail to <b>%(email)s</b>. If you do not receive it "
+"within a few minutes, contact us at <a href=\"mailto:%(CONTACT_EMAIL)s\">%"
+"(CONTACT_EMAIL)s</a>."
+msgstr ""
+"Se te ha enviado un email a <b>%(email)s</b>. Si no lo recibes en unos "
+"minutos, envía un email a <a href=\"mailto:%(CONTACT_EMAIL)s\">%"
+"(CONTACT_EMAIL)s</a>."
+
+#: templates/account/password_set.html:15
+msgid "set password"
+msgstr "Guardar Contraseña"
+
+#: templates/account/signup.html:6
+msgid "Signup"
+msgstr "Registro"
+
+#: templates/account/signup.html:9
+msgid "Sign Up"
+msgstr "Registrar"
+
+#: templates/account/signup.html:12
+msgid "You are already logged in."
+msgstr "Ya habías ingresado."
+
+#: templates/account/signup.html:14
+msgid "Already have an account?"
+msgstr "¿Ya tienes una cuenta?"
+
+#: templates/account/signup.html:20
+msgid "Sign Up &raquo;"
+msgstr "Entra &raquo;"
+
+#: templates/account/signup.html:27
+#, python-format
+msgid ""
+"By clicking \"Sign Up\", you are indicating that you have read and agree to "
+"the <a href=\"%(terms_url)s\">Terms of Use</a> and <a href=\"%(privacy_url)s"
+"\">Privacy Policy</a>."
+msgstr ""
+"Si pulsas \"Registrar\", estás indicando que has leído y estás de acuerdo "
+"con las <a href=\"%(terms_url)s\">Condiciones de Uso</a> y la <a href=\"%"
+"(privacy_url)s\">Política de Privacidad</a>."
+
+#: templates/account/signup.html:29
+#, python-format
+msgid ""
+"If you have any trouble creating your account, contact us at <a href="
+"\"mailto:%(CONTACT_EMAIL)s\">%(CONTACT_EMAIL)s</a>."
+msgstr ""
+"Si tienes algún problema creando tu cuenta, envía un email a <a href="
+"\"mailto:%(CONTACT_EMAIL)s\">%(CONTACT_EMAIL)s</a>."
+
+#: templates/account/timezone_change.html:11
+msgid ""
+"You can see all times into your preferred timezone. Change your timezone "
+"below."
+msgstr ""
+"Puedes ver todas las horas según la zona horaria que prefieras. Cambia tu zona horaria "
+"abajo."
+
+#: templates/account/timezone_change.html:17
+msgid "Change my timezone"
+msgstr "Cambiar mi zona horaria"
+
+#: templates/account/verification_sent.html:5
+#: templates/account/verification_sent.html:8
+msgid "Verify your e-mail address"
+msgstr "verifica tu dirección de email"
+
+#: templates/account/verification_sent.html:10
+#, python-format
+msgid ""
+"We have sent you an e-mail to <b>%(email)s</b> for verification. Follow the "
+"link provided to finalize the signup process. If you do not receive it "
+"within a few minutes, contact us at <a href=\"mailto:%(CONTACT_EMAIL)s\">%"
+"(CONTACT_EMAIL)s</a>."
+msgstr ""
+"Se ha enviado un email a <b>%(email)s</b> para verificar tu dirección. Sigue el "
+"enlace enviado para finalizar el proceso de registro. Si no lo recibes "
+"en unos minutos, envía un correo a <a href=\"mailto:%(CONTACT_EMAIL)s\">%"
+"(CONTACT_EMAIL)s</a>."
 
 #: templates/default/404.html:5
 msgid "Not Found"
