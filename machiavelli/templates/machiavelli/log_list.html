@@ -16,8 +16,23 @@
 </ul>
 </div>
 
+<div class="pagination">
+	<span class="step-links">
+		{% if log.has_previous %}
+			<a href="?page={{ log.previous_page_number }}">&lt;&lt;</a>
+		{% endif %}
+		
+		<span class="current">
+			{% trans "Page" %} {{ log.number }} {% trans "of" %} {{ log.paginator.num_pages }}.
+		</span>
+
+		{% if log.has_next %}
+			<a href="?page={{ log.next_page_number }}">&gt;&gt;</a>
+		{% endif %}
+	</span>
+</div>
 <ul id="log">
-{% for event in logs_list %}
+{% for event in log.object_list %}
 {{ event.color_output|safe }}
 {% endfor %}
 </ul>

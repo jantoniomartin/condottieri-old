@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-16 19:50+0100\n"
+"POT-Creation-Date: 2010-03-16 20:33+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -866,7 +866,15 @@ msgstr "Diario"
 msgid "Log of the game"
 msgstr "Diario del juego"
 
-#: machiavelli/templates/machiavelli/log_list.html:25
+#: machiavelli/templates/machiavelli/log_list.html:26
+msgid "Page"
+msgstr "Página"
+
+#: machiavelli/templates/machiavelli/log_list.html:26
+msgid "of"
+msgstr "de"
+
+#: machiavelli/templates/machiavelli/log_list.html:40
 msgid "Return to game"
 msgstr "Volver al juego"
 
@@ -1272,8 +1280,8 @@ msgid ""
 "<b>Condottieri</b> has been developed with the help of the following pieces "
 "of free, open source software:"
 msgstr ""
-"<b>Condottieri</b> ha sido desarrollado con la ayuda de las siguientes herramientas "
-"de software libre:"
+"<b>Condottieri</b> ha sido desarrollado con la ayuda de las siguientes "
+"herramientas de software libre:"
 
 #: templates/about/about.html:13
 msgid ""
@@ -1289,9 +1297,9 @@ msgid ""
 "perfectionists with deadlines\". One of the best frameworks with probably "
 "the best documentation."
 msgstr ""
-"<a href=\"http://www.djangoproject.com\">Django</a>, \"El entorno de desarrollo web para "
-"perfeccionistas con límites de tiempo\". Uno de los mejores entornos de desarrollo con, probablemente,"
-"la mejor documentación."
+"<a href=\"http://www.djangoproject.com\">Django</a>, \"El entorno de "
+"desarrollo web para perfeccionistas con límites de tiempo\". Uno de los "
+"mejores entornos de desarrollo con, probablemente,la mejor documentación."
 
 #: templates/about/about.html:19
 msgid ""
@@ -1299,9 +1307,8 @@ msgid ""
 "Django applications that provides the social networking features in this "
 "website."
 msgstr ""
-"<a href=\"http://pinaxproject.com\">Pinax</a>. Una colección de aplicaciones para "
-"Django que proporcionan las funcionalidades de red social en esta "
-"web."
+"<a href=\"http://pinaxproject.com\">Pinax</a>. Una colección de aplicaciones "
+"para Django que proporcionan las funcionalidades de red social en esta web."
 
 #: templates/about/about.html:22
 msgid ""

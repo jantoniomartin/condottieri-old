@@ -10,6 +10,7 @@ from django.forms.formsets import formset_factory
 from django.db.models import Sum
 #from django.forms.models import modelformset_factory
 from django.views.decorators.cache import never_cache, cache_page
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 from machiavelli.models import *
 import machiavelli.utils as utils
@@ -230,20 +231,26 @@ def logs_by_game(request, game_id):
 		player = Player.objects.get(game=game, user=request.user)
 	except:
 		player = Player.objects.none()
-	extra_context = base_context(request, game, player)
-	log = game.log_set.order_by('-id')
+	context = base_context(request, game, player)
+	log_list = game.log_set.order_by('-id')
 	if not player or not player.done:
-			log = log.exclude(season__exact=game.season,
+			log_list = log_list.exclude(season__exact=game.season,
 							phase__exact=game.phase)
-	extra_context['log'] = log 
+	paginator = Paginator(log_list, 25)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		log = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		log = paginator.page(paginator.num_pages)
 
-	return object_list(
-		request,
-		queryset = extra_context['log'],
-		template_name = 'machiavelli/log_list.html',
-		template_object_name = 'logs',
-		extra_context = extra_context
-	)
+	context['log'] = log 
+
+	return render_to_response('machiavelli/log_list.html',
+							context,
+							context_instance=RequestContext(request))
 
 @login_required
 @cache_page(60 * 60)
