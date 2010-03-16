@@ -1149,9 +1149,9 @@ class Letter(models.Model):
 		return self.body[:20]
 
 	def inbox_color_output(self):
-		return "<div class='%(class)s'>%(body)s</div>" % {'class': self.get_style('inbox'),
+		return "<li class='%(class)s'>%(body)s</li>" % {'class': self.get_style('inbox'),
 										'body': self}
 
 	def outbox_color_output(self):
-		return "<div class='%(class)s'>%(body)s</div>" % {'class': self.get_style('outbox'),
+		return "<li class='%(class)s'>%(body)s</li>" % {'class': self.get_style('outbox'),
 										'body': self}

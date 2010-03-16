@@ -150,17 +150,14 @@ tr.closed_game a{
 .season_1 {
 	background: #80CD8D;
 	color: #000;
-	border-top: solid 1px #111;
 }
 .season_2 {
 	background: #FFCC00;
 	color: #000;
-	border-top: solid 1px #111;
 }
 .season_3 {
 	background: #B47D5B;
 	color: #000;
-	border-top: solid 1px #111;
 }
 
 #map {
@@ -191,6 +188,12 @@ tr.closed_game a{
 #log li {
 	list-style-type: none;
 	margin-left: 0;
+	padding-left: 0.5em;
+	border-top: solid 1px #111;
+}
+
+#diplomacy a {
+	text-decoration: none;
 }
 
 #col .menu {

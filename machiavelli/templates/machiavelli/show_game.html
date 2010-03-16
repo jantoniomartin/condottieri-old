@@ -56,7 +56,7 @@ the page in a few seconds.{% endblocktrans %}
 <h3>{% trans "Diplomacy" %}</h3>
 <ul>
 {% for letter in inbox %}
-<li><a href="{% url show-letter letter.id %}">{{ letter.inbox_color_output|safe }}</a></li>
+<a href="{% url show-letter letter.id %}">{{ letter.inbox_color_output|safe }}</a>
 {% endfor %}
 </ul>
 </div>
