@@ -46,7 +46,12 @@ you can also create one, but it's better if you join an existing game.{% endbloc
 	</tr>
 	</thead>
 	{% for game in other_games %}
-	<tr>
+	{% ifequal game.slots 0 %}
+	<tr class="closed_game">
+	{% endifequal %}
+	{% ifnotequal game.slots 0 %}
+	<tr class="open_game">
+	{% endifnotequal %}
 		{% include 'machiavelli/game_row_inc.html' %}
 		<td>{{ game.slots }}
 		{% ifnotequal game.slots 0 %}
