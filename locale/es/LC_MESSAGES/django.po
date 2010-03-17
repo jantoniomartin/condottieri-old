@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-16 20:33+0100\n"
+"POT-Creation-Date: 2010-03-17 19:10+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -141,7 +141,7 @@ msgstr "1 día"
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: machiavelli/models.py:963
+#: machiavelli/models.py:964
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
@@ -1254,9 +1254,8 @@ msgid "Notices"
 msgstr "Avisos"
 
 #: templates/site_base.html:38
-#, fuzzy
 msgid "&copy; 2010 J. A. Mart&iacute;n Prieto"
-msgstr "&copy; 2010 Jos&eacute; Antonio Mart&iacute;n Prieto"
+msgstr "&copy; 2010 J. A. Antonio Mart&iacute;n Prieto"
 
 #: templates/site_base.html:39 templates/about/about.html:5
 #: templates/default/profiles/profile.html:38
@@ -1272,8 +1271,9 @@ msgid "Privacy Policy"
 msgstr "Privacidad"
 
 #: templates/site_base.html:42
+#, fuzzy
 msgid "DMCA Notice"
-msgstr ""
+msgstr "Avisos"
 
 #: templates/about/about.html:9
 msgid ""
@@ -1807,8 +1807,9 @@ msgid "Wiki Articles"
 msgstr "Artículos Wiki"
 
 #: templates/default/profiles/profile.html:131
+#, fuzzy
 msgid "No wiki articles yet."
-msgstr ""
+msgstr "Artículos Wiki"
 
 #: templates/default/profiles/profile.html:134
 msgid "Bookmarks"
@@ -1871,6 +1872,32 @@ msgstr "Fecha"
 msgid "MONTH_DAY_FORMAT"
 msgstr "j F"
 
+#: templates/notification/email_body.txt:1
+#, python-format
+msgid ""
+"You have received the following notice from %(current_site)s:\n"
+"\n"
+"%(message)s\n"
+"\n"
+"To see other notices or change how you receive notifications, please go to %"
+"(notices_url)s.\n"
+msgstr ""
+"Has recibido el siguiente aviso de %(current_site)s:\n"
+"\n"
+"%(message)s\n"
+"\n"
+"Para ver otros avisos o cambiar la forma en que los recibes, puedes ir a %"
+"(notices_url)s.\n"
+
+#: templates/notification/game_over/full.txt:3
+#, python-format
+msgid "The game '%(slug)s' is over. You can "
+msgstr "El juego '%(slug)s' ha terminado. Puedes "
+
+#: templates/notification/game_over/full.txt:4
+msgid "see the results in "
+msgstr "ver los resultados"
+
 #: templates/notification/game_over/notice.html:3
 #, python-format
 msgid "The game '%(slug)s' has is over. You can "
@@ -1880,15 +1907,22 @@ msgstr "El juego '%(slug)s' ha terminado. Puedes "
 msgid "see the results"
 msgstr "ver los resultados"
 
+#: templates/notification/game_started/full.txt:3
 #: templates/notification/game_started/notice.html:3
 #, python-format
 msgid "The game '%(slug)s' has just started. You can "
 msgstr "El juego '%(slug)s' acaba de empezar. Puedes "
 
+#: templates/notification/game_started/full.txt:4
+#, fuzzy
+msgid "play it in "
+msgstr "jugar ahora"
+
 #: templates/notification/game_started/notice.html:4
 msgid "play it now"
 msgstr "jugar ahora"
 
+#: templates/notification/phase_change_forced/full.txt:2
 #: templates/notification/phase_change_forced/notice.html:2
 #, python-format
 msgid "A change of phase has been forced in the game '%(slug)s'."

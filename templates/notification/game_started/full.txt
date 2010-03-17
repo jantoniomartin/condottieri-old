@@ -2,3 +2,4 @@
 
 {% blocktrans with game.slug as slug %}The game '{{ slug }}' has just started. You can {% endblocktrans %}
 {% trans "play it in " %} {{ current_site }}{% url show-game game.id %}.
+
