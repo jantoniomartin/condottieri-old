@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 import django.forms as forms
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
-from django.template.defaultfilters import capfirst
+from django.template.defaultfilters import capfirst, truncatewords
 
 if "notification" in settings.INSTALLED_APPS:
 	from notification import models as notification
@@ -1331,38 +1331,6 @@ class UnitEvent(BaseEvent):
 		return "%(unit)s %(message)s" % {'unit': self.unit_string(self.type, self.area),
 										'message': self.get_message_display()}
 
-#class Log(models.Model):
-#	game = models.ForeignKey(Game)
-#	year = models.PositiveIntegerField()
-#	season = models.PositiveIntegerField(choices=SEASONS)
-#	phase = models.PositiveIntegerField(choices=GAME_PHASES)
-#	event = models.CharField(max_length=255)
-#	params = models.CharField(null=True, blank=True, max_length=255)
-#
-#	def _get_params_dict(self):
-#		if self.params == '':
-#			return {}
-#		params_dict = {}
-#		params_list = self.params.split(';')
-#		for p in params_list:
-#			k, v = p.split(':')[0:2]
-#			params_dict[k] = _(v)
-#		return params_dict
-#
-#	def __unicode__(self):
-#		result = "%(season)s %(year)d: " % {'season': self.get_season_display(),
-#												'year': self.year}
-#		try:
-#			result += _(self.event) % self._get_params_dict()
-#		except:
-#			return result
-#		else:
-#			return result
-#
-#	def color_output(self):
-#		return "<li class='season_%(season)s'>%(log)s</li>" % {'season': self.season,
-#																	'log': self}
-
 class Letter(models.Model):
 	sender = models.ForeignKey(Player, related_name='sent')
 	receiver = models.ForeignKey(Player, related_name='received')
@@ -1382,9 +1350,9 @@ class Letter(models.Model):
 		return self.body[:20]
 
 	def inbox_color_output(self):
-		return "<li class='%(class)s'>%(body)s</li>" % {'class': self.get_style('inbox'),
-										'body': self}
+		return "<li class='%(class)s'>%(body)s ...</li>" % {'class': self.get_style('inbox'),
+										'body': truncatewords(self, 5)}
 
 	def outbox_color_output(self):
-		return "<li class='%(class)s'>%(body)s</li>" % {'class': self.get_style('outbox'),
-										'body': self}
+		return "<li class='%(class)s'>%(body)s ...</li>" % {'class': self.get_style('outbox'),
+										'body': truncatewords(self, 5)}
