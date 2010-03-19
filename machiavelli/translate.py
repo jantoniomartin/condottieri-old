@@ -1,23 +1,6 @@
 ##This file contains strings that have to be detected by django-admin.py
 ##makemessages
 
-## standard log messages
-_("Time is over. Forcing new phase")
-_("Starting phase: %(phase)s")
-_("Starting season: %(season)s")
-_("Support from %(unit)s in %(area)s is broken")
-_("%(unit)s in %(area)s converts into %(type)s")
-_("A standoff occurs in %(area)s")
-_("%(unit)s in %(origin)s invades %(area)s")
-_("%(unit)s in %(area)s must retreat")
-_("%(unit)s in %(area)s surrenders")
-_("%(unit)s in %(area)s is now besieging")
-_("%(unit)s in %(area)s is disbanded")
-_("%(unit)s in %(origin)s retreats to %(area)s")
-_("%(country)s gets control of %(area)s")
-_("A new %(unit)s is placed in %(area)s")
-_("%(country)s's order: %(order)s")
-
 ## country names
 _("Austria")
 _("Florence")

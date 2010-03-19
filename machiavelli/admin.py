@@ -40,16 +40,43 @@ class AreaAdmin(admin.ModelAdmin):
 		GTokenInline,
 		AFTokenInline ]
 
-class LogAdmin(admin.ModelAdmin):
-	list_display = ('game', 'year', 'season', 'event')
+#class LogAdmin(admin.ModelAdmin):
+#	list_display = ('game', 'year', 'season', 'event')
 
-class LogInline(admin.TabularInline):
-	model = Log
-	max_num = 10
+#class LogInline(admin.TabularInline):
+#	model = Log
+#	max_num = 10
+
+class BaseEventAdmin(admin.ModelAdmin):
+	pass
+
+class NewUnitEventAdmin(admin.ModelAdmin):
+	pass
+
+class DisbandEventAdmin(admin.ModelAdmin):
+	pass
+
+class OrderEventAdmin(admin.ModelAdmin):
+	pass
+
+class StandoffEventAdmin(admin.ModelAdmin):
+	pass
+
+class ConversionEventAdmin(admin.ModelAdmin):
+	pass
+
+class ControlEventAdmin(admin.ModelAdmin):
+	pass
+
+class MovementEventAdmin(admin.ModelAdmin):
+	pass
+
+class UnitEventAdmin(admin.ModelAdmin):
+	pass
 
 class GameAdmin(admin.ModelAdmin):
 	list_display = ('pk', 'year', 'season', 'phase', 'slots', 'scenario', 'created_by')
-	inlines = [LogInline,]
+	#inlines = [LogInline,]
 
 class RetreatOrderAdmin(admin.ModelAdmin):
 	pass
@@ -67,5 +94,14 @@ admin.site.register(Setup, SetupAdmin)
 admin.site.register(Player, PlayerAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(RetreatOrder, RetreatOrderAdmin)
-admin.site.register(Log, LogAdmin)
+#admin.site.register(Log, LogAdmin)
+admin.site.register(BaseEvent, BaseEventAdmin)
+admin.site.register(NewUnitEvent, NewUnitEventAdmin)
+admin.site.register(DisbandEvent, DisbandEventAdmin)
+admin.site.register(OrderEvent, OrderEventAdmin)
+admin.site.register(StandoffEvent, StandoffEventAdmin)
+admin.site.register(ConversionEvent, ConversionEventAdmin)
+admin.site.register(ControlEvent, ControlEventAdmin)
+admin.site.register(MovementEvent, MovementEventAdmin)
+admin.site.register(UnitEvent, UnitEventAdmin)
 admin.site.register(Letter, LetterAdmin)

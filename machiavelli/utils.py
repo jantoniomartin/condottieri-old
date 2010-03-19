@@ -23,13 +23,19 @@ def parse_order_form(data):
 		if data['subunit'] == None:
 			return False
 		subunit_abbr = "%s %s" % (data['subunit'].type, data['subunit'].area.board_area.code)
-		suborder = "%s %s" % (subunit_abbr, data['subcode'])
-		if data['subcode'] == '-':
+		if order.code == 'S':
+			suborder = "%s %s" % (subunit_abbr, data['subcode'])
+			if data['subcode'] == '-':
+				if data['subdestination'] == None:
+					return False
+				suborder += " %s" % data['subdestination'].board_area.code
+			elif data['subcode'] == '=':
+				suborder += " = %s" % data['subconversion']
+		elif order.code == 'C':
 			if data['subdestination'] == None:
 				return False
-			suborder += " %s" % data['subdestination'].board_area.code
-		elif order.code == 'S' and data['subcode'] == '=':
-			suborder += " = %s" % data['subconversion']
+			else:
+				suborder = "%s - %s" % (subunit_abbr, data['subdestination'].board_area.code)
 		order.suborder = suborder
 	return order_is_possible(order)
 

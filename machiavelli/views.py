@@ -41,7 +41,7 @@ def base_context(request, game, player):
 		#'log': game.log_set.order_by('-id')[:10],
 		'player': player,
 		}
-	log = game.log_set.order_by('-id')
+	log = game.baseevent_set.order_by('-id')
 	if player:
 		context['phase_partial'] = "machiavelli/phase_%s.html" % game.phase
 		context['inbox'] = player.received.order_by('-id')[:10]
@@ -232,7 +232,7 @@ def logs_by_game(request, game_id):
 	except:
 		player = Player.objects.none()
 	context = base_context(request, game, player)
-	log_list = game.log_set.order_by('-id')
+	log_list = game.baseevent_set.order_by('-id')
 	if not player or not player.done:
 			log_list = log_list.exclude(season__exact=game.season,
 							phase__exact=game.phase)

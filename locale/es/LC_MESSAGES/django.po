@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-17 19:10+0100\n"
+"POT-Creation-Date: 2010-03-19 16:13+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -29,21 +29,17 @@ msgstr "Escenario"
 msgid "Time limit"
 msgstr "Límite de tiempo"
 
-#: machiavelli/forms.py:42 machiavelli/models.py:59
+#: machiavelli/forms.py:42 machiavelli/models.py:60
 msgid "Hold"
 msgstr "Aguantar"
 
-#: machiavelli/forms.py:43 machiavelli/models.py:61
+#: machiavelli/forms.py:43 machiavelli/models.py:62
 msgid "Advance"
 msgstr "Avanzar"
 
-#: machiavelli/forms.py:44 machiavelli/models.py:62
+#: machiavelli/forms.py:44 machiavelli/models.py:63
 msgid "Conversion"
 msgstr "Conversión"
-
-#: machiavelli/forms.py:45 machiavelli/models.py:60
-msgid "Besiege"
-msgstr "Asediar"
 
 #: machiavelli/management.py:10
 msgid "Change of phase forced"
@@ -69,470 +65,506 @@ msgstr "Juego terminado"
 msgid "a game that you're playing is over"
 msgstr "un juego en el que estás jugando ha terminado"
 
-#: machiavelli/models.py:38
+#: machiavelli/models.py:39
 msgid "Army"
 msgstr "Ejército"
 
-#: machiavelli/models.py:39
+#: machiavelli/models.py:40
 msgid "Fleet"
 msgstr "Flota"
 
-#: machiavelli/models.py:40
+#: machiavelli/models.py:41
 msgid "Garrison"
 msgstr "Guarnición"
 
-#: machiavelli/models.py:43
+#: machiavelli/models.py:44
 msgid "Spring"
 msgstr "Primavera"
 
-#: machiavelli/models.py:44
+#: machiavelli/models.py:45
 msgid "Summer"
 msgstr "Verano"
 
-#: machiavelli/models.py:45
+#: machiavelli/models.py:46
 msgid "Fall"
 msgstr "Otoño"
 
-#: machiavelli/models.py:53
+#: machiavelli/models.py:54
 msgid "Inactive game"
 msgstr "Juego inactivo"
 
-#: machiavelli/models.py:54
+#: machiavelli/models.py:55
 msgid "Military adjustments"
 msgstr "Ajustes militares"
 
-#: machiavelli/models.py:55
+#: machiavelli/models.py:56
 msgid "Order writing"
 msgstr "Emisión de órdenes"
 
-#: machiavelli/models.py:56 machiavelli/templates/machiavelli/phase_3.html:3
+#: machiavelli/models.py:57 machiavelli/templates/machiavelli/phase_3.html:3
 msgid "Retreats"
 msgstr "Retiradas"
 
-#: machiavelli/models.py:63
+#: machiavelli/models.py:61
+msgid "Besiege"
+msgstr "Asediar"
+
+#: machiavelli/models.py:64
 msgid "Convoy"
 msgstr "Convoy"
 
-#: machiavelli/models.py:64
+#: machiavelli/models.py:65
 msgid "Support"
 msgstr "Apoyar"
 
-#: machiavelli/models.py:68
+#: machiavelli/models.py:69
 msgid "5 days"
 msgstr "5 días"
 
-#: machiavelli/models.py:69
+#: machiavelli/models.py:70
 msgid "4 days"
 msgstr "4 días"
 
-#: machiavelli/models.py:70
+#: machiavelli/models.py:71
 msgid "3 days"
 msgstr "3 días"
 
-#: machiavelli/models.py:71
+#: machiavelli/models.py:72
 msgid "2 days"
 msgstr "2 días"
 
-#: machiavelli/models.py:72
+#: machiavelli/models.py:73
 msgid "1 day"
 msgstr "1 día"
 
-#: machiavelli/models.py:73
+#: machiavelli/models.py:74
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: machiavelli/models.py:964
+#: machiavelli/models.py:957
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
 
+#: machiavelli/models.py:1143
+#, python-format
+msgid "the army in %s"
+msgstr "el ejército en %s"
+
+#: machiavelli/models.py:1145
+#, python-format
+msgid "the fleet in %s"
+msgstr "la flota en %s"
+
+#: machiavelli/models.py:1147
+#, python-format
+msgid "the garrison in %s"
+msgstr "la guarnición en %s"
+
+#: machiavelli/models.py:1213
+#, python-format
+msgid "%(country)s recruits a new %(type)s in %(area)s."
+msgstr "%(country)s recluta %(type)s en %(area)s"
+
+#: machiavelli/models.py:1224
+#, python-format
+msgid "%(country)s's %(type)s in %(area)s is disbanded."
+msgstr "%(type)s de %(country)s en %(area)s es desbandado/a."
+
+#: machiavelli/models.py:1228
+#, python-format
+msgid "Autonomous %(type)s in %(area)s is disbanded."
+msgstr "%(type)s independiente en %(area)s es desbandado/a."
+
+#: machiavelli/models.py:1249
+#, python-format
+msgid "%(unit)s tries to go to %(area)s."
+msgstr "%(unit)s intenta entrar en %(area)s"
+
+#: machiavelli/models.py:1252
+#, python-format
+msgid "%(unit)s besieges the city."
+msgstr "%(unit)s asedia la ciudad."
+
+#: machiavelli/models.py:1254
+#, python-format
+msgid "%(unit)s tries to convert into %(type)s."
+msgstr "%(unit)s intenta convertirse en %(type)s"
+
+#: machiavelli/models.py:1257
+#, python-format
+msgid "%(unit)s must convoy %(subunit)s to %(area)s."
+msgstr "%(unit)s dispuesta a trasladar a %(subunit)s a %(area)s"
+
+#: machiavelli/models.py:1263
+#, python-format
+msgid "%(unit)s supports %(subunit)s to hold its position."
+msgstr "%(unit)s apoya a %(subunit)s a mantener su posición."
+
+#: machiavelli/models.py:1268
+#, python-format
+msgid "%(unit)s supports %(subunit)s to go to %(area)s."
+msgstr "%(unit)s apoya a %(subunit)s para entrar en %(area)s"
+
+#: machiavelli/models.py:1274
+#, python-format
+msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
+msgstr "%(unit)s apoya a %(subunit)s para convertirse en %(type)s"
+
+#: machiavelli/models.py:1284
+#, python-format
+msgid "Conflicts in %(area)s result in a standoff."
+msgstr "El conflicto en %(area)s termina en empate."
+
+#: machiavelli/models.py:1292
+#, python-format
+msgid "%(unit)s converts into %(type)s."
+msgstr "%(unit)s se convierte en %(type)s."
+
+#: machiavelli/models.py:1300
+#, python-format
+msgid "%(country)s gets control of %(area)s."
+msgstr "%(country)s consigue el control de %(area)s."
+
+#: machiavelli/models.py:1310
+#, python-format
+msgid "%(unit)s advances into %(destination)s."
+msgstr "%(unit)s avanza a %(destination)s."
+
+#: machiavelli/models.py:1314
+#, python-format
+msgid "%(unit)s tries to retreat to %(destination)s."
+msgstr "%(unit)s intenta retirarse a %(destination)s"
+
+#: machiavelli/models.py:1319
+msgid "cannot carry out its support order."
+msgstr "no puede llevar a cabo su apoyo."
+
+#: machiavelli/models.py:1320
+msgid "must retreat."
+msgstr "debe retirarse."
+
+#: machiavelli/models.py:1321
+msgid "surrenders."
+msgstr "se rinde."
+
+#: machiavelli/models.py:1322
+msgid "is now besieging."
+msgstr "comienza su asedio."
+
 #: machiavelli/translate.py:5
-msgid "Time is over. Forcing new phase"
-msgstr "Se alcanzó el límite de tiempo. Forzando nueva fase."
-
-#: machiavelli/translate.py:6
-#, python-format
-msgid "Starting phase: %(phase)s"
-msgstr "Nueva fase: %(phase)s"
-
-#: machiavelli/translate.py:7
-#, python-format
-msgid "Starting season: %(season)s"
-msgstr "Nueva estación: %(season)s"
-
-#: machiavelli/translate.py:8
-#, python-format
-msgid "Support from %(unit)s in %(area)s is broken"
-msgstr "El apoyo de %(unit)s en %(area)s se anula"
-
-#: machiavelli/translate.py:9
-#, python-format
-msgid "%(unit)s in %(area)s converts into %(type)s"
-msgstr "%(unit)s en %(area)s se convierte en %(type)s"
-
-#: machiavelli/translate.py:10
-#, python-format
-msgid "A standoff occurs in %(area)s"
-msgstr "Se produce un empate en %(area)s"
-
-#: machiavelli/translate.py:11
-#, python-format
-msgid "%(unit)s in %(origin)s invades %(area)s"
-msgstr "%(unit)s en %(origin)s invade %(area)s"
-
-#: machiavelli/translate.py:12
-#, python-format
-msgid "%(unit)s in %(area)s must retreat"
-msgstr "%(unit)s en %(area)s debe retirarse"
-
-#: machiavelli/translate.py:13
-#, python-format
-msgid "%(unit)s in %(area)s surrenders"
-msgstr "%(unit)s en %(area)s se rinde"
-
-#: machiavelli/translate.py:14
-#, python-format
-msgid "%(unit)s in %(area)s is now besieging"
-msgstr "%(unit)s en %(area)s comienza un asedio"
-
-#: machiavelli/translate.py:15
-#, python-format
-msgid "%(unit)s in %(area)s is disbanded"
-msgstr "%(unit)s en %(area)s es desbandada"
-
-#: machiavelli/translate.py:16
-#, python-format
-msgid "%(unit)s in %(origin)s retreats to %(area)s"
-msgstr "%(unit)s en %(origin)s se retira a %(area)s"
-
-#: machiavelli/translate.py:17
-#, python-format
-msgid "%(country)s gets control of %(area)s"
-msgstr "%(country)s consigue el control de %(area)s"
-
-#: machiavelli/translate.py:18
-#, python-format
-msgid "A new %(unit)s is placed in %(area)s"
-msgstr "Una nueva %(unit)s aparece en %(area)s"
-
-#: machiavelli/translate.py:19
-#, python-format
-msgid "%(country)s's order: %(order)s"
-msgstr "Orden de %(country)s: %(order)s"
-
-#: machiavelli/translate.py:22
 msgid "Austria"
 msgstr "Austria"
 
-#: machiavelli/translate.py:23
+#: machiavelli/translate.py:6
 msgid "Florence"
 msgstr "Florencia"
 
-#: machiavelli/translate.py:24
+#: machiavelli/translate.py:7
 msgid "France"
 msgstr "Francia"
 
-#: machiavelli/translate.py:25
+#: machiavelli/translate.py:8
 msgid "Milan"
 msgstr "Milán"
 
-#: machiavelli/translate.py:26
+#: machiavelli/translate.py:9
 msgid "Naples"
 msgstr "Nápoles"
 
-#: machiavelli/translate.py:27
+#: machiavelli/translate.py:10
 msgid "Papacy"
 msgstr "El Papado"
 
-#: machiavelli/translate.py:28
+#: machiavelli/translate.py:11
 msgid "Turks"
 msgstr "Los Turcos"
 
-#: machiavelli/translate.py:29 machiavelli/translate.py:102
+#: machiavelli/translate.py:12 machiavelli/translate.py:85
 msgid "Venice"
 msgstr "Venecia"
 
-#: machiavelli/translate.py:32
+#: machiavelli/translate.py:15
 msgid "Development"
 msgstr "Desarrollo"
 
-#: machiavelli/translate.py:33
+#: machiavelli/translate.py:16
 msgid "The Spanish Preponderance"
 msgstr "La Preponderancia Española"
 
-#: machiavelli/translate.py:36
+#: machiavelli/translate.py:19
 msgid "Albania"
 msgstr "Albania"
 
-#: machiavelli/translate.py:37
+#: machiavelli/translate.py:20
 msgid "Ancona"
 msgstr "Ancona"
 
-#: machiavelli/translate.py:38
+#: machiavelli/translate.py:21
 msgid "Aquila"
 msgstr "Aquila"
 
-#: machiavelli/translate.py:39
+#: machiavelli/translate.py:22
 msgid "Arezzo"
 msgstr "Arezzo"
 
-#: machiavelli/translate.py:40
+#: machiavelli/translate.py:23
 msgid "Avignon"
 msgstr "Aviñón"
 
-#: machiavelli/translate.py:41
+#: machiavelli/translate.py:24
 msgid "Bari"
 msgstr "Bari"
 
-#: machiavelli/translate.py:42
+#: machiavelli/translate.py:25
 msgid "Bergamo"
 msgstr "Bérgamo"
 
-#: machiavelli/translate.py:43
+#: machiavelli/translate.py:26
 msgid "Bologna"
 msgstr "Boloña"
 
-#: machiavelli/translate.py:44
+#: machiavelli/translate.py:27
 msgid "Bosnia"
 msgstr "Bosnia"
 
-#: machiavelli/translate.py:45
+#: machiavelli/translate.py:28
 msgid "Capua"
 msgstr "Capua"
 
-#: machiavelli/translate.py:46
+#: machiavelli/translate.py:29
 msgid "Carniola"
 msgstr "Carniola"
 
-#: machiavelli/translate.py:47
+#: machiavelli/translate.py:30
 msgid "Carinthia"
 msgstr "Carintia"
 
-#: machiavelli/translate.py:48
+#: machiavelli/translate.py:31
 msgid "Central Mediterranean"
 msgstr "Mediterráneo Central"
 
-#: machiavelli/translate.py:49
+#: machiavelli/translate.py:32
 msgid "Como"
 msgstr "Como"
 
-#: machiavelli/translate.py:50
+#: machiavelli/translate.py:33
 msgid "Corsica"
 msgstr "Córcega"
 
-#: machiavelli/translate.py:51
+#: machiavelli/translate.py:34
 msgid "Cremona"
 msgstr "Cremona"
 
-#: machiavelli/translate.py:52
+#: machiavelli/translate.py:35
 msgid "Croatia"
 msgstr "Croacia"
 
-#: machiavelli/translate.py:53
+#: machiavelli/translate.py:36
 msgid "Dalmatia"
 msgstr "Dalmacia"
 
-#: machiavelli/translate.py:54
+#: machiavelli/translate.py:37
 msgid "Durazzo"
 msgstr "Durazzo"
 
-#: machiavelli/translate.py:55
+#: machiavelli/translate.py:38
 msgid "Ferrara"
 msgstr "Ferrara"
 
-#: machiavelli/translate.py:56
+#: machiavelli/translate.py:39
 msgid "Fornovo"
 msgstr "Fornovo"
 
-#: machiavelli/translate.py:57
+#: machiavelli/translate.py:40
 msgid "Friuli"
 msgstr "Friuli"
 
-#: machiavelli/translate.py:58
+#: machiavelli/translate.py:41
 msgid "Genoa"
 msgstr "Génova"
 
-#: machiavelli/translate.py:59
+#: machiavelli/translate.py:42
 msgid "Gulf of Lions"
 msgstr "Golfo de Lion"
 
-#: machiavelli/translate.py:60
+#: machiavelli/translate.py:43
 msgid "Gulf of Naples"
 msgstr "Golfo de Nápoles"
 
-#: machiavelli/translate.py:61
+#: machiavelli/translate.py:44
 msgid "Herzegovina"
 msgstr "Herzegovina"
 
-#: machiavelli/translate.py:62
+#: machiavelli/translate.py:45
 msgid "Hungary"
 msgstr "Hungría"
 
-#: machiavelli/translate.py:63
+#: machiavelli/translate.py:46
 msgid "Ionian Sea"
 msgstr "Mar Jónico"
 
-#: machiavelli/translate.py:64
+#: machiavelli/translate.py:47
 msgid "Istria"
 msgstr "Istria"
 
-#: machiavelli/translate.py:65
+#: machiavelli/translate.py:48
 msgid "Lower Adriatic"
 msgstr "Adriático Inferior"
 
-#: machiavelli/translate.py:66
+#: machiavelli/translate.py:49
 msgid "Ligurian Sea"
 msgstr "Mar de Liguria"
 
-#: machiavelli/translate.py:67
+#: machiavelli/translate.py:50
 msgid "Lucca"
 msgstr "Lucca"
 
-#: machiavelli/translate.py:68
+#: machiavelli/translate.py:51
 msgid "Mantua"
 msgstr "Mantua"
 
-#: machiavelli/translate.py:69
+#: machiavelli/translate.py:52
 msgid "Marseille"
 msgstr "Marsella"
 
-#: machiavelli/translate.py:70
+#: machiavelli/translate.py:53
 msgid "Messina"
 msgstr "Messina"
 
-#: machiavelli/translate.py:71
+#: machiavelli/translate.py:54
 msgid "Modena"
 msgstr "Módena"
 
-#: machiavelli/translate.py:72
+#: machiavelli/translate.py:55
 msgid "Montferrat"
 msgstr "Montferrat"
 
-#: machiavelli/translate.py:73
+#: machiavelli/translate.py:56
 msgid "Otranto"
 msgstr "Otranto"
 
-#: machiavelli/translate.py:74
+#: machiavelli/translate.py:57
 msgid "Padua"
 msgstr "Padua"
 
-#: machiavelli/translate.py:75
+#: machiavelli/translate.py:58
 msgid "Palermo"
 msgstr "Palermo"
 
-#: machiavelli/translate.py:76
+#: machiavelli/translate.py:59
 msgid "Parma"
 msgstr "Parma"
 
-#: machiavelli/translate.py:77
+#: machiavelli/translate.py:60
 msgid "Patrimony"
 msgstr "Patrimonio"
 
-#: machiavelli/translate.py:78
+#: machiavelli/translate.py:61
 msgid "Pavia"
 msgstr "Pavía"
 
-#: machiavelli/translate.py:79
+#: machiavelli/translate.py:62
 msgid "Perugia"
 msgstr "Perusa"
 
-#: machiavelli/translate.py:80
+#: machiavelli/translate.py:63
 msgid "Piombino"
 msgstr "Piombino"
 
-#: machiavelli/translate.py:81
+#: machiavelli/translate.py:64
 msgid "Pistoia"
 msgstr "Pistoia"
 
-#: machiavelli/translate.py:82
+#: machiavelli/translate.py:65
 msgid "Pisa"
 msgstr "Pisa"
 
-#: machiavelli/translate.py:83
+#: machiavelli/translate.py:66
 msgid "Provence"
 msgstr "Provenza"
 
-#: machiavelli/translate.py:84
+#: machiavelli/translate.py:67
 msgid "Ragusa"
 msgstr "Ragusa"
 
-#: machiavelli/translate.py:85
+#: machiavelli/translate.py:68
 msgid "Rome"
 msgstr "Roma"
 
-#: machiavelli/translate.py:86
+#: machiavelli/translate.py:69
 msgid "Salerno"
 msgstr "Salerno"
 
-#: machiavelli/translate.py:87
+#: machiavelli/translate.py:70
 msgid "Saluzzo"
 msgstr "Saluzzo"
 
-#: machiavelli/translate.py:88
+#: machiavelli/translate.py:71
 msgid "Sardinia"
 msgstr "Cerdeña"
 
-#: machiavelli/translate.py:89
+#: machiavelli/translate.py:72
 msgid "Savoy"
 msgstr "Savoya"
 
-#: machiavelli/translate.py:90
+#: machiavelli/translate.py:73
 msgid "Siena"
 msgstr "Siena"
 
-#: machiavelli/translate.py:91
+#: machiavelli/translate.py:74
 msgid "Slavonia"
 msgstr "Eslavonia"
 
-#: machiavelli/translate.py:92
+#: machiavelli/translate.py:75
 msgid "Spoleto"
 msgstr "Espoleto"
 
-#: machiavelli/translate.py:93
+#: machiavelli/translate.py:76
 msgid "Swiss"
 msgstr "Suiza"
 
-#: machiavelli/translate.py:94
+#: machiavelli/translate.py:77
 msgid "Treviso"
 msgstr "Treviso"
 
-#: machiavelli/translate.py:95
+#: machiavelli/translate.py:78
 msgid "Trent"
 msgstr "Trento"
 
-#: machiavelli/translate.py:96
+#: machiavelli/translate.py:79
 msgid "Thyrrenian Sea"
 msgstr "Mar Tirreno"
 
-#: machiavelli/translate.py:97
+#: machiavelli/translate.py:80
 msgid "Tunis"
 msgstr "Túnez"
 
-#: machiavelli/translate.py:98
+#: machiavelli/translate.py:81
 msgid "Turin"
 msgstr "Turín"
 
-#: machiavelli/translate.py:99
+#: machiavelli/translate.py:82
 msgid "Tyrol"
 msgstr "Tirol"
 
-#: machiavelli/translate.py:100
+#: machiavelli/translate.py:83
 msgid "Upper Adriatic"
 msgstr "Adriático Superior"
 
-#: machiavelli/translate.py:101
+#: machiavelli/translate.py:84
 msgid "Urbino"
 msgstr "Urbino"
 
-#: machiavelli/translate.py:103
+#: machiavelli/translate.py:86
 msgid "Verona"
 msgstr "Verona"
 
-#: machiavelli/translate.py:104
+#: machiavelli/translate.py:87
 msgid "Western Mediterranean"
 msgstr "Mediterráneo Occidental"
 
-#: machiavelli/translate.py:108
+#: machiavelli/translate.py:91
 #, python-format
 msgid "Create an acccount on %(domain)s"
 msgstr "Invitación para registrarte en Condottieri: %(domain)s"
@@ -1872,32 +1904,6 @@ msgstr "Fecha"
 msgid "MONTH_DAY_FORMAT"
 msgstr "j F"
 
-#: templates/notification/email_body.txt:1
-#, python-format
-msgid ""
-"You have received the following notice from %(current_site)s:\n"
-"\n"
-"%(message)s\n"
-"\n"
-"To see other notices or change how you receive notifications, please go to %"
-"(notices_url)s.\n"
-msgstr ""
-"Has recibido el siguiente aviso de %(current_site)s:\n"
-"\n"
-"%(message)s\n"
-"\n"
-"Para ver otros avisos o cambiar la forma en que los recibes, puedes ir a %"
-"(notices_url)s.\n"
-
-#: templates/notification/game_over/full.txt:3
-#, python-format
-msgid "The game '%(slug)s' is over. You can "
-msgstr "El juego '%(slug)s' ha terminado. Puedes "
-
-#: templates/notification/game_over/full.txt:4
-msgid "see the results in "
-msgstr "ver los resultados"
-
 #: templates/notification/game_over/notice.html:3
 #, python-format
 msgid "The game '%(slug)s' has is over. You can "
@@ -1907,23 +1913,40 @@ msgstr "El juego '%(slug)s' ha terminado. Puedes "
 msgid "see the results"
 msgstr "ver los resultados"
 
-#: templates/notification/game_started/full.txt:3
 #: templates/notification/game_started/notice.html:3
 #, python-format
 msgid "The game '%(slug)s' has just started. You can "
 msgstr "El juego '%(slug)s' acaba de empezar. Puedes "
 
-#: templates/notification/game_started/full.txt:4
-#, fuzzy
-msgid "play it in "
-msgstr "jugar ahora"
-
 #: templates/notification/game_started/notice.html:4
 msgid "play it now"
 msgstr "jugar ahora"
 
-#: templates/notification/phase_change_forced/full.txt:2
 #: templates/notification/phase_change_forced/notice.html:2
 #, python-format
 msgid "A change of phase has been forced in the game '%(slug)s'."
 msgstr "Se ha forzado un cambio de fase en el juego '%(slug)s'."
+
+msgid ""
+"You have received the following notice from %(current_site)s:\n"
+"\n"
+"%(message)s\n"
+"\n"
+"To see other notices or change how you receive notifications, please go "
+"to %(notices_url)s.\n"
+msgstr ""
+"Has recibido el siguiente aviso de %(current_site)s:\n"
+"\n"
+"%(message)s\n"
+"\n"
+"Para ver otros avisos o cambiar la forma en que los recibes, puedes ir a %"
+"(notices_url)s.\n"
+
+msgid "The game '%(slug)s' is over. You can "
+msgstr "El juego '%(slug)s' ha terminado. Puedes "
+
+msgid "see the results in "
+msgstr "ver los resultados"
+
+msgid "play it in "
+msgstr "jugar en "

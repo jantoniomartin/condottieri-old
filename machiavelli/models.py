@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 import django.forms as forms
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.template.defaultfilters import capfirst
 
 if "notification" in settings.INSTALLED_APPS:
 	from notification import models as notification
@@ -76,24 +77,6 @@ TIME_LIMITS = ((5*24*60*60, _('5 days')),
 ## SCORES
 ## points assigned to the first, second and third players
 SCORES=[20, 10, 5]
-
-## standard event types
-## must be translated in po file
-ETFORCEPHASE="Time is over. Forcing new phase"
-ETNEWPHASE="Starting phase: %(phase)s"
-ETNEWSEASON="Starting season: %(season)s"
-ETSUPPORTBROKEN="Support from %(unit)s in %(area)s is broken"
-ETCONVERSION="%(unit)s in %(area)s converts into %(type)s"
-ETTIEDCONFLICT="A standoff occurs in %(area)s"
-ETINVASION="%(unit)s in %(origin)s invades %(area)s"
-ETMUSTRETREAT="%(unit)s in %(area)s must retreat"
-ETSURRENDER="%(unit)s in %(area)s surrenders"
-ETBESIEGE="%(unit)s in %(area)s is now besieging"
-ETDISBANDED="%(unit)s in %(area)s is disbanded"
-ETRETREAT="%(unit)s in %(origin)s retreats to %(area)s"
-ETCONTROL="%(country)s gets control of %(area)s"
-ETREINFORCE="A new %(unit)s is placed in %(area)s"
-ETORDER="%(country)s's order: %(order)s"
 
 class AutoTranslateField(models.CharField):
 	"""
@@ -238,7 +221,6 @@ When the time limit is reached and one or more of the players are not done,
 a phase change is forced.
 		"""
 		self.notify_players("phase_change_forced", {"game": self})
-		self.log_event(ETFORCEPHASE)
 		for p in self.player_set.all():
 			if p.done:
 				continue
@@ -369,7 +351,6 @@ start of the game.
 			self.year += 1
 		else:
 			self.season += 1
-		self.log_event(ETNEWSEASON, "season:%s" % self.get_season_display())
 		## delete all retreats and standoffs
 		Unit.objects.filter(player__game=self).update(must_retreat='')
 		GameArea.objects.filter(game=self).update(standoff=False)
@@ -399,7 +380,6 @@ start of the game.
 				self.phase = PHORDERS
 		else:
 			self.phase += 1
-		self.log_event(ETNEWPHASE, "phase:%s" % self.get_phase_display())
 		self.last_phase_change = datetime.now()
 		self.save()
 		self.make_map()
@@ -439,13 +419,18 @@ these are the advancing units and the units that try to convert into A or F
 			conflict_areas.append(area)
 		return conflict_areas
 
-	def log_event(self, e, params=''):
+	def deprecated_log_event(self, e, params=''):
 		"""
 Logs and event with a special format that allows it to be translated.
 		"""
 		#assert isinstance(e, str)
 		event = Log(game=self, year=self.year, season=self.season,
 					phase=self.phase, event=e, params=params)
+		event.save()
+
+	def log_event(self, e, **kwargs):
+		## TODO: CATCH ERRORS
+		event = e(game=self, year=self.year, season=self.season, phase=self.phase, **kwargs)
 		event.save()
 
 	def filter_supports(self):
@@ -464,7 +449,7 @@ orders.
 					if (params[2] == '-' and params[3] == attacks[0].unit.area.board_area.code) or \
 						(params[2] == '=' and params[3] in ['A','F'] and params[1] == attacks[0].unit.area.board_area.code):
 						continue
-				self.log_event(ETSUPPORTBROKEN, "unit:%s;area:%s" % (s.unit.type, s.unit.area))
+				self.log_event(UnitEvent, type=s.unit.type, area=s.unit.area.board_area, message=0)
 				s.delete()
 		support_orders = Order.objects.filter(unit__player__game=self, code__exact='S')
 		return support_orders
@@ -518,7 +503,7 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 										type__exact='G',
 										area=g.area)
 			except:
-				self.log_event(ETCONVERSION, "unit:%s;area:%s;type:%s" % (g.type, g.area, 'G'))
+				self.log_event(ConversionEvent, area=g.area.board_area, before=g.type, after='G')
 				g.type = 'G'
 				g.order.delete()
 				g.save()
@@ -552,7 +537,7 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 					exit
 			## if there is a tie, a standoff occurs, and the area is marked as standoff
 			if tie:
-				self.log_event(ETTIEDCONFLICT, "area:%s" % u.order.get_attacked_area())
+				self.log_event(StandoffEvent, area=u.order.get_attacked_area().board_area)
 				if u.order.code == '-':
 					u.order.destination.standoff = True
 					u.order.destination.save()
@@ -569,16 +554,18 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 						if u.area.board_area.is_adjacent(u.order.destination.board_area,
 													fleet=(u.type=='F')) or \
 													u.order.find_convoy_line():
-							self.log_event(ETINVASION, "unit:%s;origin:%s;area:%s" %
-												(u.type, u.area, u.order.destination))
+							self.log_event(MovementEvent, type=u.type,
+															origin=u.area.board_area,
+															destination=u.order.destination.board_area)
 							invasion = u.area.board_area.code
 							u.area = u.order.destination
 							u.must_retreat = ''
 							u.save()
 				elif u.order.code == '=':
 					if not u.area.standoff:
-						self.log_event(ETCONVERSION, "unit:%s;area:%s;type:%s" %
-													(u.type, u.area, u.order.type))
+						self.log_event(ConversionEvent, area=u.area.board_area,
+														before=u.type,
+														after=u.order.type)
 						u.type = u.order.type
 						u.save()
 						invasion = u.area.board_area.code
@@ -587,7 +574,6 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 					## however, the unit may move if it has a '-' order
 					leaving = Unit.objects.filter(area=u.area, type__in=['A','F']).exclude(id=u.id)
 					for e in leaving:
-						self.log_event(ETMUSTRETREAT, "unit:%s;area:%s" % (u.type, u.area))
 						e.must_retreat = invasion
 						e.save()
 			u.order.delete()
@@ -614,15 +600,21 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 					b.save()
 					continue
 				else:
-					self.log_event(ETSURRENDER, "unit:%s;area:%s" % (defender.type, defender.area))
+					self.log_event(UnitEvent, type=defender.type,
+											area=defender.area.board_area,
+											message=2)
 					defender.delete()
 					b.save()
 			else:
 				b.besieging = True
-				self.log_event(ETBESIEGE, "unit:%s;area:%s" % (b.type, b.area))
+				self.log_event(UnitEvent, type=b.type, area=b.area.board_area, message=3)
 				b.save()
 			b.order.delete()
-		
+	
+	def announce_retreats(self):
+		retreating = Unit.objects.filter(player__game=self).exclude(must_retreat__exact='')
+		for u in retreating:
+			self.log_event(UnitEvent, type=u.type, area=u.area.board_area, message=1)
 
 	def process_orders(self):
 		"""
@@ -636,6 +628,7 @@ Run a batch of methods in the correct order to process all the orders
 		self.filter_convoys()
 		self.resolve_conflicts()
 		self.resolve_sieges()
+		self.announce_retreats()
 
 	def process_retreats(self):
 		"""
@@ -657,7 +650,9 @@ From the saved RetreaOrders, process the retreats.
 				if unit.area == order.area:
 					assert unit.area.board_area.is_fortified == True, "trying to retreat to a non-fortified city"
 					unit.type = 'G'
-				self.log_event(ETRETREAT, "unit:%s;origin:%s;area:%s" % (unit.type, unit.area, r))
+				self.log_event(MovementEvent, type=unit.type,
+											origin=unit.area.board_area,
+											destination=r.board_area)
 				unit.must_retreat = ''
 				unit.area = r
 				unit.save()
@@ -673,8 +668,8 @@ Check which GameAreas have been controlled by a Player and update them.
 								Q(board_area__code__exact='VEN'))).distinct():
 			#units = area.unit_set.filter(player__user__isnull=False)
 			players = self.player_set.filter(unit__area=area)
-			if len(players) == 1:
-				self.log_event(ETCONTROL, "country:%s;area:%s" % (players[0].country, area))
+			if len(players) == 1 and players[0].user:
+				self.log_event(ControlEvent, country=players[0].country, area=area.board_area)
 				area.player = players[0]
 				area.save()
 			elif len(players) == 2:
@@ -923,10 +918,8 @@ class UnitManager(models.Manager):
 		for row in cursor.fetchall():
 			origin = GameArea.objects.get(id=row[2])
 			suborder = "%s %s" % (row[1], origin.board_area.code)
-			if row[6] in ('', 'H', 'S', 'C'): #unit is holding
+			if row[6] in ('', 'H', 'S', 'C', 'B'): #unit is holding
 				suborder += " H"
-			elif row[6] == 'B':
-				suborder += " B"
 			elif row[6] == '=':
 				suborder += " = %s" % row[8]
 			elif row[6] == '-':
@@ -953,11 +946,11 @@ class Unit(models.Model):
 	objects = UnitManager()
 
 	def place(self):
-		self.player.game.log_event(ETREINFORCE, "unit:%s;area:%s" % (self.type, self.area))
+		self.player.game.log_event(NewUnitEvent, country=self.player.country, type=self.type, area=self.area.board_area)
 		self.save()
 
 	def delete(self):
-		self.player.game.log_event(ETDISBANDED, "unit:%s;area:%s" % (self.type, self.area))
+		self.player.game.log_event(DisbandEvent, country=self.player.country, type=self.type, area=self.area.board_area)
 		super(Unit, self).delete()
 	
 	def __unicode__(self):
@@ -970,9 +963,49 @@ class Order(models.Model):
 	type = models.CharField(max_length=1, blank=True, null=True, choices=UNIT_TYPES)
 	suborder = models.CharField(max_length=14, blank=True, null=True)
 
+	def suborder_dict(self):
+		if self.suborder:
+			params = self.suborder.split(" ")
+			result = {}
+			result['subtype'] = params[0]
+			result['suborigin'] = Area.objects.get(code__exact=params[1])
+			result['subcode'] = params[2]
+			if params[2] == 'H':
+				result['subdestination'] = None
+				result['subconversion'] = None
+			if params[2] == '-':
+				result['subdestination'] = Area.objects.get(code__exact=params[3])
+				result['subconversion'] = None
+			if params[2] == '=':
+				result['subdestination'] = None
+				result['subconversion'] = params[3]
+		else:
+			result = {'subtype': None,
+					'suborigin': None,
+					'subcode': None,
+					'subdestination': None,
+					'subconversion': None}
+
+		return result
+
 	def save(self, *args, **kwargs):
 		super(Order, self).save(*args, **kwargs)
-		self.unit.player.game.log_event(ETORDER, "country:%s;order:%s" % (self.unit.player.country.name, self.format()))
+		params = self.suborder_dict()
+		if self.destination:
+			params['destination'] = self.destination.board_area
+		else:
+			params['destination'] = None
+		self.unit.player.game.log_event(OrderEvent, country=self.unit.player.country,
+													type=self.unit.type,
+													origin=self.unit.area.board_area,
+													code=self.code,
+													destination=params['destination'],
+													conversion=self.type,
+													subtype=params['subtype'],
+													suborigin=params['suborigin'],
+													subcode=params['subcode'],
+													subdestination=params['subdestination'],
+													subconversion=params['subconversion'])
 		if self.code != 'B':
 			self.unit.besieging = False
 			self.unit.save()
@@ -1036,9 +1069,9 @@ order.
 										Q(order__code__exact='=')) |
 										## trying to stay in the area
 										(Q(type__in=['A','F']) &
-										Q(area=self.destination))
-										#(Q(order__isnull=True) |
-										#Q(order__code__in=['B','H','S','C']))
+										Q(area=self.destination) &
+										(Q(order__isnull=True) |
+										Q(order__code__in=['B','H','S','C'])))
 										).exclude(id=self.unit.id)
 		elif self.code == '=':
 			enemies = Unit.objects.filter(Q(player__game=self.unit.player.game),
@@ -1099,37 +1132,236 @@ class AFToken(models.Model):
 	def __unicode__(self):
 		return "%s, %s" % (self.x, self.y)
 
-class Log(models.Model):
+class BaseEvent(models.Model):
 	game = models.ForeignKey(Game)
 	year = models.PositiveIntegerField()
 	season = models.PositiveIntegerField(choices=SEASONS)
 	phase = models.PositiveIntegerField(choices=GAME_PHASES)
-	event = models.CharField(max_length=255)
-	params = models.CharField(null=True, blank=True, max_length=255)
-
-	def _get_params_dict(self):
-		if self.params == '':
-			return {}
-		params_dict = {}
-		params_list = self.params.split(';')
-		for p in params_list:
-			k, v = p.split(':')[0:2]
-			params_dict[k] = _(v)
-		return params_dict
-
-	def __unicode__(self):
-		result = "%(season)s %(year)d: " % {'season': self.get_season_display(),
-												'year': self.year}
-		try:
-			result += _(self.event) % self._get_params_dict()
-		except:
-			return result
-		else:
-			return result
+	
+	def unit_string(self, type, area):
+		if type == 'A':
+			return _("the army in %s") % area.name
+		elif type == 'F':
+			return _("the fleet in %s") % area.name
+		elif type == 'G':
+			return _("the garrison in %s") % area.name
 
 	def color_output(self):
 		return "<li class='season_%(season)s'>%(log)s</li>" % {'season': self.season,
-																	'log': self}
+																	'log': capfirst(self)}
+
+	def __unicode__(self):
+		try:
+			self.newunitevent
+		except:
+			pass
+		else:
+			return unicode(self.newunitevent)
+		try:
+			self.disbandevent
+		except:
+			pass
+		else:
+			return unicode(self.disbandevent)
+		try:
+			self.orderevent
+		except:
+			pass
+		else:
+			return unicode(self.orderevent)
+		try:
+			self.standoffevent
+		except:
+			pass
+		else:
+			return unicode(self.standoffevent)
+		try:
+			self.conversionevent
+		except:
+			pass
+		else:
+			return unicode(self.conversionevent)
+		try:
+			self.controlevent
+		except:
+			pass
+		else:
+			return unicode(self.controlevent)
+		try:
+			self.movementevent
+		except:
+			pass
+		else:
+			return unicode(self.movementevent)
+		try:
+			self.unitevent
+		except:
+			return "Unknown event!!??"
+		else:
+			return unicode(self.unitevent)
+	
+	class Meta:
+		abstract = False
+		ordering = ['year', 'season', 'phase']
+
+class NewUnitEvent(BaseEvent):
+	country = models.ForeignKey(Country)
+	type = models.CharField(max_length=1, choices=UNIT_TYPES)
+	area = models.ForeignKey(Area)
+
+	def __unicode__(self):
+		return _("%(country)s recruits a new %(type)s in %(area)s.") % {'country': self.country,
+																	'type': self.get_type_display(),
+																	'area': self.area.name}
+
+class DisbandEvent(BaseEvent):
+	country = models.ForeignKey(Country, blank=True, null=True)
+	type = models.CharField(max_length=1, choices=UNIT_TYPES)
+	area = models.ForeignKey(Area)
+
+	def __unicode__(self):
+		if self.country:
+			return _("%(country)s's %(type)s in %(area)s is disbanded.") % {'country': self.country,
+																	'type': self.get_type_display(),
+																	'area': self.area.name}
+		else:
+			return _("Autonomous %(type)s in %(area)s is disbanded.") % {
+															'type': self.get_type_display(),
+															'area': self.area.name}
+			
+
+class OrderEvent(BaseEvent):
+	country = models.ForeignKey(Country)
+	type = models.CharField(max_length=1, choices=UNIT_TYPES)
+	origin = models.ForeignKey(Area, related_name='event_origin')
+	code = models.CharField(max_length=1, choices=ORDER_CODES)
+	destination = models.ForeignKey(Area, blank=True, null=True, related_name='event_destination')
+	conversion = models.CharField(max_length=1, choices=UNIT_TYPES, blank=True, null=True)
+	subtype = models.CharField(max_length=1, choices=UNIT_TYPES, blank=True, null=True)
+	suborigin = models.ForeignKey(Area, related_name='event_suborigin', blank=True, null=True)
+	subcode = models.CharField(max_length=1, choices=ORDER_CODES, blank=True, null=True)
+	subdestination = models.ForeignKey(Area, blank=True, null=True, related_name='event_subdestination')
+	subconversion = models.CharField(max_length=1, choices=UNIT_TYPES, blank=True, null=True)
+
+	def __unicode__(self):
+		unit = self.unit_string(self.type, self.origin)
+		if self.code == '-':
+			return _("%(unit)s tries to go to %(area)s.") % {'unit': unit,
+															'area': self.destination.name}
+		elif self.code == 'B':
+			return _("%(unit)s besieges the city.") % {'unit': unit}
+		elif self.code == '=':
+			return _("%(unit)s tries to convert into %(type)s.") % {'unit': unit,
+																'type': self.get_conversion_display()}
+		elif self.code == 'C':
+			return _("%(unit)s must convoy %(subunit)s to %(area)s.") % {'unit': unit,
+														'subunit': self.unit_string(self.subtype,
+																				self.suborigin),
+														'area': self.subdestination.name}
+		elif self.code == 'S':
+			if self.subcode == 'H':
+				return _("%(unit)s supports %(subunit)s to hold its position.") % {
+														'unit': unit,
+														'subunit': self.unit_string(self.subtype,
+																				self.suborigin)}
+			elif self.subcode == '-':
+				return _("%(unit)s supports %(subunit)s to go to %(area)s.") % {
+														'unit': unit,
+														'subunit': self.unit_string(self.subtype,
+																				self.suborigin),
+														'area': self.subdestination.name}
+			elif self.subcode == '=':
+				return _("%(unit)s supports %(subunit)s to convert into %(type)s.") % {
+														'unit': unit,
+														'subunit': self.unit_string(self.subtype,
+																				self.suborigin),
+														'type': self.get_subconversion_display()}
+
+class StandoffEvent(BaseEvent):
+	area = models.ForeignKey(Area)
+
+	def __unicode__(self):
+		return _("Conflicts in %(area)s result in a standoff.") % {'area': self.area.name}
+
+class ConversionEvent(BaseEvent):
+	area = models.ForeignKey(Area)
+	before = models.CharField(max_length=1, choices=UNIT_TYPES)
+	after = models.CharField(max_length=1, choices=UNIT_TYPES)
+
+	def __unicode__(self):
+		return _("%(unit)s converts into %(type)s.") % {'unit': self.unit_string(self.before, self.area),
+														'type': self.get_after_display()}
+
+class ControlEvent(BaseEvent):
+	country = models.ForeignKey(Country)
+	area = models.ForeignKey(Area)
+
+	def __unicode__(self):
+		return _("%(country)s gets control of %(area)s.") % {'country': self.country,
+															'area': self.area.name }
+
+class MovementEvent(BaseEvent):
+	type = models.CharField(max_length=1, choices=UNIT_TYPES)
+	origin = models.ForeignKey(Area, related_name="origin")
+	destination = models.ForeignKey(Area, related_name="destination")
+
+	def __unicode__(self):
+		if self.phase == PHORDERS:
+			return _("%(unit)s advances into %(destination)s.") % {'unit': self.unit_string(self.type,
+																						self.origin),
+																'destination': self.destination.name}
+		elif self.phase == PHRETREATS:
+			return _("%(unit)s tries to retreat to %(destination)s.") % {'unit': self.unit_string(self.type,
+																						self.origin),
+																'destination': self.destination.name}
+
+EVENT_MESSAGES = (
+	(0, _('cannot carry out its support order.')),
+	(1, _('must retreat.')),
+	(2, _('surrenders.')),
+	(3, _('is now besieging.'))
+)
+
+class UnitEvent(BaseEvent):
+	type = models.CharField(max_length=1, choices=UNIT_TYPES)
+	area = models.ForeignKey(Area)
+	message = models.PositiveIntegerField(choices=EVENT_MESSAGES)
+
+	def __unicode__(self):
+		return "%(unit)s %(message)s" % {'unit': self.unit_string(self.type, self.area),
+										'message': self.get_message_display()}
+
+#class Log(models.Model):
+#	game = models.ForeignKey(Game)
+#	year = models.PositiveIntegerField()
+#	season = models.PositiveIntegerField(choices=SEASONS)
+#	phase = models.PositiveIntegerField(choices=GAME_PHASES)
+#	event = models.CharField(max_length=255)
+#	params = models.CharField(null=True, blank=True, max_length=255)
+#
+#	def _get_params_dict(self):
+#		if self.params == '':
+#			return {}
+#		params_dict = {}
+#		params_list = self.params.split(';')
+#		for p in params_list:
+#			k, v = p.split(':')[0:2]
+#			params_dict[k] = _(v)
+#		return params_dict
+#
+#	def __unicode__(self):
+#		result = "%(season)s %(year)d: " % {'season': self.get_season_display(),
+#												'year': self.year}
+#		try:
+#			result += _(self.event) % self._get_params_dict()
+#		except:
+#			return result
+#		else:
+#			return result
+#
+#	def color_output(self):
+#		return "<li class='season_%(season)s'>%(log)s</li>" % {'season': self.season,
+#																	'log': self}
 
 class Letter(models.Model):
 	sender = models.ForeignKey(Player, related_name='sent')
