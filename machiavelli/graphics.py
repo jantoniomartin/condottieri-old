@@ -35,7 +35,7 @@ def make_map(game):
 		flag = Image.open("%s/flag-%s.png" % (BASEDIR, player.country.name.lower()))
 		for game_area in home:
 			area = game_area.board_area
-			base_map.paste(flag, (area.controltoken.x, area.controltoken.y), flag)
+			base_map.paste(flag, (area.controltoken.x, area.controltoken.y - 15), flag)
 		## paste As and Fs (not garrisons because of sieges)
 		units = player.unit_set.all()
 		army = Image.open("%s/A-%s.png" % (BASEDIR, player.country.name.lower()))
