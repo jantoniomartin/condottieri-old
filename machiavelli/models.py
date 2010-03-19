@@ -728,7 +728,7 @@ In a finished game, delete all the data that is not going to be used anymore.
 			aut.delete()
 		for p in self.player_set.all():
 			p.sent.all().delete()
-		self.log_set.all().delete()
+		self.baseevent_set.all().delete()
 		self.gamearea_set.all().delete()
 
 	def notify_players(self, label, extra_context=None, on_site=True):
