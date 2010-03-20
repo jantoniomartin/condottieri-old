@@ -8,11 +8,11 @@
 <h1>{% trans "Log of the game" %} "{{ game.slug }}"</h1>
 <div id="game_info">
 <ul>
-<li>Year: {{ game.year }}</li>
-<li>Season: {{ game.get_season_display }}</li>
-<li>Phase: {{ game.get_phase_display }}</li>
-<li>Time for next phase: {{ game.next_phase_change|timeuntil }}</li>
-<li>Power: {{ player.country }}</li>
+<li>{% trans "Year" %}: {{ game.year }}</li>
+<li>{% trans "Season" %}: {{ game.get_season_display }}</li>
+<li>{% trans "Phase" %}: {{ game.get_phase_display }}</li>
+<li>{% trans "Time left" %}: {{ game.next_phase_change|timeuntil }}</li>
+<li>{% trans "Power" %}: {{ player.country }}</li>
 </ul>
 </div>
 
