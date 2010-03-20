@@ -1147,7 +1147,61 @@ class BaseEvent(models.Model):
 			return _("the garrison in %s") % area.name
 
 	def color_output(self):
-		return "<li class='season_%(season)s'>%(log)s</li>" % {'season': self.season,
+		try:
+			self.newunitevent
+		except:
+			pass
+		else:
+			return "<li class=\"%(class)s\">%(log)s</li>" % {'class': self.newunitevent.css_class(),
+																	'log': capfirst(self)}
+		try:
+			self.disbandevent
+		except:
+			pass
+		else:
+			return "<li class=\"%(class)s\">%(log)s</li>" % {'class': self.disbandevent.css_class(),
+																	'log': capfirst(self)}
+		try:
+			self.orderevent
+		except:
+			pass
+		else:
+			return "<li class=\"%(class)s\">%(log)s</li>" % {'class': self.orderevent.css_class(),
+																	'log': capfirst(self)}
+		try:
+			self.standoffevent
+		except:
+			pass
+		else:
+			return "<li class=\"%(class)s\">%(log)s</li>" % {'class': self.standoffevent.css_class(),
+																	'log': capfirst(self)}
+		try:
+			self.conversionevent
+		except:
+			pass
+		else:
+			return "<li class=\"%(class)s\">%(log)s</li>" % {'class': self.conversionevent.css_class(),
+																	'log': capfirst(self)}
+		try:
+			self.controlevent
+		except:
+			pass
+		else:
+			return "<li class=\"%(class)s\">%(log)s</li>" % {'class': self.controlevent.css_class(),
+																	'log': capfirst(self)}
+		try:
+			self.movementevent
+		except:
+			pass
+		else:
+			return "<li class=\"%(class)s\">%(log)s</li>" % {'class': self.movementevent.css_class(),
+																	'log': capfirst(self)}
+		try:
+			self.unitevent
+		except:
+			return "Unknown event!!??"
+		else:
+			return "<li class=\"%(class)s\">%(log)s</li>" % {'class': self.unitevent.css_class(),
 																	'log': capfirst(self)}
 
 	def __unicode__(self):
@@ -1209,6 +1263,9 @@ class NewUnitEvent(BaseEvent):
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	area = models.ForeignKey(Area)
 
+	def css_class(self):
+		return "season_%(season)s new-unit-event" % {'season': self.season }
+
 	def __unicode__(self):
 		return _("%(country)s recruits a new %(type)s in %(area)s.") % {'country': self.country,
 																	'type': self.get_type_display(),
@@ -1218,6 +1275,9 @@ class DisbandEvent(BaseEvent):
 	country = models.ForeignKey(Country, blank=True, null=True)
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	area = models.ForeignKey(Area)
+
+	def css_class(self):
+		return "season_%(season)s disband-event" % {'season': self.season }
 
 	def __unicode__(self):
 		if self.country:
@@ -1242,6 +1302,9 @@ class OrderEvent(BaseEvent):
 	subcode = models.CharField(max_length=1, choices=ORDER_CODES, blank=True, null=True)
 	subdestination = models.ForeignKey(Area, blank=True, null=True, related_name='event_subdestination')
 	subconversion = models.CharField(max_length=1, choices=UNIT_TYPES, blank=True, null=True)
+
+	def css_class(self):
+		return "season_%(season)s order-event" % {'season': self.season }
 
 	def __unicode__(self):
 		unit = self.unit_string(self.type, self.origin)
@@ -1280,6 +1343,9 @@ class OrderEvent(BaseEvent):
 class StandoffEvent(BaseEvent):
 	area = models.ForeignKey(Area)
 
+	def css_class(self):
+		return "season_%(season)s standoff-event" % {'season': self.season }
+
 	def __unicode__(self):
 		return _("Conflicts in %(area)s result in a standoff.") % {'area': self.area.name}
 
@@ -1287,6 +1353,9 @@ class ConversionEvent(BaseEvent):
 	area = models.ForeignKey(Area)
 	before = models.CharField(max_length=1, choices=UNIT_TYPES)
 	after = models.CharField(max_length=1, choices=UNIT_TYPES)
+
+	def css_class(self):
+		return "season_%(season)s conversion-event" % {'season': self.season }
 
 	def __unicode__(self):
 		return _("%(unit)s converts into %(type)s.") % {'unit': self.unit_string(self.before, self.area),
@@ -1296,6 +1365,9 @@ class ControlEvent(BaseEvent):
 	country = models.ForeignKey(Country)
 	area = models.ForeignKey(Area)
 
+	def css_class(self):
+		return "season_%(season)s control-event" % {'season': self.season }
+
 	def __unicode__(self):
 		return _("%(country)s gets control of %(area)s.") % {'country': self.country,
 															'area': self.area.name }
@@ -1304,6 +1376,9 @@ class MovementEvent(BaseEvent):
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	origin = models.ForeignKey(Area, related_name="origin")
 	destination = models.ForeignKey(Area, related_name="destination")
+
+	def css_class(self):
+		return "season_%(season)s movement-event" % {'season': self.season }
 
 	def __unicode__(self):
 		if self.phase == PHORDERS:
@@ -1326,6 +1401,17 @@ class UnitEvent(BaseEvent):
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	area = models.ForeignKey(Area)
 	message = models.PositiveIntegerField(choices=EVENT_MESSAGES)
+	
+	def css_class(self):
+		if self.message == 0:
+			e = 'broken-support-event'
+		elif self.message == 1:
+			e = 'retreat-event'
+		elif self.message == 2:
+			e = 'surrender-event'
+		elif self.message == 3:
+			e = 'besieging-event'
+		return "season_%(season)s %(event)s" % {'season': self.season, 'event': e }
 
 	def __unicode__(self):
 		return "%(unit)s %(message)s" % {'unit': self.unit_string(self.type, self.area),
