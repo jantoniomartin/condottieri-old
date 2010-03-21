@@ -490,6 +490,22 @@ be defeated, and if so, delete the C order. However doesn't resolve the conflict
 						if defender.order.code == 'C':
 							defender.order.code = 'H'
 	
+	def filter_unreachable_attacks(self):
+		"""
+Delete the orders of units trying to go to non-adjacent areas and not having a convoy line.
+		"""
+		attackers = Order.objects.filter(unit__player__game=self, code__exact='-')
+		for o in attackers:
+			is_fleet = False
+			if o.unit.type == 'F':
+				is_fleet = True
+			if not o.unit.area.board_area.is_adjacent(o.destination.board_area, is_fleet):
+				if is_fleet:
+					o.delete()
+				else:
+					if not o.find_convoy_line():
+						o.delete()
+	
 	def resolve_auto_garrisons(self):
 		"""
 Units with '= G' orders in areas without a garrison, convert into garrison
@@ -626,6 +642,7 @@ Run a batch of methods in the correct order to process all the orders
 		## delete supports from units in conflict areas
 		self.filter_supports()
 		self.filter_convoys()
+		self.filter_unreachable_attacks()
 		self.resolve_conflicts()
 		self.resolve_sieges()
 		self.announce_retreats()

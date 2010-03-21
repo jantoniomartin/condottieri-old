@@ -76,7 +76,7 @@ def order_is_possible(order):
 		if order.unit.type == 'A':
 			## it only can advance to adjacent or coastal provinces (with convoy)
 			## it cannot go to Venice
-			if order.destination.board_area.is_coast and order.destination.board_area.code != 'VEN':
+			if order.unit.area.board_area.is_coast and order.destination.board_area.is_coast and order.destination.board_area.code != 'VEN':
 				return order
 			if order.unit.area.board_area.is_adjacent(order.destination.board_area):
 				return order
