@@ -11,10 +11,13 @@ class PlayerAdmin(admin.ModelAdmin):
 	list_display = ('user', 'game', 'country', 'done')
 
 class UnitAdmin(admin.ModelAdmin):
-	list_display = ('player', 'area', 'type')
+	list_display = ('__unicode__', 'player')
+	ordering = ['player']
 
 class GameAreaAdmin(admin.ModelAdmin):
 	list_display = ('game', 'board_area', 'player')
+	list_per_page = 73
+	ordering = ['board_area']
 
 class SetupAdmin(admin.ModelAdmin):
 	list_display = ('scenario', 'country', 'area', 'unit_type')
@@ -48,31 +51,40 @@ class AreaAdmin(admin.ModelAdmin):
 #	max_num = 10
 
 class BaseEventAdmin(admin.ModelAdmin):
-	pass
+	ordering = ['-id']
+	list_per_page = 20
 
 class NewUnitEventAdmin(admin.ModelAdmin):
-	pass
+	ordering = ['-id']
+	list_per_page = 20
 
 class DisbandEventAdmin(admin.ModelAdmin):
-	pass
+	ordering = ['-id']
+	list_per_page = 20
 
 class OrderEventAdmin(admin.ModelAdmin):
-	pass
+	ordering = ['-id']
+	list_per_page = 20
 
 class StandoffEventAdmin(admin.ModelAdmin):
-	pass
+	ordering = ['-id']
+	list_per_page = 20
 
 class ConversionEventAdmin(admin.ModelAdmin):
-	pass
+	ordering = ['-id']
+	list_per_page = 20
 
 class ControlEventAdmin(admin.ModelAdmin):
-	pass
+	ordering = ['-id']
+	list_per_page = 20
 
 class MovementEventAdmin(admin.ModelAdmin):
-	pass
+	ordering = ['-id']
+	list_per_page = 20
 
 class UnitEventAdmin(admin.ModelAdmin):
-	pass
+	ordering = ['-id']
+	list_per_page = 20
 
 class GameAdmin(admin.ModelAdmin):
 	list_display = ('pk', 'year', 'season', 'phase', 'slots', 'scenario', 'created_by')
@@ -82,7 +94,8 @@ class RetreatOrderAdmin(admin.ModelAdmin):
 	pass
 
 class LetterAdmin(admin.ModelAdmin):
-	pass
+	ordering = ['-id']
+	list_display = ('sender', 'receiver', '__unicode__')
 
 admin.site.register(Scenario, ScenarioAdmin)
 admin.site.register(Country, CountryAdmin)
