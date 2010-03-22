@@ -212,6 +212,8 @@ def play_retreats(request, game, player):
 @cache_page(60 * 60) # cache 1 hour
 def game_results(request, game_id):
 	game = get_object_or_404(Game, pk=game_id)
+	if game.phase != PHINACTIVE:
+		raise Http404
 	players = game.player_set.filter(user__isnull=False).order_by('-score')
 	context = {'game': game,
 				'players': players }
