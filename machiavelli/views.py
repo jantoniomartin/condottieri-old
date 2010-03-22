@@ -45,11 +45,7 @@ def base_context(request, game, player):
 	if player:
 		context['phase_partial'] = "machiavelli/phase_%s.html" % game.phase
 		context['inbox'] = player.received.order_by('-id')[:10]
-		if not player.done:
-			log = log.exclude(season__exact=game.season,
-							phase__exact=game.phase)
-	else:
-		log = log.exclude(season__exact=game.season,
+	log = log.exclude(season__exact=game.season,
 							phase__exact=game.phase)
 	context['log'] = log[:10]
 		
