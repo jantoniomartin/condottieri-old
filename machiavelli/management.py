@@ -15,6 +15,12 @@ if "notification" in settings.INSTALLED_APPS:
 		notification.create_notice_type("game_over",
 										_("Game over"),
 										_("a game that you're playing is over"))
+		notification.create_notice_type("new_phase",
+										_("New phase"),
+										_("a new phase has begun"))
+		notification.create_notice_type("letter_received",
+										_("Letter received"),
+										_("you have received a new letter"))
 
 	signals.post_syncdb.connect(create_notice_types, sender=notification)
 else:

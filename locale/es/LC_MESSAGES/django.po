@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-19 16:13+0100\n"
+"POT-Creation-Date: 2010-03-22 16:50+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -64,6 +64,22 @@ msgstr "Juego terminado"
 #: machiavelli/management.py:17
 msgid "a game that you're playing is over"
 msgstr "un juego en el que estás jugando ha terminado"
+
+#: machiavelli/management.py:19
+msgid "New phase"
+msgstr "Nueva fase"
+
+#: machiavelli/management.py:20
+msgid "a new phase has begun"
+msgstr "ha empezado una nueva fase"
+
+#: machiavelli/management.py:22
+msgid "Letter received"
+msgstr "Carta recibida"
+
+#: machiavelli/management.py:23
+msgid "you have received a new letter"
+msgstr "has recibido una nueva carta"
 
 #: machiavelli/models.py:39
 msgid "Army"
@@ -141,114 +157,114 @@ msgstr "1 día"
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: machiavelli/models.py:957
+#: machiavelli/models.py:981
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
 
-#: machiavelli/models.py:1143
+#: machiavelli/models.py:1167
 #, python-format
 msgid "the army in %s"
 msgstr "el ejército en %s"
 
-#: machiavelli/models.py:1145
+#: machiavelli/models.py:1169
 #, python-format
 msgid "the fleet in %s"
 msgstr "la flota en %s"
 
-#: machiavelli/models.py:1147
+#: machiavelli/models.py:1171
 #, python-format
 msgid "the garrison in %s"
 msgstr "la guarnición en %s"
 
-#: machiavelli/models.py:1213
+#: machiavelli/models.py:1294
 #, python-format
 msgid "%(country)s recruits a new %(type)s in %(area)s."
 msgstr "%(country)s recluta %(type)s en %(area)s"
 
-#: machiavelli/models.py:1224
+#: machiavelli/models.py:1308
 #, python-format
 msgid "%(country)s's %(type)s in %(area)s is disbanded."
 msgstr "%(type)s de %(country)s en %(area)s es desbandado/a."
 
-#: machiavelli/models.py:1228
+#: machiavelli/models.py:1312
 #, python-format
 msgid "Autonomous %(type)s in %(area)s is disbanded."
 msgstr "%(type)s independiente en %(area)s es desbandado/a."
 
-#: machiavelli/models.py:1249
+#: machiavelli/models.py:1336
 #, python-format
 msgid "%(unit)s tries to go to %(area)s."
 msgstr "%(unit)s intenta entrar en %(area)s"
 
-#: machiavelli/models.py:1252
+#: machiavelli/models.py:1339
 #, python-format
 msgid "%(unit)s besieges the city."
 msgstr "%(unit)s asedia la ciudad."
 
-#: machiavelli/models.py:1254
+#: machiavelli/models.py:1341
 #, python-format
 msgid "%(unit)s tries to convert into %(type)s."
 msgstr "%(unit)s intenta convertirse en %(type)s"
 
-#: machiavelli/models.py:1257
+#: machiavelli/models.py:1344
 #, python-format
 msgid "%(unit)s must convoy %(subunit)s to %(area)s."
 msgstr "%(unit)s dispuesta a trasladar a %(subunit)s a %(area)s"
 
-#: machiavelli/models.py:1263
+#: machiavelli/models.py:1350
 #, python-format
 msgid "%(unit)s supports %(subunit)s to hold its position."
 msgstr "%(unit)s apoya a %(subunit)s a mantener su posición."
 
-#: machiavelli/models.py:1268
+#: machiavelli/models.py:1355
 #, python-format
 msgid "%(unit)s supports %(subunit)s to go to %(area)s."
 msgstr "%(unit)s apoya a %(subunit)s para entrar en %(area)s"
 
-#: machiavelli/models.py:1274
+#: machiavelli/models.py:1361
 #, python-format
 msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
 msgstr "%(unit)s apoya a %(subunit)s para convertirse en %(type)s"
 
-#: machiavelli/models.py:1284
+#: machiavelli/models.py:1374
 #, python-format
 msgid "Conflicts in %(area)s result in a standoff."
 msgstr "El conflicto en %(area)s termina en empate."
 
-#: machiavelli/models.py:1292
+#: machiavelli/models.py:1385
 #, python-format
 msgid "%(unit)s converts into %(type)s."
 msgstr "%(unit)s se convierte en %(type)s."
 
-#: machiavelli/models.py:1300
+#: machiavelli/models.py:1396
 #, python-format
 msgid "%(country)s gets control of %(area)s."
 msgstr "%(country)s consigue el control de %(area)s."
 
-#: machiavelli/models.py:1310
+#: machiavelli/models.py:1409
 #, python-format
 msgid "%(unit)s advances into %(destination)s."
 msgstr "%(unit)s avanza a %(destination)s."
 
-#: machiavelli/models.py:1314
+#: machiavelli/models.py:1413
 #, python-format
 msgid "%(unit)s tries to retreat to %(destination)s."
 msgstr "%(unit)s intenta retirarse a %(destination)s"
 
-#: machiavelli/models.py:1319
+#: machiavelli/models.py:1418
 msgid "cannot carry out its support order."
 msgstr "no puede llevar a cabo su apoyo."
 
-#: machiavelli/models.py:1320
+#: machiavelli/models.py:1419
 msgid "must retreat."
 msgstr "debe retirarse."
 
-#: machiavelli/models.py:1321
+#: machiavelli/models.py:1420
 msgid "surrenders."
 msgstr "se rinde."
 
-#: machiavelli/models.py:1322
+#: machiavelli/models.py:1421
 msgid "is now besieging."
 msgstr "comienza su asedio."
 
@@ -761,18 +777,21 @@ msgstr "Creador"
 
 #: machiavelli/templates/machiavelli/game_list.html:20
 #: machiavelli/templates/machiavelli/game_list.html:42
+#: machiavelli/templates/machiavelli/log_list.html:11
 #: machiavelli/templates/machiavelli/show_game.html:11
 msgid "Year"
 msgstr "Año"
 
 #: machiavelli/templates/machiavelli/game_list.html:21
 #: machiavelli/templates/machiavelli/game_list.html:43
+#: machiavelli/templates/machiavelli/log_list.html:12
 #: machiavelli/templates/machiavelli/show_game.html:12
 msgid "Season"
 msgstr "Estación"
 
 #: machiavelli/templates/machiavelli/game_list.html:22
 #: machiavelli/templates/machiavelli/game_list.html:44
+#: machiavelli/templates/machiavelli/log_list.html:13
 #: machiavelli/templates/machiavelli/show_game.html:13
 msgid "Phase"
 msgstr "Fase"
@@ -838,6 +857,7 @@ msgstr "Carta"
 
 #: machiavelli/templates/machiavelli/letter_detail.html:11
 #: machiavelli/templates/machiavelli/letter_inbox.html:13
+#: templates/notification/letter_received/full.txt:5
 msgid "From"
 msgstr "De"
 
@@ -897,6 +917,16 @@ msgstr "Diario"
 #: machiavelli/templates/machiavelli/log_list.html:8
 msgid "Log of the game"
 msgstr "Diario del juego"
+
+#: machiavelli/templates/machiavelli/log_list.html:14
+#: machiavelli/templates/machiavelli/show_game.html:14
+msgid "Time left"
+msgstr "Tiempo restante"
+
+#: machiavelli/templates/machiavelli/log_list.html:15
+#: machiavelli/templates/machiavelli/show_game.html:16
+msgid "Power"
+msgstr "Estado"
 
 #: machiavelli/templates/machiavelli/log_list.html:26
 msgid "Page"
@@ -1067,14 +1097,6 @@ msgstr "Retirar"
 #: machiavelli/templates/machiavelli/show_game.html:5
 msgid "Game:"
 msgstr "Juego:"
-
-#: machiavelli/templates/machiavelli/show_game.html:14
-msgid "Time left"
-msgstr "Tiempo restante"
-
-#: machiavelli/templates/machiavelli/show_game.html:16
-msgid "Power"
-msgstr "Estado"
 
 #: machiavelli/templates/machiavelli/show_game.html:32
 msgid "Cities:"
@@ -1904,6 +1926,32 @@ msgstr "Fecha"
 msgid "MONTH_DAY_FORMAT"
 msgstr "j F"
 
+#: templates/notification/email_body.txt:1
+#, python-format
+msgid ""
+"You have received the following notice from %(current_site)s:\n"
+"\n"
+"%(message)s\n"
+"\n"
+"To see other notices or change how you receive notifications, please go to %"
+"(notices_url)s.\n"
+msgstr ""
+"Has recibido el siguiente aviso de %(current_site)s:\n"
+"\n"
+"%(message)s\n"
+"\n"
+"Para ver otros avisos o cambiar la forma en que los recibes, puedes ir a %"
+"(notices_url)s.\n"
+
+#: templates/notification/game_over/full.txt:3
+#, python-format
+msgid "The game '%(slug)s' is over. You can "
+msgstr "El juego '%(slug)s' ha terminado. Puedes "
+
+#: templates/notification/game_over/full.txt:4
+msgid "see the results in "
+msgstr "ver los resultados"
+
 #: templates/notification/game_over/notice.html:3
 #, python-format
 msgid "The game '%(slug)s' has is over. You can "
@@ -1913,40 +1961,40 @@ msgstr "El juego '%(slug)s' ha terminado. Puedes "
 msgid "see the results"
 msgstr "ver los resultados"
 
+#: templates/notification/game_started/full.txt:3
 #: templates/notification/game_started/notice.html:3
 #, python-format
 msgid "The game '%(slug)s' has just started. You can "
 msgstr "El juego '%(slug)s' acaba de empezar. Puedes "
 
+#: templates/notification/game_started/full.txt:4
+msgid "play it in "
+msgstr "jugar en "
+
 #: templates/notification/game_started/notice.html:4
 msgid "play it now"
 msgstr "jugar ahora"
 
+#: templates/notification/letter_received/full.txt:3
+#, python-format
+msgid "You have received a new letter in the game '%(slug)s'"
+msgstr "Has recibido una nueva carta en el juego '%(slug)s'."
+
+#: templates/notification/letter_received/full.txt:6
+msgid "Read the letter"
+msgstr "Leer la carta"
+
+#: templates/notification/new_phase/full.txt:3
+#, python-format
+msgid "The phase '%(phase)s' has begun in the game '%(slug)s'. You can "
+msgstr "La fase '%(phase)s' ha comenzado en el juego '%(slug)s'."
+
+#: templates/notification/new_phase/full.txt:4
+msgid "go to the game"
+msgstr "ir al juego"
+
+#: templates/notification/phase_change_forced/full.txt:2
 #: templates/notification/phase_change_forced/notice.html:2
 #, python-format
 msgid "A change of phase has been forced in the game '%(slug)s'."
 msgstr "Se ha forzado un cambio de fase en el juego '%(slug)s'."
-
-msgid ""
-"You have received the following notice from %(current_site)s:\n"
-"\n"
-"%(message)s\n"
-"\n"
-"To see other notices or change how you receive notifications, please go "
-"to %(notices_url)s.\n"
-msgstr ""
-"Has recibido el siguiente aviso de %(current_site)s:\n"
-"\n"
-"%(message)s\n"
-"\n"
-"Para ver otros avisos o cambiar la forma en que los recibes, puedes ir a %"
-"(notices_url)s.\n"
-
-msgid "The game '%(slug)s' is over. You can "
-msgstr "El juego '%(slug)s' ha terminado. Puedes "
-
-msgid "see the results in "
-msgstr "ver los resultados"
-
-msgid "play it in "
-msgstr "jugar en "

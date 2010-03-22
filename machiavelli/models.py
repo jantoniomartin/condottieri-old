@@ -389,6 +389,7 @@ start of the game.
 		self.map_changed()
 		self.save()
 		self.make_map()
+		self.notify_players("new_phase", {"game": self}, on_site=False)
     
 	def check_next_phase(self):
 		"""
@@ -1465,3 +1466,12 @@ class Letter(models.Model):
 	def outbox_color_output(self):
 		return "<li class='%(class)s'>%(body)s ...</li>" % {'class': self.get_style('outbox'),
 										'body': truncatewords(self, 5)}
+
+def notify_new_letter(sender, instance, created, **kw):
+	if notification and isinstance(instance, Letter) and created:
+		user = [instance.receiver.user,]
+		extra_context = {'game': instance.receiver.game,
+						'letter': instance }
+		notification.send(user, "letter_received", extra_context , on_site=False)
+
+models.signals.post_save.connect(notify_new_letter, sender=Letter)
