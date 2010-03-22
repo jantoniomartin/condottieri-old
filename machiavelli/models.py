@@ -356,14 +356,22 @@ start of the game.
 		GameArea.objects.filter(game=self).update(standoff=False)
 
 	def all_players_done(self):
+		end_season = False
 		if self.phase == PHINACTIVE:
 			return
 		elif self.phase == PHREINFORCE:
-			pass
+			next_phase = PHORDERS
 		elif self.phase == PHORDERS:
 			self.process_orders()
+			retreats_count = Unit.objects.filter(player__game=self).exclude(must_retreat__exact='').count()
+			if retreats_count > 0:
+				next_phase = PHRETREATS
+			else:
+				end_season = True
 		elif self.phase == PHRETREATS:
 			self.process_retreats()
+			end_season = True
+		if end_season:
 			if self.season == 3:
 				self.update_controls()
 				Order.objects.filter(unit__player__game=self).delete()
@@ -371,16 +379,14 @@ start of the game.
 					self.assign_scores()
 					self.game_over()
 					return
-		self.map_changed()
-		if self.phase == len(GAME_PHASES) - 1:
 			self._next_season()
 			if self.season == 1:
-				self.phase = PHREINFORCE
+				next_phase = PHREINFORCE
 			else:
-				self.phase = PHORDERS
-		else:
-			self.phase += 1
+				next_phase = PHORDERS
+		self.phase = next_phase
 		self.last_phase_change = datetime.now()
+		self.map_changed()
 		self.save()
 		self.make_map()
     
