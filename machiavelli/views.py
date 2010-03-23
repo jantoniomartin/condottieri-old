@@ -231,9 +231,8 @@ def logs_by_game(request, game_id):
 		player = Player.objects.none()
 	context = base_context(request, game, player)
 	log_list = game.baseevent_set.order_by('-id')
-	if not player or not player.done:
-			log_list = log_list.exclude(season__exact=game.season,
-							phase__exact=game.phase)
+	log_list = log_list.exclude(season__exact=game.season,
+						phase__exact=game.phase)
 	paginator = Paginator(log_list, 25)
 	try:
 		page = int(request.GET.get('page', '1'))
