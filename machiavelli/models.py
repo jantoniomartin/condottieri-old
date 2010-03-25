@@ -363,6 +363,7 @@ start of the game.
 			next_phase = PHORDERS
 		elif self.phase == PHORDERS:
 			self.process_orders()
+			Order.objects.filter(unit__player__game=self).delete()
 			retreats_count = Unit.objects.filter(player__game=self).exclude(must_retreat__exact='').count()
 			if retreats_count > 0:
 				next_phase = PHRETREATS
@@ -374,7 +375,6 @@ start of the game.
 		if end_season:
 			if self.season == 3:
 				self.update_controls()
-				Order.objects.filter(unit__player__game=self).delete()
 				if self.check_winner() == True:
 					self.assign_scores()
 					self.game_over()
