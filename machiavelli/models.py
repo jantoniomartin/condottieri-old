@@ -1,7 +1,15 @@
+## The source code in this file is Free Software
+## Copyright (c) 2010 by Jose Antonio Martin <jantonio.martin AT gmail DOT com>
+## It's licensed under the Affero General Public License unless stated otherwise.
+## A copy of this license can be obtained at http://www.gnu.org/licenses/agpl.txt.
+## This license is also included in the file COPYING
+
+## stdlib
 import random
 import thread
 from datetime import datetime, timedelta
 
+## django
 from django.db import models
 from django.db.models import permalink, Q, Count
 from django.contrib.auth.models import User
@@ -15,6 +23,7 @@ if "notification" in settings.INSTALLED_APPS:
 else:
 	notification = None
 
+## machiavelli
 from machiavelli.graphics import make_map
 from machiavelli.logging import save_snapshot
 
