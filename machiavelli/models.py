@@ -1457,15 +1457,15 @@ class Letter(models.Model):
 		return style
 	
 	def __unicode__(self):
-		return self.body[:20]
+		return turncatewords(self, 5)
 
 	def inbox_color_output(self):
 		return "<li class='%(class)s'>%(body)s ...</li>" % {'class': self.get_style('inbox'),
-										'body': truncatewords(self, 5)}
+										'body': self}
 
 	def outbox_color_output(self):
 		return "<li class='%(class)s'>%(body)s ...</li>" % {'class': self.get_style('outbox'),
-										'body': truncatewords(self, 5)}
+										'body': self}
 
 def notify_new_letter(sender, instance, created, **kw):
 	if notification and isinstance(instance, Letter) and created:
