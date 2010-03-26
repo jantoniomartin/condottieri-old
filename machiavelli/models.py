@@ -712,9 +712,10 @@ Check which GameAreas have been controlled by a Player and update them.
 			#units = area.unit_set.filter(player__user__isnull=False)
 			players = self.player_set.filter(unit__area=area)
 			if len(players) == 1 and players[0].user:
-				self.log_event(ControlEvent, country=players[0].country, area=area.board_area)
-				area.player = players[0]
-				area.save()
+				if area.player != players[0]:
+					self.log_event(ControlEvent, country=players[0].country, area=area.board_area)
+					area.player = players[0]
+					area.save()
 			elif len(players) == 2:
 					area.player = None
 					area.save()
