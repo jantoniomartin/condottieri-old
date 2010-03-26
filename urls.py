@@ -47,7 +47,7 @@ urlpatterns = patterns('',
     (r'^announcements/', include('announcements.urls')),
     
     (r'^admin/(.*)', admin.site.root),
-
+		
 	## machiavelli urls
 	(r'^machiavelli/', include('machiavelli.urls')),
 )
