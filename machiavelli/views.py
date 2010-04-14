@@ -7,7 +7,7 @@ from django.views.generic.list_detail import object_list, object_detail
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.forms.formsets import formset_factory
-from django.db.models import Sum
+from django.db.models import Q, Sum
 #from django.forms.models import modelformset_factory
 from django.views.decorators.cache import never_cache, cache_page
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
@@ -339,11 +339,11 @@ def new_letter(request, sender_id, receiver_id):
 @login_required
 @cache_page(60 * 10)
 def show_letter(request, letter_id):
-	letters = Letter.objects.all()
+	letters = Letter.objects.filter(Q(sender__user=request.user) | Q(receiver__user=request.user))
 	try:
 		letter = letters.get(id=letter_id)
 	except:
-		pass
+		raise Http404
 	else:
 		letter.read = True
 		letter.save()
