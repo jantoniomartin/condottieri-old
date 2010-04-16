@@ -53,7 +53,7 @@ class AreaAdmin(admin.ModelAdmin):
 class BaseEventAdmin(admin.ModelAdmin):
 	#ordering = ['-id']
 	list_per_page = 20
-	list_display = ('base_event', 'year', 'season', 'phase')
+	list_display = ('__unicode__', 'year', 'season', 'phase')
 
 class NewUnitEventAdmin(admin.ModelAdmin):
 	#ordering = ['-id']
