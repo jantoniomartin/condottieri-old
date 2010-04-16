@@ -1300,7 +1300,7 @@ class BaseEvent(models.Model):
 	
 	class Meta:
 		abstract = False
-		ordering = ['year', 'season', 'phase']
+		ordering = ['-year', '-season', '-phase']
 
 class NewUnitEvent(BaseEvent):
 	country = models.ForeignKey(Country)

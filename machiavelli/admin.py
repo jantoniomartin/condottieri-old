@@ -51,39 +51,39 @@ class AreaAdmin(admin.ModelAdmin):
 #	max_num = 10
 
 class BaseEventAdmin(admin.ModelAdmin):
-	ordering = ['-id']
+	#ordering = ['-id']
 	list_per_page = 20
 
 class NewUnitEventAdmin(admin.ModelAdmin):
-	ordering = ['-id']
+	#ordering = ['-id']
 	list_per_page = 20
 
 class DisbandEventAdmin(admin.ModelAdmin):
-	ordering = ['-id']
+	#ordering = ['-id']
 	list_per_page = 20
 
 class OrderEventAdmin(admin.ModelAdmin):
-	ordering = ['-id']
+	#ordering = ['-id']
 	list_per_page = 20
 
 class StandoffEventAdmin(admin.ModelAdmin):
-	ordering = ['-id']
+	#ordering = ['-id']
 	list_per_page = 20
 
 class ConversionEventAdmin(admin.ModelAdmin):
-	ordering = ['-id']
+	#ordering = ['-id']
 	list_per_page = 20
 
 class ControlEventAdmin(admin.ModelAdmin):
-	ordering = ['-id']
+	#ordering = ['-id']
 	list_per_page = 20
 
 class MovementEventAdmin(admin.ModelAdmin):
-	ordering = ['-id']
+	#ordering = ['-id']
 	list_per_page = 20
 
 class UnitEventAdmin(admin.ModelAdmin):
-	ordering = ['-id']
+	#ordering = ['-id']
 	list_per_page = 20
 
 class GameAdmin(admin.ModelAdmin):
