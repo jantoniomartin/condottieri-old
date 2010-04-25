@@ -1,6 +1,8 @@
 function changed_code(box) {
 	// id = id_form-$-code
-	formid = box.id.charAt(8)
+	id_fields = box.id.split('-')
+	//formid = box.id.charAt(8)
+	formid = id_fields[1]
 	code = box.value
 	destination = document.getElementById('id_form-' + formid + '-destination')
 	conversion = document.getElementById('id_form-' + formid + '-conversion')
