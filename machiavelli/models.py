@@ -962,7 +962,7 @@ class UnitManager(models.Manager):
 		for row in cursor.fetchall():
 			origin = GameArea.objects.get(id=row[2])
 			suborder = "%s %s" % (row[1], origin.board_area.code)
-			if row[6] in ('', 'H', 'S', 'C', 'B'): #unit is holding
+			if row[6] in (None, '', 'H', 'S', 'C', 'B'): #unit is holding
 				suborder += " H"
 			elif row[6] == '=':
 				suborder += " = %s" % row[8]
