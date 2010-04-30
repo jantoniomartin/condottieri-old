@@ -936,10 +936,10 @@ class UnitManager(models.Manager):
 		except:
 			suborder += " H"
 		else:
-			if u.order.code in ('', 'H', 'S', 'C'): #unit is holding
+			if u.order.code in ('', 'H', 'S', 'C', 'B'): #unit is holding
 				suborder += " H"
-			elif u.order.code == 'B':
-				suborder += " B"
+			#elif u.order.code == 'B':
+			#	suborder += " B"
 			elif u.order.code == '=':
 				suborder += " = %s" % u.order.type
 			elif u.order.code == '-':
