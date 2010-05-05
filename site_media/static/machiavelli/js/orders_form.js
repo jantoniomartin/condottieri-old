@@ -57,7 +57,9 @@ function changed_code(box) {
 
 function changed_subcode(box) {
 	// id = id_form-$-subcode
-	formid = box.id.charAt(8)
+	id_fields = box.id.split('-')
+	//formid = box.id.charAt(8)
+	formid = id_fields[1]
 	code = box.value
 	destination = document.getElementById('id_form-' + formid + '-subdestination')
 	conversion = document.getElementById('id_form-' + formid + '-subconversion')
