@@ -64,8 +64,8 @@ class DisbandEventAdmin(admin.ModelAdmin):
 class OrderEventAdmin(admin.ModelAdmin):
 	ordering = ['-year']
 	list_per_page = 20
-	list_display = ('game', '__unicode__', 'year', 'season')
-	list_filter = ('game', 'year', 'season')
+	list_display = ('game', 'country', '__unicode__', 'year', 'season')
+	list_filter = ('game', 'country', 'year', 'season')
 
 class StandoffEventAdmin(admin.ModelAdmin):
 	ordering = ['-year']
