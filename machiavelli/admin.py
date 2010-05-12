@@ -43,13 +43,6 @@ class AreaAdmin(admin.ModelAdmin):
 		GTokenInline,
 		AFTokenInline ]
 
-#class LogAdmin(admin.ModelAdmin):
-#	list_display = ('game', 'year', 'season', 'event')
-
-#class LogInline(admin.TabularInline):
-#	model = Log
-#	max_num = 10
-
 class BaseEventAdmin(admin.ModelAdmin):
 	ordering = ['-year']
 	list_per_page = 20
@@ -57,40 +50,55 @@ class BaseEventAdmin(admin.ModelAdmin):
 	list_filter = ('game', 'year', 'season', 'phase')
 
 class NewUnitEventAdmin(admin.ModelAdmin):
-	#ordering = ['-id']
+	ordering = ['-year']
 	list_per_page = 20
+	list_display = ('game', '__unicode__', 'year')
+	list_filter = ('game', 'year')
 
 class DisbandEventAdmin(admin.ModelAdmin):
-	#ordering = ['-id']
+	ordering = ['-year']
 	list_per_page = 20
+	list_display = ('game', '__unicode__', 'year', 'season', 'phase')
+	list_filter = ('game', 'year', 'season', 'phase')
 
 class OrderEventAdmin(admin.ModelAdmin):
-	#ordering = ['-id']
+	ordering = ['-year']
 	list_per_page = 20
+	list_display = ('game', '__unicode__', 'year', 'season')
+	list_filter = ('game', 'year', 'season')
 
 class StandoffEventAdmin(admin.ModelAdmin):
-	#ordering = ['-id']
+	ordering = ['-year']
 	list_per_page = 20
+	list_display = ('game', '__unicode__', 'year', 'season')
+	list_filter = ('game', 'year', 'season')
 
 class ConversionEventAdmin(admin.ModelAdmin):
-	#ordering = ['-id']
+	ordering = ['-year']
 	list_per_page = 20
+	list_display = ('game', '__unicode__', 'year', 'season', 'phase')
+	list_filter = ('game', 'year', 'season', 'phase')
 
 class ControlEventAdmin(admin.ModelAdmin):
-	#ordering = ['-id']
+	ordering = ['-year']
 	list_per_page = 20
+	list_display = ('game', '__unicode__', 'year')
+	list_filter = ('game', 'year')
 
 class MovementEventAdmin(admin.ModelAdmin):
-	#ordering = ['-id']
+	ordering = ['-year']
 	list_per_page = 20
+	list_display = ('game', '__unicode__', 'year', 'season', 'phase')
+	list_filter = ('game', 'year', 'season', 'phase')
 
 class UnitEventAdmin(admin.ModelAdmin):
-	#ordering = ['-id']
+	ordering = ['-year']
 	list_per_page = 20
+	list_display = ('game', '__unicode__', 'year', 'season', 'phase')
+	list_filter = ('game', 'year', 'season', 'phase', 'message')
 
 class GameAdmin(admin.ModelAdmin):
 	list_display = ('pk', 'year', 'season', 'phase', 'slots', 'scenario', 'created_by')
-	#inlines = [LogInline,]
 
 class RetreatOrderAdmin(admin.ModelAdmin):
 	pass
@@ -109,7 +117,6 @@ admin.site.register(Setup, SetupAdmin)
 admin.site.register(Player, PlayerAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(RetreatOrder, RetreatOrderAdmin)
-#admin.site.register(Log, LogAdmin)
 admin.site.register(BaseEvent, BaseEventAdmin)
 admin.site.register(NewUnitEvent, NewUnitEventAdmin)
 admin.site.register(DisbandEvent, DisbandEventAdmin)
