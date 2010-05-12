@@ -14,7 +14,7 @@ class PlayerAdmin(admin.ModelAdmin):
 class UnitAdmin(admin.ModelAdmin):
 	list_display = ('__unicode__', 'player')
 	ordering = ['player']
-	list_filter = ('player')
+	list_filter = ('player',)
 
 class GameAreaAdmin(admin.ModelAdmin):
 	list_display = ('game', 'board_area', 'player')
