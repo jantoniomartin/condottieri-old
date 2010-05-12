@@ -9,15 +9,18 @@ class CountryAdmin(admin.ModelAdmin):
 
 class PlayerAdmin(admin.ModelAdmin):
 	list_display = ('user', 'game', 'country', 'done')
+	list_filter = ('user', 'game', 'done')
 
 class UnitAdmin(admin.ModelAdmin):
 	list_display = ('__unicode__', 'player')
 	ordering = ['player']
+	list_filter = ('player')
 
 class GameAreaAdmin(admin.ModelAdmin):
 	list_display = ('game', 'board_area', 'player')
 	list_per_page = 73
 	ordering = ['board_area']
+	list_filter = ('game', 'player')
 
 class SetupAdmin(admin.ModelAdmin):
 	list_display = ('scenario', 'country', 'area', 'unit_type')
