@@ -101,7 +101,7 @@ def order_is_possible(order):
 			if order.unit.type == 'G':
 				if order.type == 'A':
 					return order
-				if order.type == 'F' and order.area.board_area.has_port:
+				if order.type == 'F' and order.unit.area.board_area.has_port:
 					return order
 			if order.type == 'G':
 				try:
