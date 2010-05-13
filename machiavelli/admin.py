@@ -10,6 +10,7 @@ class CountryAdmin(admin.ModelAdmin):
 class PlayerAdmin(admin.ModelAdmin):
 	list_display = ('user', 'game', 'country', 'done')
 	list_filter = ('user', 'game', 'done')
+	ordering = ['game']
 
 class UnitAdmin(admin.ModelAdmin):
 	list_display = ('__unicode__', 'player')
