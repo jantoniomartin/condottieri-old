@@ -28,7 +28,11 @@
 {% for p in game.player_set.all %}
 	{% if p.user %}
 	<div class="player {{ p.country.css_class }}">
-	<div><strong>{% trans p.country %}</strong></div>
+	<div><strong>{% trans p.country %}</strong>
+	{% ifequal p.done 1 %}
+	<span>OK</span>
+	{% endifequal %}
+	</div>
 	<div>{% trans "Cities:" %} {{ p.number_of_cities }}</div>
 {% if player %}
 	{% ifnotequal game.phase 0 %}
