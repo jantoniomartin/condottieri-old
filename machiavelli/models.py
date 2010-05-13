@@ -466,17 +466,20 @@ orders.
 		"""
 		support_orders = Order.objects.filter(unit__player__game=self, code__exact='S')
 		for s in support_orders:
-			if s.unit.area in self.get_conflict_areas():
+			if s.unit.type != 'G' and s.unit.area in self.get_conflict_areas():
 				attacks = Order.objects.filter((Q(code__exact='-') & Q(destination=s.unit.area)) |
 												(Q(code__exact='=') & Q(unit__area=s.unit.area) &
 												Q(unit__type__exact='G')))
-				if len(attacks) == 1:
+				if len(attacks) > 0:
 					params = s.suborder.split(' ')
-					if (params[2] == '-' and params[3] == attacks[0].unit.area.board_area.code) or \
-						(params[2] == '=' and params[3] in ['A','F'] and params[1] == attacks[0].unit.area.board_area.code):
-						continue
-				self.log_event(UnitEvent, type=s.unit.type, area=s.unit.area.board_area, message=0)
-				s.delete()
+					for a in attacks:
+						if (params[2] == '-' and params[3] == a.unit.area.board_area.code) or \
+						(params[2] == '=' and params[3] in ['A','F'] and params[1] == a.unit.area.board_area.code):
+							continue
+						else:
+							self.log_event(UnitEvent, type=s.unit.type, area=s.unit.area.board_area, message=0)
+							s.delete()
+							break
 		support_orders = Order.objects.filter(unit__player__game=self, code__exact='S')
 		return support_orders
 
