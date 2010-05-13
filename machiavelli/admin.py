@@ -26,7 +26,12 @@ class SetupAdmin(admin.ModelAdmin):
 	list_display = ('scenario', 'country', 'area', 'unit_type')
 
 class OrderAdmin(admin.ModelAdmin):
-	pass
+	list_display = ('player_info', '__unicode__')
+
+	def player_info(self, obj):
+		return "%(country)s (%(game)s)" % { 'country': obj.unit.player.country,
+											'game': obj.unit.player.game }
+	player_info.short_description = 'Player'
 
 class ControlTokenInline(admin.TabularInline):
 	model = ControlToken
