@@ -108,6 +108,12 @@ class UnitEventAdmin(admin.ModelAdmin):
 
 class GameAdmin(admin.ModelAdmin):
 	list_display = ('pk', 'year', 'season', 'phase', 'slots', 'scenario', 'created_by')
+	actions = ['redraw_map']
+
+	def redraw_map(self, request, queryset):
+		for obj in queryset:
+			obj.make_map()
+	redraw_map.short_description = "Redraw map"
 
 class RetreatOrderAdmin(admin.ModelAdmin):
 	pass
