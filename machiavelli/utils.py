@@ -6,10 +6,18 @@ import random
 #import django.forms as forms
 #from django.forms.formsets import BaseFormSet
 from django.db.models import Q
+from django.conf import settings
+
+if "jogging" in settings.INSTALLED_APPS:
+	from jogging import logging
+else:
+	logging = None
 
 from machiavelli.models import Area, Unit, Order
 
 def parse_order_form(data):
+	if logging:
+		logging.debug("Parsing order form: %s" % data)
 	order = Order(unit=data['unit'], code = data['code'])
 	if order.code == '-':
 		order.destination = data['destination']
@@ -40,6 +48,8 @@ def parse_order_form(data):
 	return order_is_possible(order)
 
 def parse_support_order(data):
+	if logging:
+		logging.debug("Parsing support order %s" % data)
 	area_codes = Area.objects.values_list('code')
 	params = data.upper().strip().split(' ')
 	if len(params) < 3 or len(params) > 4:
@@ -69,6 +79,8 @@ def parse_support_order(data):
 
 def order_is_possible(order):
 	""" Returns the order if the it is possible, as stated in the rules, or False if not"""
+	if logging:
+		logging.debug("Checking if order is possible: %s" % order)
 	if order.code == 'H':
 		return order
 	elif order.code == '-':
