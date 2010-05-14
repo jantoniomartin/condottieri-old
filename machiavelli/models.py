@@ -794,8 +794,8 @@ In a finished game, delete all the data that is not going to be used anymore.
 
 	def tweet_message(self, message):
 		if twitter_api:
-			thread.start_new_thread(twitter_api.PostUpdate, (message,))
-			#twitter_api.PostUpdate(message)
+			#thread.start_new_thread(twitter_api.PostUpdate, (message,))
+			twitter_api.PostUpdate(message)
 
 	def tweet_results(self):
 		if twitter_api:
