@@ -1119,6 +1119,9 @@ order.
 			enemies = Unit.objects.filter(Q(player__game=self.unit.player.game),
 										## trying to go to the same area
 										Q(order__destination=self.destination) |
+										## trying to exchange areas
+										(Q(area=self.destination) &
+										Q(order__destination=self.unit.area)) |
 										## trying to convert in the same area
 										(Q(type__exact='G') &
 										Q(area=self.destination) &
