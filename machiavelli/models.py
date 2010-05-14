@@ -631,10 +631,10 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 						e.must_retreat = invasion
 						e.save()
 			u.order.delete()
-			## all enemies have their orders deleted, except the ones that want to leave the area
+			## all enemies have their orders deleted, except the ones that want to leave the area, but not to the area which the attack came from
 			for e in enemies:
 				try:
-					if not (e.order.code == '-' and e.area == u.area):
+					if not (e.area == u.area and e.order.code == '-' and e.order.destination.board_area.code != e.must_retreat):
 						e.order.delete()
 				except:
 					continue
