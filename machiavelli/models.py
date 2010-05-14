@@ -33,6 +33,11 @@ if "notification" in settings.INSTALLED_APPS:
 else:
 	notification = None
 
+if "jogging" in settings.INSTALLED_APPS:
+	from jogging import logging
+else:
+	logging = None
+
 ## machiavelli
 from machiavelli.graphics import make_map
 from machiavelli.logging import save_snapshot
@@ -292,6 +297,8 @@ Checks if the time limit has been reached
 		#self.map_outdated = True
 		if self.slots == 0:
 			#the game has all its players and should start
+			if logging:
+				logging.info("Starting game %s" % self.id)
 			self.year = self.scenario.start_year
 			self.season = 1
 			self.phase = PHORDERS
@@ -445,15 +452,6 @@ these are the advancing units and the units that try to convert into A or F
 			conflict_areas.append(area)
 		return conflict_areas
 
-	def deprecated_log_event(self, e, params=''):
-		"""
-Logs and event with a special format that allows it to be translated.
-		"""
-		#assert isinstance(e, str)
-		event = Log(game=self, year=self.year, season=self.season,
-					phase=self.phase, event=e, params=params)
-		event.save()
-
 	def log_event(self, e, **kwargs):
 		## TODO: CATCH ERRORS
 		event = e(game=self, year=self.year, season=self.season, phase=self.phase, **kwargs)
@@ -471,12 +469,15 @@ orders.
 												(Q(code__exact='=') & Q(unit__area=s.unit.area) &
 												Q(unit__type__exact='G')))
 				if len(attacks) > 0:
+					if logging:
+						logging.info("Supporting %s is being attacked" % s.unit)
 					params = s.suborder.split(' ')
 					for a in attacks:
 						if (params[2] == '-' and params[3] == a.unit.area.board_area.code) or \
 						(params[2] == '=' and params[3] in ['A','F'] and params[1] == a.unit.area.board_area.code):
 							continue
 						else:
+							logging.info("Attack from %s breaks support from %s" % (a.unit, s.unit))
 							self.log_event(UnitEvent, type=s.unit.type, area=s.unit.area.board_area, message=0)
 							s.delete()
 							break
@@ -517,6 +518,8 @@ be defeated, and if so, delete the C order. However doesn't resolve the conflict
 						continue
 					else:
 						if defender.order.code == 'C':
+							if logging:
+								logging.info("%s will not be able to convoy" % defender)
 							defender.order.code = 'H'
 	
 	def filter_unreachable_attacks(self):
@@ -530,9 +533,13 @@ Delete the orders of units trying to go to non-adjacent areas and not having a c
 				is_fleet = True
 			if not o.unit.area.board_area.is_adjacent(o.destination.board_area, is_fleet):
 				if is_fleet:
+					if logging:
+						logging.info("Unreachable attack: %s" % o)
 					o.delete()
 				else:
 					if not o.find_convoy_line():
+						if logging:
+							logging.info("Unreachable attack: %s" % o)
 						o.delete()
 	
 	def resolve_auto_garrisons(self):
@@ -579,6 +586,8 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 				strength = Unit.objects.get_with_strength(self,id=e.id).strength
 				if strength == s:
 					tie = True
+					if logging:
+						logging.debug("%s and %s have equal strengths" % (u, e))
 					exit
 			## if there is a tie, a standoff occurs, and the area is marked as standoff
 			if tie:
