@@ -47,7 +47,16 @@ def base_context(request, game, player):
 		context['inbox'] = player.received.order_by('-id')[:10]
 	log = log.exclude(season__exact=game.season,
 							phase__exact=game.phase)
-	context['log'] = log[:10]
+	if len(log) > 0:
+		last_year = log[0].year
+		last_season = log[0].season
+		last_phase = log[0].phase
+		context['log'] = log.filter(year__exact=last_year,
+								season__exact=last_season,
+								phase__exact=last_phase)
+	else:
+		context['log'] = log # this will always be an empty queryset
+	#context['log'] = log[:10]
 		
 	return context
 
