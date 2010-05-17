@@ -1367,37 +1367,40 @@ class OrderEvent(BaseEvent):
 
 	def __unicode__(self):
 		unit = self.unit_string(self.type, self.origin)
+		country_info = "<small>(%s)</small>" % (self.country,)
+		msg = ''
 		if self.code == '-':
-			return _("%(unit)s tries to go to %(area)s.") % {'unit': unit,
+			msg = _("%(unit)s tries to go to %(area)s.") % {'unit': unit,
 															'area': self.destination.name}
 		elif self.code == 'B':
-			return _("%(unit)s besieges the city.") % {'unit': unit}
+			msg = _("%(unit)s besieges the city.") % {'unit': unit}
 		elif self.code == '=':
-			return _("%(unit)s tries to convert into %(type)s.") % {'unit': unit,
+			msg = _("%(unit)s tries to convert into %(type)s.") % {'unit': unit,
 																'type': self.get_conversion_display()}
 		elif self.code == 'C':
-			return _("%(unit)s must convoy %(subunit)s to %(area)s.") % {'unit': unit,
+			msg = _("%(unit)s must convoy %(subunit)s to %(area)s.") % {'unit': unit,
 														'subunit': self.unit_string(self.subtype,
 																				self.suborigin),
 														'area': self.subdestination.name}
 		elif self.code == 'S':
 			if self.subcode == 'H':
-				return _("%(unit)s supports %(subunit)s to hold its position.") % {
+				msg = _("%(unit)s supports %(subunit)s to hold its position.") % {
 														'unit': unit,
 														'subunit': self.unit_string(self.subtype,
 																				self.suborigin)}
 			elif self.subcode == '-':
-				return _("%(unit)s supports %(subunit)s to go to %(area)s.") % {
+				msg = _("%(unit)s supports %(subunit)s to go to %(area)s.") % {
 														'unit': unit,
 														'subunit': self.unit_string(self.subtype,
 																				self.suborigin),
 														'area': self.subdestination.name}
 			elif self.subcode == '=':
-				return _("%(unit)s supports %(subunit)s to convert into %(type)s.") % {
+				msg = _("%(unit)s supports %(subunit)s to convert into %(type)s.") % {
 														'unit': unit,
 														'subunit': self.unit_string(self.subtype,
 																				self.suborigin),
 														'type': self.get_subconversion_display()}
+		return "%s %s" % (country_info, msg)
 
 class StandoffEvent(BaseEvent):
 	area = models.ForeignKey(Area)
