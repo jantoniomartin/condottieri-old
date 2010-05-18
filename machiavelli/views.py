@@ -225,6 +225,7 @@ def game_results(request, game_id):
 		raise Http404
 	players = game.player_set.filter(user__isnull=False).order_by('-score')
 	context = {'game': game,
+				'map' : game.get_map_url(),
 				'players': players }
 	return render_to_response('machiavelli/game_results.html',
 							context,
