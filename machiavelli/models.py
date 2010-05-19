@@ -102,6 +102,11 @@ TIME_LIMITS = ((5*24*60*60, _('5 days')),
 ## points assigned to the first, second and third players
 SCORES=[20, 10, 5]
 
+KARMA_MINIMUM = 10
+KARMA_DEFAULT = 100
+KARMA_MAXIMUM = 200
+BONUS_TIME = 0.2
+
 class AutoTranslateField(models.CharField):
 	"""
 This class is a CharField whose contents are translated when shown to the
@@ -236,7 +241,16 @@ populated when the game is started, from the scenario data.
 		"""
 Returns the Time of the next compulsory phase change.
 		"""
-		duration = timedelta(0, self.time_limit)
+		#duration = timedelta(0, self.time_limit)
+		## get the player with the highest karma, and not done
+		karmas = Stats.objects.filter(user__player__game=self,
+									  user__player__done=False).order_by('-karma')
+		if len(karmas) > 0:
+			highest = karmas[0].karma
+			time_limit = self.time_limit * highest / 100
+		else:
+			time_limit = self.time_limit
+		duration = timedelta(0, time_limit)
 		return self.last_phase_change + duration
 	
 	def force_phase_change(self):
@@ -249,6 +263,9 @@ a phase change is forced.
 			if p.done:
 				continue
 			else:
+				## the player didn't take his actions, so he loses karma
+				p.user.stats.adjust_karma(-10)
+				##
 				if self.phase == PHREINFORCE:
 					reinforce = p.units_to_place()
 					if reinforce < 0:
@@ -271,6 +288,18 @@ Checks if the time limit has been reached
 			if to_limit <= timedelta(0, 0):
 				self.force_phase_change()
 	
+	def check_bonus_time(self):
+		"""
+Returns true if, when the function is called, the first BONUS_TIME% of the duration has not been reached.
+		"""
+		duration = timedelta(0, self.time_limit * BONUS_TIME)
+		limit = self.last_phase_change + duration
+		to_limit = limit - datetime.now()
+		if to_limit >= timedelta(0, 0):
+			return True
+		else:
+			return False
+
 	def get_map_url(self):
 		return "map-%s.jpg" % self.id
 	
@@ -849,6 +878,24 @@ Returns a _list_ of possible unit types for an area
 			result.append('A')
 		return result 
 
+class Stats(models.Model):
+	user = models.OneToOneField(User)
+	karma = models.PositiveIntegerField(default=KARMA_DEFAULT)
+
+	def __unicode__(self):
+		return "%s (karma=%s)" % (self.user, self.karma)
+
+	def adjust_karma(self, k):
+		if not isinstance(k, int):
+			return
+		new_karma = self.karma + k
+		if new_karma > KARMA_MAXIMUM:
+			new_karma = KARMA_MAXIMUM
+		elif new_karma < KARMA_MINIMUM:
+			new_karma = KARMA_MINIMUM
+		self.karma = new_karma
+		self.save()
+
 class Player(models.Model):
 	user = models.ForeignKey(User, blank=True, null=True) # can be null because of autonomous units
 	game = models.ForeignKey(Game)
@@ -931,6 +978,9 @@ Returns a queryset with the GameAreas that accept new units.
 	def end_phase(self):
 		self.done = True
 		self.save()
+		if self.game.check_bonus_time():
+			## get a karma bonus
+			self.user.stats.adjust_karma(1)
 		self.game.check_next_phase()
 
 	def new_phase(self):

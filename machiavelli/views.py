@@ -19,6 +19,15 @@ import machiavelli.graphics as graphics
 
 @login_required
 def game_list(request):
+	## check if the user has a Stats object associated.
+	## this is probably not the best place to do this.
+	##TODO: find a proper place for this code
+	try:
+		request.user.stats
+	except:
+		stats = Stats(user=request.user)
+		stats.save()
+	########
 	games = Game.objects.all()
 	other_games = games.exclude(player__user=request.user)
 	your_games = games.filter(player__user=request.user)
