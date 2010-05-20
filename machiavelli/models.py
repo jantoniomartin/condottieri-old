@@ -270,7 +270,9 @@ a phase change is forced.
 					reinforce = p.units_to_place()
 					if reinforce < 0:
 						## delete the newest units
-						Unit.objects.filter(player=p).order_by('-id')[:-reinforce].delete()
+						units = Unit.objects.filter(player=p).order_by('-id')[:-reinforce]
+						for u in units:
+							u.delete()
 				elif self.phase == PHORDERS:
 					pass
 				elif self.phase == PHRETREATS:
