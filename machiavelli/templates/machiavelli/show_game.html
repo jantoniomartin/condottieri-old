@@ -30,7 +30,7 @@
 	<div class="player {{ p.country.css_class }}">
 	<div><strong>{% trans p.country %}</strong>
 	{% ifequal p.done 1 %}
-	<span>OK</span>
+	<span><img src="{{ STATIC_URL }}machiavelli/img/icon-yes.gif" /></span>
 	{% endifequal %}
 	</div>
 	<div>{% trans "Cities:" %} {{ p.number_of_cities }}</div>
