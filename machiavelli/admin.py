@@ -1,8 +1,13 @@
 from machiavelli.models import *
 from django.contrib import admin
 
+class SetupInline(admin.TabularInline):
+	model = Setup
+	extra = 5
+
 class ScenarioAdmin(admin.ModelAdmin):
 	list_display = ('title', 'start_year')
+	inlines = [SetupInline, ]
 
 class CountryAdmin(admin.ModelAdmin):
 	list_display = ('name', 'css_class')
