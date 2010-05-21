@@ -288,7 +288,7 @@ def create_game(request):
 			return redirect('game-list')
 	else:
 		form = forms.GameForm(request.user)
-	context['scenarios'] = Scenario.objects.all()
+	context['scenarios'] = Scenario.objects.filter(enabled=True)
 	context['form'] = form
 	return render_to_response('machiavelli/game_form.html',
 							context,

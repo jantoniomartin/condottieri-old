@@ -122,6 +122,7 @@ class Scenario(models.Model):
 	title = AutoTranslateField(max_length=128)
 	start_year = models.PositiveIntegerField()
 	cities_to_win = models.PositiveIntegerField(default=15)
+	enabled = models.BooleanField(default=False) # this allows me to create the new setups in the admin
 
 	def get_slots(self):
 		slots = len(self.setup_set.values('country').distinct()) - 1
