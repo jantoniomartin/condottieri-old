@@ -9,7 +9,7 @@ import machiavelli.utils as utils
 
 class GameForm(forms.ModelForm):
 	slug = forms.SlugField(label=_("Slug"))
-	scenario = forms.ModelChoiceField(queryset=Scenario.objects.all(),
+	scenario = forms.ModelChoiceField(queryset=Scenario.objects.filter(enabled=True),
 									empty_label=None,
 									cache_choices=True,
 									label=_("Scenario"))
