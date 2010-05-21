@@ -90,12 +90,13 @@ ORDER_CODES = (('H', _('Hold')),
 				)
 
 ## time limit in seconds for a game phase
-TIME_LIMITS = ((5*24*60*60, _('5 days')),
-			(4*24*60*60, _('4 days')),
+TIME_LIMITS = (
+			#(5*24*60*60, _('5 days')),
+			#(4*24*60*60, _('4 days')),
 			(3*24*60*60, _('3 days')),
 			(2*24*60*60, _('2 days')),
 			(24*60*60, _('1 day')),
-			(12*60*60, _('1/2 day'))
+			(12*60*60, _('1/2 day')),
 )
 
 ## SCORES
