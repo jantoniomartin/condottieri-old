@@ -14,6 +14,7 @@ _("Venice")
 ## scenario names
 _("Development")
 _("The Spanish Preponderance")
+_("The Balance of Power")
 
 ## area names (excluding the areas whose name is the one of a country)
 _("Albania")
