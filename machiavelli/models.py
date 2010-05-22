@@ -614,16 +614,16 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 			enemies = u.order.get_enemies()
 			## check if there is a unit with the same strength than 'u'
 			## it's impossible to have more strength because of the sorting
-			tie = False
+			failure = False
 			for e in enemies:
 				strength = Unit.objects.get_with_strength(self,id=e.id).strength
-				if strength == s:
-					tie = True
+				if strength >= s:
+					failure = True
 					if logging:
 						logging.debug("%s and %s have equal strengths" % (u, e))
 					exit
-			## if there is a tie, a standoff occurs, and the area is marked as standoff
-			if tie:
+			## if there is a failure, a standoff occurs, and the area is marked as standoff
+			if failure:
 				self.log_event(StandoffEvent, area=u.order.get_attacked_area().board_area)
 				if u.order.code == '-':
 					u.order.destination.standoff = True
@@ -631,7 +631,7 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 				elif u.order.code == '=':
 					u.area.standoff = True
 					u.area.save()
-			## if there is no tie, 'u' wins the conflict
+			## if there is no failure, 'u' wins the conflict
 			else:
 				invasion_from = False
 				if u.order.code == '-':
@@ -1014,6 +1014,7 @@ class UnitManager(models.Manager):
 										code__exact='S',
 										suborder__exact=suborder).count()
 		u.strength = support
+		print "%s has strength %s" % (u, u.strength)
 		return u
 
 	def list_with_strength(self, game):
