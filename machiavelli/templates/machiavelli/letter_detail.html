@@ -18,7 +18,11 @@
 
 <dl>
 <dt>{% trans "From" %}:</dt>
-<dd>{{ letter.sender.country }}</dd>
+<dd>{{ letter.sender.country }}
+{% ifnotequal letter.sender.id player.id %}
+<span><a href="{% url new-letter sender_id=player.id receiver_id=letter.sender.id %}">{% trans "Send message" %}</a></span>
+{% endifnotequal %}
+</dd>
 <dt>{% trans "To" %}:</dt>
 <dd>{{ letter.receiver.country }}</dd>
 <dt>{% trans "Body" %}:<dt>
