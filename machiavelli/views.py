@@ -226,7 +226,7 @@ def play_retreats(request, game, player):
 							context,
 							context_instance=RequestContext(request))
 
-@login_required
+#@login_required
 @cache_page(60 * 60) # cache 1 hour
 def game_results(request, game_id):
 	game = get_object_or_404(Game, pk=game_id)
@@ -241,7 +241,7 @@ def game_results(request, game_id):
 							context_instance=RequestContext(request))
 
 @never_cache
-@login_required
+#@login_required
 def logs_by_game(request, game_id):
 	game = get_object_or_404(Game, pk=game_id)
 	try:
