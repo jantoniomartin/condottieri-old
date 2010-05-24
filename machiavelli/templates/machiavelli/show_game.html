@@ -18,6 +18,12 @@
 		{% trans player.country %}
 	{% endif %}
 </li>
+{% else %}
+<li>
+		{% ifnotequal game.slots 0 %}
+			<a href="{% url machiavelli.views.join_game game.pk %}">{% trans "Join game" %}</a>
+		{% endifnotequal %}
+</li>
 {% endif %}
 </ul>
 </div>
@@ -89,6 +95,12 @@ the page in a few seconds.{% endblocktrans %}
 {% include phase_partial %}
 {% else %}
 <p>{% trans "This game is inactive or you are not playing in it." %}</p>
+{% if player %}
+{% else %}
+		{% ifnotequal game.slots 0 %}
+			<a href="{% url machiavelli.views.join_game game.pk %}">{% trans "Join game" %}</a>
+		{% endifnotequal %}
+{% endif %}
 {% endif %}
 </div><!-- id=actions -->
 {% endblock %}
