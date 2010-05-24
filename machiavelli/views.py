@@ -75,7 +75,7 @@ def base_context(request, game, player):
 	return context
 
 @never_cache
-@login_required
+#@login_required
 def play_game(request, game_id=''):
 	game = get_object_or_404(Game, pk=game_id)
 	try:
