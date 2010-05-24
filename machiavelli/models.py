@@ -435,6 +435,7 @@ start of the game.
 			if self.season == 3:
 				self.update_controls()
 				if self.check_winner() == True:
+					self.make_map()
 					self.assign_scores()
 					self.game_over()
 					return
@@ -818,14 +819,15 @@ Returns True if at least one player has reached the cities_to_win
 		"""
 In a finished game, delete all the data that is not going to be used anymore.
 		"""
-		try:
-			aut = Player.objects.get(game=self, user__isnull=True)
-		except:
-			print "There should be an autonomous player"
-		else:
-			aut.delete()
-		for p in self.player_set.all():
-			p.sent.all().delete()
+		#try:
+		#	aut = Player.objects.get(game=self, user__isnull=True)
+		#except:
+		#	print "There should be an autonomous player"
+		#else:
+		#	aut.delete()
+		#for p in self.player_set.all():
+		#	p.sent.all().delete()
+		self.player_set.all().delete()
 		self.baseevent_set.all().delete()
 		self.gamearea_set.all().delete()
 
