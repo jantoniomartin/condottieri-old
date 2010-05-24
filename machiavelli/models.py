@@ -843,7 +843,7 @@ if twitter_api and settings.TWEET_NEW_GAME:
 	def tweet_new_game(sender, instance, created, **kw):
 		if twitter_api and isinstance(instance, Game):
 			if created == True:
-				message = "New game: %s" % instance.slug
+				message = "New game: %s. http://www.condottierigame.com/machiavelli/%s" % (instance.slug, instance.get_absolute_url())
 				twitter_api.PostUpdate(message)
 
 	models.signals.post_save.connect(tweet_new_game, sender=Game)
