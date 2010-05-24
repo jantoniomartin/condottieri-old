@@ -337,24 +337,27 @@ def box_list(request, game_id='', box='inbox'):
 
 @login_required
 def new_letter(request, sender_id, receiver_id):
-	sender = get_object_or_404(Player, user=request.user, id=sender_id)
-	receiver = get_object_or_404(Player, id=receiver_id, game=sender.game)
+	player = get_object_or_404(Player, user=request.user, id=sender_id)
+	game = player.game
+	receiver = get_object_or_404(Player, id=receiver_id, game=game)
 	## if the game is inactive, return 404 error
-	if sender.game.phase == 0:
+	if game.phase == 0:
 		raise Http404
 	if request.method == 'POST':
-		letter_form = forms.LetterForm(sender, receiver, data=request.POST)
+		letter_form = forms.LetterForm(player, receiver, data=request.POST)
 		if letter_form.is_valid():
 			letter = letter_form.save()
-			return redirect('show-game', game_id=sender.game.id)
+			return redirect('show-game', game_id=game.id)
 		else:
 			print letter_form.errors
 	else:
-		letter_form = forms.LetterForm(sender, receiver)
+		letter_form = forms.LetterForm(player, receiver)
 	return render_to_response('machiavelli/letter_form.html',
 							{'form': letter_form,
-							'sender': sender,
-							'receiver': receiver,},
+							'sender': player,
+							'receiver': receiver,
+							'player': player,
+							'game': game,},
 							context_instance=RequestContext(request))
 
 @login_required
@@ -368,12 +371,19 @@ def show_letter(request, letter_id):
 	else:
 		letter.read = True
 		letter.save()
+	game = letter.sender.game
+	player = Player.objects.get(user=request.user, game=game)
+	extra_context = {
+		'game': game,
+		'player': player,
+	}
 	return object_detail(
-	request,
-	queryset = letters,
-	object_id = letter_id,
-	template_name = 'machiavelli/letter_detail.html',
-	template_object_name = 'letter'
+		request,
+		queryset = letters,
+		object_id = letter_id,
+		template_name = 'machiavelli/letter_detail.html',
+		template_object_name = 'letter',
+		extra_context = extra_context
 	)
 
 @login_required

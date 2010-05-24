@@ -5,6 +5,15 @@
 {% block head_title %}{% trans "Write a letter" %}{% endblock %}
 
 {% block body %}
+<div id="game_info">
+<ul>
+<li>{% trans "Year" %}: {{ game.year }}</li>
+<li>{% trans "Season" %}: {{ game.get_season_display }}</li>
+<li>{% trans "Phase" %}: {{ game.get_phase_display }}</li>
+<li>{% trans "Time left" %}: {{ game.next_phase_change|timeuntil }}</li>
+<li>{% trans "Power" %}: {{ player.country }}</li>
+</ul>
+</div>
 <h1>{% trans "New letter" %}</h1>
 <p>{% blocktrans with receiver.country as country %}
 New letter for {{ country }}
@@ -16,4 +25,5 @@ New letter for {{ country }}
 <p><input type="submit" value="{% trans "Send" %}" />
 </form>
 
+<p><a href="{% url show-game game.id %}">{% trans "Return to game" %}</a></p>
 {% endblock %}
