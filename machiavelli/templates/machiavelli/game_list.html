@@ -63,4 +63,20 @@ you can also create one, but it's better if you join an existing game.{% endbloc
 
 </table>
 <p><a href="{% url new-game %}">{% trans "New game" %}</a></p>
+<h2>{% trans "Finished games" %}</h2>
+<table>
+	<thead>
+	<tr>
+	<th>{% trans "Game" %}</th>
+	<th>{% trans "Scenario" %}</th>
+	</tr>
+	</thead>
+	{% for game in finished_games %}
+	<tr>
+		<td><a href="{{ game.get_absolute_url }}">{{ game.slug }}</a></td>
+		<td>{{ game.scenario.title }}</td>
+	</tr>
+	{% endfor %}
+
+</table>
 {% endblock %}

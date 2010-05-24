@@ -29,16 +29,18 @@ def game_list(request):
 			stats = Stats(user=request.user)
 			stats.save()
 	########
-	games = Game.objects.all()
+	active_games = Game.objects.exclude(slots=0, phase=PHINACTIVE)
+	finished_games = Game.objects.filter(slots=0, phase=PHINACTIVE)
 	if request.user.is_authenticated():
-		other_games = games.exclude(player__user=request.user)
-		your_games = games.filter(player__user=request.user)
+		other_games = active_games.exclude(player__user=request.user)
+		your_games = active_games.filter(player__user=request.user)
 	else:
-		other_games = games
+		other_games = active_games
 		your_games = Game.objects.none()
 	context = {
 		'your_games': your_games,
 		'other_games': other_games,
+		'finished_games': finished_games,
 		'user': request.user,
 	}
 
