@@ -927,7 +927,7 @@ class Player(models.Model):
 	game = models.ForeignKey(Game)
 	country = models.ForeignKey(Country, blank=True, null=True)
 	done = models.BooleanField(default=False)
-	score = models.PositiveIntegerField(default=0)
+	#score = models.PositiveIntegerField(default=0)
 
 	def __unicode__(self):
 		if self.user:
