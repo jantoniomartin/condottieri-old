@@ -386,7 +386,7 @@ def show_letter(request, letter_id):
 		extra_context = extra_context
 	)
 
-@login_required
+#@login_required
 @cache_page(60 * 10)
 def hall_of_fame(request):
 	users = User.objects.all().annotate(total_score=Sum('player__score')).order_by('-total_score')
