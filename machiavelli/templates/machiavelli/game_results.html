@@ -14,13 +14,15 @@
 	<th>{% trans "Player" %}</th>
 	<th>{% trans "Country" %}</th>
 	<th>{% trans "Score" %}</th>
+	<th>{% trans "Cities" %}</th>
 	</tr>
 	</thead>
 	{% for p in players %}
 	<tr>
 	<td>{{ p.user }}</td>
 	<td>{{ p.country }}</td>
-	<td class="data_c">{{ p.score }}</td>
+	<td class="data_c">{{ p.points }}</td>
+	<td class="data_c">{{ p.cities }}</td>
 	</tr>
 	{% endfor %}
 

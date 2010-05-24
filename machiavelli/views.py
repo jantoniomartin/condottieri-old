@@ -237,10 +237,10 @@ def game_results(request, game_id):
 	game = get_object_or_404(Game, pk=game_id)
 	if game.phase != PHINACTIVE:
 		raise Http404
-	players = game.player_set.filter(user__isnull=False).order_by('-score')
+	scores = game.score_set.filter(user__isnull=False).order_by('-points')
 	context = {'game': game,
 				'map' : game.get_map_url(),
-				'players': players }
+				'players': scores }
 	return render_to_response('machiavelli/game_results.html',
 							context,
 							context_instance=RequestContext(request))
@@ -394,7 +394,7 @@ def show_letter(request, letter_id):
 #@login_required
 @cache_page(60 * 10)
 def hall_of_fame(request):
-	users = User.objects.all().annotate(total_score=Sum('player__score')).order_by('-total_score')
+	users = User.objects.all().annotate(total_score=Sum('score__points')).order_by('-total_score')
 	context = {'users': users}
 	return render_to_response('machiavelli/hall_of_fame.html',
 							context,

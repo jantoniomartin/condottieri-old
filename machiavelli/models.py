@@ -780,23 +780,32 @@ Returns True if at least one player has reached the cities_to_win
 		qual = []
 		for p in self.player_set.filter(user__isnull=False):
 			qual.append((p, p.number_of_cities()))
-		## sort the players by their number of cities
+		## sort the players by their number of cities, less cities go first
 		qual.sort(cmp=lambda x,y: cmp(x[1], y[1]), reverse=False)
-		for s in SCORES:
+		zeros = len(SCORES) - len(qual)
+		assignation = SCORES + [0] * zeros
+		for s in assignation:
 			try:
 				q = qual.pop()
-				q[0].score = s
-				q[0].save()
+				#q[0].score = s
+				#q[0].save()
 			except:
 				exit
 			else:
-				q[0].score = s
-				q[0].save()
+				# add the number of cities to the score
+				score = Score(q[0].user, q[0].game, q[0].country,
+							  s + q[1], q[1])
+				score.save()
+				#q[0].score = s
+				#q[0].save()
 				## highest score = last score
 				while qual != [] and qual[-1][1] == q[1]:
 					tied = qual.pop()
-					tied[0].score = s
-					tied[0].save()
+					score = Score(tied[0].user, tied[0].game, tied[0].country,
+								  s + tied[1], tied[1])
+					score.save()
+					#tied[0].score = s
+					#tied[0].save()
 
 	def game_over(self):
 		self.phase = PHINACTIVE
@@ -832,7 +841,8 @@ In a finished game, delete all the data that is not going to be used anymore.
 
 	def tweet_results(self):
 		if twitter_api:
-			winners = self.player_set.order_by('-score')
+			#winners = self.player_set.order_by('-score')
+			winners = self.score_set.order_by('-points')
 			message = "'%s' - Winner: %s; 2nd: %s; 3rd: %s" % (self.slug,
 							winners[0].user,
 							winners[1].user,
@@ -899,6 +909,16 @@ class Stats(models.Model):
 			new_karma = KARMA_MINIMUM
 		self.karma = new_karma
 		self.save()
+
+class Score(models.Model):
+	user = models.ForeignKey(User)
+	game = models.ForeignKey(Game)
+	country = models.ForeignKey(Country)
+	points = models.PositiveIntegerField(default=0)
+	cities = models.PositiveIntegerField(default=0)
+
+	def __unicode__(self):
+		return "%s (%s)" % (self.user, self.game)
 
 class Player(models.Model):
 	user = models.ForeignKey(User, blank=True, null=True) # can be null because of autonomous units
