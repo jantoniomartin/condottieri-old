@@ -103,10 +103,10 @@ TIME_LIMITS = (
 ## points assigned to the first, second and third players
 SCORES=[20, 10, 5]
 
-KARMA_MINIMUM = 10
-KARMA_DEFAULT = 100
-KARMA_MAXIMUM = 200
-BONUS_TIME = 0.2
+KARMA_MINIMUM = settings.KARMA_MINIMUM
+KARMA_DEFAULT = settings.KARMA_DEFAULT
+KARMA_MAXIMUM = settings.KARMA_MAXIMUM
+BONUS_TIME = settings.BONUS_TIME
 
 class AutoTranslateField(models.CharField):
 	"""
