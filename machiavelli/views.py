@@ -11,6 +11,7 @@ from django.db.models import Q, Sum
 #from django.forms.models import modelformset_factory
 from django.views.decorators.cache import never_cache, cache_page
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.conf import settings
 
 from machiavelli.models import *
 import machiavelli.utils as utils
@@ -284,6 +285,11 @@ def logs_by_game(request, game_id):
 @login_required
 @cache_page(60 * 60)
 def create_game(request):
+	## check minimum karma to create a game
+	karma = request.user.stats.karma
+	if karma < settings.KARMA_TO_JOIN:
+		return low_karma_error(request)
+	##
 	context = {'user': request.user,}
 	if request.method == 'POST':
 		form = forms.GameForm(request.user, data=request.POST)
@@ -310,6 +316,9 @@ def create_game(request):
 @login_required
 def join_game(request, game_id=''):
 	g = get_object_or_404(Game, pk=game_id)
+	karma = request.user.stats.karma
+	if karma < settings.KARMA_TO_JOIN:
+		return low_karma_error(request)
 	if g.slots > 0:
 		try:
 			Player.objects.get(user=request.user, game=g)
@@ -408,4 +417,13 @@ def hall_of_fame(request):
 							context,
 							context_instance=RequestContext(request))
 
+@login_required
+def low_karma_error(request):
+	context = {
+		'karma': request.user.stats.karma,
+		'minimum': settings.KARMA_TO_JOIN,
+	}
+	return render_to_response('machiavelli/low_karma.html',
+							context,
+							context_instance=RequestContext(request))
 
