@@ -103,7 +103,13 @@ def play_game(request, game_id=''):
 				print "Playing retreats"
 				return play_retreats(request, game, player)
 		else:
-			context['done'] = True	
+			context['done'] = True
+			if game.phase == PHORDERS:
+				orders = OrderEvent.objects.filter(game=game, year=game.year,
+											season=game.season,
+											phase=game.phase,
+											country=player.country)
+				context['orders'] = orders
 	return render_to_response('machiavelli/show_game.html',
 							context,
 							context_instance=RequestContext(request))

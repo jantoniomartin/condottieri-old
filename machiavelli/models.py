@@ -1443,9 +1443,12 @@ class OrderEvent(BaseEvent):
 		return "season_%(season)s order-event" % {'season': self.season }
 
 	def __unicode__(self):
-		unit = self.unit_string(self.type, self.origin)
 		country_info = "<small>(%s)</small>" % (self.country,)
-		msg = ''
+		msg = self.get_message()
+		return "%s %s" % (country_info, msg)
+	
+	def get_message(self):
+		unit = self.unit_string(self.type, self.origin)
 		if self.code == '-':
 			msg = _("%(unit)s tries to go to %(area)s.") % {'unit': unit,
 															'area': self.destination.name}
@@ -1477,7 +1480,7 @@ class OrderEvent(BaseEvent):
 														'subunit': self.unit_string(self.subtype,
 																				self.suborigin),
 														'type': self.get_subconversion_display()}
-		return "%s %s" % (country_info, msg)
+		return msg
 
 class StandoffEvent(BaseEvent):
 	area = models.ForeignKey(Area)
