@@ -7,7 +7,7 @@ players have done it or the time limit is reached.{% endblocktrans %}</p>
 <p>{% blocktrans %}These are the valid orders (except Hold orders) that you have sent this turn:{% endblocktrans %}</p>
 <ul>
 {% for o in orders %}
-<li>{{ o.get_message }}</li>
+<li>{{ o.get_message|capfirst }}</li>
 {% endfor %}
 </ul>
 {% else %}
