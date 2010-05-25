@@ -245,6 +245,8 @@ Returns the Time of the next compulsory phase change.
 		"""
 		#duration = timedelta(0, self.time_limit)
 		## get the player with the highest karma, and not done
+		if self.last_phase_change == None:
+			return False
 		karmas = Stats.objects.filter(user__player__game=self,
 									  user__player__done=False).order_by('-karma')
 		if len(karmas) > 0:
