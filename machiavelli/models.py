@@ -911,6 +911,17 @@ class Stats(models.Model):
 			new_karma = KARMA_MINIMUM
 		self.karma = new_karma
 		self.save()
+		## if new karma is lower than the minimum to play, delete this user from
+		## the games that have not started
+		if new_karma < settings.KARMA_TO_JOIN:
+			players = Player.objects.filter(user=self.user,
+											game__slots__gt=0)
+			for p in players:
+				game = p.game
+				p.delete()
+				game.slots += 1
+				game.save()
+
 
 class Score(models.Model):
 	user = models.ForeignKey(User)
