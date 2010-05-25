@@ -120,7 +120,7 @@ class UnitEventAdmin(admin.ModelAdmin):
 	list_filter = ('game', 'year', 'season', 'phase', 'message')
 
 class GameAdmin(admin.ModelAdmin):
-	list_display = ('pk', 'year', 'season', 'phase', 'slots', 'scenario', 'created_by')
+	list_display = ('pk', 'year', 'season', 'phase', 'slots', 'scenario', 'created_by', 'next_phase_change')
 	actions = ['redraw_map']
 
 	def redraw_map(self, request, queryset):
