@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-25 08:07+0200\n"
+"POT-Creation-Date: 2010-05-25 13:09+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -1024,6 +1024,27 @@ msgstr "Página"
 msgid "of"
 msgstr "de"
 
+#: machiavelli/templates/machiavelli/low_karma.html:6
+msgid "Error"
+msgstr "Error"
+
+#: machiavelli/templates/machiavelli/low_karma.html:7
+#, python-format
+msgid ""
+"Because of your low karma (%(karma)s), you can't join games or create new "
+"ones. You need a minimum karma of %(minimum)s."
+msgstr ""
+"Debido a tu bajo valor de karma (%(karma)s), no puedes unirte a partidas ni "
+"crearlas. Necesitas un karma mínimo de %(minimum)s."
+
+#: machiavelli/templates/machiavelli/low_karma.html:8
+msgid ""
+"You will recover some karma every day. You can read the basics of this karma "
+"system in the FAQ section."
+msgstr ""
+"Todos los días recuperarás algo de karma. Puedes leer algo sobre este sistema "
+"de karma en la sección de FAQ."
+
 #: machiavelli/templates/machiavelli/phase_1.html:3
 msgid "Military Adjustment"
 msgstr "Ajustes militares"
@@ -1119,7 +1140,8 @@ msgstr ""
 msgid ""
 "These are the valid orders (except Hold orders) that you have sent this turn:"
 msgstr ""
-"Estas son las órdenes válidas (excepto órdenes de Aguantar) que has emitido este turno:"
+"Estas son las órdenes válidas (excepto órdenes de Aguantar) que has emitido "
+"este turno:"
 
 #: machiavelli/templates/machiavelli/phase_2.html:15
 msgid ""
