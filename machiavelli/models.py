@@ -977,7 +977,7 @@ Return the number of _controlled_ cities
 		return len(cities)
 
 	def number_of_units(self):
-		return = self.unit_set.all().count()
+		return self.unit_set.all().count()
 	
 	def units_to_place(self):
 		"""
