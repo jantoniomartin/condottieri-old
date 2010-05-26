@@ -1024,7 +1024,19 @@ Returns a queryset with the GameAreas that accept new units.
 
 	def new_phase(self):
 		if self.user:
-			self.done = False
+			if self.game.phase == PHREINFORCE:
+				if self.units_to_place() == 0:
+					self.done = True
+				else:
+					self.done = False
+			elif self.game.phase == PHRETREATS:
+				retreats = self.unit_set.exclude(must_retreat__exact='').count()
+				if retreats == 0:
+					self.done = True
+				else:
+					self.done = False
+			else:
+				self.done = False
 			self.save()
 
 class UnitManager(models.Manager):
