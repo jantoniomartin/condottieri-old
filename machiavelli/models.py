@@ -976,6 +976,9 @@ Return the number of _controlled_ cities
 		cities = GameArea.objects.filter(player=self, board_area__has_city=True)
 		return len(cities)
 
+	def number_of_units(self):
+		return = self.unit_set.all().count()
+	
 	def units_to_place(self):
 		"""
 Get the number of units that the player must place. Negative if the player has
