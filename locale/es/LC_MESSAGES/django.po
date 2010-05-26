@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-25 13:09+0200\n"
+"POT-Creation-Date: 2010-05-26 17:03+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -150,114 +150,114 @@ msgstr "1 día"
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: machiavelli/models.py:1090
+#: machiavelli/models.py:1124
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
 
-#: machiavelli/models.py:1279
+#: machiavelli/models.py:1313
 #, python-format
 msgid "the army in %s"
 msgstr "el ejército en %s"
 
-#: machiavelli/models.py:1281
+#: machiavelli/models.py:1315
 #, python-format
 msgid "the fleet in %s"
 msgstr "la flota en %s"
 
-#: machiavelli/models.py:1283
+#: machiavelli/models.py:1317
 #, python-format
 msgid "the garrison in %s"
 msgstr "la guarnición en %s"
 
-#: machiavelli/models.py:1406
+#: machiavelli/models.py:1440
 #, python-format
 msgid "%(country)s recruits a new %(type)s in %(area)s."
 msgstr "%(country)s recluta %(type)s en %(area)s"
 
-#: machiavelli/models.py:1420
+#: machiavelli/models.py:1454
 #, python-format
 msgid "%(country)s's %(type)s in %(area)s is disbanded."
 msgstr "%(type)s de %(country)s en %(area)s es desbandado/a."
 
-#: machiavelli/models.py:1424
+#: machiavelli/models.py:1458
 #, python-format
 msgid "Autonomous %(type)s in %(area)s is disbanded."
 msgstr "%(type)s independiente en %(area)s es desbandado/a."
 
-#: machiavelli/models.py:1453
+#: machiavelli/models.py:1487
 #, python-format
 msgid "%(unit)s tries to go to %(area)s."
 msgstr "%(unit)s intenta entrar en %(area)s"
 
-#: machiavelli/models.py:1456
+#: machiavelli/models.py:1490
 #, python-format
 msgid "%(unit)s besieges the city."
 msgstr "%(unit)s asedia la ciudad."
 
-#: machiavelli/models.py:1458
+#: machiavelli/models.py:1492
 #, python-format
 msgid "%(unit)s tries to convert into %(type)s."
 msgstr "%(unit)s intenta convertirse en %(type)s"
 
-#: machiavelli/models.py:1461
+#: machiavelli/models.py:1495
 #, python-format
 msgid "%(unit)s must convoy %(subunit)s to %(area)s."
 msgstr "%(unit)s dispuesta a trasladar a %(subunit)s a %(area)s"
 
-#: machiavelli/models.py:1467
+#: machiavelli/models.py:1501
 #, python-format
 msgid "%(unit)s supports %(subunit)s to hold its position."
 msgstr "%(unit)s apoya a %(subunit)s a mantener su posición."
 
-#: machiavelli/models.py:1472
+#: machiavelli/models.py:1506
 #, python-format
 msgid "%(unit)s supports %(subunit)s to go to %(area)s."
 msgstr "%(unit)s apoya a %(subunit)s para entrar en %(area)s"
 
-#: machiavelli/models.py:1478
+#: machiavelli/models.py:1512
 #, python-format
 msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
 msgstr "%(unit)s apoya a %(subunit)s para convertirse en %(type)s"
 
-#: machiavelli/models.py:1492
+#: machiavelli/models.py:1526
 #, python-format
 msgid "Conflicts in %(area)s result in a standoff."
 msgstr "El conflicto en %(area)s termina en empate."
 
-#: machiavelli/models.py:1503
+#: machiavelli/models.py:1537
 #, python-format
 msgid "%(unit)s converts into %(type)s."
 msgstr "%(unit)s se convierte en %(type)s."
 
-#: machiavelli/models.py:1514
+#: machiavelli/models.py:1548
 #, python-format
 msgid "%(country)s gets control of %(area)s."
 msgstr "%(country)s consigue el control de %(area)s."
 
-#: machiavelli/models.py:1527
+#: machiavelli/models.py:1561
 #, python-format
 msgid "%(unit)s advances into %(destination)s."
 msgstr "%(unit)s avanza a %(destination)s."
 
-#: machiavelli/models.py:1531
+#: machiavelli/models.py:1565
 #, python-format
 msgid "%(unit)s tries to retreat to %(destination)s."
 msgstr "%(unit)s intenta retirarse a %(destination)s"
 
-#: machiavelli/models.py:1536
+#: machiavelli/models.py:1570
 msgid "cannot carry out its support order."
 msgstr "no puede llevar a cabo su apoyo."
 
-#: machiavelli/models.py:1537
+#: machiavelli/models.py:1571
 msgid "must retreat."
 msgstr "debe retirarse."
 
-#: machiavelli/models.py:1538
+#: machiavelli/models.py:1572
 msgid "surrenders."
 msgstr "se rinde."
 
-#: machiavelli/models.py:1539
+#: machiavelli/models.py:1573
 msgid "is now besieging."
 msgstr "comienza su asedio."
 
@@ -852,7 +852,7 @@ msgstr "Partidas en las que no estás jugando"
 
 #: machiavelli/templates/machiavelli/game_list.html:58
 #: machiavelli/templates/machiavelli/show_game.html:24
-#: machiavelli/templates/machiavelli/show_game.html:101
+#: machiavelli/templates/machiavelli/show_game.html:102
 msgid "Join game"
 msgstr "Únete"
 
@@ -913,7 +913,7 @@ msgstr "Usuario"
 
 #: machiavelli/templates/machiavelli/letter_detail.html:5
 #: machiavelli/templates/machiavelli/letter_inbox.html:5
-#: machiavelli/templates/machiavelli/show_game.html:74
+#: machiavelli/templates/machiavelli/show_game.html:75
 msgid "Inbox"
 msgstr "Entrada"
 
@@ -946,7 +946,7 @@ msgid "From"
 msgstr "De"
 
 #: machiavelli/templates/machiavelli/letter_detail.html:23
-#: machiavelli/templates/machiavelli/show_game.html:46
+#: machiavelli/templates/machiavelli/show_game.html:47
 msgid "Send message"
 msgstr "Enviar carta"
 
@@ -1000,7 +1000,7 @@ msgid "Summary"
 msgstr "Resumen"
 
 #: machiavelli/templates/machiavelli/letter_outbox.html:5
-#: machiavelli/templates/machiavelli/show_game.html:75
+#: machiavelli/templates/machiavelli/show_game.html:76
 msgid "Outbox"
 msgstr "Salida"
 
@@ -1042,8 +1042,8 @@ msgid ""
 "You will recover some karma every day. You can read the basics of this karma "
 "system in the FAQ section."
 msgstr ""
-"Todos los días recuperarás algo de karma. Puedes leer algo sobre este sistema "
-"de karma en la sección de FAQ."
+"Todos los días recuperarás algo de karma. Puedes leer algo sobre este "
+"sistema de karma en la sección de FAQ."
 
 #: machiavelli/templates/machiavelli/phase_1.html:3
 msgid "Military Adjustment"
@@ -1214,7 +1214,11 @@ msgstr "Juego:"
 msgid "Cities:"
 msgstr "Ciudades"
 
-#: machiavelli/templates/machiavelli/show_game.html:59
+#: machiavelli/templates/machiavelli/show_game.html:43
+msgid "Units:"
+msgstr "Unidades:"
+
+#: machiavelli/templates/machiavelli/show_game.html:60
 msgid ""
 "Our cartographers are drawing a new map for you. Please, reload\n"
 "the page in a few seconds."
@@ -1222,19 +1226,19 @@ msgstr ""
 "Nuestros cartógrafos están dibujando un nuevo mapa. Por favor, recarga la "
 "página dentro de unos segundos."
 
-#: machiavelli/templates/machiavelli/show_game.html:66
+#: machiavelli/templates/machiavelli/show_game.html:67
 msgid "Diplomacy"
 msgstr "Diplomacia"
 
-#: machiavelli/templates/machiavelli/show_game.html:79
+#: machiavelli/templates/machiavelli/show_game.html:80
 msgid "Campaign log"
 msgstr "Diario de campaña"
 
-#: machiavelli/templates/machiavelli/show_game.html:87
+#: machiavelli/templates/machiavelli/show_game.html:88
 msgid "See all"
 msgstr "Ver todo"
 
-#: machiavelli/templates/machiavelli/show_game.html:97
+#: machiavelli/templates/machiavelli/show_game.html:98
 msgid "This game is inactive or you are not playing in it."
 msgstr "Este juego está inactivo o no estás jugando en él."
 

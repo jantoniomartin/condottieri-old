@@ -40,6 +40,7 @@
 	{% endifequal %}
 	</div>
 	<div>{% trans "Cities:" %} {{ p.number_of_cities }}</div>
+	<div>{% trans "Units:" %} {{ p.number_of_units }}</div>
 {% if player %}
 	{% ifnotequal game.phase 0 %}
 	{% ifnotequal p player %}
