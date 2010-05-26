@@ -443,7 +443,11 @@ start of the game.
 					return
 			self._next_season()
 			if self.season == 1:
-				next_phase = PHREINFORCE
+				next_phase = PHORDERS
+				for p in self.player_set.all():
+					if p.units_to_place() != 0:
+						next_phase = PHREINFORCE
+						break
 			else:
 				next_phase = PHORDERS
 		self.phase = next_phase
@@ -977,6 +981,8 @@ Return the number of _controlled_ cities
 Get the number of units that the player must place. Negative if the player has
 to remove units.
 		"""
+		if not self.user:
+			return 0
 		cities = self.number_of_cities()
 		units = len(self.unit_set.all())
 		place = cities - units
