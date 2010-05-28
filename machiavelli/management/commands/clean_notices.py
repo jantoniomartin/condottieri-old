@@ -16,13 +16,6 @@ This script deletes all notices that are older than AGE days.
 		age = timedelta(0, AGE)
 		threshold = datetime.now() - age
 		print "Deleting notices that were added before %s" % threshold
-		old_notices = notification.Notice.objects.all()
-		print "%s notices found" % len(old_notices)
-		for n in old_notices:
-			print n.added
-		#healing = models.Stats.objects.filter(karma__lt=settings.KARMA_TO_JOIN).update(karma=F('karma') + 2)
-		#msg = "Healed %s users" % healing
-		#if healing > 0:
-		#	logging.info(msg)
-		#print msg
-		
+		old_notices = notification.Notice.objects.filter(added__lt=threshold)
+		print "%s notices will be deleted" % len(old_notices)
+		old_notices.delete()
