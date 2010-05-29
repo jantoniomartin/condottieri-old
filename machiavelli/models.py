@@ -640,7 +640,7 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 					u.area.save()
 			## if there is no failure, 'u' wins the conflict
 			else:
-				invasion_from = False
+				invasion = False
 				if u.order.code == '-':
 					## a standoff area cannot be invaded
 					## if not, and the area is reachable, move the unit, cancel a possible retreat
