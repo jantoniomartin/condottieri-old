@@ -635,9 +635,20 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 				if u.order.code == '-':
 					u.order.destination.standoff = True
 					u.order.destination.save()
+					conflict_area = u.order.destination
 				elif u.order.code == '=':
 					u.area.standoff = True
 					u.area.save()
+					conflict_area = u.area
+				## if an enemy is trying to INVADE the standoff area, its orders are deleted
+				for e in enemies:
+					try:
+						if (e.order.code == '-' and e.order.destination.board_area == conflict_area):
+							e.order.delete()
+						elif (e.type == 'G' and e.order.code == '='):
+							e.order.delete()
+					except:
+						continue	
 			## if there is no failure, 'u' wins the conflict
 			else:
 				invasion = False
@@ -670,14 +681,15 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 					for e in leaving:
 						e.must_retreat = invasion
 						e.save()
+				## all enemies have their orders deleted, except the ones that want to leave the area,
+				## but not to the area which the attack came from
+				for e in enemies:
+					try:
+						if not (e.area == u.area and e.order.code == '-' and e.order.destination.board_area.code != e.must_retreat):
+							e.order.delete()
+					except:
+						continue
 			u.order.delete()
-			## all enemies have their orders deleted, except the ones that want to leave the area, but not to the area which the attack came from
-			for e in enemies:
-				try:
-					if not (e.area == u.area and e.order.code == '-' and e.order.destination.board_area.code != e.must_retreat):
-						e.order.delete()
-				except:
-					continue
 	
 	def resolve_sieges(self):
 		## get besieging units
