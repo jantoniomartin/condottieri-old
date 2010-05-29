@@ -30,6 +30,11 @@
 
 <div class="col1">
 <div id="powers">
+{% if player.country %}
+<div style="text-align: center">
+<img src="{{ STATIC_URL }}machiavelli/img/banner-{{ player.country.css_class }}.png" />
+</div>
+{% endif %}
 {% ifequal game.slots 0 %}
 {% for p in game.player_set.all %}
 	{% if p.user %}
