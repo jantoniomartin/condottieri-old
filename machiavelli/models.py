@@ -177,6 +177,8 @@ Two areas can be adjacent through land, but not through a coast.
 			('SAL', 'AQU'),
 			('SAL', 'BARI'),
 			('HER', 'ALB'),
+			('BOL', 'MOD'),
+			('BOL', 'LUC'),
 		]
 		if fleet:
 			if (self.code, area.code) in only_armies or (area.code, self.code) in only_armies:
