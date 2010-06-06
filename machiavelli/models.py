@@ -253,7 +253,10 @@ Returns the Time of the next compulsory phase change.
 									  user__player__done=False).order_by('-karma')
 		if len(karmas) > 0:
 			highest = karmas[0].karma
-			time_limit = self.time_limit * highest / 100
+				if highest <= 100:
+					time_limit = self.time_limit * highest / 100
+				else:
+					time_limit = self.time_limit * (1 + (highest - 100)/200)
 		else:
 			time_limit = self.time_limit
 		duration = timedelta(0, time_limit)
