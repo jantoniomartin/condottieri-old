@@ -38,7 +38,7 @@ def parse_order_form(data):
 					return False
 				suborder += " %s" % data['subdestination'].board_area.code
 			elif data['subcode'] == '=':
-				suborder += " = %s" % data['subconversion']
+				suborder += " %s" % data['subconversion']
 		elif order.code == 'C':
 			if data['subdestination'] == None:
 				return False
