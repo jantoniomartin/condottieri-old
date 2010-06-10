@@ -1172,7 +1172,7 @@ class Order(models.Model):
 	code = models.CharField(max_length=1, choices=ORDER_CODES)
 	destination = models.ForeignKey(GameArea, blank=True, null=True)
 	type = models.CharField(max_length=1, blank=True, null=True, choices=UNIT_TYPES)
-	suborder = models.CharField(max_length=14, blank=True, null=True)
+	suborder = models.CharField(max_length=15, blank=True, null=True)
 
 	def suborder_dict(self):
 		if self.suborder:
