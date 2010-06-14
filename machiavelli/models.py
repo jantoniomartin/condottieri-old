@@ -252,7 +252,7 @@ Returns the Time of the next compulsory phase change.
 		karmas = Stats.objects.filter(user__player__game=self,
 									  user__player__done=False).order_by('-karma')
 		if len(karmas) > 0:
-			highest = karmas[0].karma
+			highest = float(karmas[0].karma)
 			if highest <= 100:
 				time_limit = self.time_limit * highest / 100
 			else:
