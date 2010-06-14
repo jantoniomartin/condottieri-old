@@ -99,34 +99,35 @@ class BaseOrderFormSet(BaseFormSet):
 def make_retreat_form(u):
 	## possible_retreats includes all adjancent, non-standoff areas, and the
 	## same area where the unit is located (convert to garrison)
-	cond = Q(game=u.player.game)
-	cond = cond & Q(standoff=False)
-	cond = cond & Q(board_area__borders=u.area.board_area)
+	#cond = Q(game=u.player.game)
+	#cond = cond & Q(standoff=False)
+	#cond = cond & Q(board_area__borders=u.area.board_area)
 	## exclude the area where the attack came from
-	cond = cond & ~Q(board_area__code__exact=u.must_retreat)
+	#cond = cond & ~Q(board_area__code__exact=u.must_retreat)
 	## exclude areas with 'A' or 'F'
-	cond = cond & ~Q(unit__type__in=['A','F'])
+	#cond = cond & ~Q(unit__type__in=['A','F'])
 	## for armies, exclude seas
-	if u.type == 'A':
-		cond = cond & Q(board_area__is_sea=False)
+	#if u.type == 'A':
+	#	cond = cond & Q(board_area__is_sea=False)
 	## for fleets, exclude areas that are adjacent but their coasts are not
-	elif u.type == 'F':
-		exclude = []
-		for area in u.area.board_area.borders.all():
-			if not area.is_adjacent(u.area.board_area, fleet=True):
-				exclude.append(area.id)
-		cond = cond & ~Q(board_area__id__in=exclude)
-		## for fleets, exclude areas that are not seas or coasts
-		cond = cond & ~Q(board_area__is_sea=False, board_area__is_coast=False)
+	#elif u.type == 'F':
+	#	exclude = []
+	#	for area in u.area.board_area.borders.all():
+	#		if not area.is_adjacent(u.area.board_area, fleet=True):
+	#			exclude.append(area.id)
+	#	cond = cond & ~Q(board_area__id__in=exclude)
+	#	## for fleets, exclude areas that are not seas or coasts
+	#	cond = cond & ~Q(board_area__is_sea=False, board_area__is_coast=False)
 	## add the own area if there is no garrison
-	if u.area.board_area.is_fortified:
-		if u.type == 'A' or (u.type == 'F' and u.area.board_area.has_port):
-			try:
-				Unit.objects.get(area=u.area, type='G')
-			except:
-				cond = cond | Q(id__exact=u.area.id)
-	
-	possible_retreats = GameArea.objects.filter(cond).distinct()
+	#if u.area.board_area.is_fortified:
+	#	if u.type == 'A' or (u.type == 'F' and u.area.board_area.has_port):
+	#		try:
+	#			Unit.objects.get(area=u.area, type='G')
+	#		except:
+	#			cond = cond | Q(id__exact=u.area.id)
+	#
+	#possible_retreats = GameArea.objects.filter(cond).distinct()
+	possible_retreats = u.get_possible_retreats()
 	
 	class RetreatForm(forms.Form):
 		unitid = forms.IntegerField(widget=forms.HiddenInput, initial=u.id)

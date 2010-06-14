@@ -1171,6 +1171,38 @@ class Unit(models.Model):
 	def __unicode__(self):
 		return _("%(type)s in %(area)s") % {'type': self.get_type_display(), 'area': self.area}
     
+	def get_possible_retreats(self):
+		## possible_retreats includes all adjancent, non-standoff areas, and the
+		## same area where the unit is located (convert to garrison)
+		cond = Q(game=self.player.game)
+		cond = cond & Q(standoff=False)
+		cond = cond & Q(board_area__borders=self.area.board_area)
+		## exclude the area where the attack came from
+		cond = cond & ~Q(board_area__code__exact=self.must_retreat)
+		## exclude areas with 'A' or 'F'
+		cond = cond & ~Q(unit__type__in=['A','F'])
+		## for armies, exclude seas
+		if self.type == 'A':
+			cond = cond & Q(board_area__is_sea=False)
+		## for fleets, exclude areas that are adjacent but their coasts are not
+		elif self.type == 'F':
+			exclude = []
+			for area in self.area.board_area.borders.all():
+				if not area.is_adjacent(self.area.board_area, fleet=True):
+					exclude.append(area.id)
+			cond = cond & ~Q(board_area__id__in=exclude)
+			## for fleets, exclude areas that are not seas or coasts
+			cond = cond & ~Q(board_area__is_sea=False, board_area__is_coast=False)
+		## add the own area if there is no garrison
+		if self.area.board_area.is_fortified:
+			if self.type == 'A' or (self.type == 'F' and self.area.board_area.has_port):
+				try:
+					Unit.objects.get(area=self.area, type='G')
+				except:
+					cond = cond | Q(id__exact=self.area.id)
+	
+		return GameArea.objects.filter(cond).distinct()
+
 class Order(models.Model):
 	unit = models.OneToOneField(Unit)
 	code = models.CharField(max_length=1, choices=ORDER_CODES)
