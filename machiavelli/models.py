@@ -844,16 +844,20 @@ Returns True if at least one player has reached the cities_to_win
 				exit
 			else:
 				# add the number of cities to the score
-				score = Score(q[0].user, q[0].game, q[0].country,
-							  s + q[1], q[1])
+				score = Score(user=q[0].user, game=q[0].game,
+							country=q[0].country,
+							points = s + q[1],
+							cities = q[1])
 				score.save()
 				#q[0].score = s
 				#q[0].save()
 				## highest score = last score
 				while qual != [] and qual[-1][1] == q[1]:
 					tied = qual.pop()
-					score = Score(tied[0].user, tied[0].game, tied[0].country,
-								  s + tied[1], tied[1])
+					score = Score(user=tied[0].user, game=tied[0].game,
+								country=tied[0].country,
+								points = s + tied[1],
+								cities = tied[1])
 					score.save()
 					#tied[0].score = s
 					#tied[0].save()
