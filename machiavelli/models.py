@@ -1086,6 +1086,12 @@ Returns a queryset with the GameAreas that accept new units.
 					self.done = True
 				else:
 					self.done = False
+			elif self.game.phase == PHORDERS:
+				units = self.unit_set.all().count()
+				if units <= 0:
+					self.done = True
+				else:
+					self.done = False
 			elif self.game.phase == PHRETREATS:
 				retreats = self.unit_set.exclude(must_retreat__exact='').count()
 				if retreats == 0:
