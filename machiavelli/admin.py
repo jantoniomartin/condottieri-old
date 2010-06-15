@@ -17,6 +17,9 @@ class PlayerAdmin(admin.ModelAdmin):
 	list_filter = ('game', 'done')
 	ordering = ['game']
 
+class RevolutionAdmin(admin.ModelAdmin):
+	pass
+
 class ScoreAdmin(admin.ModelAdmin):
 	list_display = ('user', 'game', 'country', 'points', 'cities')
 	list_filter = ('game', 'user', 'country')
@@ -143,6 +146,7 @@ admin.site.register(GameArea, GameAreaAdmin)
 admin.site.register(Area, AreaAdmin)
 admin.site.register(Setup, SetupAdmin)
 admin.site.register(Player, PlayerAdmin)
+admin.site.register(Revolution, RevolutionAdmin)
 admin.site.register(Score, ScoreAdmin)
 admin.site.register(Stats, StatsAdmin)
 admin.site.register(Order, OrderAdmin)

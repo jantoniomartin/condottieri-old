@@ -8,7 +8,8 @@ div.notice {
 div.unseen_notice {
     margin: 0;
     padding: 5px;
-    background: #DFC;
+    background: #993333;
+	color: #fff;
     border-bottom: 1px solid #CCC;
 }
 h2.notice_date {

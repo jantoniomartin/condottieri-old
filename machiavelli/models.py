@@ -22,6 +22,7 @@ from datetime import datetime, timedelta
 ## django
 from django.db import models
 from django.db.models import permalink, Q, Count
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 import django.forms as forms
 from django.utils.translation import ugettext_lazy as _
@@ -272,9 +273,7 @@ a phase change is forced.
 			if p.done:
 				continue
 			else:
-				## the player didn't take his actions, so he loses karma
-				p.user.stats.adjust_karma(-10)
-				##
+				p.force_phase_change()
 				if self.phase == PHREINFORCE:
 					reinforce = p.units_to_place()
 					if reinforce < 0:
@@ -287,7 +286,7 @@ a phase change is forced.
 				elif self.phase == PHRETREATS:
 					## disband the units that should retreat
 					Unit.objects.filter(player=p).exclude(must_retreat__exact='').delete()
-				p.end_phase()
+				p.end_phase(forced=True)
 		
 	def check_time_limit(self):
 		"""
@@ -833,7 +832,7 @@ Returns True if at least one player has reached the cities_to_win
 			qual.append((p, p.number_of_cities()))
 		## sort the players by their number of cities, less cities go first
 		qual.sort(cmp=lambda x,y: cmp(x[1], y[1]), reverse=False)
-		zeros = len(SCORES) - len(qual)
+		zeros = len(qual) - len(SCORES)
 		assignation = SCORES + [0] * zeros
 		for s in assignation:
 			try:
@@ -1071,12 +1070,15 @@ Returns a queryset with the GameAreas that accept new units.
 		areas = areas.exclude(id__in=excludes)
 		return areas
 
-	def end_phase(self):
+	def end_phase(self, forced=False):
 		self.done = True
 		self.save()
-		if self.game.check_bonus_time():
-			## get a karma bonus
-			self.user.stats.adjust_karma(1)
+		if not forced:
+			if self.game.check_bonus_time():
+				## get a karma bonus
+				self.user.stats.adjust_karma(1)
+			## delete possible revolutions
+			Revolution.objects.filter(government=self).delete()
 		self.game.check_next_phase()
 
 	def new_phase(self):
@@ -1101,6 +1103,52 @@ Returns a queryset with the GameAreas that accept new units.
 			else:
 				self.done = False
 			self.save()
+
+	def force_phase_change(self):
+		## the player didn't take his actions, so he loses karma
+		self.user.stats.adjust_karma(-10)
+		## if there is a revolution with an overthrowing player, change users
+		try:
+			rev = Revolution.objects.get(government=self)
+		except ObjectDoesNotExist:
+			## create a new possible revolution
+			rev = Revolution(government=self)
+			rev.save()
+			logging.info("New revolution for player %s" % self)
+		else:
+			if rev.opposition:
+				if notification:
+					## notify the old player
+					user = [self.user,]
+					extra_context = {'game': self.game,}
+					notification.send(user, "lost_player", extra_context, on_site=True)
+					## notify the new player
+					user = [rev.opposition]
+					notification.send(user, "got_player", extra_context, on_site=True)
+				self.user = rev.opposition
+				logging.info("Government of %s is overthrown" % self.country)
+				self.save()
+				rev.delete()
+				self.user.stats.adjust_karma(10)
+
+class Revolution(models.Model):
+	"""
+A Revolution instance means that 'government' is not playing, so 'opposition'
+can replace it.
+	"""
+	government = models.ForeignKey(Player)
+	opposition = models.ForeignKey(User, blank=True, null=True)
+
+	def __unicode__(self):
+		return "%s" % self.government
+
+def notify_overthrow_attempt(sender, instance, created, **kw):
+	if notification and isinstance(instance, Revolution) and not created:
+		user = [instance.government.user,]
+		extra_context = {'game': instance.government.game,}
+		notification.send(user, "overthrow_attempt", extra_context , on_site=True)
+
+models.signals.post_save.connect(notify_overthrow_attempt, sender=Revolution)
 
 class UnitManager(models.Manager):
 	def get_with_strength(self, game, **kwargs):

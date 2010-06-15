@@ -6,6 +6,7 @@ from django.template import RequestContext
 from django.views.generic.list_detail import object_list, object_detail
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
 from django.forms.formsets import formset_factory
 from django.db.models import Q, Sum
 #from django.forms.models import modelformset_factory
@@ -35,13 +36,19 @@ def game_list(request):
 	if request.user.is_authenticated():
 		other_games = active_games.exclude(player__user=request.user)
 		your_games = active_games.filter(player__user=request.user)
+		revolutions = []
+		for r in Revolution.objects.filter(opposition__isnull=True):
+			if r.government.game in other_games:
+				revolutions.append(r)
 	else:
 		other_games = active_games
 		your_games = Game.objects.none()
+		revolutions = None
 	context = {
 		'your_games': your_games,
 		'other_games': other_games,
 		'finished_games': finished_games,
+		'revolutions': revolutions,
 		'user': request.user,
 	}
 
@@ -328,6 +335,21 @@ def join_game(request, game_id=''):
 			new_player.save()
 			g.player_joined()
 	return redirect('game-list')
+
+@login_required
+def overthrow(request, revolution_id):
+	revolution = get_object_or_404(Revolution, pk=revolution_id)
+	try:
+		Player.objects.get(user=request.user, game=revolution.government.game)
+	except ObjectDoesNotExist:
+		karma = request.user.stats.karma
+		if karma < settings.KARMA_TO_JOIN:
+			return low_karma_error(request)
+		revolution.opposition = request.user
+		revolution.save()
+		return redirect('game-list')
+	else:
+		raise Http404
 
 @never_cache
 @login_required

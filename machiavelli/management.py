@@ -6,6 +6,7 @@ if "notification" in settings.INSTALLED_APPS:
 	from notification import models as notification
 
 	def create_notice_types(app, created_models, verbosity, **kwargs):
+		print "Creating notices"
 		notification.create_notice_type("phase_change_forced",
 										_("Change of phase forced"),
 										_("a change of phase has been forced"))
@@ -21,6 +22,15 @@ if "notification" in settings.INSTALLED_APPS:
 		notification.create_notice_type("letter_received",
 										_("Letter received"),
 										_("you have received a new letter"))
+		notification.create_notice_type("overthrow_attempt",
+										_("Overthrow attempt"),
+										_("you are being overthrown"))
+		notification.create_notice_type("lost_player",
+										_("Overthrow"),
+										_("you have been overthrown"))
+		notification.create_notice_type("got_player",
+										_("Overthrow"),
+										_("you have overthrown a government"))
 
 	signals.post_syncdb.connect(create_notice_types, sender=notification)
 else:

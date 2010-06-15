@@ -63,6 +63,36 @@ you can also create one, but it's better if you join an existing game.{% endbloc
 
 </table>
 <p><a href="{% url new-game %}">{% trans "New game" %}</a></p>
+
+{% if revolutions %}
+<h3>{% trans "Revolutions" %}</h3>
+<p>{% blocktrans %}The following countries are governed by leaders that are not
+paying enough attention to their duties. If you feel that you could do better,
+you may try to overthrow a leader.{% endblocktrans %}</p>
+<p>{% blocktrans %}If you try to overthrow a leader, he will have a chance to
+recover control in the current phase. If he does not, you will take his place.
+You will be notified when you get control of the country.
+{% endblocktrans %}</p>
+<p>{% blocktrans %}In doing this, you will probably run a damaged country, so
+you will get some karma for your sacrifice.{% endblocktrans %}</p>
+<table>
+	<tr><thead>
+	<th>{% trans "Game" %}</th>
+	<th>{% trans "Country" %}</th>
+	<th>{% trans "Overthrow" %}</th>
+	</thead></tr>
+{% for r in revolutions %}
+	<tr>
+	<td><a href="{{ r.government.game.get_absolute_url }}">
+	{{ r.government.game.slug }}
+	</a></td>
+	<td>{{ r.government.country }}</td>
+	<td><a href="{% url machiavelli.views.overthrow r.pk %}">{% trans "Overthrow" %}</a></td>
+	</tr>
+{% endfor %}
+</table>
+{% endif %}
+
 <h2>{% trans "Finished games" %}</h2>
 <table>
 	<thead>

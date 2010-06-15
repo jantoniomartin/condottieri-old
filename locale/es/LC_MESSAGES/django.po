@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-26 17:03+0200\n"
+"POT-Creation-Date: 2010-06-15 22:23+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr "Nombre"
 
 #: machiavelli/forms.py:15 machiavelli/templates/machiavelli/game_list.html:17
 #: machiavelli/templates/machiavelli/game_list.html:39
-#: machiavelli/templates/machiavelli/game_list.html:71
+#: machiavelli/templates/machiavelli/game_list.html:101
 msgid "Scenario"
 msgstr "Escenario"
 
@@ -30,234 +30,252 @@ msgstr "Escenario"
 msgid "Time limit"
 msgstr "Límite de tiempo"
 
-#: machiavelli/forms.py:42 machiavelli/models.py:84
+#: machiavelli/forms.py:42 machiavelli/models.py:85
 msgid "Hold"
 msgstr "Aguantar"
 
-#: machiavelli/forms.py:43 machiavelli/models.py:86
+#: machiavelli/forms.py:43 machiavelli/models.py:87
 msgid "Advance"
 msgstr "Avanzar"
 
-#: machiavelli/forms.py:44 machiavelli/models.py:87
+#: machiavelli/forms.py:44 machiavelli/models.py:88
 msgid "Conversion"
 msgstr "Conversión"
 
-#: machiavelli/management.py:10
+#: machiavelli/management.py:11
 msgid "Change of phase forced"
 msgstr "Cambio de fase forzado"
 
-#: machiavelli/management.py:11
+#: machiavelli/management.py:12
 msgid "a change of phase has been forced"
 msgstr "se ha forzado un cambio de fase"
 
-#: machiavelli/management.py:13
+#: machiavelli/management.py:14
 msgid "Game started"
 msgstr "Juego comenzado"
 
-#: machiavelli/management.py:14
+#: machiavelli/management.py:15
 msgid "a game that you're a player in has started"
 msgstr "un juego en el que eres jugador ha comenzado"
 
-#: machiavelli/management.py:16
+#: machiavelli/management.py:17
 msgid "Game over"
 msgstr "Juego terminado"
 
-#: machiavelli/management.py:17
+#: machiavelli/management.py:18
 msgid "a game that you're playing is over"
 msgstr "un juego en el que estás jugando ha terminado"
 
-#: machiavelli/management.py:19
+#: machiavelli/management.py:20
 msgid "New phase"
 msgstr "Nueva fase"
 
-#: machiavelli/management.py:20
+#: machiavelli/management.py:21
 msgid "a new phase has begun"
 msgstr "ha empezado una nueva fase"
 
-#: machiavelli/management.py:22
+#: machiavelli/management.py:23
 msgid "Letter received"
 msgstr "Carta recibida"
 
-#: machiavelli/management.py:23
+#: machiavelli/management.py:24
 msgid "you have received a new letter"
 msgstr "has recibido una nueva carta"
 
-#: machiavelli/models.py:63
+#: machiavelli/management.py:26
+msgid "Overthrow attempt"
+msgstr "Intento de derrocamiento"
+
+#: machiavelli/management.py:27
+msgid "you are being overthrown"
+msgstr "estás a punto de ser derrocado"
+
+#: machiavelli/management.py:29 machiavelli/management.py:32
+#: machiavelli/templates/machiavelli/game_list.html:82
+#: machiavelli/templates/machiavelli/game_list.html:90
+msgid "Overthrow"
+msgstr "Derrocar"
+
+#: machiavelli/management.py:30
+msgid "you have been overthrown"
+msgstr "has sido derrocado"
+
+#: machiavelli/management.py:33
+msgid "you have overthrown a government"
+msgstr "has derrocado un gobierno"
+
+#: machiavelli/models.py:64
 msgid "Army"
 msgstr "Ejército"
 
-#: machiavelli/models.py:64
+#: machiavelli/models.py:65
 msgid "Fleet"
 msgstr "Flota"
 
-#: machiavelli/models.py:65
+#: machiavelli/models.py:66
 msgid "Garrison"
 msgstr "Guarnición"
 
-#: machiavelli/models.py:68
+#: machiavelli/models.py:69
 msgid "Spring"
 msgstr "Primavera"
 
-#: machiavelli/models.py:69
+#: machiavelli/models.py:70
 msgid "Summer"
 msgstr "Verano"
 
-#: machiavelli/models.py:70
+#: machiavelli/models.py:71
 msgid "Fall"
 msgstr "Otoño"
 
-#: machiavelli/models.py:78
+#: machiavelli/models.py:79
 msgid "Inactive game"
 msgstr "Juego inactivo"
 
-#: machiavelli/models.py:79
+#: machiavelli/models.py:80
 msgid "Military adjustments"
 msgstr "Ajustes militares"
 
-#: machiavelli/models.py:80
+#: machiavelli/models.py:81
 msgid "Order writing"
 msgstr "Emisión de órdenes"
 
-#: machiavelli/models.py:81 machiavelli/templates/machiavelli/phase_3.html:3
+#: machiavelli/models.py:82 machiavelli/templates/machiavelli/phase_3.html:3
 msgid "Retreats"
 msgstr "Retiradas"
 
-#: machiavelli/models.py:85
+#: machiavelli/models.py:86
 msgid "Besiege"
 msgstr "Asediar"
 
-#: machiavelli/models.py:88
+#: machiavelli/models.py:89
 msgid "Convoy"
 msgstr "Convoy"
 
-#: machiavelli/models.py:89
+#: machiavelli/models.py:90
 msgid "Support"
 msgstr "Apoyar"
 
-#: machiavelli/models.py:96
-msgid "3 days"
-msgstr "3 días"
-
-#: machiavelli/models.py:97
+#: machiavelli/models.py:98
 msgid "2 days"
 msgstr "2 días"
 
-#: machiavelli/models.py:98
+#: machiavelli/models.py:99
 msgid "1 day"
 msgstr "1 día"
 
-#: machiavelli/models.py:99
+#: machiavelli/models.py:100
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: machiavelli/models.py:1124
+#: machiavelli/models.py:1226
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
 
-#: machiavelli/models.py:1313
+#: machiavelli/models.py:1447
 #, python-format
 msgid "the army in %s"
 msgstr "el ejército en %s"
 
-#: machiavelli/models.py:1315
+#: machiavelli/models.py:1449
 #, python-format
 msgid "the fleet in %s"
 msgstr "la flota en %s"
 
-#: machiavelli/models.py:1317
+#: machiavelli/models.py:1451
 #, python-format
 msgid "the garrison in %s"
 msgstr "la guarnición en %s"
 
-#: machiavelli/models.py:1440
+#: machiavelli/models.py:1574
 #, python-format
 msgid "%(country)s recruits a new %(type)s in %(area)s."
 msgstr "%(country)s recluta %(type)s en %(area)s"
 
-#: machiavelli/models.py:1454
+#: machiavelli/models.py:1588
 #, python-format
 msgid "%(country)s's %(type)s in %(area)s is disbanded."
 msgstr "%(type)s de %(country)s en %(area)s es desbandado/a."
 
-#: machiavelli/models.py:1458
+#: machiavelli/models.py:1592
 #, python-format
 msgid "Autonomous %(type)s in %(area)s is disbanded."
 msgstr "%(type)s independiente en %(area)s es desbandado/a."
 
-#: machiavelli/models.py:1487
+#: machiavelli/models.py:1621
 #, python-format
 msgid "%(unit)s tries to go to %(area)s."
 msgstr "%(unit)s intenta entrar en %(area)s"
 
-#: machiavelli/models.py:1490
+#: machiavelli/models.py:1624
 #, python-format
 msgid "%(unit)s besieges the city."
 msgstr "%(unit)s asedia la ciudad."
 
-#: machiavelli/models.py:1492
+#: machiavelli/models.py:1626
 #, python-format
 msgid "%(unit)s tries to convert into %(type)s."
 msgstr "%(unit)s intenta convertirse en %(type)s"
 
-#: machiavelli/models.py:1495
+#: machiavelli/models.py:1629
 #, python-format
 msgid "%(unit)s must convoy %(subunit)s to %(area)s."
 msgstr "%(unit)s dispuesta a trasladar a %(subunit)s a %(area)s"
 
-#: machiavelli/models.py:1501
+#: machiavelli/models.py:1635
 #, python-format
 msgid "%(unit)s supports %(subunit)s to hold its position."
 msgstr "%(unit)s apoya a %(subunit)s a mantener su posición."
 
-#: machiavelli/models.py:1506
+#: machiavelli/models.py:1640
 #, python-format
 msgid "%(unit)s supports %(subunit)s to go to %(area)s."
 msgstr "%(unit)s apoya a %(subunit)s para entrar en %(area)s"
 
-#: machiavelli/models.py:1512
+#: machiavelli/models.py:1646
 #, python-format
 msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
 msgstr "%(unit)s apoya a %(subunit)s para convertirse en %(type)s"
 
-#: machiavelli/models.py:1526
+#: machiavelli/models.py:1660
 #, python-format
 msgid "Conflicts in %(area)s result in a standoff."
 msgstr "El conflicto en %(area)s termina en empate."
 
-#: machiavelli/models.py:1537
+#: machiavelli/models.py:1671
 #, python-format
 msgid "%(unit)s converts into %(type)s."
 msgstr "%(unit)s se convierte en %(type)s."
 
-#: machiavelli/models.py:1548
+#: machiavelli/models.py:1682
 #, python-format
 msgid "%(country)s gets control of %(area)s."
 msgstr "%(country)s consigue el control de %(area)s."
 
-#: machiavelli/models.py:1561
+#: machiavelli/models.py:1695
 #, python-format
 msgid "%(unit)s advances into %(destination)s."
 msgstr "%(unit)s avanza a %(destination)s."
 
-#: machiavelli/models.py:1565
+#: machiavelli/models.py:1699
 #, python-format
 msgid "%(unit)s tries to retreat to %(destination)s."
 msgstr "%(unit)s intenta retirarse a %(destination)s"
 
-#: machiavelli/models.py:1570
+#: machiavelli/models.py:1704
 msgid "cannot carry out its support order."
 msgstr "no puede llevar a cabo su apoyo."
 
-#: machiavelli/models.py:1571
+#: machiavelli/models.py:1705
 msgid "must retreat."
 msgstr "debe retirarse."
 
-#: machiavelli/models.py:1572
+#: machiavelli/models.py:1706
 msgid "surrenders."
 msgstr "se rinde."
 
-#: machiavelli/models.py:1573
+#: machiavelli/models.py:1707
 msgid "is now besieging."
 msgstr "comienza su asedio."
 
@@ -798,7 +816,8 @@ msgstr "Tus partidas"
 
 #: machiavelli/templates/machiavelli/game_list.html:16
 #: machiavelli/templates/machiavelli/game_list.html:38
-#: machiavelli/templates/machiavelli/game_list.html:70
+#: machiavelli/templates/machiavelli/game_list.html:80
+#: machiavelli/templates/machiavelli/game_list.html:100
 #: machiavelli/templates/machiavelli/show_game.html:10
 msgid "Game"
 msgstr "Juego"
@@ -852,11 +871,52 @@ msgstr "Partidas en las que no estás jugando"
 
 #: machiavelli/templates/machiavelli/game_list.html:58
 #: machiavelli/templates/machiavelli/show_game.html:24
-#: machiavelli/templates/machiavelli/show_game.html:102
+#: machiavelli/templates/machiavelli/show_game.html:107
 msgid "Join game"
 msgstr "Únete"
 
-#: machiavelli/templates/machiavelli/game_list.html:66
+#: machiavelli/templates/machiavelli/game_list.html:68
+msgid "Revolutions"
+msgstr "Revoluciones"
+
+#: machiavelli/templates/machiavelli/game_list.html:69
+msgid ""
+"The following countries are governed by leaders that are not\n"
+"paying enough attention to their duties. If you feel that you could do "
+"better,\n"
+"you may try to overthrow a leader."
+msgstr ""
+"Los siguientes países están gobernados por líderes que no\n"
+"prestan suficiente atención a sus obligaciones. Si crees que puedes hacerlo "
+"mejor,\n"
+"puedes intentar derrocar a un lider."
+
+#: machiavelli/templates/machiavelli/game_list.html:72
+msgid ""
+"If you try to overthrow a leader, he will have a chance to\n"
+"recover control in the current phase. If he does not, you will take his "
+"place.\n"
+"You will be notified when you get control of the country.\n"
+msgstr ""
+"Si intentas derrocar a un lider, éste tendrá una oportunidad de\n"
+"no perder el control en la fase actual. Si no aprovecha la oportunidad, "
+"ocuparás su lugar.\n"
+"Se te notificará cuando consigas el control del país.\n"
+
+#: machiavelli/templates/machiavelli/game_list.html:76
+msgid ""
+"In doing this, you will probably run a damaged country, so\n"
+"you will get some karma for your sacrifice."
+msgstr ""
+"Al hacer esto, probablemente dirigirás un país dañado, por lo que\n"
+"ganarás algo de karma por tu sacrificio."
+
+#: machiavelli/templates/machiavelli/game_list.html:81
+#: machiavelli/templates/machiavelli/game_results.html:15
+msgid "Country"
+msgstr "Estado"
+
+#: machiavelli/templates/machiavelli/game_list.html:96
 msgid "Finished games"
 msgstr "Partidas terminadas"
 
@@ -875,10 +935,6 @@ msgstr "Estas son las puntuaciones de cada jugador en el juego"
 #: machiavelli/templates/machiavelli/game_results.html:14
 msgid "Player"
 msgstr "Jugador"
-
-#: machiavelli/templates/machiavelli/game_results.html:15
-msgid "Country"
-msgstr "Estado"
 
 #: machiavelli/templates/machiavelli/game_results.html:16
 #: machiavelli/templates/machiavelli/hall_of_fame.html:16
@@ -913,7 +969,7 @@ msgstr "Usuario"
 
 #: machiavelli/templates/machiavelli/letter_detail.html:5
 #: machiavelli/templates/machiavelli/letter_inbox.html:5
-#: machiavelli/templates/machiavelli/show_game.html:75
+#: machiavelli/templates/machiavelli/show_game.html:80
 msgid "Inbox"
 msgstr "Entrada"
 
@@ -946,7 +1002,7 @@ msgid "From"
 msgstr "De"
 
 #: machiavelli/templates/machiavelli/letter_detail.html:23
-#: machiavelli/templates/machiavelli/show_game.html:47
+#: machiavelli/templates/machiavelli/show_game.html:52
 msgid "Send message"
 msgstr "Enviar carta"
 
@@ -1000,7 +1056,7 @@ msgid "Summary"
 msgstr "Resumen"
 
 #: machiavelli/templates/machiavelli/letter_outbox.html:5
-#: machiavelli/templates/machiavelli/show_game.html:76
+#: machiavelli/templates/machiavelli/show_game.html:81
 msgid "Outbox"
 msgstr "Salida"
 
@@ -1210,15 +1266,15 @@ msgstr "Retirar"
 msgid "Game:"
 msgstr "Juego:"
 
-#: machiavelli/templates/machiavelli/show_game.html:42
+#: machiavelli/templates/machiavelli/show_game.html:47
 msgid "Cities:"
 msgstr "Ciudades"
 
-#: machiavelli/templates/machiavelli/show_game.html:43
+#: machiavelli/templates/machiavelli/show_game.html:48
 msgid "Units:"
 msgstr "Unidades:"
 
-#: machiavelli/templates/machiavelli/show_game.html:60
+#: machiavelli/templates/machiavelli/show_game.html:65
 msgid ""
 "Our cartographers are drawing a new map for you. Please, reload\n"
 "the page in a few seconds."
@@ -1226,19 +1282,19 @@ msgstr ""
 "Nuestros cartógrafos están dibujando un nuevo mapa. Por favor, recarga la "
 "página dentro de unos segundos."
 
-#: machiavelli/templates/machiavelli/show_game.html:67
+#: machiavelli/templates/machiavelli/show_game.html:72
 msgid "Diplomacy"
 msgstr "Diplomacia"
 
-#: machiavelli/templates/machiavelli/show_game.html:80
+#: machiavelli/templates/machiavelli/show_game.html:85
 msgid "Campaign log"
 msgstr "Diario de campaña"
 
-#: machiavelli/templates/machiavelli/show_game.html:88
+#: machiavelli/templates/machiavelli/show_game.html:93
 msgid "See all"
 msgstr "Ver todo"
 
-#: machiavelli/templates/machiavelli/show_game.html:98
+#: machiavelli/templates/machiavelli/show_game.html:103
 msgid "This game is inactive or you are not playing in it."
 msgstr "Este juego está inactivo o no estás jugando en él."
 
@@ -1368,11 +1424,11 @@ msgstr "Lista completa de eventos."
 msgid "Some events are posted to "
 msgstr "Algunos eventos son enviados a "
 
-#: templates/homepage.html:56
+#: templates/homepage.html:55
 msgid "Invitation codes"
 msgstr "Códigos de invitación"
 
-#: templates/homepage.html:58
+#: templates/homepage.html:57
 msgid ""
 "<b>Condottieri</b> is currently under active development. If you would like "
 "to receive a\n"
@@ -1381,16 +1437,16 @@ msgstr ""
 "<b>Condottieri</b> está en pleno desarrollo. Si quieres recibir un\n"
 "código de registro, por favor, danos tu dirección de e-mail."
 
-#: templates/homepage.html:64 templates/homepage.html.py:75
+#: templates/homepage.html:63 templates/homepage.html.py:74
 #: templates/site_base.html:18
 msgid "Sign up"
 msgstr "Registro"
 
-#: templates/homepage.html:67 templates/site_base.html:18
+#: templates/homepage.html:66 templates/site_base.html:18
 msgid "or"
 msgstr "o"
 
-#: templates/homepage.html:70
+#: templates/homepage.html:69
 msgid "You can use a sign-up code to sign-up with the site right now."
 msgstr "Puedes usar un código de registro para darte de alta ahora mismo."
 
@@ -2078,6 +2134,7 @@ msgstr "ver los resultados"
 
 #: templates/notification/game_started/full.txt:3
 #: templates/notification/game_started/notice.html:3
+#: templates/notification/overthrow_attempt/notice.html:15
 #, python-format
 msgid "The game '%(slug)s' has just started. You can "
 msgstr "El juego '%(slug)s' acaba de empezar. Puedes "
@@ -2090,6 +2147,21 @@ msgstr "jugar en "
 msgid "play it now"
 msgstr "jugar ahora"
 
+#: templates/notification/got_player/full.txt:3
+#: templates/notification/got_player/notice.html:3
+#, python-format
+msgid "You are now playing the game '%(slug)s'."
+msgstr "Desde ahora estás jugando en el juego '%(slug)s'."
+
+#: templates/notification/got_player/full.txt:5
+#: templates/notification/got_player/notice.html:5
+#: templates/notification/lost_player/full.txt:5
+#: templates/notification/lost_player/notice.html:5
+#: templates/notification/overthrow_attempt/full.txt:10
+#: templates/notification/overthrow_attempt/notice.html:10
+msgid "Go to the game"
+msgstr "Ir al juego"
+
 #: templates/notification/letter_received/full.txt:3
 #, python-format
 msgid "You have received a new letter in the game '%(slug)s'"
@@ -2098,6 +2170,12 @@ msgstr "Has recibido una nueva carta en el juego '%(slug)s'."
 #: templates/notification/letter_received/full.txt:10
 msgid "Read the letter"
 msgstr "Leer la carta"
+
+#: templates/notification/lost_player/full.txt:3
+#: templates/notification/lost_player/notice.html:3
+#, python-format
+msgid "You have been overthrown in game '%(slug)s'."
+msgstr "Has sido derrocado en el juego '%(slug)s'."
 
 #: templates/notification/new_phase/full.txt:3
 #, python-format
@@ -2108,11 +2186,48 @@ msgstr "La fase '%(phase)s' ha comenzado en el juego '%(slug)s'."
 msgid "go to the game"
 msgstr "ir al juego"
 
+#: templates/notification/overthrow_attempt/full.txt:3
+#: templates/notification/overthrow_attempt/notice.html:3
+#, python-format
+msgid ""
+"You have neglected your government\n"
+"duties in game '%(slug)s' and someone wants to take your place."
+msgstr ""
+"Has descuidado tus tareas de gobierno\n"
+"en el juego '%(slug)s' y alguien quiere ocupar tu lugar."
+
+#: templates/notification/overthrow_attempt/full.txt:6
+#: templates/notification/overthrow_attempt/notice.html:6
+msgid ""
+"If you want to keep playing in this game, you have only to\n"
+"make your actions, and you will keep your country. If you don't make your\n"
+"actions in the current phase, another player will take your country."
+msgstr ""
+"Si quieres seguir jugando, solo tienes que\n"
+"hacer tus acciones, y conservarás tu país. Si no haces tus acciones\n"
+"en la fase actual, otro jugador tomará el control de tu país."
+
+#: templates/notification/overthrow_attempt/full.txt:12
+#: templates/notification/overthrow_attempt/notice.html:12
+msgid ""
+"If you do not want to play this game, it's better that you\n"
+"let the other player to take your country. This way you won't lose more "
+"karma\n"
+"for not playing this game."
+msgstr ""
+"Si no quieres jugar esta partida, es mejor que dejes\n"
+"que otro jugador controle tu país. De esta forma no perderás más "
+"karma\n"
+"por no jugar la partida."
+
 #: templates/notification/phase_change_forced/full.txt:2
 #: templates/notification/phase_change_forced/notice.html:2
 #, python-format
 msgid "A change of phase has been forced in the game '%(slug)s'."
 msgstr "Se ha forzado un cambio de fase en el juego '%(slug)s'."
+
+#~ msgid "3 days"
+#~ msgstr "3 días"
 
 #~ msgid "5 days"
 #~ msgstr "5 días"
