@@ -635,8 +635,15 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 			failure = False
 			for e in enemies:
 				info += u"Enemy: %s " % e
-				strength = Unit.objects.get_with_strength(self,id=e.id).strength
-				info += u"has stregnth %s s\n" % strength
+				## this is a hack to prevent a unit from invading a friend one
+				if e.player == u.player and \
+					((u.order.code == '-' and e.area == u.order.destination) or \
+					(u.order.code == '=' and e.area == u.area)):
+						strength = s
+						info += u"is a friend and "
+				else:
+					strength = Unit.objects.get_with_strength(self, id=e.id).strength
+				info += u"has strength %s s\n" % strength
 				if strength >= s:
 					info += u"Enemy wins\n"
 					failure = True
