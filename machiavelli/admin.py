@@ -123,13 +123,21 @@ class UnitEventAdmin(admin.ModelAdmin):
 	list_filter = ('game', 'year', 'season', 'phase', 'message')
 
 class GameAdmin(admin.ModelAdmin):
-	list_display = ('pk', 'year', 'season', 'phase', 'slots', 'scenario', 'created_by', 'next_phase_change')
+	list_display = ('pk', 'year', 'season', 'phase', 'slots', 'scenario', 'created_by', 'next_phase_change', 'player_list')
 	actions = ['redraw_map']
 
 	def redraw_map(self, request, queryset):
 		for obj in queryset:
 			obj.make_map()
 	redraw_map.short_description = "Redraw map"
+	
+	def player_list(self, obj):
+		users = []
+		for p in obj.player_set.filter(user__isnull=False):
+			users.append(p.user.username)
+		return ", ".join(users)
+
+	player_list.short_description = 'Player list'
 
 class RetreatOrderAdmin(admin.ModelAdmin):
 	pass
