@@ -7,9 +7,6 @@ if "notification" in settings.INSTALLED_APPS:
 
 	def create_notice_types(app, created_models, verbosity, **kwargs):
 		print "Creating notices"
-		notification.create_notice_type("phase_change_forced",
-										_("Change of phase forced"),
-										_("a change of phase has been forced"))
 		notification.create_notice_type("game_started",
 										_("Game started"),
 										_("a game that you're a player in has started"))

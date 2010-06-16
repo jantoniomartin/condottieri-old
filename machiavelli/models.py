@@ -268,7 +268,6 @@ Returns the Time of the next compulsory phase change.
 When the time limit is reached and one or more of the players are not done,
 a phase change is forced.
 		"""
-		self.notify_players("phase_change_forced", {"game": self})
 		for p in self.player_set.all():
 			if p.done:
 				continue

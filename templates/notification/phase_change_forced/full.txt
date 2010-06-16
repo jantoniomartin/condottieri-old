@@ -1,2 +1,0 @@
-{% load i18n %}
-{% blocktrans with game.slug as slug %}A change of phase has been forced in the game '{{ slug }}'.{% endblocktrans %}
