@@ -879,16 +879,9 @@ Returns True if at least one player has reached the cities_to_win
 		"""
 In a finished game, delete all the data that is not going to be used anymore.
 		"""
-		#try:
-		#	aut = Player.objects.get(game=self, user__isnull=True)
-		#except:
-		#	print "There should be an autonomous player"
-		#else:
-		#	aut.delete()
-		#for p in self.player_set.all():
-		#	p.sent.all().delete()
 		self.player_set.all().delete()
-		self.baseevent_set.all().delete()
+		# events will be deleted by cron, after a time
+		#self.baseevent_set.all().delete()
 		self.gamearea_set.all().delete()
 
 	def notify_players(self, label, extra_context=None, on_site=True):

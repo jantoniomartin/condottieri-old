@@ -256,7 +256,11 @@ def game_results(request, game_id):
 	scores = game.score_set.filter(user__isnull=False).order_by('-points')
 	context = {'game': game,
 				'map' : game.get_map_url(),
-				'players': scores }
+				'players': scores,
+				'show_log': False,}
+	log = game.baseevent_set.all()
+	if len(log) > 0:
+		context['show_log'] = True
 	return render_to_response('machiavelli/game_results.html',
 							context,
 							context_instance=RequestContext(request))
