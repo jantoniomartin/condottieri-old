@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-15 22:23+0200\n"
+"POT-Creation-Date: 2010-06-16 18:22+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -168,116 +168,120 @@ msgstr "1 día"
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: machiavelli/models.py:1226
+#: machiavelli/models.py:1229
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
 
-#: machiavelli/models.py:1447
+#: machiavelli/models.py:1450
 #, python-format
 msgid "the army in %s"
 msgstr "el ejército en %s"
 
-#: machiavelli/models.py:1449
+#: machiavelli/models.py:1452
 #, python-format
 msgid "the fleet in %s"
 msgstr "la flota en %s"
 
-#: machiavelli/models.py:1451
+#: machiavelli/models.py:1454
 #, python-format
 msgid "the garrison in %s"
 msgstr "la guarnición en %s"
 
-#: machiavelli/models.py:1574
+#: machiavelli/models.py:1577
 #, python-format
 msgid "%(country)s recruits a new %(type)s in %(area)s."
 msgstr "%(country)s recluta %(type)s en %(area)s"
 
-#: machiavelli/models.py:1588
+#: machiavelli/models.py:1591
 #, python-format
 msgid "%(country)s's %(type)s in %(area)s is disbanded."
 msgstr "%(type)s de %(country)s en %(area)s es desbandado/a."
 
-#: machiavelli/models.py:1592
+#: machiavelli/models.py:1595
 #, python-format
 msgid "Autonomous %(type)s in %(area)s is disbanded."
 msgstr "%(type)s independiente en %(area)s es desbandado/a."
 
-#: machiavelli/models.py:1621
+#: machiavelli/models.py:1624
 #, python-format
 msgid "%(unit)s tries to go to %(area)s."
 msgstr "%(unit)s intenta entrar en %(area)s"
 
-#: machiavelli/models.py:1624
+#: machiavelli/models.py:1627
 #, python-format
 msgid "%(unit)s besieges the city."
 msgstr "%(unit)s asedia la ciudad."
 
-#: machiavelli/models.py:1626
+#: machiavelli/models.py:1629
 #, python-format
 msgid "%(unit)s tries to convert into %(type)s."
 msgstr "%(unit)s intenta convertirse en %(type)s"
 
-#: machiavelli/models.py:1629
+#: machiavelli/models.py:1632
 #, python-format
 msgid "%(unit)s must convoy %(subunit)s to %(area)s."
 msgstr "%(unit)s dispuesta a trasladar a %(subunit)s a %(area)s"
 
-#: machiavelli/models.py:1635
+#: machiavelli/models.py:1638
 #, python-format
 msgid "%(unit)s supports %(subunit)s to hold its position."
 msgstr "%(unit)s apoya a %(subunit)s a mantener su posición."
 
-#: machiavelli/models.py:1640
+#: machiavelli/models.py:1643
 #, python-format
 msgid "%(unit)s supports %(subunit)s to go to %(area)s."
 msgstr "%(unit)s apoya a %(subunit)s para entrar en %(area)s"
 
-#: machiavelli/models.py:1646
+#: machiavelli/models.py:1649
 #, python-format
 msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
 msgstr "%(unit)s apoya a %(subunit)s para convertirse en %(type)s"
 
-#: machiavelli/models.py:1660
+#: machiavelli/models.py:1663
 #, python-format
 msgid "Conflicts in %(area)s result in a standoff."
 msgstr "El conflicto en %(area)s termina en empate."
 
-#: machiavelli/models.py:1671
+#: machiavelli/models.py:1674
 #, python-format
 msgid "%(unit)s converts into %(type)s."
 msgstr "%(unit)s se convierte en %(type)s."
 
-#: machiavelli/models.py:1682
+#: machiavelli/models.py:1685
 #, python-format
 msgid "%(country)s gets control of %(area)s."
 msgstr "%(country)s consigue el control de %(area)s."
 
-#: machiavelli/models.py:1695
+#: machiavelli/models.py:1698
 #, python-format
 msgid "%(unit)s advances into %(destination)s."
 msgstr "%(unit)s avanza a %(destination)s."
 
-#: machiavelli/models.py:1699
+#: machiavelli/models.py:1702
 #, python-format
 msgid "%(unit)s tries to retreat to %(destination)s."
 msgstr "%(unit)s intenta retirarse a %(destination)s"
 
-#: machiavelli/models.py:1704
+#: machiavelli/models.py:1707
 msgid "cannot carry out its support order."
 msgstr "no puede llevar a cabo su apoyo."
 
-#: machiavelli/models.py:1705
+#: machiavelli/models.py:1708
 msgid "must retreat."
 msgstr "debe retirarse."
 
-#: machiavelli/models.py:1706
+#: machiavelli/models.py:1709
 msgid "surrenders."
 msgstr "se rinde."
 
-#: machiavelli/models.py:1707
+#: machiavelli/models.py:1710
 msgid "is now besieging."
 msgstr "comienza su asedio."
+
+#: machiavelli/models.py:1734
+msgid "Government has been overthrown"
+msgstr "El gobierno ha sido derrocado"
 
 #: machiavelli/translate.py:5
 msgid "Austria"
@@ -600,7 +604,7 @@ msgstr "Mediterráneo Occidental"
 msgid "Create an acccount on %(domain)s"
 msgstr "Invitación para registrarte en Condottieri: %(domain)s"
 
-#: machiavelli/templates/machiavelli/faq.html:5 templates/site_base.html:38
+#: machiavelli/templates/machiavelli/faq.html:5 templates/site_base.html:44
 msgid "FAQ"
 msgstr "FAQ"
 
@@ -723,7 +727,7 @@ msgstr ""
 
 #: machiavelli/templates/machiavelli/game_form.html:5
 #: machiavelli/templates/machiavelli/game_list.html:5
-#: templates/site_base.html:29
+#: templates/site_base.html:35
 msgid "Games"
 msgstr "Juegos"
 
@@ -945,14 +949,19 @@ msgstr "Puntuación"
 msgid "Cities"
 msgstr "Ciudades"
 
-#: machiavelli/templates/machiavelli/game_results.html:30
-#: templates/site_base.html:39
+#: machiavelli/templates/machiavelli/game_results.html:31
+#: machiavelli/templates/machiavelli/show_game.html:85
+msgid "Campaign log"
+msgstr "Diario de campaña"
+
+#: machiavelli/templates/machiavelli/game_results.html:33
+#: templates/site_base.html:45
 msgid "Map"
 msgstr "Mapa"
 
 #: machiavelli/templates/machiavelli/hall_of_fame.html:5
 #: machiavelli/templates/machiavelli/hall_of_fame.html:8
-#: templates/site_base.html:41
+#: templates/site_base.html:47
 msgid "Hall of Fame"
 msgstr "Salón de la Fama"
 
@@ -1286,10 +1295,6 @@ msgstr ""
 msgid "Diplomacy"
 msgstr "Diplomacia"
 
-#: machiavelli/templates/machiavelli/show_game.html:85
-msgid "Campaign log"
-msgstr "Diario de campaña"
-
 #: machiavelli/templates/machiavelli/show_game.html:93
 msgid "See all"
 msgstr "Ver todo"
@@ -1438,11 +1443,11 @@ msgstr ""
 "código de registro, por favor, danos tu dirección de e-mail."
 
 #: templates/homepage.html:63 templates/homepage.html.py:74
-#: templates/site_base.html:18
+#: templates/site_base.html:24
 msgid "Sign up"
 msgstr "Registro"
 
-#: templates/homepage.html:66 templates/site_base.html:18
+#: templates/homepage.html:66 templates/site_base.html:24
 msgid "or"
 msgstr "o"
 
@@ -1450,44 +1455,44 @@ msgstr "o"
 msgid "You can use a sign-up code to sign-up with the site right now."
 msgstr "Puedes usar un código de registro para darte de alta ahora mismo."
 
-#: templates/site_base.html:16 templates/account/email.html:6
+#: templates/site_base.html:22 templates/account/email.html:6
 #: templates/account/email.html.py:9
 msgid "Account"
 msgstr "Cuenta"
 
-#: templates/site_base.html:16
+#: templates/site_base.html:22
 msgid "Admin"
 msgstr "Admin"
 
-#: templates/site_base.html:16 templates/account/logout.html:5
+#: templates/site_base.html:22 templates/account/logout.html:5
 msgid "Logout"
 msgstr "Salir"
 
-#: templates/site_base.html:18 templates/account/login.html:7
+#: templates/site_base.html:24 templates/account/login.html:7
 msgid "Login"
 msgstr "Acceder"
 
-#: templates/site_base.html:30
+#: templates/site_base.html:36
 msgid "Profile"
 msgstr "Perfil"
 
-#: templates/site_base.html:31
+#: templates/site_base.html:37
 msgid "Notices"
 msgstr "Avisos"
 
-#: templates/site_base.html:39
+#: templates/site_base.html:45
 msgid "empty-map_en.jpg"
 msgstr "empty-map_es.jpg"
 
-#: templates/site_base.html:40
+#: templates/site_base.html:46
 msgid "All games"
 msgstr "Todos los juegos"
 
-#: templates/site_base.html:47
+#: templates/site_base.html:53
 msgid "&copy; 2010 J. A. Mart&iacute;n Prieto"
 msgstr "&copy; 2010 J. A. Antonio Mart&iacute;n Prieto"
 
-#: templates/site_base.html:48 templates/about/about.html:5
+#: templates/site_base.html:54 templates/about/about.html:5
 #: templates/default/profiles/profile.html:38
 msgid "About"
 msgstr "Acerca"
@@ -2216,8 +2221,7 @@ msgid ""
 "for not playing this game."
 msgstr ""
 "Si no quieres jugar esta partida, es mejor que dejes\n"
-"que otro jugador controle tu país. De esta forma no perderás más "
-"karma\n"
+"que otro jugador controle tu país. De esta forma no perderás más karma\n"
 "por no jugar la partida."
 
 #: templates/notification/phase_change_forced/full.txt:2

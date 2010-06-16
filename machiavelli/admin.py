@@ -122,6 +122,12 @@ class UnitEventAdmin(admin.ModelAdmin):
 	list_display = ('game', '__unicode__', 'year', 'season', 'phase')
 	list_filter = ('game', 'year', 'season', 'phase', 'message')
 
+class CountryEventAdmin(admin.ModelAdmin):
+	ordering = ['-year']
+	list_per_page = 20
+	list_display = ('game', '__unicode__', 'year', 'season', 'phase')
+	list_filter = ('game', 'year', 'season', 'phase', 'message')
+
 class GameAdmin(admin.ModelAdmin):
 	list_display = ('pk', 'year', 'season', 'phase', 'slots', 'scenario', 'created_by', 'next_phase_change', 'player_list')
 	actions = ['redraw_map']
@@ -168,4 +174,5 @@ admin.site.register(ConversionEvent, ConversionEventAdmin)
 admin.site.register(ControlEvent, ControlEventAdmin)
 admin.site.register(MovementEvent, MovementEventAdmin)
 admin.site.register(UnitEvent, UnitEventAdmin)
+admin.site.register(CountryEvent, CountryEventAdmin)
 admin.site.register(Letter, LetterAdmin)

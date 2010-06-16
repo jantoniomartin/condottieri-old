@@ -1127,6 +1127,9 @@ Returns a queryset with the GameAreas that accept new units.
 					notification.send(user, "got_player", extra_context, on_site=True)
 				self.user = rev.opposition
 				logging.info("Government of %s is overthrown" % self.country)
+				self.game.log_event(CountryEvent,
+									country=self.country,
+									message=0)
 				self.save()
 				rev.delete()
 				self.user.stats.adjust_karma(10)
@@ -1726,6 +1729,21 @@ class UnitEvent(BaseEvent):
 	def __unicode__(self):
 		return "%(unit)s %(message)s" % {'unit': self.unit_string(self.type, self.area),
 										'message': self.get_message_display()}
+
+COUNTRY_EVENTS = (
+	(0, _('Government has been overthrown')),
+)
+
+class CountryEvent(BaseEvent):
+	country = models.ForeignKey(Country)
+	message = models.PositiveIntegerField(choices=COUNTRY_EVENTS)
+
+	def __unicode__(self):
+		return "%(country)s: %(message)s" % {'country': self.country.name,
+										'message': self.get_message_display()}
+	
+	def css_class(self):
+		return "season_%(season)s" % {'season': self.season}
 
 class Letter(models.Model):
 	sender = models.ForeignKey(Player, related_name='sent')
