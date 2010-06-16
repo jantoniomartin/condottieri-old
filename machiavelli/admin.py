@@ -18,7 +18,7 @@ class PlayerAdmin(admin.ModelAdmin):
 	ordering = ['game']
 
 class RevolutionAdmin(admin.ModelAdmin):
-	pass
+	list_display = ('government', 'opposition')
 
 class ScoreAdmin(admin.ModelAdmin):
 	list_display = ('user', 'game', 'country', 'points', 'cities')
