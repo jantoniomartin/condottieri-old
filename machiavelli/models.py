@@ -998,6 +998,12 @@ class Player(models.Model):
 		else:
 			return "Autonomous in %s" % self.game
 
+	def get_language(self):
+		if self.user:
+			return self.user.account_set.all()[0].get_language_display()
+		else:
+			return ''
+	
 	def get_setups(self):
 		return Setup.objects.filter(scenario=self.game.scenario,
 				country=self.country).select_related()

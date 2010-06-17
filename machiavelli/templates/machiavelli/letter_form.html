@@ -18,6 +18,7 @@
 <p>{% blocktrans with receiver.country as country %}
 New letter for {{ country }}
 {% endblocktrans %}</p>
+<p>{% trans "Language" %}: {{ receiver.get_language }}</p>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 <form action="{% url new-letter sender.id receiver.id %}" method="post">
 {{ form.body.errors }}
