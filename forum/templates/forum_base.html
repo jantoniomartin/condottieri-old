@@ -1,0 +1,17 @@
+{% extends 'site_base.html' %}
+
+{% load i18n %}
+{% block extra_head %}
+<link rel="alternate" type="application/rss+xml" title="{% trans "All Latest Posts via RSS" %}" href="{% url forum_index %}rss/" />
+<link rel="alternate" type="application/atom+xml" title="{% trans "All Latest Posts via ATOM" %}" href="{% url forum_index %}atom/" />
+
+<link rel="stylesheet" href="{{ STATIC_URL }}forum/forum.css" />
+{% endblock %}
+
+{% block body %}
+<div id='djangoForumBody'>
+<h1>{% block pagetitle %}{% trans "Welcome to the Forums" %}{% endblock %}</h1>
+<div id='djangoForumBreadcrumbs'><a href='/'>{% trans "Home" %}</a> &raquo; <a href='{% url forum_index %}'>{% trans "Forums" %}</a>{% block breadcrumbs %}{% endblock %}</div>
+{% block content %}{% endblock %}
+</div>
+{% endblock %}

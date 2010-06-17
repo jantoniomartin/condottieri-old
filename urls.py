@@ -50,6 +50,9 @@ urlpatterns = patterns('',
 		
 	## machiavelli urls
 	(r'^machiavelli/', include('machiavelli.urls')),
+	
+	## forum urls
+	(r'^forum/', include('forum.urls')),
 )
 
 if settings.SERVE_MEDIA:
