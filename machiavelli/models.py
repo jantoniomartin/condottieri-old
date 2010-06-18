@@ -1784,3 +1784,14 @@ def notify_new_letter(sender, instance, created, **kw):
 		notification.send(user, "letter_received", extra_context , on_site=False)
 
 models.signals.post_save.connect(notify_new_letter, sender=Letter)
+
+class Tracker(models.Model):
+	user = models.ForeignKey(User)
+	game = models.ForeignKey(Game)
+	ip = models.IPAddressField()
+
+	def __unicode__(self):
+		return "%s(%s) IP:%s" % (self.user, self.game, self.ip)
+
+	class Meta:
+		unique_together = (('user', 'game', 'ip'),)

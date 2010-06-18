@@ -152,6 +152,9 @@ class LetterAdmin(admin.ModelAdmin):
 	ordering = ['-id']
 	list_display = ('sender', 'receiver', '__unicode__')
 
+class TrackerAdmin(admin.ModelAdmin):
+	pass
+
 admin.site.register(Scenario, ScenarioAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Game, GameAdmin)
@@ -176,3 +179,4 @@ admin.site.register(MovementEvent, MovementEventAdmin)
 admin.site.register(UnitEvent, UnitEventAdmin)
 admin.site.register(CountryEvent, CountryEventAdmin)
 admin.site.register(Letter, LetterAdmin)
+admin.site.register(Tracker, TrackerAdmin)

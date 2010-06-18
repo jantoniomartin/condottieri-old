@@ -96,6 +96,14 @@ def play_game(request, game_id=''):
 	if game.slots == 0 and game.phase == PHINACTIVE:
 		return redirect('game-results', game_id=game.id)
 	if player:
+		##################################
+		## CLONES DETECTION
+		tracker = Tracker(user=request.user, game=game, ip=request.META['REMOTE_ADDR'])
+		try:
+			tracker.save()
+		except:
+			pass
+		##################################
 		if game.slots == 0:
 			game.check_time_limit()
 		if not player.done:
