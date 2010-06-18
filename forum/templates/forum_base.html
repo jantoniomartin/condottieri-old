@@ -1,6 +1,11 @@
 {% extends 'site_base.html' %}
 
 {% load i18n %}
+
+{% block head_title %}{% trans "Forum" %}{% endblock %}
+{% block body_class %}forum{% endblock %}
+{% block rtab_id %}id="forum_tab"{% endblock %}
+
 {% block extra_head %}
 <link rel="alternate" type="application/rss+xml" title="{% trans "All Latest Posts via RSS" %}" href="{% url forum_index %}rss/" />
 <link rel="alternate" type="application/atom+xml" title="{% trans "All Latest Posts via ATOM" %}" href="{% url forum_index %}atom/" />
