@@ -1509,6 +1509,13 @@ class BaseEvent(models.Model):
 			return "<li class=\"%(class)s\">%(log)s</li>" % {'class': self.movementevent.css_class(),
 																	'log': capfirst(self)}
 		try:
+			self.countryevent
+		except:
+			pass
+		else:
+			return "<li class=\"%(class)s\">%(log)s</li>" % {'class': self.countryevent.css_class(),
+																	'log': capfirst(self)}
+		try:
 			self.unitevent
 		except:
 			return "Unknown event!!??"
