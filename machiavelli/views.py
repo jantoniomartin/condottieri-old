@@ -98,8 +98,8 @@ def play_game(request, game_id=''):
 	if player:
 		##################################
 		## CLONES DETECTION
-		tracker = Tracker(user=request.user, game=game, ip=request.META['REMOTE_ADDR'])
 		try:
+			tracker = Tracker(user=request.user, game=game, ip=request.META['HTTP_X_FORWARDED_FOR'])
 			tracker.save()
 		except:
 			pass
