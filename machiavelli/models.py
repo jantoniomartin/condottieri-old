@@ -1802,9 +1802,7 @@ class Tracker(models.Model):
 	user = models.ForeignKey(User)
 	game = models.ForeignKey(Game)
 	ip = models.IPAddressField()
+	timestamp = models.DateTimeField(auto_now_add=True)
 
 	def __unicode__(self):
 		return "%s(%s) IP:%s" % (self.user, self.game, self.ip)
-
-	class Meta:
-		unique_together = (('user', 'game', 'ip'),)

@@ -97,12 +97,15 @@ def play_game(request, game_id=''):
 		return redirect('game-results', game_id=game.id)
 	if player:
 		##################################
-		## CLONES DETECTION
-		try:
-			tracker = Tracker(user=request.user, game=game, ip=request.META['HTTP_X_FORWARDED_FOR'])
-			tracker.save()
-		except:
-			pass
+		## IP TRACKING FOR CLONES DETECTION
+		if request.method == 'POST':
+			try:
+				tracker = Tracker(user=request.user,
+								game=game,
+								ip=request.META[settings.IP_HEADER])
+				tracker.save()
+			except:
+				pass
 		##################################
 		if game.slots == 0:
 			game.check_time_limit()
