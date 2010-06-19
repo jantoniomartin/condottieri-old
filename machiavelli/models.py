@@ -1560,6 +1560,12 @@ class BaseEvent(models.Model):
 		else:
 			return unicode(self.movementevent)
 		try:
+			self.countryevent
+		except:
+			pass
+		else:
+			return unicode(self.countryevent)
+		try:
 			self.unitevent
 		except:
 			return "Unknown event!!??"
