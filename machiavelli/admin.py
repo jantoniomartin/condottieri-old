@@ -153,7 +153,8 @@ class LetterAdmin(admin.ModelAdmin):
 	list_display = ('sender', 'receiver', '__unicode__')
 
 class TrackerAdmin(admin.ModelAdmin):
-	pass
+	ordering = ['-id']
+	list_display = ('__unicode__', 'timestamp')
 
 admin.site.register(Scenario, ScenarioAdmin)
 admin.site.register(Country, CountryAdmin)
