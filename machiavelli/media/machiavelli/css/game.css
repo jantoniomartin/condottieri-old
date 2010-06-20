@@ -54,17 +54,17 @@ tr.closed_game a{
 }
 
 .col1 {
-	width: 14%;
+	width: 12%;
 	overflow: auto;
 }
 
 .col2 {
-	width: 49%;
+	width: 56%;
 	padding: 0;
 }
 
 .col3 {
-	width: 30%;
+	width: 25%;
 }
 
 .player {

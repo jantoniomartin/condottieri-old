@@ -58,13 +58,13 @@ h1 {
     clear: both;
     margin: 0 auto;
     padding: 10px;
-    width: 1024px;
+    width: 90%;
+	min-width: 1024px;
 	background: #303030;
 	border: 3px solid #444;
 	border-top: none;
 }
 #footer {
-    color: #ff0000; /* footer text colour */
     margin: 50px auto;
     padding: 10px;
     clear: both;
@@ -207,7 +207,8 @@ ul#messages {
 }
 ul#messages li {
     padding: 5px 10px;
-    background: #EFD;
+    background: #efd;
+	color: #693;
     margin: 3px;
     border: 1px solid #BC9;
 }
