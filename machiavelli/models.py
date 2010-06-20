@@ -729,6 +729,13 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 			logging.info(info)
 	
 	def resolve_sieges(self):
+		## get units that are besieging but do not besiege a second time
+		broken = Unit.objects.filter(Q(player__game=self,
+									besieging__exact=True),
+									~Q(order__code__exact='B'))
+		for b in broken:
+			b.besieging = False
+			b.save()		
 		## get besieging units
 		besiegers = Unit.objects.filter(player__game=self,
 										order__code__exact='B')
