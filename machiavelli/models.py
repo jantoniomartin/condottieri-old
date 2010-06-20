@@ -208,18 +208,28 @@ Returns True if an given type of Unit can be in the Area
 	class Meta:
 		ordering = ('code',)
 
+class Home(models.Model):
+	scenario = models.ForeignKey(Scenario)
+	country = models.ForeignKey(Country)
+	area = models.ForeignKey(Area)
+
+	def __unicode__(self):
+		return "%s" % self.area
+
+	class Meta:
+		unique_together = (("scenario", "country", "area"),)
 
 class Setup(models.Model):
 	scenario = models.ForeignKey(Scenario)
 	country = models.ForeignKey(Country, blank=True, null=True)
 	area = models.ForeignKey(Area)
-	unit_type = models.CharField(max_length=1, blank=True, choices=UNIT_TYPES)
+	unit_type = models.CharField(max_length=1, choices=UNIT_TYPES)
     
 	def __unicode__(self):
 		return "%s places a %s in %s (%s)" % (self.country, self.unit_type, self.area, self.scenario)
 
 	class Meta:
-		unique_together = (("scenario", "area"),)
+		unique_together = (("scenario", "area", "unit_type"),)
 
 class Game(models.Model):
 	"""
@@ -1057,8 +1067,8 @@ to remove units.
 		"""
 Returns a queryset with Game Areas in home country
 		"""
-		return GameArea.objects.filter(board_area__setup__scenario=self.game.scenario,
-									board_area__setup__country=self.country)
+		return GameArea.objects.filter(board_area__home__scenario=self.game.scenario,
+									board_area__home__country=self.country)
 
 	def controlled_home_country(self):
 		"""

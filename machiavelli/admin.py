@@ -4,10 +4,16 @@ from django.contrib import admin
 class SetupInline(admin.TabularInline):
 	model = Setup
 	extra = 5
+	ordering = ['country']
+
+class HomeInline(admin.TabularInline):
+	model = Home
+	extra = 5
+	ordering = ['country']
 
 class ScenarioAdmin(admin.ModelAdmin):
 	list_display = ('title', 'start_year')
-	inlines = [SetupInline, ]
+	inlines = [HomeInline, SetupInline,]
 
 class CountryAdmin(admin.ModelAdmin):
 	list_display = ('name', 'css_class')
