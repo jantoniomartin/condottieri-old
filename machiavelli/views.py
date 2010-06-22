@@ -419,6 +419,20 @@ def new_letter(request, sender_id, receiver_id):
 							'game': game,},
 							context_instance=RequestContext(request))
 
+@cache_page(60 * 10)
+def show_scenario(request, scenario_id):
+	scenario = get_object_or_404(Scenario, id=scenario_id, enabled=True)
+
+	countries = Country.objects.filter(home__scenario=scenario).distinct()
+	autonomous = Setup.objects.filter(scenario=scenario, country__isnull=True)
+
+	return render_to_response('machiavelli/scenario_detail.html',
+							{'scenario': scenario,
+							'countries': countries,
+							'autonomous': autonomous},
+							context_instance=RequestContext(request))
+
+
 @login_required
 @cache_page(60 * 10)
 def show_letter(request, letter_id):

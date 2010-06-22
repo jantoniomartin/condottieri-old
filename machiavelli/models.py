@@ -133,8 +133,7 @@ class Scenario(models.Model):
 		return self.title
 
 	def get_absolute_url(self):
-		return ('scenario-detail', (), {'object_id': self.id})
-	get_absolute_url = permalink(get_absolute_url)
+		return "scenario/%s" % self.id
 
 if twitter_api and settings.TWEET_NEW_SCENARIO:
 	def tweet_new_scenario(sender, instance, created, **kw):
@@ -214,7 +213,7 @@ class Home(models.Model):
 	area = models.ForeignKey(Area)
 
 	def __unicode__(self):
-		return "%s" % self.area
+		return "%s" % self.area.name
 
 	class Meta:
 		unique_together = (("scenario", "country", "area"),)
@@ -226,7 +225,7 @@ class Setup(models.Model):
 	unit_type = models.CharField(max_length=1, choices=UNIT_TYPES)
     
 	def __unicode__(self):
-		return "%s places a %s in %s (%s)" % (self.country, self.unit_type, self.area, self.scenario)
+		return "%s in %s" % (self.get_unit_type_display(), self.area.name)
 
 	class Meta:
 		unique_together = (("scenario", "area", "unit_type"),)

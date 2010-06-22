@@ -1,25 +1,51 @@
-{% extends 'machiavelli/base.html' %}
+{% extends "machiavelli/base.html" %}
 
-{% block content %}
-	<dl>
-		<dt>Name:</dt>
-		<dd>{{ object.name }}</dd>
-		<dt>Title:</dt>
-		<dd>{{ object.title }}</dd>
-		<dt>Start year:</dt>
-		<dd>{{ object.start_year }}</dd>
-	</dl>
-	<h2>Initial Setup</h2>
-	<table>
-	<tr>
-	<th>Country</th><th>Area</th><th>Unit type</th>
-	</tr>
-	{% for s in object.setup_set.all %}
-		<tr>
-			<td>{{ s.country.name }}</td>
-			<td>{{ s.area.name }}</td>
-			<td>{{ s.unit_type }}</td>
-		</tr>
-	{% endfor %}
-	</table>
+{% load i18n %}
+
+{% block head_title %}{% trans "Scenario" %}: {{ scenario.title }}{% endblock %}
+
+{% block body %}
+<h1>{% trans "Scenario" %}: {{ scenario.title }}</h1>
+<h2>{% trans "Basic data" %}</h2>
+<dl>
+	<dt>{% trans "Start year" %}</dt>
+	<dd>{{ scenario.start_year }}</dd>
+	<dt>{% trans "Citites to win" %}</dt>
+	<dd>{{ scenario.cities_to_win }}</dd>
+</dl>
+<h2>{% trans "Setup" %}</h2>
+<table>
+<thead>
+<tr>
+<th>{% trans "Country" %}</th>
+<th>{% trans "Home provinces" %}</th>
+<th>{% trans "Initial setup" %}</th>
+</tr>
+</thead>
+{% for c in countries %}
+<tr>
+<td class="data_c">
+{{ c.name }} <br />
+<img src="{{ STATIC_URL }}machiavelli/img/banner-{{ c.css_class }}.png" alt="{{ c.name }}"/>
+</td>
+<td>
+	<ul>
+	{{ c.home_set.all|unordered_list }}
+	</ul>
+</td>
+<td>
+	<ul>
+	{{ c.setup_set.all|unordered_list }}
+	</ul>
+</td>
+</tr>
+{% endfor %}
+<td>{% trans "Autonomous garrisons" %}</td>
+<td></td>
+<td>
+	<ul>
+	{{ autonomous|unordered_list }}
+	</ul>
+</td>
+</table>
 {% endblock %}
