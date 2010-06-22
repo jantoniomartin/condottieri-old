@@ -437,7 +437,8 @@ def show_scenario(request, scenario_id):
 							{'scenario': scenario,
 							'countries': countries,
 							'homes': homes_dict,
-							'setups': setups_dict,},
+							'setups': setups_dict,
+							'autonomous': autonomous},
 							context_instance=RequestContext(request))
 
 
