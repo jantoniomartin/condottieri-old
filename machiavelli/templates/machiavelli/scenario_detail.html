@@ -30,12 +30,20 @@
 </td>
 <td>
 	<ul>
-	{{ c.home_set.all|unordered_list }}
+	{% for k, v in homes.items %}
+		{% ifequal k c %}
+			{{ v|unordered_list }}
+		{% endifequal %}
+	{% endfor %}
 	</ul>
 </td>
 <td>
 	<ul>
-	{{ c.setup_set.all|unordered_list }}
+	{% for k, v in setups.items %}
+		{% ifequal k c %}
+			{{ v|unordered_list }}
+		{% endifequal %}
+	{% endfor %}
 	</ul>
 </td>
 </tr>

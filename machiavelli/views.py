@@ -426,10 +426,18 @@ def show_scenario(request, scenario_id):
 	countries = Country.objects.filter(home__scenario=scenario).distinct()
 	autonomous = Setup.objects.filter(scenario=scenario, country__isnull=True)
 
+	homes_dict = {}
+	setups_dict = {}
+
+	for c in countries:
+		homes_dict[c] = c.home_set.filter(scenario=scenario)
+		setups_dict[c] = c.setup_set.filter(scenario=scenario)
+
 	return render_to_response('machiavelli/scenario_detail.html',
 							{'scenario': scenario,
 							'countries': countries,
-							'autonomous': autonomous},
+							'homes': homes_dict,
+							'setups': setups_dict,},
 							context_instance=RequestContext(request))
 
 
