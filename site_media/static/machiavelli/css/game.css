@@ -270,6 +270,11 @@ tr.closed_game a{
 	width: 100%;
 	table-layout: fixed;
 }
+
+.action_form table td {
+	width: 15%;
+}
 .action_form select {
-	width: 8em;
+	/*width: 8em;*/
+	width: 98%;
 }
