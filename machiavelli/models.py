@@ -982,7 +982,7 @@ Run a batch of methods in the correct order to process all the orders
 		if self.id == 9:
 			info += self.resolve_conflicts_refactored()
 		else:
-			info += self.resolve_conflict()
+			info += self.resolve_conflicts()
 		info += u"\n"
 		## resolve sieges
 		info += self.resolve_sieges()
