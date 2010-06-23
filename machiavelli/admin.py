@@ -35,15 +35,15 @@ class StatsAdmin(admin.ModelAdmin):
 	pass
 
 class UnitAdmin(admin.ModelAdmin):
-	list_display = ('__unicode__', 'player')
+	list_display = ('__unicode__', 'player', 'must_retreat')
 	ordering = ['player']
-	list_filter = ('player',)
+	list_filter = ('player', 'must_retreat')
 
 class GameAreaAdmin(admin.ModelAdmin):
-	list_display = ('game', 'board_area', 'player')
+	list_display = ('game', 'board_area', 'player', 'standoff')
 	list_per_page = 73
 	ordering = ['board_area']
-	list_filter = ('game', 'player')
+	list_filter = ('game', 'player', 'standoff')
 
 class SetupAdmin(admin.ModelAdmin):
 	list_display = ('scenario', 'country', 'area', 'unit_type')
