@@ -526,24 +526,24 @@ these are the advancing units and the units that try to convert into A or F
 Checks which Units with support orders are being attacked and delete their
 orders.
 		"""
-		info = u"Step 2: Filtering supports\n"
+		info = u"Step 2: Cancel supports from units under attack.\n"
 		support_orders = Order.objects.filter(unit__player__game=self, code__exact='S')
 		for s in support_orders:
-			info += u"Checking order %s\n" % s
+			info += u"Checking order %s.\n" % s
 			if s.unit.type != 'G' and s.unit.area in self.get_conflict_areas():
 				attacks = Order.objects.filter((Q(code__exact='-') & Q(destination=s.unit.area)) |
 												(Q(code__exact='=') & Q(unit__area=s.unit.area) &
 												Q(unit__type__exact='G')))
 				if len(attacks) > 0:
-					info += u"Supporting unit is being attacked\n"
+					info += u"Supporting unit is being attacked.\n"
 					params = s.suborder.split(' ')
 					for a in attacks:
 						if (params[2] == '-' and params[3] == a.unit.area.board_area.code) or \
 						(params[2] == '=' and params[3] in ['A','F'] and params[1] == a.unit.area.board_area.code):
-							info += u"Support is not broken\n"
+							info += u"Support is not broken.\n"
 							continue
 						else:
-							info += u"Attack from %s breaks support\n" % a.unit
+							info += u"Attack from %s breaks support.\n" % a.unit
 							self.log_event(UnitEvent, type=s.unit.type, area=s.unit.area.board_area, message=0)
 							s.delete()
 							break
@@ -554,7 +554,7 @@ orders.
 Check which Units with C orders are being attacked. Check if they are going to
 be defeated, and if so, delete the C order. However doesn't resolve the conflict
 		"""
-		info = u"Step 3: Filtering convoys\n"
+		info = u"Step 3: Cancel convoys by fleets that will be dislodged.\n"
 		## find units attacking fleets
 		sea_attackers = Unit.objects.filter(Q(player__game=self),
 											(Q(order__code__exact='-') &
@@ -579,7 +579,7 @@ be defeated, and if so, delete the C order. However doesn't resolve the conflict
 				## no attacked convoying fleet is found 
 				continue
 			else:
-				info += u"Convoying %s is being attacked by %s\n" % (defender, s)
+				info += u"Convoying %s is being attacked by %s.\n" % (defender, s)
 				a_strength = Unit.objects.get_with_strength(self, id=s.id).strength
 				d_strength = Unit.objects.get_with_strength(self, id=defender.id).strength
 				if a_strength > d_strength:
@@ -588,7 +588,7 @@ be defeated, and if so, delete the C order. However doesn't resolve the conflict
 					except:
 						continue
 					else:
-						info += u"%s can't convoy\n" % defender
+						info += u"%s can't convoy.\n" % defender
 						defender.delete_order()
 		return info
 	
@@ -596,17 +596,17 @@ be defeated, and if so, delete the C order. However doesn't resolve the conflict
 		"""
 Delete the orders of units trying to go to non-adjacent areas and not having a convoy line.
 		"""
-		info = u"Step 4: Filtering attacks to unreachable areas\n"
+		info = u"Step 4: Cancel attacks to unreachable areas.\n"
 		attackers = Order.objects.filter(unit__player__game=self, code__exact='-')
 		for o in attackers:
 			is_fleet = (o.unit.type == 'F')
 			if not o.unit.area.board_area.is_adjacent(o.destination.board_area, is_fleet):
 				if is_fleet:
-					info += u"Impossible attack: %s\n" % o
+					info += u"Impossible attack: %s.\n" % o
 					o.delete()
 				else:
 					if not o.find_convoy_line():
-						info += u"Impossible attack: %s\n" % o
+						info += u"Impossible attack: %s.\n" % o
 						o.delete()
 		return info
 	
@@ -614,12 +614,12 @@ Delete the orders of units trying to go to non-adjacent areas and not having a c
 		"""
 Units with '= G' orders in areas without a garrison, convert into garrison
 		"""
-		info = u"Step 1: automatic conversions to garrison\n"
+		info = u"Step 1: Garrisoning units.\n"
 		garrisoning = Unit.objects.filter(player__game=self,
 									order__code__exact='=',
 									order__type__exact='G')
 		for g in garrisoning:
-			info += u"%s tries to convert into garrison\n" % g
+			info += u"%s tries to convert into garrison.\n" % g
 			try:
 				defender = Unit.objects.get(player__game=self,
 										type__exact='G',
@@ -629,7 +629,7 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 				g.convert('G')
 				g.order.delete()
 			else:
-				info += u"Fail: there is a garrison in the city\n"
+				info += u"Fail: there is a garrison in the city.\n"
 		return info
 
 	def resolve_conflicts(self):
@@ -764,7 +764,7 @@ area and which units must retreat.
 		"""
 		## units sorted (reverse) by a temporary strength attribute
 		## strength = 0 means unit without supports
-		info = u"Step 5: Processing conflicts\n"
+		info = u"Step 5: Process conflicts.\n"
 		units = Unit.objects.list_with_strength(self)
 		conditioned_invasions = []
 		conditioned_origins = []
@@ -780,10 +780,10 @@ area and which units must retreat.
 				if u.order.code in ['H', 'S', 'B', 'C']:
 					continue
 				else:
-					info += u"Unit: %s => %s.\n" % (u, u.order)
+					info += u"%s was ordered: %s.\n" % (u, u.order)
 			##################
 			s = u.strength
-			info += u"Strength = %s\n" % s
+			info += u"Supported by = %s.\n" % s
 			## rivals and defender are the units trying to enter into or stay
 			## in the same area as 'u'
 			rivals = u.order.get_rivals()
@@ -795,11 +795,11 @@ area and which units must retreat.
 				if not (u.area.board_area.is_adjacent(conflict_area.board_area,
 										fleet=(u.type=='F')) or \
 										u.order.find_convoy_line()):
-					info += u"Trying to enter an unreachable area\n"
+					info += u"Trying to enter an unreachable area.\n"
 					u.delete_order()
 					continue
 			if conflict_area.standoff:
-				info += u"Trying to enter a standoff area\n"
+				info += u"Trying to enter a standoff area.\n"
 				u.delete_order()
 				continue
 			else:
@@ -809,15 +809,15 @@ area and which units must retreat.
 			## if not, check for defenders
 			for r in rivals:
 				strength = Unit.objects.get_with_strength(self, id=r.id).strength
-				info += u"Rival %s has strength %s\n" % (r, strength)
+				info += u"Rival %s has %s supports.\n" % (r, strength)
 				if strength >= s: #in fact, strength cannot be greater
-					info += u"Rival wins\n"
+					info += u"Rival wins.\n"
 					standoff = True
 					exit
 			## if there is a standoff, delete the order and all rivals' orders
 			if standoff:
 				conflict_area.mark_as_standoff()
-				info += u"Standoff in %s\n" % conflict_area
+				info += u"Standoff in %s.\n" % conflict_area
 				for r in rivals:
 					r.delete_order()
 				u.delete_order()
@@ -831,18 +831,18 @@ area and which units must retreat.
 					## a 'friend enemy' is always as strong as the invading unit
 					if defender.player == u.player:
 						strength = s
-						info += u"Defender is a friend\n"
+						info += u"Defender is a friend.\n"
 					else:
 						strength = Unit.objects.get_with_strength(self,
 														id=defender.id).strength
-					info += u"Defender %s has strength %s\n" % (defender, strength)
+					info += u"Defender %s has %s supports.\n" % (defender, strength)
 					## if attacker is not as strong as defender, the invasion
 					## is conditioned to the defender leaving the area
 					if strength >= s:
-						info += u"Adding %s to conditioned inv.\n" % u
+						info += u"%s's movement is conditioned.\n" % u
 						inv = Invasion(u, defender.area)
 						if u.order.code == '-':
-							info += u"Adding %s to condit. orig.\n" % u.area
+							info += u"%s might get empty.\n" % u.area
 							conditioned_origins.append(u.area)
 						elif u.order.code == '=':
 							inv.conversion = u.order.type
@@ -854,31 +854,31 @@ area and which units must retreat.
 						defender.save()
 						if u.order.code == '-':
 							u.invade_area(defender.area)
-							info += u"Invading %s\n" % defender.area
+							info += u"Invading %s.\n" % defender.area
 						elif u.order.code == '=':
-							info += u"Converting into %s\n" % u.order.type
+							info += u"Converting into %s.\n" % u.order.type
 							u.convert(u.order.type)
 						defender.delete_order()
 				## no defender means either that the area is empty *OR*
 				## that there is a unit trying to leave the area
 				else:
-					info += u"There is no defender\n"
+					info += u"There is no defender.\n"
 					## if the area is empty, invade the area
 					if conflict_area.province_is_empty():
-						info += u"Area is empty\n"
+						info += u"Area is empty.\n"
 						if u.order.code == '-':
-							info += u"Invading %s\n" % conflict_area
+							info += u"Invading %s.\n" % conflict_area
 							u.invade_area(conflict_area)
 						elif u.order.code == '=':
-							info += u"Converting into %s\n" % u.order.type
+							info += u"Converting into %s.\n" % u.order.type
 							u.convert(u.order.type)
 					## if the area is not empty, the invasion is conditioned
 					else:
 						info += u"Area is not empty!\n"
-						info += u"Adding %s to conditioned inv.\n" % u
+						info += u"%s movement is conditioned.\n" % u
 						inv = Invasion(u, conflict_area)
 						if u.order.code == '-':
-							info += u"Adding %s to cond. orig.\n" % u.area
+							info += u"%s might get empty.\n" % u.area
 							conditioned_origins.append(u.area)
 						elif u.order.code == '=':
 							inv.conversion = u.order.type
@@ -893,11 +893,11 @@ area and which units must retreat.
 		## to now empty areas
 		try_empty = True
 		while try_empty:
-			info += u"Looking for possible invasions in cond_inv\n"
+			info += u"Looking for possible, conditioned invasions.\n"
 			try_empty = False
 			for ci in conditioned_invasions:
 				if ci.area.province_is_empty():
-					info += u"Found empty area in %s\n" % ci.area
+					info += u"Found empty area in %s.\n" % ci.area
 					if ci.unit.area in conditioned_origins:
 						conditioned_origins.remove(ci.unit.area)
 					if ci.conversion == '':
@@ -911,13 +911,13 @@ area and which units must retreat.
 		## cannot be made
 		try_impossible = True
 		while try_impossible:
-			info += u"Looking for impossible invasions in cond_inv\n"
+			info += u"Looking for impossible, conditioned.\n"
 			try_impossible = False
 			for ci in conditioned_invasions:
 				if not ci.area in conditioned_origins:
 					## the unit is trying to invade an area with a stationary
 					## unit
-					info += u"Found impossible invasion in %s\n" % ci.area
+					info += u"Found impossible invasion in %s.\n" % ci.area
 					ci.area.mark_as_standoff()
 					conditioned_invasions.remove(ci)
 					if ci.unit.area in conditioned_origins:
@@ -926,25 +926,25 @@ area and which units must retreat.
 					break
 		## at this point, if there are any conditioned_invasions, they form
 		## closed circuits, so all of them should be carried out
-		info += u"Resolving closed circuits\n"
+		info += u"Resolving closed circuits.\n"
 		for ci in conditioned_invasions:
 			if ci.conversion == '':
-				info += u"%s invades %s\n" % (ci.unit, ci.area)
+				info += u"%s invades %s.\n" % (ci.unit, ci.area)
 				ci.unit.invade_area(ci.area)
 			else:
-				info += u"%s converts into %s\n" % (ci.unit, ci.conversion)
+				info += u"%s converts into %s.\n" % (ci.unit, ci.conversion)
 				ci.unit.convert(ci.conversion)
 		info += u"End of conflicts processing"
 		return info
 
 	def resolve_sieges(self):
 		## get units that are besieging but do not besiege a second time
-		info = u"Step 6: Processing sieges\n"
+		info = u"Step 6: Process sieges.\n"
 		broken = Unit.objects.filter(Q(player__game=self,
 									besieging__exact=True),
 									~Q(order__code__exact='B'))
 		for b in broken:
-			info += u"Siege of %s is discontinued\n" % b
+			info += u"Siege of %s is discontinued.\n" % b
 			b.besieging = False
 			b.save()		
 		## get besieging units
@@ -957,22 +957,22 @@ area and which units must retreat.
 										type__exact='G',
 										area=b.area)
 			except:
-				info += u"Besieging an empty city. Ignoring\n"
+				info += u"Besieging an empty city. Ignoring.\n"
 				b.besieging = False
 				b.save()
 				continue
 			else:
 				if b.besieging:
-					info += u"for second time\n"
+					info += u"for second time.\n"
 					b.besieging = False
-					info += u"Siege is successful. Garrison disbanded\n"
+					info += u"Siege is successful. Garrison disbanded.\n"
 					self.log_event(UnitEvent, type=defender.type,
 											area=defender.area.board_area,
 											message=2)
 					defender.delete()
 					b.save()
 				else:
-					info += u"for first time\n"
+					info += u"for first time.\n"
 					b.besieging = True
 					self.log_event(UnitEvent, type=b.type, area=b.area.board_area, message=3)
 					b.save()
@@ -983,7 +983,7 @@ area and which units must retreat.
 		info = u"Step 7: Retreats\n"
 		retreating = Unit.objects.filter(player__game=self).exclude(must_retreat__exact='')
 		for u in retreating:
-			info += u"%s must retreat" % u
+			info += u"%s must retreat." % u
 			self.log_event(UnitEvent, type=u.type, area=u.area.board_area, message=1)
 		return info
 
@@ -1016,6 +1016,7 @@ Run a batch of methods in the correct order to process all the orders
 		info += self.resolve_sieges()
 		info += u"\n"
 		info += self.announce_retreats()
+		info += u"--- END ---\n"
 		if logging:
 			logging.info(info)
 
