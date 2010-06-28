@@ -1006,11 +1006,9 @@ Run a batch of methods in the correct order to process all the orders
 		## delete attacks to areas that are not reachable
 		info += self.filter_unreachable_attacks()
 		info += u"\n"
-		## this is temporary, to test the new method only in a game
-		if self.id == 9 or self.id == 2:
-			info += self.resolve_conflicts_refactored()
-		else:
-			info += self.resolve_conflicts()
+		## process conflicts
+		info += self.resolve_conflicts_refactored()
+		#info += self.resolve_conflicts()
 		info += u"\n"
 		## resolve sieges
 		info += self.resolve_sieges()
