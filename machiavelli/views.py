@@ -487,3 +487,24 @@ def low_karma_error(request):
 							context,
 							context_instance=RequestContext(request))
 
+@login_required
+def turn_log_list(request, game_id):
+	game = get_object_or_404(Game, pk=game_id)
+	log_list = game.turnlog_set.all()
+	paginator = Paginator(log_list, 1)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		log = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		log = paginator.page(paginator.num_pages)
+	context = {
+		'game': game,
+		'log': log,
+		}
+
+	return render_to_response('machiavelli/turn_log_list.html',
+							context,
+							context_instance=RequestContext(request))
