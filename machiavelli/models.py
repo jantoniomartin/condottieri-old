@@ -118,6 +118,18 @@ user. You need an aux file (translate.py) for manage.py to make the messages.
 	def to_python(self, value):
 		return unicode(_(value))
 
+class Invasion(object):
+	"""
+This class is used in conflicts resolution for conditioned invasions.
+	"""
+	def __init__(self, unit, area, conv=''):
+		assert isinstance(unit, Unit), u"%s is not a Unit" % unit
+		assert isinstance(area, GameArea), u"%s is not a GameArea" % area
+		assert conv in ['', 'A', 'F'], u"%s is not a valid conversion" % conv
+		self.unit = unit
+		self.area = area
+		self.conversion = conv
+
 class Scenario(models.Model):
 	name = models.CharField(max_length=16, unique=True)
 	title = AutoTranslateField(max_length=128)
@@ -754,7 +766,7 @@ area and which units must retreat.
 		## strength = 0 means unit without supports
 		info = u"Step 5: Processing conflicts\n"
 		units = Unit.objects.list_with_strength(self)
-		conditioned_invasions = {}
+		conditioned_invasions = []
 		conditioned_origins = []
 		## iterate all the units
 		for u in units:
@@ -828,10 +840,13 @@ area and which units must retreat.
 					## is conditioned to the defender leaving the area
 					if strength >= s:
 						info += u"Adding %s to conditioned inv.\n" % u
-						conditioned_invasions.update({u: defender.area})
+						inv = Invasion(u, defender.area)
 						if u.order.code == '-':
 							info += u"Adding %s to condit. orig.\n" % u.area
 							conditioned_origins.append(u.area)
+						elif u.order.code == '=':
+							inv.conversion = u.order.type
+						conditioned_invasions.append(inv)
 					## if the defender is weaker, the area is invaded and the
 					## defender must retreat
 					else:
@@ -851,22 +866,28 @@ area and which units must retreat.
 					## if the area is empty, invade the area
 					if conflict_area.province_is_empty():
 						info += u"Area is empty\n"
-						info += u"Invading %s" % conflict_area
-						u.invade_area(conflict_area)
+						if u.order.code == '-':
+							info += u"Invading %s\n" % conflict_area
+							u.invade_area(conflict_area)
+						elif u.order.code == '=':
+							info += u"Converting into %s\n" % u.order.type
+							u.convert(u.order.type)
 					## if the area is not empty, the invasion is conditioned
 					else:
 						info += u"Area is not empty!\n"
 						info += u"Adding %s to conditioned inv.\n" % u
-						conditioned_invasions.update({u: conflict_area})
+						inv = Invasion(u, conflict_area)
 						if u.order.code == '-':
 							info += u"Adding %s to cond. orig.\n" % u.area
 							conditioned_origins.append(u.area)
+						elif u.order.code == '=':
+							inv.conversion = u.order.type
+						conditioned_invasions.append(inv)
 				u.delete_order()
 		##
 		## at this point, all the 'easy' movements and conversions have been
 		## made, and we have a conditioned_invasions sequence
-		## conditioned_invasions is a dictionary of the form:
-		## { unit : destination_area }
+		## conditioned_invasions is a list of Invasion objects:
 		##
 		## in a first iteration, we solve the conditioned_invasions directed
 		## to now empty areas
@@ -874,13 +895,16 @@ area and which units must retreat.
 		while try_empty:
 			info += u"Looking for possible invasions in cond_inv\n"
 			try_empty = False
-			for u, a in conditioned_invasions.items():
-				if a.province_is_empty():
-					info += u"Found empty area in %s\n" % a
-					u.invade_area(a)
-					del(conditioned_invasions[u])
-					if u.area in conditioned_origins:
-						conditioned_origins.remove(u.area)
+			for ci in conditioned_invasions:
+				if ci.area.province_is_empty():
+					info += u"Found empty area in %s\n" % ci.area
+					if ci.unit.area in conditioned_origins:
+						conditioned_origins.remove(ci.unit.area)
+					if ci.conversion == '':
+						ci.unit.invade_area(ci.area)
+					else:
+						ci.unit.convert(ci.conversion)
+					conditioned_invasions.remove(ci)
 					try_empty = True
 					break
 		## in a second iteration, we cancel the conditioned_invasions that
@@ -889,23 +913,27 @@ area and which units must retreat.
 		while try_impossible:
 			info += u"Looking for impossible invasions in cond_inv\n"
 			try_impossible = False
-			for u, a in conditioned_invasions.items():
-				if not a in conditioned_origins:
+			for ci in conditioned_invasions:
+				if not ci.area in conditioned_origins:
 					## the unit is trying to invade an area with a stationary
 					## unit
-					info += u"Found impossible invasion in %s\n" % a
-					a.mark_as_standoff()
-					del(conditioned_invasions[u])
-					if u.area in conditioned_origins:
-						conditioned_origins.remove(u.area)
+					info += u"Found impossible invasion in %s\n" % ci.area
+					ci.area.mark_as_standoff()
+					conditioned_invasions.remove(ci)
+					if ci.unit.area in conditioned_origins:
+						conditioned_origins.remove(ci.unit.area)
 					try_impossible = True
 					break
 		## at this point, if there are any conditioned_invasions, they form
 		## closed circuits, so all of them should be carried out
 		info += u"Resolving closed circuits\n"
-		for u, a in conditioned_invasions.items():
-			info += u"%s invades %s\n" % (u, a)
-			u.invade_area(a)
+		for ci in conditioned_invasions:
+			if ci.conversion == '':
+				info += u"%s invades %s\n" % (ci.unit, ci.area)
+				ci.unit.invade_area(ci.area)
+			else:
+				info += u"%s converts into %s\n" % (ci.unit, ci.conversion)
+				ci.unit.convert(ci.conversion)
 		info += u"End of conflicts processing"
 		return info
 
@@ -979,7 +1007,7 @@ Run a batch of methods in the correct order to process all the orders
 		info += self.filter_unreachable_attacks()
 		info += u"\n"
 		## this is temporary, to test the new method only in a game
-		if self.id == 9:
+		if self.id == 9 or self.id == 2:
 			info += self.resolve_conflicts_refactored()
 		else:
 			info += self.resolve_conflicts()
