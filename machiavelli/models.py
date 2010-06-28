@@ -1019,6 +1019,11 @@ Run a batch of methods in the correct order to process all the orders
 		info += u"--- END ---\n"
 		if logging:
 			logging.info(info)
+		turn_log = TurnLog(game=self, year=self.year,
+							season=self.season,
+							phase=self.phase,
+							log=info)
+		turn_log.save()
 
 	def process_retreats(self):
 		"""
@@ -2141,3 +2146,17 @@ class Tracker(models.Model):
 
 	def __unicode__(self):
 		return "%s(%s) IP:%s" % (self.user, self.game, self.ip)
+
+class TurnLog(models.Model):
+	game = models.ForeignKey(Game)
+	year = models.PositiveIntegerField()
+	season = models.PositiveIntegerField(choices=SEASONS)
+	phase = models.PositiveIntegerField(choices=GAME_PHASES)
+	timestamp = models.DateTimeField(auto_now_add=True)
+	log = models.TextField()
+
+	class Meta:
+		ordering = ['-timestamp',]
+
+	def __unicode__(self):
+		return self.log

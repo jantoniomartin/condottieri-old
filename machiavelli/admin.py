@@ -162,6 +162,11 @@ class TrackerAdmin(admin.ModelAdmin):
 	ordering = ['-id']
 	list_display = ('__unicode__', 'timestamp')
 
+class TurnLogAdmin(admin.ModelAdmin):
+	ordering = ['-timestamp']
+	list_display = ('game', 'timestamp')
+	list_filter = ('game',)
+
 admin.site.register(Scenario, ScenarioAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Game, GameAdmin)
@@ -187,3 +192,4 @@ admin.site.register(UnitEvent, UnitEventAdmin)
 admin.site.register(CountryEvent, CountryEventAdmin)
 admin.site.register(Letter, LetterAdmin)
 admin.site.register(Tracker, TrackerAdmin)
+admin.site.register(TurnLog, TurnLogAdmin)
