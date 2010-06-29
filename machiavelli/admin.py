@@ -158,10 +158,6 @@ class LetterAdmin(admin.ModelAdmin):
 	ordering = ['-id']
 	list_display = ('sender', 'receiver', '__unicode__')
 
-class TrackerAdmin(admin.ModelAdmin):
-	ordering = ['-id']
-	list_display = ('__unicode__', 'timestamp')
-
 class TurnLogAdmin(admin.ModelAdmin):
 	ordering = ['-timestamp']
 	list_display = ('game', 'timestamp')
@@ -191,5 +187,4 @@ admin.site.register(MovementEvent, MovementEventAdmin)
 admin.site.register(UnitEvent, UnitEventAdmin)
 admin.site.register(CountryEvent, CountryEventAdmin)
 admin.site.register(Letter, LetterAdmin)
-admin.site.register(Tracker, TrackerAdmin)
 admin.site.register(TurnLog, TurnLogAdmin)
