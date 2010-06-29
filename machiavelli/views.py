@@ -1,5 +1,7 @@
+## stdlib
 import thread
 
+## django
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
@@ -9,15 +11,21 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms.formsets import formset_factory
 from django.db.models import Q, Sum
-#from django.forms.models import modelformset_factory
 from django.views.decorators.cache import never_cache, cache_page
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.conf import settings
 
+## machiavelli
 from machiavelli.models import *
 import machiavelli.utils as utils
 import machiavelli.forms as forms
 import machiavelli.graphics as graphics
+
+## clones detection
+if 'clones' in settings.INSTALLED_APPS:
+	from clones import models as clones
+else:
+	clones = None
 
 #@login_required
 def game_list(request):
@@ -98,14 +106,15 @@ def play_game(request, game_id=''):
 	if player:
 		##################################
 		## IP TRACKING FOR CLONES DETECTION
-		if request.method == 'POST':
-			try:
-				tracker = Tracker(user=request.user,
-								game=game,
-								ip=request.META[settings.IP_HEADER])
-				tracker.save()
-			except:
-				pass
+		if clones:
+			if request.method == 'POST':
+				try:
+					fp = clones.Fingerprint(user=request.user,
+											game=game,
+											ip=request.META[settings.IP_HEADER])
+					fp.save()
+				except:
+					pass
 		##################################
 		if game.slots == 0:
 			game.check_time_limit()
