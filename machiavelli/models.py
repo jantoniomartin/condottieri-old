@@ -983,7 +983,7 @@ area and which units must retreat.
 		info = u"Step 7: Retreats\n"
 		retreating = Unit.objects.filter(player__game=self).exclude(must_retreat__exact='')
 		for u in retreating:
-			info += u"%s must retreat." % u
+			info += u"%s must retreat.\n" % u
 			self.log_event(UnitEvent, type=u.type, area=u.area.board_area, message=1)
 		return info
 
