@@ -634,130 +634,6 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 
 	def resolve_conflicts(self):
 		"""
-		Conflict: When two or more units want to occupy the same area. This method takes all the
-		units and decides which unit occupies each conflict area and which units must retreat.
-		"""
-		## units sorted (reverse) by a temporary strength attribute
-		info = u"Step 5: Processing conflicts\n"
-		units = Unit.objects.list_with_strength(self)
-		## iterate the units that have orders of types '-' or '='
-		for u in units:
-			info += u"Unit: %s => " % u
-			try:
-				u.order
-			except:
-				info += u"no orders.\n"
-				continue
-			else:
-				info += u"%s.\n" % u.order
-				if u.order.code in ['H', 'S', 'B', 'C']:
-					info += u"Ignoring.\n"
-					continue
-			s = u.strength
-			info += u"Strength = %s\n" % s
-			## enemies are the units trying to occupy the same area than 'u'
-			enemies = u.order.get_enemies()
-			info += u"Unit has %s enemies.\n" % len(enemies)
-			## check if there is a unit with the same strength than 'u'
-			## it's impossible to have more strength because of the sorting
-			failure = False
-			for e in enemies:
-				info += u"Enemy: %s " % e
-				## this is a hack to prevent a unit from invading a friend one
-				if e.player == u.player and \
-					((u.order.code == '-' and e.area == u.order.destination) or \
-					(u.order.code == '=' and e.area == u.area)):
-						strength = s
-						info += u"is a friend and "
-				else:
-					strength = Unit.objects.get_with_strength(self, id=e.id).strength
-				info += u"has strength %s s\n" % strength
-				if strength >= s:
-					info += u"Enemy wins\n"
-					failure = True
-					exit
-			## if there is a failure, a standoff occurs, and the area is marked as standoff
-			if failure:
-				info += u"Standoff "
-				self.log_event(StandoffEvent, area=u.order.get_attacked_area().board_area)
-				if u.order.code == '-':
-					u.order.destination.standoff = True
-					u.order.destination.save()
-					conflict_area = u.order.destination
-				elif u.order.code == '=':
-					u.area.standoff = True
-					u.area.save()
-					conflict_area = u.area
-				info += u"in %s\n" % conflict_area
-				## if an enemy is trying to INVADE the standoff area, its orders are deleted
-				for e in enemies:
-					try:
-						if (e.order.code == '-' and e.order.destination.board_area == conflict_area):
-							info += u"Deleting order %s\n" % e.order
-							e.order.delete()
-						elif (e.type == 'G' and e.order.code == '='):
-							info += u"Deleting order %s\n" % e.order
-							e.order.delete()
-					except:
-						continue	
-			## if there is no failure, 'u' wins the conflict
-			else:
-				info += u"%s wins the conflict.\n" % u
-				invasion = False
-				if u.order.code == '-':
-					## a standoff area cannot be invaded
-					## if not, and the area is reachable, move the unit, cancel a possible retreat
-					if not u.order.destination.standoff:
-						if u.area.board_area.is_adjacent(u.order.destination.board_area,
-													fleet=(u.type=='F')) or \
-													u.order.find_convoy_line():
-							self.log_event(MovementEvent, type=u.type,
-															origin=u.area.board_area,
-															destination=u.order.destination.board_area)
-							invasion = u.area.board_area.code
-							u.area = u.order.destination
-							u.must_retreat = ''
-							u.save()
-							info += u"Invading %s\n" % u.area
-					else:
-						info += u"Cannot invade a standoff area.\n"
-				elif u.order.code == '=':
-					if not u.area.standoff:
-						self.log_event(ConversionEvent, area=u.area.board_area,
-														before=u.type,
-														after=u.order.type)
-						u.type = u.order.type
-						u.save()
-						invasion = u.area.board_area.code
-						info += u"Invading %s\n" % u.area
-					else:
-						info += u"Cannot invade a standoff area.\n"
-				if invasion:
-					## there could be 1 unit that should leave. this unit is marked to retreat.
-					## however, the unit may move if it has a '-' order
-					leaving = Unit.objects.filter(area=u.area, type__in=['A','F']).exclude(id=u.id)
-					for e in leaving:
-						info += u"%s must retreat. Forced from %s.\n" % (e, invasion)
-						e.must_retreat = invasion
-						e.save()
-				## all enemies have their orders deleted, except the ones that want to leave the area,
-				## but not to the area which the attack came from
-				for e in enemies:
-					info += u"Delete order of %s ?\n" % e
-					try:
-						if not (e.area == u.area and e.order.code == '-' and e.order.destination.board_area.code != e.must_retreat):
-							info += u"Deleting %s\n" % e.order
-							e.order.delete()
-					except:
-						info += u"Unit wants to leave the area\n"
-						continue
-			info += u"Deleting order %s\n" % u.order
-			u.order.delete()
-		info += u"End of conflicts processing"
-		return info
-	
-	def resolve_conflicts_refactored(self):
-		"""
 Conflict: When two or more units want to occupy the same area.
 This method takes all the units and decides which unit occupies each conflict
 area and which units must retreat.
@@ -1007,8 +883,7 @@ Run a batch of methods in the correct order to process all the orders
 		info += self.filter_unreachable_attacks()
 		info += u"\n"
 		## process conflicts
-		info += self.resolve_conflicts_refactored()
-		#info += self.resolve_conflicts()
+		info += self.resolve_conflicts()
 		info += u"\n"
 		## resolve sieges
 		info += self.resolve_sieges()
