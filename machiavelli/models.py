@@ -40,6 +40,7 @@ else:
 	logging = None
 
 ## machiavelli
+from machiavelli.fields import AutoTranslateField
 from machiavelli.graphics import make_map
 from machiavelli.logging import save_snapshot
 
@@ -108,15 +109,6 @@ KARMA_MINIMUM = settings.KARMA_MINIMUM
 KARMA_DEFAULT = settings.KARMA_DEFAULT
 KARMA_MAXIMUM = settings.KARMA_MAXIMUM
 BONUS_TIME = settings.BONUS_TIME
-
-class AutoTranslateField(models.CharField):
-	"""
-This class is a CharField whose contents are translated when shown to the
-user. You need an aux file (translate.py) for manage.py to make the messages.
-	"""
-	__metaclass__ = models.SubfieldBase
-	def to_python(self, value):
-		return unicode(_(value))
 
 class Invasion(object):
 	"""
