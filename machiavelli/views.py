@@ -29,16 +29,6 @@ else:
 
 #@login_required
 def game_list(request):
-	## check if the user has a Stats object associated.
-	## this is probably not the best place to do this.
-	##TODO: find a proper place for this code
-	if request.user.is_authenticated():
-		try:
-			request.user.stats
-		except:
-			stats = Stats(user=request.user)
-			stats.save()
-	########
 	active_games = Game.objects.exclude(slots=0, phase=PHINACTIVE)
 	finished_games = Game.objects.filter(slots=0, phase=PHINACTIVE)
 	if request.user.is_authenticated():

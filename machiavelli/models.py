@@ -1231,6 +1231,16 @@ class Stats(models.Model):
 				game.slots += 1
 				game.save()
 
+def create_stats(sender, instance=None, **kwargs):
+	if instance is None:
+		return
+	try:
+		instance.stats
+	except:
+		stats = Stats(user=instance)
+		stats.save()
+
+models.signals.post_save.connect(create_stats, sender=User)
 
 class Score(models.Model):
 	user = models.ForeignKey(User)
