@@ -16,6 +16,7 @@
 
 from django.db import models
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 if 'south' in settings.INSTALLED_APPS:
 	from south import modelsinspector
