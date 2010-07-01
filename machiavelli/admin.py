@@ -31,9 +31,6 @@ class ScoreAdmin(admin.ModelAdmin):
 	list_filter = ('game', 'user', 'country')
 	ordering = ['game']
 
-class StatsAdmin(admin.ModelAdmin):
-	pass
-
 class UnitAdmin(admin.ModelAdmin):
 	list_display = ('__unicode__', 'player', 'must_retreat')
 	ordering = ['player']
@@ -173,7 +170,6 @@ admin.site.register(Setup, SetupAdmin)
 admin.site.register(Player, PlayerAdmin)
 admin.site.register(Revolution, RevolutionAdmin)
 admin.site.register(Score, ScoreAdmin)
-admin.site.register(Stats, StatsAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(RetreatOrder, RetreatOrderAdmin)
 admin.site.register(BaseEvent, BaseEventAdmin)
