@@ -50,6 +50,7 @@ urlpatterns = patterns('',
 		
 	## machiavelli urls
 	(r'^machiavelli/', include('machiavelli.urls')),
+	(r'^profiles/', include('condottieri_profiles.urls')),
 	
 	## forum urls
 	(r'^forum/', include('forum.urls')),

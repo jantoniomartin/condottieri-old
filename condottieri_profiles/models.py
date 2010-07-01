@@ -36,6 +36,10 @@ class CondottieriProfile(models.Model):
 	def __unicode__(self):
 		return self.user.username
 
+	def get_absolute_url(self):
+		return ('profile_detail', None, {'username': self.user.username})
+	get_absolute_url = models.permalink(get_absolute_url)
+	
 	def adjust_karma(self, k):
 		if not isinstance(k, int):
 			return

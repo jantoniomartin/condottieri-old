@@ -1,0 +1,33 @@
+{% extends 'condottieri_profiles/base.html' %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Profile" %}{% endblock %}
+
+{% block body %}
+<h1>{% trans "Profile for" %} {{ user_shown.username }}</h1>
+<dl>
+{% if user_shown.get_profile.name %}
+<dt>{% trans "Name" %}</dt>
+<dd>{{ user_shown.get_profile.name }}</dd>
+{% endif %}
+{% if user_shown.get_profile.about %}
+<dt>{% trans "About" %}</dt>
+<dd>{{ user_shown.get_profile.about }}</dd>
+{% endif %}
+{% if user_shown.get_profile.location %}
+<dt>{% trans "Location" %}</dt>
+<dd>{{ user_shown.get_profile.location }}</dd>
+{% endif %}
+{% if is_own %}
+<dt>{% trans "Karma" %}</dt>
+<dd>{{ user_shown.get_profile.karma }}</dd>
+{% endif %}
+<dt>{% trans "Total score" %}</dt>
+<dd>{{ user_shown.get_profile.total_score }}</dd>
+</dl>
+
+{% if is_own %}
+<p><a href="{% url profile_edit %}">{% trans "Edit" %}</a>.</p>
+{% endif %}
+{% endblock %}
