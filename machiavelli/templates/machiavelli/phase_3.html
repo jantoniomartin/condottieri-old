@@ -5,7 +5,7 @@
 <p>{% blocktrans %}At least one player has not yet retreated his units. You have to wait until all
 players have done it or the time limit is reached.{% endblocktrans %}</p>
 {% else %}
-<form action="{% url show-game game.id %}" method="post">
+<form action="{% url show-game game.slug %}" method="post">
 {% if retreat_forms %}
 <p>{% blocktrans %}
 Some of your units have been defeated and must retreat. For each unit, you can decide a retreat area
