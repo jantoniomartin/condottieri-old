@@ -37,14 +37,13 @@ def game_list(request):
 	if request.user.is_authenticated():
 		other_games = active_games.exclude(player__user=request.user)
 		your_games = active_games.filter(player__user=request.user)
-		revolutions = []
-		for r in Revolution.objects.filter(opposition__isnull=True):
-			if r.government.game in other_games:
-				revolutions.append(r)
 	else:
 		other_games = active_games
 		your_games = Game.objects.none()
-		revolutions = None
+	revolutions = []
+	for r in Revolution.objects.filter(opposition__isnull=True):
+		if r.government.game in other_games:
+			revolutions.append(r)
 	context = {
 		'your_games': your_games,
 		'other_games': other_games,
