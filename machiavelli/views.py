@@ -87,15 +87,15 @@ def base_context(request, game, player):
 
 @never_cache
 #@login_required
-def play_game(request, game_id=''):
-	game = get_object_or_404(Game, pk=game_id)
+def play_game(request, slug=''):
+	game = get_object_or_404(Game, slug=slug)
 	try:
 		player = Player.objects.get(game=game, user=request.user)
 	except:
 		player = Player.objects.none()
 	context = base_context(request, game, player)
 	if game.slots == 0 and game.phase == PHINACTIVE:
-		return redirect('game-results', game_id=game.id)
+		return redirect('game-results', slug=game.slug)
 	if player:
 		##################################
 		## IP TRACKING FOR CLONES DETECTION
@@ -262,8 +262,8 @@ def play_retreats(request, game, player):
 
 #@login_required
 @cache_page(60 * 60) # cache 1 hour
-def game_results(request, game_id):
-	game = get_object_or_404(Game, pk=game_id)
+def game_results(request, slug=''):
+	game = get_object_or_404(Game, slug=slug)
 	if game.phase != PHINACTIVE:
 		raise Http404
 	scores = game.score_set.filter(user__isnull=False).order_by('-points')
@@ -280,8 +280,8 @@ def game_results(request, game_id):
 
 @never_cache
 #@login_required
-def logs_by_game(request, game_id):
-	game = get_object_or_404(Game, pk=game_id)
+def logs_by_game(request, slug=''):
+	game = get_object_or_404(Game, slug=slug)
 	try:
 		player = Player.objects.get(game=game, user=request.user)
 	except:
@@ -338,8 +338,8 @@ def create_game(request):
 							context_instance=RequestContext(request))
 
 @login_required
-def join_game(request, game_id=''):
-	g = get_object_or_404(Game, pk=game_id)
+def join_game(request, slug=''):
+	g = get_object_or_404(Game, slug=slug)
 	karma = request.user.get_profile().karma
 	if karma < settings.KARMA_TO_JOIN:
 		return low_karma_error(request)
@@ -370,8 +370,8 @@ def overthrow(request, revolution_id):
 
 @never_cache
 @login_required
-def box_list(request, game_id='', box='inbox'):
-	game = get_object_or_404(Game, pk=game_id)
+def box_list(request, slug='', box='inbox'):
+	game = get_object_or_404(Game, slug=slug)
 	player = get_object_or_404(Player, game=game, user=request.user)
 	extra_context = {
 		'game': game,
@@ -408,7 +408,7 @@ def new_letter(request, sender_id, receiver_id):
 		letter_form = forms.LetterForm(player, receiver, data=request.POST)
 		if letter_form.is_valid():
 			letter = letter_form.save()
-			return redirect('show-game', game_id=game.id)
+			return redirect('show-game', slug=game.slug)
 		else:
 			print letter_form.errors
 	else:
@@ -491,8 +491,8 @@ def low_karma_error(request):
 							context_instance=RequestContext(request))
 
 @login_required
-def turn_log_list(request, game_id):
-	game = get_object_or_404(Game, pk=game_id)
+def turn_log_list(request, slug=''):
+	game = get_object_or_404(Game, slug=slug)
 	log_list = game.turnlog_set.all()
 	paginator = Paginator(log_list, 1)
 	try:

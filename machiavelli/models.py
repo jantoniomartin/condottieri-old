@@ -328,8 +328,12 @@ Returns true if, when the function is called, the first BONUS_TIME% of the durat
 	def get_map_url(self):
 		return "map-%s.jpg" % self.id
 	
+	#def get_absolute_url(self):
+	#	return "game/%s" % self.id
+	
 	def get_absolute_url(self):
-		return "game/%s" % self.id
+		return ('show-game', None, {'slug': self.slug})
+	get_absolute_url = models.permalink(get_absolute_url)
 	
 	def make_map(self):
 		#make_map(self)

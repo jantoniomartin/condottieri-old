@@ -1,4 +1,4 @@
 {% load i18n %}
 
 {% blocktrans with game.slug as slug %}The game '{{ slug }}' has just started. You can {% endblocktrans %}
-<a href="{% url show-game game.id %}">{% trans "play it now" %}</a>.
+<a href="{% url show-game game.slug %}">{% trans "play it now" %}</a>.
