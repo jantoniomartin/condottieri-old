@@ -171,9 +171,9 @@ tr.closed_game a{
 	overflow: auto;
 }
 
-/*#log {
-	height: 60%;
-}*/
+#log {
+	height: 75%;
+}
 
 #letter_box ul,
 #log ul {
