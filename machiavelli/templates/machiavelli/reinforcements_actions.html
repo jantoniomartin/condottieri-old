@@ -1,5 +1,8 @@
+{% extends 'machiavelli/show_game.html' %}
+
 {% load i18n %}
 
+{% block actions %}
 <h2>{% trans "Military Adjustment" %}</h2>
 {% if done %}
 
@@ -79,3 +82,5 @@ players have done it or the time limit is reached.{% endblocktrans %}</p>
 
 </form>
 {% endif %}
+
+{% endblock %}

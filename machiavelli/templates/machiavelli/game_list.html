@@ -55,7 +55,7 @@ you can also create one, but it's better if you join an existing game.{% endbloc
 		{% include 'machiavelli/game_row_inc.html' %}
 		<td>{{ game.slots }}
 		{% ifnotequal game.slots 0 %}
-			<a href="{% url machiavelli.views.join_game game.pk %}">{% trans "Join game" %}</a>
+			<a href="{% url machiavelli.views.join_game game.slug %}">{% trans "Join game" %}</a>
 		{% endifnotequal %}
 		</td>
 	</tr>

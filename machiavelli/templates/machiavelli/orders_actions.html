@@ -1,5 +1,8 @@
+{% extends 'machiavelli/show_game.html' %}
+
 {% load i18n %}
 
+{% block actions %}
 <h2>{% trans "Orders writing" %}</h2>
 {% if done %}
 <p>{% blocktrans %}At least one player has not yet sent his orders. You have to wait until all
@@ -31,3 +34,5 @@ orders. If you want a unit to do nothing, select the "Hold" option for it.
 </form>
 </div>
 {% endif %}
+
+{% endblock %}

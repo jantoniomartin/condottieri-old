@@ -1,4 +1,8 @@
+{% extends 'machiavelli/show_game.html' %}
+
 {% load i18n %}
+
+{% block actions %}
 
 <h2>{% trans "Retreats" %}</h2>
 {% if done %}
@@ -19,3 +23,5 @@ disbandesd.
 {% endif %}
 </form>
 {% endif %}
+
+{% endblock %}

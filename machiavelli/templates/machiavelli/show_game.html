@@ -97,20 +97,10 @@ the page in a few seconds.{% endblocktrans %}
 <div class="clear"></div>
 
 <div id="actions">
-{% if phase_partial %}
-{% include phase_partial %}
-{% else %}
-<p>{% trans "This game is inactive or you are not playing in it." %}</p>
-{% if player %}
-{% else %}
-		{% ifnotequal game.slots 0 %}
-			<a href="{% url machiavelli.views.join_game game.pk %}">{% trans "Join game" %}</a>
-		{% endifnotequal %}
-{% endif %}
-{% endif %}
-</div><!-- id=actions -->
-{% endblock %}
+{% block actions %}{% endblock %}
+</div>
 
+{% endblock %}
 
 {% block extra_body %}
 {% if map %}

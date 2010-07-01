@@ -68,8 +68,9 @@ def base_context(request, game, player):
 		}
 	log = game.baseevent_set.all()
 	if player:
-		context['phase_partial'] = "machiavelli/phase_%s.html" % game.phase
+		#context['phase_partial'] = "machiavelli/phase_%s.html" % game.phase
 		context['inbox'] = player.received.order_by('-id')[:10]
+		context['done'] = player.done
 	log = log.exclude(season__exact=game.season,
 							phase__exact=game.phase)
 	if len(log) > 0:
@@ -111,152 +112,150 @@ def play_game(request, slug=''):
 		##################################
 		if game.slots == 0:
 			game.check_time_limit()
-		if not player.done:
-			if game.phase == PHINACTIVE:
-				pass
-			elif game.phase == PHREINFORCE:
-				print "Playing reinforcements phase"
-				return play_reinforcements(request, game, player)
-			elif game.phase == PHORDERS:
-				print "Playing order writing phase"
-				return play_orders(request, game, player)
-			elif game.phase == PHRETREATS:
-				print "Playing retreats"
-				return play_retreats(request, game, player)
-		else:
-			context['done'] = True
-			if game.phase == PHORDERS:
+		if game.phase == PHINACTIVE:
+			return render_to_response('machiavelli/inactive_actions.html',
+							context,
+							context_instance=RequestContext(request))
+		elif game.phase == PHREINFORCE:
+			return play_reinforcements(request, game, player)
+		elif game.phase == PHORDERS:
+			if player.done:
 				orders = OrderEvent.objects.filter(game=game, year=game.year,
 											season=game.season,
 											phase=game.phase,
 											country=player.country)
-				context['orders'] = orders
-	return render_to_response('machiavelli/show_game.html',
+				context['orders'] = orders	
+			return play_orders(request, game, player)
+		elif game.phase == PHRETREATS:
+			return play_retreats(request, game, player)
+		else:
+			raise Http404
+	## no player
+	else:
+		return render_to_response('machiavelli/inactive_actions.html',
 							context,
 							context_instance=RequestContext(request))
 
 def play_reinforcements(request, game, player):
 	context = base_context(request, game, player)
-	units_to_place = player.units_to_place()
-	context['cities_qty'] = player.number_of_cities()
-	context['cur_units'] = len(player.unit_set.all())
-	if units_to_place > 0:
-		## place units
-		context['units_to_place'] = units_to_place
-		ReinforceForm = forms.make_reinforce_form(player)
-		ReinforceFormSet = formset_factory(ReinforceForm,
-							formset=forms.BaseReinforceFormSet,
-							extra=units_to_place)
-		if request.method == 'POST':
-			reinforce_form = ReinforceFormSet(request.POST)
-			if reinforce_form.is_valid():
-				for f in reinforce_form.forms:
-					new_unit = Unit(type=f.cleaned_data['type'],
-							area=f.cleaned_data['area'],
-							player=player)
-					new_unit.place()
-				#game.map_changed()
-				player = Player.objects.get(id=player.pk) ## see below
-				player.end_phase()
-				return HttpResponseRedirect(request.path)
-		else:
-			reinforce_form = ReinforceFormSet()
-		context['reinforce_form'] = reinforce_form
-	elif units_to_place < 0:
-		## remove units
-		DisbandForm = forms.make_disband_form(player)
-		#choices = []
-		context['units_to_disband'] = -units_to_place
-		#for unit in player.unit_set.all():
-		#	choices.append((unit.pk, unit))
-		if request.method == 'POST':
-			disband_form = DisbandForm(request.POST)
-			if disband_form.is_valid():
-				if len(disband_form.cleaned_data['units']) == -units_to_place:
-					for u in disband_form.cleaned_data['units']:
-						u.delete()
-					game.map_changed()
-					## odd: the player object needs to be reloaded or
-					## the it doesn't know the change in game.map_outdated
-					## this hack needs to be done in some other places
-					player = Player.objects.get(id=player.pk)
-					## --
+	if not player.done:
+		units_to_place = player.units_to_place()
+		context['cities_qty'] = player.number_of_cities()
+		context['cur_units'] = len(player.unit_set.all())
+		if units_to_place > 0:
+			## place units
+			context['units_to_place'] = units_to_place
+			ReinforceForm = forms.make_reinforce_form(player)
+			ReinforceFormSet = formset_factory(ReinforceForm,
+								formset=forms.BaseReinforceFormSet,
+								extra=units_to_place)
+			if request.method == 'POST':
+				reinforce_form = ReinforceFormSet(request.POST)
+				if reinforce_form.is_valid():
+					for f in reinforce_form.forms:
+						new_unit = Unit(type=f.cleaned_data['type'],
+								area=f.cleaned_data['area'],
+								player=player)
+						new_unit.place()
+					#game.map_changed()
+					player = Player.objects.get(id=player.pk) ## see below
 					player.end_phase()
 					return HttpResponseRedirect(request.path)
-		else:
-			disband_form = DisbandForm()
-		context['disband_form'] = disband_form
-	else:
-		## neither place or remove units
-		#if request.method == 'POST':
-		player.end_phase()
-		return HttpResponseRedirect(request.path)
-		#else:
-		#	context['no_reinforcement'] = True
-	return render_to_response('machiavelli/show_game.html',
+			else:
+				reinforce_form = ReinforceFormSet()
+			context['reinforce_form'] = reinforce_form
+		elif units_to_place < 0:
+			## remove units
+			DisbandForm = forms.make_disband_form(player)
+			#choices = []
+			context['units_to_disband'] = -units_to_place
+			#for unit in player.unit_set.all():
+			#	choices.append((unit.pk, unit))
+			if request.method == 'POST':
+				disband_form = DisbandForm(request.POST)
+				if disband_form.is_valid():
+					if len(disband_form.cleaned_data['units']) == -units_to_place:
+						for u in disband_form.cleaned_data['units']:
+							u.delete()
+						game.map_changed()
+						## odd: the player object needs to be reloaded or
+						## the it doesn't know the change in game.map_outdated
+						## this hack needs to be done in some other places
+						player = Player.objects.get(id=player.pk)
+						## --
+						player.end_phase()
+						return HttpResponseRedirect(request.path)
+			else:
+				disband_form = DisbandForm()
+			context['disband_form'] = disband_form
+	return render_to_response('machiavelli/reinforcements_actions.html',
 							context,
 							context_instance=RequestContext(request))
 
 def play_orders(request, game, player):
 	## receiving orders
 	context = base_context(request, game, player)
-	OrderForm = forms.make_jsorder_form(player)
-	n_forms = player.unit_set.count()
-	OrderFormSet = formset_factory(OrderForm, formset=forms.BaseOrderFormSet, extra=n_forms)
-	if request.method == 'POST':
-		orders_formset = OrderFormSet(request.POST)
-		if orders_formset.is_valid():
-			for form in orders_formset.forms:
-				new_order = utils.parse_order_form(form.cleaned_data)
-				if isinstance(new_order, Order):
-					if not new_order.code == 'H':
-						new_order.save()
-			player.end_phase()
-			return HttpResponseRedirect(request.path)
+	if player.done:
+		orders = OrderEvent.objects.filter(game=game, year=game.year,
+									season=game.season,
+									phase=game.phase,
+									country=player.country)
+		context['orders'] = orders
 	else:
-		orders_formset = OrderFormSet()
-	context['orders_formset'] = orders_formset
-	return render_to_response('machiavelli/show_game.html',
+		OrderForm = forms.make_jsorder_form(player)
+		n_forms = player.unit_set.count()
+		OrderFormSet = formset_factory(OrderForm, formset=forms.BaseOrderFormSet, extra=n_forms)
+		if request.method == 'POST':
+			orders_formset = OrderFormSet(request.POST)
+			if orders_formset.is_valid():
+				for form in orders_formset.forms:
+					new_order = utils.parse_order_form(form.cleaned_data)
+					if isinstance(new_order, Order):
+						if not new_order.code == 'H':
+							new_order.save()
+				player.end_phase()
+				return HttpResponseRedirect(request.path)
+		else:
+			orders_formset = OrderFormSet()
+		context['orders_formset'] = orders_formset
+	return render_to_response('machiavelli/orders_actions.html',
 							context,
 							context_instance=RequestContext(request))
 
 def play_retreats(request, game, player):
 	context = base_context(request, game, player)
-	units = Unit.objects.filter(player=player).exclude(must_retreat__exact='')
-	retreat_forms = []
-	if request.method == 'POST':
-		data = request.POST
-		for u in units:
-			unitid_key = "%s-unitid" % u.id
-			area_key = "%s-area" % u.id
-			unit_data = {unitid_key: data[unitid_key], area_key: data[area_key]}
-			RetreatForm = forms.make_retreat_form(u)
-			retreat_forms.append(RetreatForm(data, prefix=u.id))
-		for f in retreat_forms:
-			if f.is_valid():
-				unitid = f.cleaned_data['unitid']
-				area= f.cleaned_data['area']
-				unit = Unit.objects.get(id=unitid)
-				if isinstance(area, GameArea):
-					print "%s will retreat to %s" % (unit, area)
-					retreat = RetreatOrder(unit=unit, area=area)
-				else:
-					print "%s will disband" % unit
-					retreat = RetreatOrder(unit=unit)
-				retreat.save()
-		player.end_phase()
-		return HttpResponseRedirect(request.path)
-	else:
-		for u in units:
-			RetreatForm = forms.make_retreat_form(u)
-			retreat_forms.append(RetreatForm(prefix=u.id))
-	if len(retreat_forms) > 0:
-		context['retreat_forms'] = retreat_forms
-	else:
-		print "ending retreats phase"
-		player.end_phase()
-		return HttpResponseRedirect(request.path)
-	return render_to_response('machiavelli/show_game.html',
+	if not player.done:
+		units = Unit.objects.filter(player=player).exclude(must_retreat__exact='')
+		retreat_forms = []
+		if request.method == 'POST':
+			data = request.POST
+			for u in units:
+				unitid_key = "%s-unitid" % u.id
+				area_key = "%s-area" % u.id
+				unit_data = {unitid_key: data[unitid_key], area_key: data[area_key]}
+				RetreatForm = forms.make_retreat_form(u)
+				retreat_forms.append(RetreatForm(data, prefix=u.id))
+			for f in retreat_forms:
+				if f.is_valid():
+					unitid = f.cleaned_data['unitid']
+					area= f.cleaned_data['area']
+					unit = Unit.objects.get(id=unitid)
+					if isinstance(area, GameArea):
+						print "%s will retreat to %s" % (unit, area)
+						retreat = RetreatOrder(unit=unit, area=area)
+					else:
+						print "%s will disband" % unit
+						retreat = RetreatOrder(unit=unit)
+					retreat.save()
+			player.end_phase()
+			return HttpResponseRedirect(request.path)
+		else:
+			for u in units:
+				RetreatForm = forms.make_retreat_form(u)
+				retreat_forms.append(RetreatForm(prefix=u.id))
+		if len(retreat_forms) > 0:
+			context['retreat_forms'] = retreat_forms
+	return render_to_response('machiavelli/retreats_actions.html',
 							context,
 							context_instance=RequestContext(request))
 
