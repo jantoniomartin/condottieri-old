@@ -26,5 +26,5 @@ New letter for {{ country }}
 <p><input type="submit" value="{% trans "Send" %}" />
 </form>
 
-<p><a href="{% url show-game game.id %}">{% trans "Return to game" %}</a></p>
+<p><a href="{% url show-game game.slug %}">{% trans "Return to game" %}</a></p>
 {% endblock %}

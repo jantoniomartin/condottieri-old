@@ -379,21 +379,27 @@ def box_list(request, slug='', box='inbox'):
 	}
 
 	if box == 'inbox':
-		q = player.received.order_by('-id')
-		template_name = 'machiavelli/letter_inbox.html'
+		letter_list = player.received.order_by('-id')
 	elif box == 'outbox':
-		q = player.sent.order_by('-id')
-		template_name = 'machiavelli/letter_outbox.html'
+		letter_list = player.sent.order_by('-id')
 	else:
-		q = Letter.objects.none()
+		letter_list = Letter.objects.none()
 	
-	return object_list(
-		request,
-		queryset = q,
-		template_name = template_name,
-		template_object_name = 'letters',
-		extra_context = extra_context
-		)
+	paginator = Paginator(letter_list, 10)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		letters = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		letters = paginator.page(paginator.num_pages)
+	
+	extra_context['letters'] = letters
+
+	return render_to_response('machiavelli/letter_box.html',
+							extra_context,
+							context_instance=RequestContext(request))
 
 @login_required
 def new_letter(request, sender_id, receiver_id):

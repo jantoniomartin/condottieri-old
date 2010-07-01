@@ -28,5 +28,5 @@
 <dt>{% trans "Body" %}:<dt>
 <dd>{{ letter.body }}</dd>
 </dl>
-<p><a href="{% url show-game game.id %}">{% trans "Return to game" %}</a></p>
+<p><a href="{% url show-game game.slug %}">{% trans "Return to game" %}</a></p>
 {% endblock %}
