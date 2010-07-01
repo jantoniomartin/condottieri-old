@@ -16,12 +16,12 @@ server{% endblocktrans %}</p>
 	<th>{% trans "Score" %}</th>
 	</tr>
 	</thead>
-	{% for u in users %}
+	{% for p in profiles %}
 	<tr>
-	<td><a href="{% url profile_detail username=u.username %}">{{ u }}</a></td>
+	<td><a href="{% url profile_detail username=p.user.username %}">{{ p }}</a></td>
 	<td class="data_c">
-	{% if u.total_score %}
-		{{ u.total_score }}
+	{% if p.total_score %}
+		{{ p.total_score }}
 	{% else %}
 		0
 	{% endif %}

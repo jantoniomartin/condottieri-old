@@ -21,6 +21,9 @@ import machiavelli.utils as utils
 import machiavelli.forms as forms
 import machiavelli.graphics as graphics
 
+## condottieri_profiles
+from condottieri_profiles.models import CondottieriProfile
+
 ## clones detection
 if 'clones' in settings.INSTALLED_APPS:
 	from clones import models as clones
@@ -470,8 +473,9 @@ def show_letter(request, letter_id):
 #@login_required
 @cache_page(60 * 10)
 def hall_of_fame(request):
-	users = User.objects.all().annotate(total_score=Sum('score__points')).order_by('-total_score')
-	context = {'users': users}
+	profiles = CondottieriProfile.objects.all().order_by('-total_score')
+	#users = User.objects.all().annotate(total_score=Sum('score__points')).order_by('-total_score')
+	context = {'profiles': profiles}
 	return render_to_response('machiavelli/hall_of_fame.html',
 							context,
 							context_instance=RequestContext(request))
