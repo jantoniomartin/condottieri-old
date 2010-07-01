@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-01 19:44+0200\n"
+"POT-Creation-Date: 2010-07-01 23:05+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -327,7 +327,8 @@ msgstr "Enviar una respuesta"
 
 #: forum/templates/forum/thread.html:36
 msgid "Sorry, this thread is closed. No further replies are permitted."
-msgstr "Lamentablemente, este hilo está cerrado. No se permiten más respuestas."
+msgstr ""
+"Lamentablemente, este hilo está cerrado. No se permiten más respuestas."
 
 #: forum/templates/forum/thread.html:42
 msgid "Submit"
@@ -1319,7 +1320,7 @@ msgid "Cities"
 msgstr "Ciudades"
 
 #: machiavelli/templates/machiavelli/game_results.html:31
-#: machiavelli/templates/machiavelli/show_game.html:85
+#: machiavelli/templates/machiavelli/show_game.html:98
 msgid "Campaign log"
 msgstr "Diario de campaña"
 
@@ -1666,17 +1667,33 @@ msgstr ""
 msgid "Diplomacy"
 msgstr "Diplomacia"
 
+#: machiavelli/templates/machiavelli/show_game.html:75
+msgid "Box"
+msgstr "Bandeja"
+
+#: machiavelli/templates/machiavelli/show_game.html:76
+msgid "All"
+msgstr "Todos"
+
+#: machiavelli/templates/machiavelli/show_game.html:77
+msgid "Unread"
+msgstr "No leídos"
+
 #: machiavelli/templates/machiavelli/show_game.html:80
 msgid "Inbox"
 msgstr "Entrada"
 
-#: machiavelli/templates/machiavelli/show_game.html:81
+#: machiavelli/templates/machiavelli/show_game.html:85
 msgid "Outbox"
 msgstr "Salida"
 
-#: machiavelli/templates/machiavelli/show_game.html:93
+#: machiavelli/templates/machiavelli/show_game.html:106
 msgid "See all"
 msgstr "Ver todo"
+
+#: machiavelli/templates/machiavelli/show_game.html:107
+msgid "Process"
+msgstr "Proceso"
 
 #: machiavelli/templates/machiavelli/turn_log_list.html:8
 msgid "Orders processing in game"

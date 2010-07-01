@@ -165,26 +165,22 @@ tr.closed_game a{
 	height: 740px;
 }
 
-#diplomacy,
 #log {
 	margin-top: 2.5%;
 	padding-top: 0.5em;
 	overflow: auto;
 }
-#diplomacy {
-	height: 20%;
-}
 
-#log {
+/*#log {
 	height: 60%;
-}
+}*/
 
-#diplomacy ul,
+#letter_box ul,
 #log ul {
 	padding-left: 0;
 }
 
-#diplomacy li {
+#letter_box li {
 	list-style-type: none;
 	margin-left: 0;
 	padding: 0.2em 0.5em;

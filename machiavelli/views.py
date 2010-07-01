@@ -69,7 +69,11 @@ def base_context(request, game, player):
 	log = game.baseevent_set.all()
 	if player:
 		#context['phase_partial'] = "machiavelli/phase_%s.html" % game.phase
-		context['inbox'] = player.received.order_by('-id')[:10]
+		#context['inbox'] = player.received.order_by('-id')[:10]
+		context['inbox_all'] = player.received.all().count()
+		context['inbox_unread'] = player.received.filter(read=False).count()
+		context['outbox_all'] = player.sent.all().count()
+		context['outbox_unread'] = player.sent.filter(read=False).count()
 		context['done'] = player.done
 	log = log.exclude(season__exact=game.season,
 							phase__exact=game.phase)

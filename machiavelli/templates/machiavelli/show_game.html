@@ -70,15 +70,28 @@ the page in a few seconds.{% endblocktrans %}
 <div class="col3">
 <div id="diplomacy">
 <h3>{% trans "Diplomacy" %}</h3>
+<table>
+<thead><tr>
+<th>{% trans "Box" %}</th>
+<th>{% trans "All" %}</th>
+<th>{% trans "Unread" %}</th>
+</tr></thead>
+<tr>
+<td><a href="{% url inbox game.slug %}">{% trans "Inbox" %}</a></td>
+<td class="data_c">{{ inbox_all }}</td>
+<td class="data_c">{{ inbox_unread }}</td>
+</tr>
+<tr>
+<td><a href="{% url outbox game.slug %}">{% trans "Outbox" %}</a></td>
+<td class="data_c">{{ outbox_all }}</td>
+<td class="data_c">{{ outbox_unread }}</td>
+</tr>
+</table>
 <ul>
 {% for letter in inbox %}
 <a href="{% url show-letter letter.id %}">{{ letter.inbox_color_output|safe }}</a>
 {% endfor %}
 </ul>
-</div>
-<div class="menu">
-<p><a href="{% url inbox game.slug %}">{% trans "Inbox" %}</a> |
-<a href="{% url outbox game.slug %}">{% trans "Outbox" %}</a></p>
 </div>
 
 <div id="log">
@@ -90,7 +103,8 @@ the page in a few seconds.{% endblocktrans %}
 </ul>
 </div>
 <div class="menu">
-<p><a href="{% url game-log game.id %}">{% trans "See all" %}</a></p>
+<p><a href="{% url game-log game.slug %}">{% trans "See all" %}</a> | 
+<a href="{% url turn-log-list game.slug %}">{% trans "Process" %}</a></p>
 </div>
 </div>
 
