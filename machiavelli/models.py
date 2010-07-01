@@ -1215,7 +1215,8 @@ Returns a queryset with the GameAreas that accept new units.
 		if not forced:
 			if self.game.check_bonus_time():
 				## get a karma bonus
-				self.user.stats.adjust_karma(1)
+				#self.user.stats.adjust_karma(1)
+				self.user.get_profile().adjust_karma(1)
 			## delete possible revolutions
 			Revolution.objects.filter(government=self).delete()
 		self.game.check_next_phase()
@@ -1245,7 +1246,8 @@ Returns a queryset with the GameAreas that accept new units.
 
 	def force_phase_change(self):
 		## the player didn't take his actions, so he loses karma
-		self.user.stats.adjust_karma(-10)
+		#self.user.stats.adjust_karma(-10)
+		self.user.get_profile().adjust_karma(-10)
 		## if there is a revolution with an overthrowing player, change users
 		try:
 			rev = Revolution.objects.get(government=self)
@@ -1271,7 +1273,8 @@ Returns a queryset with the GameAreas that accept new units.
 									message=0)
 				self.save()
 				rev.delete()
-				self.user.stats.adjust_karma(10)
+				#self.user.stats.adjust_karma(10)
+				self.user.get_profile().adjust_karma(10)
 
 class Revolution(models.Model):
 	"""

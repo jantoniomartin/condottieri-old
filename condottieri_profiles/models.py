@@ -36,6 +36,16 @@ class CondottieriProfile(models.Model):
 	def __unicode__(self):
 		return self.user.username
 
+	def adjust_karma(self, k):
+		if not isinstance(k, int):
+			return
+		new_karma = self.karma + k
+		if new_karma > KARMA_MAXIMUM:
+			new_karma = KARMA_MAXIMUM
+		elif new_karma < KARMA_MINIMUM:
+			new_karma = KARMA_MINIMUM
+		self.karma = new_karma
+		self.save()
 
 def create_profile(sender, instance=None, **kwargs):
     if instance is None:
