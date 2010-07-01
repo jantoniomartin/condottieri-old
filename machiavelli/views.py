@@ -307,7 +307,7 @@ def logs_by_game(request, game_id):
 @cache_page(60 * 60)
 def create_game(request):
 	## check minimum karma to create a game
-	karma = request.user.stats.karma
+	karma = request.user.get_profile().karma
 	if karma < settings.KARMA_TO_JOIN:
 		return low_karma_error(request)
 	##
@@ -337,7 +337,7 @@ def create_game(request):
 @login_required
 def join_game(request, game_id=''):
 	g = get_object_or_404(Game, pk=game_id)
-	karma = request.user.stats.karma
+	karma = request.user.get_profile().karma
 	if karma < settings.KARMA_TO_JOIN:
 		return low_karma_error(request)
 	if g.slots > 0:
@@ -356,7 +356,7 @@ def overthrow(request, revolution_id):
 	try:
 		Player.objects.get(user=request.user, game=revolution.government.game)
 	except ObjectDoesNotExist:
-		karma = request.user.stats.karma
+		karma = request.user.get_profile().karma
 		if karma < settings.KARMA_TO_JOIN:
 			return low_karma_error(request)
 		revolution.opposition = request.user
@@ -479,7 +479,7 @@ def hall_of_fame(request):
 @login_required
 def low_karma_error(request):
 	context = {
-		'karma': request.user.stats.karma,
+		'karma': request.user.get_profile().karma,
 		'minimum': settings.KARMA_TO_JOIN,
 	}
 	return render_to_response('machiavelli/low_karma.html',

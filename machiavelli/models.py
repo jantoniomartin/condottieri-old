@@ -266,7 +266,7 @@ Returns the Time of the next compulsory phase change.
 		## get the player with the highest karma, and not done
 		if self.phase == PHINACTIVE :
 			return False
-		karmas = Stats.objects.filter(user__player__game=self,
+		karmas = CondottieriProfile.objects.filter(user__player__game=self,
 									  user__player__done=False).order_by('-karma')
 		if len(karmas) > 0:
 			highest = float(karmas[0].karma)
@@ -1072,34 +1072,6 @@ Returns a _list_ of possible unit types for an area
 
 	def province_is_empty(self):
 		return self.unit_set.exclude(type__exact='G').count() == 0
-
-class Stats(models.Model):
-	user = models.OneToOneField(User)
-	karma = models.PositiveIntegerField(default=KARMA_DEFAULT)
-
-	def __unicode__(self):
-		return "%s (karma=%s)" % (self.user, self.karma)
-
-	def adjust_karma(self, k):
-		if not isinstance(k, int):
-			return
-		new_karma = self.karma + k
-		if new_karma > KARMA_MAXIMUM:
-			new_karma = KARMA_MAXIMUM
-		elif new_karma < KARMA_MINIMUM:
-			new_karma = KARMA_MINIMUM
-		self.karma = new_karma
-		self.save()
-		## if new karma is lower than the minimum to play, delete this user from
-		## the games that have not started
-		if new_karma < settings.KARMA_TO_JOIN:
-			players = Player.objects.filter(user=self.user,
-											game__slots__gt=0)
-			for p in players:
-				game = p.game
-				p.delete()
-				game.slots += 1
-				game.save()
 
 def check_min_karma(sender, instance=None, **kwargs):
 	if isinstance(instance, CondottieriProfile):
