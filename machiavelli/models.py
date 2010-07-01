@@ -262,7 +262,6 @@ populated when the game is started, from the scenario data.
 		"""
 Returns the Time of the next compulsory phase change.
 		"""
-		#duration = timedelta(0, self.time_limit)
 		## get the player with the highest karma, and not done
 		if self.phase == PHINACTIVE :
 			return False
@@ -327,9 +326,6 @@ Returns true if, when the function is called, the first BONUS_TIME% of the durat
 
 	def get_map_url(self):
 		return "map-%s.jpg" % self.id
-	
-	#def get_absolute_url(self):
-	#	return "game/%s" % self.id
 	
 	def get_absolute_url(self):
 		return ('show-game', None, {'slug': self.slug})
@@ -689,6 +685,10 @@ area and which units must retreat.
 					info += u"Rival wins.\n"
 					standoff = True
 					exit
+				else:
+					## the rival is defeated and loses its orders
+					info += u"Deleting order of %s.\n" % r
+					r.delete_order()
 			## if there is a standoff, delete the order and all rivals' orders
 			if standoff:
 				conflict_area.mark_as_standoff()
