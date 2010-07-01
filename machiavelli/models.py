@@ -44,6 +44,9 @@ from machiavelli.fields import AutoTranslateField
 from machiavelli.graphics import make_map
 from machiavelli.logging import save_snapshot
 
+## condottieri_profiles
+from condottieri_profiles.models import CondottieriProfile
+
 try:
 	settings.TWITTER_USER
 except:
@@ -1097,6 +1100,19 @@ class Stats(models.Model):
 				p.delete()
 				game.slots += 1
 				game.save()
+
+def check_min_karma(sender, instance=None, **kwargs):
+	if isinstance(instance, CondottieriProfile):
+		if instance.karma < settings.KARMA_TO_JOIN:		
+			players = Player.objects.filter(user=instance.user,
+											game__slots__gt=0)
+			for p in players:
+				game = p.game
+				p.delete()
+				game.slots += 1
+				game.save()
+	
+models.signals.post_save.connect(check_min_karma, sender=CondottieriProfile)
 
 def create_stats(sender, instance=None, **kwargs):
 	if instance is None:
