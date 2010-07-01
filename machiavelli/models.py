@@ -962,8 +962,6 @@ Returns True if at least one player has reached the cities_to_win
 		for s in assignation:
 			try:
 				q = qual.pop()
-				#q[0].score = s
-				#q[0].save()
 			except:
 				exit
 			else:
@@ -973,8 +971,9 @@ Returns True if at least one player has reached the cities_to_win
 							points = s + q[1],
 							cities = q[1])
 				score.save()
-				#q[0].score = s
-				#q[0].save()
+				## add the points to the profile total_score
+				score.user.get_profile().total_score += score.points
+				score.user.get_profile().save()
 				## highest score = last score
 				while qual != [] and qual[-1][1] == q[1]:
 					tied = qual.pop()
@@ -983,8 +982,9 @@ Returns True if at least one player has reached the cities_to_win
 								points = s + tied[1],
 								cities = tied[1])
 					score.save()
-					#tied[0].score = s
-					#tied[0].save()
+					## add the points to the profile total_score
+					score.user.get_profile().total_score += score.points
+					score.user.get_profile().save()
 
 	def game_over(self):
 		self.phase = PHINACTIVE
