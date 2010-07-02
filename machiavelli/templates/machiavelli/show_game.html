@@ -79,12 +79,16 @@ the page in a few seconds.{% endblocktrans %}
 <tr>
 <td><a href="{% url inbox game.slug %}">{% trans "Inbox" %}</a></td>
 <td class="data_c">{{ inbox_all }}</td>
-<td class="data_c">{{ inbox_unread }}</td>
+<td class="data_c">
+{% ifnotequal inbox_unread 0 %}
+<span style="font-weight: bold; color: #ff0000">{{ inbox_unread }}</span>
+{% endifnotequal %}
+</td>
 </tr>
 <tr>
 <td><a href="{% url outbox game.slug %}">{% trans "Outbox" %}</a></td>
 <td class="data_c">{{ outbox_all }}</td>
-<td class="data_c">{{ outbox_unread }}</td>
+<td class="data_c"></td>
 </tr>
 </table>
 <ul>
