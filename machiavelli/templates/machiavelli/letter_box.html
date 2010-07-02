@@ -44,14 +44,18 @@
 <tr>
 {% ifequal box 'inbox' %}
 <td>{{ letter.sender.country }}</td>
-{% endifequal %}
-{% ifequal box 'outbox' %}
-<td>{{ letter.receiver.country }}</td>
-{% endifequal %}
 <td>
 <a href="{% url show-letter letter.id %}">{{ letter.inbox_color_output|safe }}
 </a>
 </td>
+{% endifequal %}
+{% ifequal box 'outbox' %}
+<td>{{ letter.receiver.country }}</td>
+<td>
+<a href="{% url show-letter letter.id %}">{{ letter.outbox_color_output|safe }}
+</a>
+</td>
+{% endifequal %}
 </tr>
 {% endfor %}
 </table>

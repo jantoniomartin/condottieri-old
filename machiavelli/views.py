@@ -460,7 +460,7 @@ def show_letter(request, letter_id):
 		letter = letters.get(id=letter_id)
 	except:
 		raise Http404
-	else:
+	if letter.receiver.user == request.user:
 		letter.read = True
 		letter.save()
 	game = letter.sender.game
