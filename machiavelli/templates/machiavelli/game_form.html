@@ -2,6 +2,8 @@
 
 {% load i18n %}
 
+{% load uni_form %}
+
 {% block head_title %}{% blocktrans %}Games{% endblocktrans %}{% endblock %}
 
 {% block body %}
@@ -31,10 +33,15 @@ phases of the game. This time limit is reset when all the players have completed
 {% endfor %}
 </table>
 <h2>{% trans "Create a new game" %}</h2>
-<div class="p_form">
-<form action="{% url new-game %}" method="post">
-{{ form.as_p }}
-<p><input type="submit" value="{% trans "Save" %}" /></p>
+
+<div style="width: 50%">
+<form action="{% url new-game %}" method="post" class="uniForm">
+<fieldset class="inlineLabels">
+{{ form|as_uni_form }}
+<div class="form_block">
+<input type="submit" value="{% trans "Save" %}" />
+</div>
+</fieldset>
 </form>
 </div>
 
