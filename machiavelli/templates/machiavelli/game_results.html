@@ -28,7 +28,7 @@
 
 </table>
 {% if show_log %}
-<p><a href="{% url game-log game.id %}">{% trans "Campaign log" %}</a></p>
+<p><a href="{% url game-log game.slug %}">{% trans "Campaign log" %}</a></p>
 {% endif %}
 <p><a href="{{ STATIC_URL }}machiavelli/maps/{{ map }}">{% trans "Map" %}</a>.</p>
 {% endblock %}
