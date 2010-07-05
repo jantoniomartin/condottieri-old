@@ -287,7 +287,7 @@ a phase change is forced.
 			if p.done:
 				continue
 			else:
-				p.force_phase_change()
+				#p.force_phase_change()
 				if self.phase == PHREINFORCE:
 					reinforce = p.units_to_place()
 					if reinforce < 0:
@@ -332,8 +332,8 @@ Returns true if, when the function is called, the first BONUS_TIME% of the durat
 	get_absolute_url = models.permalink(get_absolute_url)
 	
 	def make_map(self):
-		#make_map(self)
-		thread.start_new_thread(make_map, (self,))
+		make_map(self)
+		#thread.start_new_thread(make_map, (self,))
 		return True
 
 	def map_changed(self):
@@ -425,7 +425,8 @@ start of the game.
 	
 	def _next_season(self):
 		## take a snapshot of the units layout
-		thread.start_new_thread(save_snapshot, (self,))
+		#thread.start_new_thread(save_snapshot, (self,))
+		self.save_snapshot()
 		if self.season == 3:
 			self.season = 1
 			self.year += 1
@@ -1201,6 +1202,8 @@ Returns a queryset with the GameAreas that accept new units.
 				self.user.get_profile().adjust_karma(1)
 			## delete possible revolutions
 			Revolution.objects.filter(government=self).delete()
+		else:
+			self.force_phase_change()
 		self.game.check_next_phase()
 
 	def new_phase(self):
