@@ -426,7 +426,7 @@ start of the game.
 	def _next_season(self):
 		## take a snapshot of the units layout
 		#thread.start_new_thread(save_snapshot, (self,))
-		self.save_snapshot()
+		save_snapshot(self)
 		if self.season == 3:
 			self.season = 1
 			self.year += 1
