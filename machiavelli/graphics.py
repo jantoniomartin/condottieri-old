@@ -27,19 +27,19 @@ def make_map(game):
 	for player in game.player_set.filter(user__isnull=False):
 		## paste control markers
 		controls = player.gamearea_set.all()
-		marker = Image.open("%s/control-%s.png" % (BASEDIR, player.country.name.lower()))
+		marker = Image.open("%s/control-%s.png" % (BASEDIR, player.country.css_class))
 		for area in controls:
 			base_map.paste(marker, (area.board_area.controltoken.x, area.board_area.controltoken.y), marker)
 		## paste flags
 		home = player.home_country()
-		flag = Image.open("%s/flag-%s.png" % (BASEDIR, player.country.name.lower()))
+		flag = Image.open("%s/flag-%s.png" % (BASEDIR, player.country.css_class))
 		for game_area in home:
 			area = game_area.board_area
 			base_map.paste(flag, (area.controltoken.x, area.controltoken.y - 15), flag)
 		## paste As and Fs (not garrisons because of sieges)
 		units = player.unit_set.all()
-		army = Image.open("%s/A-%s.png" % (BASEDIR, player.country.name.lower()))
-		fleet = Image.open("%s/F-%s.png" % (BASEDIR, player.country.name.lower()))
+		army = Image.open("%s/A-%s.png" % (BASEDIR, player.country.css_class))
+		fleet = Image.open("%s/F-%s.png" % (BASEDIR, player.country.css_class))
 		for unit in units:
 			if unit.besieging:
 				coords = (unit.area.board_area.gtoken.x, unit.area.board_area.gtoken.y)
@@ -54,7 +54,7 @@ def make_map(game):
 	## paste garrisons
 	for player in game.player_set.all():
 		if player.user:
-			garrison = Image.open("%s/G-%s.png" % (BASEDIR, player.country.name.lower()))
+			garrison = Image.open("%s/G-%s.png" % (BASEDIR, player.country.css_class))
 		else:
 			## autonomous
 			garrison = Image.open("%s/G-autonomous.png" % BASEDIR)
