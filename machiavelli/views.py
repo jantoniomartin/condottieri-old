@@ -349,10 +349,28 @@ def join_game(request, slug=''):
 		try:
 			Player.objects.get(user=request.user, game=g)
 		except:
-			## the player is not in the game
+			## the user is not in the game
 			new_player = Player(user=request.user, game=g)
 			new_player.save()
 			g.player_joined()
+	return redirect('game-list')
+
+@login_required
+def leave_game(request, slug=''):
+	g = get_object_or_404(Game, slug=slug)
+	if g.slots > 0:
+		try:
+			player = Player.objects.get(user=request.user, game=g)
+		except:
+			## the user is not in the game
+			raise Http404
+		else:
+			player.delete()
+			g.slots += 1
+			g.save()
+	else:
+		## you cannot leave a game that has already started
+		raise Http404
 	return redirect('game-list')
 
 @login_required

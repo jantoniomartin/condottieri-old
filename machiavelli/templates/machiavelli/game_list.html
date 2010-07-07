@@ -26,7 +26,11 @@ you can also create one, but it's better if you join an existing game.{% endbloc
 	{% for game in your_games %}
 	<tr>
 		{% include 'machiavelli/game_row_inc.html' %}
-		<td>{{ game.slots }}</td>
+		<td>{{ game.slots }}
+		{% ifnotequal game.slots 0 %}
+			<a href="{% url leave-game game.slug %}">{% trans "Leave game" %}</a>
+		{% endifnotequal %}
+		</td>
 	</tr>
 	{% endfor %}
 </table>
