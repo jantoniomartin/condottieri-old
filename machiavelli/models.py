@@ -237,6 +237,7 @@ class Setup(models.Model):
 	class Meta:
 		unique_together = (("scenario", "area", "unit_type"),)
 
+
 class Game(models.Model):
 	"""
 year, season and field are null when the game is first created and will be
@@ -271,6 +272,25 @@ populated when the game is started, from the scenario data.
 		return ('show-game', None, {'slug': self.slug})
 	get_absolute_url = models.permalink(get_absolute_url)
 	
+	def player_list_ordered_by_cities(self):
+		from django.db import connection
+		cursor = connection.cursor()
+		cursor.execute("SELECT machiavelli_player.*, COUNT(machiavelli_gamearea.id) \
+		AS cities \
+		FROM machiavelli_player \
+		INNER JOIN (machiavelli_gamearea \
+		INNER JOIN machiavelli_area \
+		ON machiavelli_gamearea.board_area_id=machiavelli_area.id) \
+		ON machiavelli_gamearea.player_id=machiavelli_player.id \
+		WHERE (machiavelli_player.game_id=%s AND machiavelli_player.country_id \
+		AND machiavelli_area.has_city=1) \
+		GROUP BY machiavelli_player.id \
+		ORDER BY cities DESC;" % self.id)
+		result_list = []
+		for row in cursor.fetchall():
+			result_list.append(Player.objects.get(id=row[0]))
+		return result_list
+
 	##------------------------
 	## map methods
 	##------------------------

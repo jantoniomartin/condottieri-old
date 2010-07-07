@@ -61,9 +61,8 @@ def base_context(request, game, player):
 		'user': request.user,
 		'game': game,
 		'map' : game.get_map_url(),
-		#'phase_partial': "machiavelli/phase_%s.html" % game.phase,
-		#'log': game.log_set.order_by('-id')[:10],
 		'player': player,
+		'player_list': game.player_list_ordered_by_cities(),
 		}
 	log = game.baseevent_set.all()
 	if player:

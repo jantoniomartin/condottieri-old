@@ -36,7 +36,7 @@
 </div>
 {% endif %}
 {% ifequal game.slots 0 %}
-{% for p in game.player_set.all %}
+{% for p in player_list %}
 	{% if p.user %}
 	<div class="player {{ p.country.css_class }}">
 	<div><strong>{% trans p.country %}</strong>
