@@ -258,6 +258,123 @@ populated when the game is started, from the scenario data.
 	## the time and date of the last phase change
 	last_phase_change = models.DateTimeField(blank=True, null=True)
 
+	##------------------------
+	## representation methods
+	##------------------------
+	def __unicode__(self):
+		return "%d" % (self.pk)
+
+	def get_map_url(self):
+		return "map-%s.jpg" % self.id
+	
+	def get_absolute_url(self):
+		return ('show-game', None, {'slug': self.slug})
+	get_absolute_url = models.permalink(get_absolute_url)
+	
+	##------------------------
+	## map methods
+	##------------------------
+	
+	def make_map(self):
+		make_map(self)
+		#thread.start_new_thread(make_map, (self,))
+		return True
+
+	def map_changed(self):
+		if self.map_outdated == False:
+			self.map_outdated = True
+			self.save()
+	
+	def map_saved(self):
+		if self.map_outdated == True:
+			self.map_outdated = False
+			self.save()
+
+	##------------------------
+	## game starting methods
+	##------------------------
+
+	def player_joined(self):
+		self.slots -= 1
+		#self.map_outdated = True
+		if self.slots == 0:
+			#the game has all its players and should start
+			if logging:
+				logging.info("Starting game %s" % self.id)
+			self.year = self.scenario.start_year
+			self.season = 1
+			self.phase = PHORDERS
+			self.create_game_board()
+			self.shuffle_countries()
+			self.place_initial_units()
+			self.map_outdated = True
+			self.last_phase_change = datetime.now()
+			self.notify_players("game_started", {"game": self})
+		self.save()
+		if self.map_outdated == True:
+			self.make_map()
+	
+	def shuffle_countries(self):
+		"""
+Assign a Country of the Scenario to each Player
+		"""
+		countries_dict = self.scenario.setup_set.values('country').distinct()
+		countries = []
+		for c in countries_dict:
+			for v in c.values():
+				if v:
+					countries.append(v)
+		## the number of players and countries should be the same
+		assert len(countries) == len(self.player_set.filter(user__isnull=False)), "Number of players should be the same as number of countries"
+		## a list of tuples will be returned
+		assignment = []
+		## shuffle the list of countries
+		random.shuffle(countries)
+		for player in self.player_set.filter(user__isnull=False):
+			assignment.append((player, countries.pop()))
+		for t in assignment:
+			t[0].country = Country.objects.get(id=t[1])
+			t[0].save()
+
+	def create_game_board(self):
+		"""
+Creates the GameAreas for the Game
+		"""
+		for a in Area.objects.all():
+			ga = GameArea(game=self, board_area=a)
+			ga.save()
+
+	def get_autonomous_setups(self):
+		return Setup.objects.filter(scenario=self.scenario,
+				country__isnull=True).select_related()
+	
+	def place_initial_garrisons(self):
+		"""
+Creates the Autonomous Player, and places the autonomous garrisons at the
+start of the game.
+		"""
+		## create the autonomous player
+		autonomous = Player(game=self, done=True)
+		autonomous.save()
+		for s in self.get_autonomous_setups():
+			try:
+				a = GameArea.objects.get(game=self, board_area=s.area)
+			except:
+				print "Error 1: Area not found!"
+			else:	
+				if s.unit_type:
+					new_unit = Unit(type='G', area=a, player=autonomous)
+					new_unit.save()
+
+	def place_initial_units(self):
+		for p in self.player_set.filter(user__isnull=False):
+			p.place_initial_units()
+		self.place_initial_garrisons()
+
+	##--------------------------
+	## time controlling methods
+	##--------------------------
+
 	def next_phase_change(self):
 		"""
 Returns the Time of the next compulsory phase change.
@@ -324,105 +441,6 @@ Returns true if, when the function is called, the first BONUS_TIME% of the durat
 		else:
 			return False
 
-	def get_map_url(self):
-		return "map-%s.jpg" % self.id
-	
-	def get_absolute_url(self):
-		return ('show-game', None, {'slug': self.slug})
-	get_absolute_url = models.permalink(get_absolute_url)
-	
-	def make_map(self):
-		make_map(self)
-		#thread.start_new_thread(make_map, (self,))
-		return True
-
-	def map_changed(self):
-		if self.map_outdated == False:
-			self.map_outdated = True
-			self.save()
-	
-	def map_saved(self):
-		if self.map_outdated == True:
-			self.map_outdated = False
-			self.save()
-
-	def player_joined(self):
-		self.slots -= 1
-		#self.map_outdated = True
-		if self.slots == 0:
-			#the game has all its players and should start
-			if logging:
-				logging.info("Starting game %s" % self.id)
-			self.year = self.scenario.start_year
-			self.season = 1
-			self.phase = PHORDERS
-			self.create_game_board()
-			self.shuffle_countries()
-			self.place_initial_units()
-			self.map_outdated = True
-			self.last_phase_change = datetime.now()
-			self.notify_players("game_started", {"game": self})
-		self.save()
-		if self.map_outdated == True:
-			self.make_map()
-
-	def shuffle_countries(self):
-		"""
-Assign a Country of the Scenario to each Player
-		"""
-		countries_dict = self.scenario.setup_set.values('country').distinct()
-		countries = []
-		for c in countries_dict:
-			for v in c.values():
-				if v:
-					countries.append(v)
-		## the number of players and countries should be the same
-		assert len(countries) == len(self.player_set.filter(user__isnull=False)), "Number of players should be the same as number of countries"
-		## a list of tuples will be returned
-		assignment = []
-		## shuffle the list of countries
-		random.shuffle(countries)
-		for player in self.player_set.filter(user__isnull=False):
-			assignment.append((player, countries.pop()))
-		for t in assignment:
-			t[0].country = Country.objects.get(id=t[1])
-			t[0].save()
-
-	def create_game_board(self):
-		"""
-Creates the GameAreas for the Game
-		"""
-		for a in Area.objects.all():
-			ga = GameArea(game=self, board_area=a)
-			ga.save()
-
-	def get_autonomous_setups(self):
-		return Setup.objects.filter(scenario=self.scenario,
-				country__isnull=True).select_related()
-	
-	def place_initial_garrisons(self):
-		"""
-Creates the Autonomous Player, and places the autonomous garrisons at the
-start of the game.
-		"""
-		## create the autonomous player
-		autonomous = Player(game=self, done=True)
-		autonomous.save()
-		for s in self.get_autonomous_setups():
-			try:
-				a = GameArea.objects.get(game=self, board_area=s.area)
-			except:
-				print "Error 1: Area not found!"
-			else:	
-				if s.unit_type:
-					new_unit = Unit(type='G', area=a, player=autonomous)
-					new_unit.save()
-
-	def place_initial_units(self):
-		for p in self.player_set.filter(user__isnull=False):
-			p.place_initial_units()
-		self.place_initial_garrisons()
-	
 	def _next_season(self):
 		## take a snapshot of the units layout
 		#thread.start_new_thread(save_snapshot, (self,))
@@ -488,9 +506,10 @@ if all the players have finished.
 		self.all_players_done()
 		for p in self.player_set.all():
 			p.new_phase()
-
-	def __unicode__(self):
-		return "%d" % (self.pk)
+	
+	##------------------------
+	## turn processing methods
+	##------------------------
 
 	def get_conflict_areas(self):
 		"""
@@ -511,11 +530,6 @@ these are the advancing units and the units that try to convert into A or F
 				area = o.unit.area
 			conflict_areas.append(area)
 		return conflict_areas
-
-	def log_event(self, e, **kwargs):
-		## TODO: CATCH ERRORS
-		event = e(game=self, year=self.year, season=self.season, phase=self.phase, **kwargs)
-		event.save()
 
 	def filter_supports(self):
 		"""
@@ -946,7 +960,21 @@ Check which GameAreas have been controlled by a Player and update them.
 					area.save()
 			else:
 				print "There are more than 2 players in the same area!"
-	
+
+	##---------------------
+	## logging methods
+	##---------------------
+
+	def log_event(self, e, **kwargs):
+		## TODO: CATCH ERRORS
+		event = e(game=self, year=self.year, season=self.season, phase=self.phase, **kwargs)
+		event.save()
+
+
+	##------------------------
+	## game ending methods
+	##------------------------
+
 	def check_winner(self):
 		"""
 Returns True if at least one player has reached the cities_to_win
@@ -1003,9 +1031,11 @@ Returns True if at least one player has reached the cities_to_win
 In a finished game, delete all the data that is not going to be used anymore.
 		"""
 		self.player_set.all().delete()
-		# events will be deleted by cron, after a time
-		#self.baseevent_set.all().delete()
 		self.gamearea_set.all().delete()
+	
+	##------------------------
+	## notification methods
+	##------------------------
 
 	def notify_players(self, label, extra_context=None, on_site=True):
 		if notification:
