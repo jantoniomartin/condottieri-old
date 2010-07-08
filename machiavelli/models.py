@@ -773,26 +773,44 @@ area and which units must retreat.
 				## that there is a unit trying to leave the area
 				else:
 					info += u"There is no defender.\n"
-					## if the area is empty, invade the area
-					if conflict_area.province_is_empty():
-						info += u"Area is empty.\n"
+					try:
+						unit_leaving = Unit.objects.get(type__in=['A','F'],
+												area=conflict_area)
+					except ObjectDoesNotExist:
+						## if the province is empty, invade it
+						info += u"Province is empty.\n"
 						if u.order.code == '-':
 							info += u"Invading %s.\n" % conflict_area
 							u.invade_area(conflict_area)
 						elif u.order.code == '=':
 							info += u"Converting into %s.\n" % u.order.type
 							u.convert(u.order.type)
-					## if the area is not empty, the invasion is conditioned
 					else:
-						info += u"Area is not empty!\n"
-						info += u"%s movement is conditioned.\n" % u
-						inv = Invasion(u, conflict_area)
-						if u.order.code == '-':
-							info += u"%s might get empty.\n" % u.area
-							conditioned_origins.append(u.area)
-						elif u.order.code == '=':
-							inv.conversion = u.order.type
-						conditioned_invasions.append(inv)
+						## if the area is not empty, and the unit in province
+						## is not a friend, and the attacker has supports
+						## it invades the area, and the unit in the province
+						## must retreat (if it invades another area, it mustnt).
+						if unit_leaving.player != u.player and u.strength > 0:
+							info += u"There is a unit in %s, but attacker is supported.\n" % conflict_area
+							unit_leaving.must_retreat = u.area.board_area.code
+							unit_leaving.save()
+							if u.order.code == '-':
+								u.invade_area(unit_leaving.area)
+								info += u"Invading %s.\n" % unit_leaving.area
+							elif u.order.code == '=':
+								info += u"Converting into %s.\n" % u.order.type
+								u.convert(u.order.type)
+						## if the area is not empty, the invasion is conditioned
+						else:
+							info += u"Area is not empty and attacker isn't supported, or there is a friend\n"
+							info += u"%s movement is conditioned.\n" % u
+							inv = Invasion(u, conflict_area)
+							if u.order.code == '-':
+								info += u"%s might get empty.\n" % u.area
+								conditioned_origins.append(u.area)
+							elif u.order.code == '=':
+								inv.conversion = u.order.type
+							conditioned_invasions.append(inv)
 				u.delete_order()
 		##
 		## at this point, all the 'easy' movements and conversions have been
