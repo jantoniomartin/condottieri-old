@@ -278,12 +278,12 @@ populated when the game is started, from the scenario data.
 		cursor.execute("SELECT machiavelli_player.*, COUNT(machiavelli_gamearea.id) \
 		AS cities \
 		FROM machiavelli_player \
-		INNER JOIN (machiavelli_gamearea \
+		LEFT JOIN (machiavelli_gamearea \
 		INNER JOIN machiavelli_area \
 		ON machiavelli_gamearea.board_area_id=machiavelli_area.id) \
 		ON machiavelli_gamearea.player_id=machiavelli_player.id \
 		WHERE (machiavelli_player.game_id=%s AND machiavelli_player.country_id \
-		AND machiavelli_area.has_city=1) \
+		AND (machiavelli_area.has_city=1 OR machiavelli_gamearea.id IS NULL)) \
 		GROUP BY machiavelli_player.id \
 		ORDER BY cities DESC;" % self.id)
 		result_list = []
