@@ -1062,6 +1062,7 @@ Returns True if at least one player has reached the cities_to_win
 		self.save()
 		self.notify_players("game_over", {"game": self})
 		self.tweet_message("The game %(game)s is over" % {'game': self.slug})
+		self.tweet_results()
 		self.clean_useless_data()
 
 	def clean_useless_data(self):
