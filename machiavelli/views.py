@@ -2,12 +2,10 @@
 import thread
 
 ## django
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
-from django.views.generic.list_detail import object_list, object_detail
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms.formsets import formset_factory
 from django.db.models import Q, Sum
