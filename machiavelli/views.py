@@ -375,19 +375,23 @@ def leave_game(request, slug=''):
 @login_required
 def overthrow(request, revolution_id):
 	revolution = get_object_or_404(Revolution, pk=revolution_id)
+	g = revolution.government.game
 	try:
 		## check that overthrowing user is not a player
-		g = revolution.government.game
 		Player.objects.get(user=request.user, game=g)
-		## check that there is not another revolution with the same player
-		Revolution.objects.get(government__game=g, opposition=request.user)
 	except ObjectDoesNotExist:
-		karma = request.user.get_profile().karma
-		if karma < settings.KARMA_TO_JOIN:
-			return low_karma_error(request)
-		revolution.opposition = request.user
-		revolution.save()
-		return redirect('game-list')
+		try:
+			## check that there is not another revolution with the same player
+			Revolution.objects.get(government__game=g, opposition=request.user)
+		except ObjectDoesNotExist:
+			karma = request.user.get_profile().karma
+			if karma < settings.KARMA_TO_JOIN:
+				return low_karma_error(request)
+			revolution.opposition = request.user
+			revolution.save()
+			return redirect('game-list')
+		else:
+			raise Http404
 	else:
 		raise Http404
 
