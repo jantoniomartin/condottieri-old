@@ -71,9 +71,14 @@ class AreaAdmin(admin.ModelAdmin):
 		GTokenInline,
 		AFTokenInline ]
 
+class ConfigurationInline(admin.TabularInline):
+	model = Configuration
+	extra = 1
+
 class GameAdmin(admin.ModelAdmin):
 	list_display = ('pk', 'slug', 'year', 'season', 'phase', 'slots', 'scenario', 'created_by', 'next_phase_change', 'player_list')
 	actions = ['redraw_map']
+	inlines = [ ConfigurationInline, ]
 
 	def redraw_map(self, request, queryset):
 		for obj in queryset:
