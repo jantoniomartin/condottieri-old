@@ -1822,3 +1822,18 @@ class TurnLog(models.Model):
 	def __unicode__(self):
 		return self.log
 
+class Configuration(models.Model):
+	game = models.OneToOneField(Game, verbose_name=_('game'))
+	finances = models.BooleanField(_('finances'), default=False)
+	assassinations = models.BooleanField(_('assassinations'), default=False)
+	bribes = models.BooleanField(_('bribes'), default=False)
+	excommunication = models.BooleanField(_('excommunication'), default=False)
+	disasters = models.BooleanField(_('natural disasters'), default=False)
+	special_units = models.BooleanField(_('special units'), default=False)
+	strategic = models.BooleanField(_('strategic movement'), default=False)
+	lenders = models.BooleanField(_('money lenders'), default=False)
+	conquering = models.BooleanField(_('conquering'), default=False)
+
+	def __unicode__(self):
+		return unicode(self.game)
+	

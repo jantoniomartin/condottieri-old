@@ -9,3 +9,4 @@ machiavelli/fixtures/
 .htaccess
 robots.txt
 maintenance.html*
+migrations/
