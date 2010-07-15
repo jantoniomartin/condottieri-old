@@ -291,7 +291,7 @@ populated when the game is started, from the scenario data.
 		WHERE (machiavelli_player.game_id=%s AND machiavelli_player.country_id \
 		AND (machiavelli_area.has_city=1 OR machiavelli_gamearea.id IS NULL)) \
 		GROUP BY machiavelli_player.id \
-		ORDER BY cities DESC;" % self.id)
+		ORDER BY cities DESC, machiavelli_player.id;" % self.id)
 		result_list = []
 		for row in cursor.fetchall():
 			result_list.append(Player.objects.get(id=row[0]))
