@@ -22,6 +22,9 @@ import machiavelli.graphics as graphics
 ## condottieri_profiles
 from condottieri_profiles.models import CondottieriProfile
 
+## condottieri_events
+from condottieri_events.models import OrderEvent
+
 ## clones detection
 if 'clones' in settings.INSTALLED_APPS:
 	from clones import models as clones

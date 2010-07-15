@@ -47,6 +47,12 @@ from machiavelli.logging import save_snapshot
 ## condottieri_profiles
 from condottieri_profiles.models import CondottieriProfile
 
+## condottieri_events
+if "condottieri_events" in settings.INSTALLED_APPS:
+	import machiavelli.signals as signals
+else:
+	signals = None
+
 try:
 	settings.TWITTER_USER
 except:
@@ -574,7 +580,10 @@ orders.
 							continue
 						else:
 							info += u"Attack from %s breaks support.\n" % a.unit
-							self.log_event(UnitEvent, type=s.unit.type, area=s.unit.area.board_area, message=0)
+							if signals:
+								signals.support_broken.send(sender=s.unit)
+							else:
+								self.log_event(UnitEvent, type=s.unit.type, area=s.unit.area.board_area, message=0)
 							s.delete()
 							break
 		return info
@@ -894,15 +903,21 @@ area and which units must retreat.
 					info += u"for second time.\n"
 					b.besieging = False
 					info += u"Siege is successful. Garrison disbanded.\n"
-					self.log_event(UnitEvent, type=defender.type,
-											area=defender.area.board_area,
-											message=2)
+					if signals:
+						signals.unit_surrendered.send(sender=defender)
+					else:
+						self.log_event(UnitEvent, type=defender.type,
+												area=defender.area.board_area,
+												message=2)
 					defender.delete()
 					b.save()
 				else:
 					info += u"for first time.\n"
 					b.besieging = True
-					self.log_event(UnitEvent, type=b.type, area=b.area.board_area, message=3)
+					if signals:
+						signals.siege_started.send(sender=b)
+					else:
+						self.log_event(UnitEvent, type=b.type, area=b.area.board_area, message=3)
 					b.save()
 			b.order.delete()
 		return info
@@ -912,7 +927,10 @@ area and which units must retreat.
 		retreating = Unit.objects.filter(player__game=self).exclude(must_retreat__exact='')
 		for u in retreating:
 			info += u"%s must retreat.\n" % u
-			self.log_event(UnitEvent, type=u.type, area=u.area.board_area, message=1)
+			if signals:
+				signals.forced_to_retreat.send(sender=u)
+			else:
+				self.log_event(UnitEvent, type=u.type, area=u.area.board_area, message=1)
 		return info
 
 	def process_orders(self):
@@ -967,15 +985,7 @@ From the saved RetreaOrders, process the retreats.
 			else:
 				order = RetreatOrder.objects.get(area=r)
 				unit = order.unit
-				if unit.area == order.area:
-					assert unit.area.board_area.is_fortified == True, "trying to retreat to a non-fortified city"
-					unit.type = 'G'
-				self.log_event(MovementEvent, type=unit.type,
-											origin=unit.area.board_area,
-											destination=r.board_area)
-				unit.must_retreat = ''
-				unit.area = r
-				unit.save()
+				unit.retreat(order.area)
 				order.delete()
 	
 	def update_controls(self):
@@ -990,9 +1000,12 @@ Check which GameAreas have been controlled by a Player and update them.
 			players = self.player_set.filter(unit__area=area)
 			if len(players) == 1 and players[0].user:
 				if area.player != players[0]:
-					self.log_event(ControlEvent, country=players[0].country, area=area.board_area)
 					area.player = players[0]
 					area.save()
+					if signals:
+						signals.area_controlled.send(sender=area)
+					else:
+						self.log_event(ControlEvent, country=area.player.country, area=area.board_area)
 			elif len(players) == 2:
 					area.player = None
 					area.save()
@@ -1005,8 +1018,9 @@ Check which GameAreas have been controlled by a Player and update them.
 
 	def log_event(self, e, **kwargs):
 		## TODO: CATCH ERRORS
-		event = e(game=self, year=self.year, season=self.season, phase=self.phase, **kwargs)
-		event.save()
+		#event = e(game=self, year=self.year, season=self.season, phase=self.phase, **kwargs)
+		#event.save()
+		pass
 
 
 	##------------------------
@@ -1140,7 +1154,10 @@ Returns a _list_ of possible unit types for an area
 		return result
 
 	def mark_as_standoff(self):
-		self.game.log_event(StandoffEvent, area=self.board_area)
+		if signals:
+			signals.standoff_happened.send(sender=self)
+		else:
+			self.game.log_event(StandoffEvent, area=self.board_area)
 		self.standoff = True
 		self.save()
 
@@ -1322,9 +1339,12 @@ Returns a queryset with the GameAreas that accept new units.
 					notification.send(user, "got_player", extra_context, on_site=True)
 				self.user = rev.opposition
 				logging.info("Government of %s is overthrown" % self.country)
-				self.game.log_event(CountryEvent,
-									country=self.country,
-									message=0)
+				if signals:
+					signals.government_overthrown.send(sender=self)
+				else:
+					self.game.log_event(CountryEvent,
+								country=self.country,
+								message=0)
 				self.save()
 				rev.delete()
 				#self.user.stats.adjust_karma(10)
@@ -1414,12 +1434,18 @@ class Unit(models.Model):
 	objects = UnitManager()
 
 	def place(self):
-		self.player.game.log_event(NewUnitEvent, country=self.player.country,
+		if signals:
+			signals.unit_placed.send(sender=self)
+		else:
+			self.player.game.log_event(NewUnitEvent, country=self.player.country,
 								type=self.type, area=self.area.board_area)
 		self.save()
 
 	def delete(self):
-		self.player.game.log_event(DisbandEvent, country=self.player.country,
+		if signals:
+			signals.unit_disbanded.send(sender=self)
+		else:
+			self.player.game.log_event(DisbandEvent, country=self.player.country,
 								type=self.type, area=self.area.board_area)
 		super(Unit, self).delete()
 	
@@ -1461,17 +1487,39 @@ class Unit(models.Model):
 		return GameArea.objects.filter(cond).distinct()
 
 	def invade_area(self, ga):
-		self.player.game.log_event(MovementEvent, type=self.type,
-									origin=self.area.board_area,
-									destination=ga.board_area)
+		if signals:
+			signals.unit_moved.send(sender=self, destination=ga)
+		else:
+			self.player.game.log_event(MovementEvent, type=self.type,
+										origin=self.area.board_area,
+										destination=ga.board_area)
 		self.area = ga
 		self.must_retreat = ''
 		self.save()
 
+	def retreat(self, destination):
+		if signals:
+			signals.unit_retreated.send(sender=self, destination=destination)
+		else:
+			self.log_event(MovementEvent, type=self.type,
+										origin=self.area.board_area,
+										destination=destination.board_area)
+		if self.area == destination:
+			assert self.area.board_area.is_fortified == True, "trying to retreat to a non-fortified city"
+			unit.type = 'G'
+		unit.must_retreat = ''
+		unit.area = destination
+		unit.save()
+
 	def convert(self, new_type):
-		self.player.game.log_event(ConversionEvent, area=self.area.board_area,
-									before=self.type,
-									after=new_type)
+		if signals:
+			signals.unit_converted.send(sender=self,
+										before=self.type,
+										after=new_type)
+		else:
+			self.player.game.log_event(ConversionEvent, area=self.area.board_area,
+										before=self.type,
+										after=new_type)
 		self.type = new_type
 		self.must_retreat = ''
 		self.save()
@@ -1522,7 +1570,16 @@ class Order(models.Model):
 			params['destination'] = self.destination.board_area
 		else:
 			params['destination'] = None
-		self.unit.player.game.log_event(OrderEvent, country=self.unit.player.country,
+		if signals:
+			signals.order_placed.send(sender=self,
+									destination=params['destination'],
+									subtype=params['subtype'],
+									suborigin=params['suborigin'],
+									subcode=params['subcode'],
+									subdestination=params['subdestination'],
+									subconversion=params['subconversion'])
+		else:
+			self.unit.player.game.log_event(OrderEvent, country=self.unit.player.country,
 													type=self.unit.type,
 													origin=self.unit.area.board_area,
 													code=self.code,
@@ -1716,8 +1773,57 @@ class AFToken(models.Model):
 	def __unicode__(self):
 		return "%s, %s" % (self.x, self.y)
 
-class BaseEvent(models.Model):
+class Letter(models.Model):
+	sender = models.ForeignKey(Player, related_name='sent')
+	receiver = models.ForeignKey(Player, related_name='received')
+	body = models.TextField()
+	read = models.BooleanField(default=0)
+
+	def get_style(self, box):
+		if box == 'inbox':
+			style = "%(country)s" % {'country': self.sender.country.css_class}
+		else:
+			style = "%(country)s" % {'country': self.receiver.country.css_class}
+		if box == 'inbox' and not self.read:
+			style += " unread"
+		return style
+	
+	def __unicode__(self):
+		return truncatewords(self.body, 5)
+
+	def inbox_color_output(self):
+		return "<li class='%(class)s'>%(body)s</li>" % {'class': self.get_style('inbox'),
+										'body': self}
+
+	def outbox_color_output(self):
+		return "<li class='%(class)s'>%(body)s</li>" % {'class': self.get_style('outbox'),
+										'body': self}
+
+def notify_new_letter(sender, instance, created, **kw):
+	if notification and isinstance(instance, Letter) and created:
+		user = [instance.receiver.user,]
+		extra_context = {'game': instance.receiver.game,
+						'letter': instance }
+		notification.send(user, "letter_received", extra_context , on_site=False)
+
+models.signals.post_save.connect(notify_new_letter, sender=Letter)
+
+class TurnLog(models.Model):
 	game = models.ForeignKey(Game)
+	year = models.PositiveIntegerField()
+	season = models.PositiveIntegerField(choices=SEASONS)
+	phase = models.PositiveIntegerField(choices=GAME_PHASES)
+	timestamp = models.DateTimeField(auto_now_add=True)
+	log = models.TextField()
+
+	class Meta:
+		ordering = ['-timestamp',]
+
+	def __unicode__(self):
+		return self.log
+
+class BaseEvent(models.Model):
+	game = models.ForeignKey(Game, related_name='old_baseevent')
 	year = models.PositiveIntegerField()
 	season = models.PositiveIntegerField(choices=SEASONS)
 	phase = models.PositiveIntegerField(choices=GAME_PHASES)
@@ -1856,9 +1962,9 @@ class BaseEvent(models.Model):
 		ordering = ['-year', '-season', '-id']
 
 class NewUnitEvent(BaseEvent):
-	country = models.ForeignKey(Country)
+	country = models.ForeignKey(Country, related_name='old_newunitevent')
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
-	area = models.ForeignKey(Area)
+	area = models.ForeignKey(Area, related_name='old_newunitevent')
 
 	def css_class(self):
 		return "season_%(season)s new-unit-event" % {'season': self.season }
@@ -1869,9 +1975,9 @@ class NewUnitEvent(BaseEvent):
 																	'area': self.area.name}
 
 class DisbandEvent(BaseEvent):
-	country = models.ForeignKey(Country, blank=True, null=True)
+	country = models.ForeignKey(Country, blank=True, null=True, related_name='old_disbandevent')
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
-	area = models.ForeignKey(Area)
+	area = models.ForeignKey(Area, related_name='old_disbandevent')
 
 	def css_class(self):
 		return "season_%(season)s disband-event" % {'season': self.season }
@@ -1888,16 +1994,16 @@ class DisbandEvent(BaseEvent):
 			
 
 class OrderEvent(BaseEvent):
-	country = models.ForeignKey(Country)
+	country = models.ForeignKey(Country, related_name='old_orderevent')
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
-	origin = models.ForeignKey(Area, related_name='event_origin')
+	origin = models.ForeignKey(Area, related_name='old_orderevent_origin')
 	code = models.CharField(max_length=1, choices=ORDER_CODES)
-	destination = models.ForeignKey(Area, blank=True, null=True, related_name='event_destination')
+	destination = models.ForeignKey(Area, blank=True, null=True, related_name='old_orderevent_destination')
 	conversion = models.CharField(max_length=1, choices=UNIT_TYPES, blank=True, null=True)
 	subtype = models.CharField(max_length=1, choices=UNIT_TYPES, blank=True, null=True)
-	suborigin = models.ForeignKey(Area, related_name='event_suborigin', blank=True, null=True)
+	suborigin = models.ForeignKey(Area, related_name='old_orderevent_suborigin', blank=True, null=True)
 	subcode = models.CharField(max_length=1, choices=ORDER_CODES, blank=True, null=True)
-	subdestination = models.ForeignKey(Area, blank=True, null=True, related_name='event_subdestination')
+	subdestination = models.ForeignKey(Area, blank=True, null=True, related_name='old_orderevent_subdestination')
 	subconversion = models.CharField(max_length=1, choices=UNIT_TYPES, blank=True, null=True)
 
 	def css_class(self):
@@ -1944,7 +2050,7 @@ class OrderEvent(BaseEvent):
 		return msg
 
 class StandoffEvent(BaseEvent):
-	area = models.ForeignKey(Area)
+	area = models.ForeignKey(Area, related_name='old_standoffevent')
 
 	def css_class(self):
 		return "season_%(season)s standoff-event" % {'season': self.season }
@@ -1953,7 +2059,7 @@ class StandoffEvent(BaseEvent):
 		return _("Conflicts in %(area)s result in a standoff.") % {'area': self.area.name}
 
 class ConversionEvent(BaseEvent):
-	area = models.ForeignKey(Area)
+	area = models.ForeignKey(Area, related_name='old_conversionevent')
 	before = models.CharField(max_length=1, choices=UNIT_TYPES)
 	after = models.CharField(max_length=1, choices=UNIT_TYPES)
 
@@ -1965,8 +2071,8 @@ class ConversionEvent(BaseEvent):
 														'type': self.get_after_display()}
 
 class ControlEvent(BaseEvent):
-	country = models.ForeignKey(Country)
-	area = models.ForeignKey(Area)
+	country = models.ForeignKey(Country, related_name='old_controlevent')
+	area = models.ForeignKey(Area, related_name='old_controlevent')
 
 	def css_class(self):
 		return "season_%(season)s control-event" % {'season': self.season }
@@ -1977,8 +2083,8 @@ class ControlEvent(BaseEvent):
 
 class MovementEvent(BaseEvent):
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
-	origin = models.ForeignKey(Area, related_name="origin")
-	destination = models.ForeignKey(Area, related_name="destination")
+	origin = models.ForeignKey(Area, related_name="old_movementevent_origin")
+	destination = models.ForeignKey(Area, related_name="old_movementevent_destination")
 
 	def css_class(self):
 		return "season_%(season)s movement-event" % {'season': self.season }
@@ -2002,7 +2108,7 @@ EVENT_MESSAGES = (
 
 class UnitEvent(BaseEvent):
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
-	area = models.ForeignKey(Area)
+	area = models.ForeignKey(Area, related_name='old_unitevent')
 	message = models.PositiveIntegerField(choices=EVENT_MESSAGES)
 	
 	def css_class(self):
@@ -2025,7 +2131,7 @@ COUNTRY_EVENTS = (
 )
 
 class CountryEvent(BaseEvent):
-	country = models.ForeignKey(Country)
+	country = models.ForeignKey(Country, related_name='old_countryevent')
 	message = models.PositiveIntegerField(choices=COUNTRY_EVENTS)
 
 	def __unicode__(self):
@@ -2034,52 +2140,3 @@ class CountryEvent(BaseEvent):
 	
 	def css_class(self):
 		return "season_%(season)s" % {'season': self.season}
-
-class Letter(models.Model):
-	sender = models.ForeignKey(Player, related_name='sent')
-	receiver = models.ForeignKey(Player, related_name='received')
-	body = models.TextField()
-	read = models.BooleanField(default=0)
-
-	def get_style(self, box):
-		if box == 'inbox':
-			style = "%(country)s" % {'country': self.sender.country.css_class}
-		else:
-			style = "%(country)s" % {'country': self.receiver.country.css_class}
-		if box == 'inbox' and not self.read:
-			style += " unread"
-		return style
-	
-	def __unicode__(self):
-		return truncatewords(self.body, 5)
-
-	def inbox_color_output(self):
-		return "<li class='%(class)s'>%(body)s</li>" % {'class': self.get_style('inbox'),
-										'body': self}
-
-	def outbox_color_output(self):
-		return "<li class='%(class)s'>%(body)s</li>" % {'class': self.get_style('outbox'),
-										'body': self}
-
-def notify_new_letter(sender, instance, created, **kw):
-	if notification and isinstance(instance, Letter) and created:
-		user = [instance.receiver.user,]
-		extra_context = {'game': instance.receiver.game,
-						'letter': instance }
-		notification.send(user, "letter_received", extra_context , on_site=False)
-
-models.signals.post_save.connect(notify_new_letter, sender=Letter)
-
-class TurnLog(models.Model):
-	game = models.ForeignKey(Game)
-	year = models.PositiveIntegerField()
-	season = models.PositiveIntegerField(choices=SEASONS)
-	phase = models.PositiveIntegerField(choices=GAME_PHASES)
-	timestamp = models.DateTimeField(auto_now_add=True)
-	log = models.TextField()
-
-	class Meta:
-		ordering = ['-timestamp',]
-
-	def __unicode__(self):
-		return self.log
