@@ -63,7 +63,7 @@ Returns a html list item with
 
 def log_event(event_class, game, **kwargs):
 	try:
-		event = event_class(game=game, year=game.year, season=game.season, phase=game.phase, classname=event_class.__class__.__name__, **kwargs)
+		event = event_class(game=game, year=game.year, season=game.season, phase=game.phase, **kwargs)
 		event.save()
 	except:
 		if logging:
@@ -87,6 +87,7 @@ class NewUnitEvent(BaseEvent):
 def log_new_unit(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(NewUnitEvent, sender.player.game,
+					classname="NewUnitEvent",
 					country=sender.player.country,
 					type=sender.type,
 					area=sender.area.board_area)
@@ -116,6 +117,7 @@ class DisbandEvent(BaseEvent):
 def log_disband(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(DisbandEvent, sender.player.game,
+					classname="DisbandEvent",
 					country=sender.player.country,
 					type=sender.type,
 					area=sender.area.board_area)
@@ -190,6 +192,7 @@ class OrderEvent(BaseEvent):
 def log_order(sender, **kwargs):
 	assert isinstance(sender, Order), "sender must be an Order"
 	log_event(OrderEvent, sender.unit.player.game,
+					classname="OrderEvent",
 					country = sender.unit.player.country,
 					type = sender.unit.type,
 					origin = sender.unit.area.board_area,
@@ -218,6 +221,7 @@ class StandoffEvent(BaseEvent):
 def log_standoff(sender, **kwargs):
 	assert isinstance(sender, GameArea), "sender must be a GameArea"
 	log_event(StandoffEvent, sender.game,
+					classname="StandoffEvent",
 					area = sender.board_area)
 
 standoff_happened.connect(log_standoff)
@@ -239,6 +243,7 @@ class ConversionEvent(BaseEvent):
 def log_conversion(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(ConversionEvent, sender.player.game,
+					classname="ConversionEvent",
 					area=sender.area.board_area,
 					before=kwargs["before"],
 					after=kwargs["after"])
@@ -261,6 +266,7 @@ class ControlEvent(BaseEvent):
 def log_control(sender, **kwargs):
 	assert isinstance(sender, GameArea), "sender must be a GameArea"
 	log_event(ControlEvent, sender.player.game,
+					classname="ControlEvent",
 					country=sender.player.country,
 					area=sender.board_area)
 
@@ -283,6 +289,7 @@ class MovementEvent(BaseEvent):
 def log_movement(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(MovementEvent, sender.player.game,
+					classname="MovementEvent",
 					type=sender.type,
 					origin=sender.area.board_area,
 					destination=kwargs['destination'].board_area)
@@ -312,6 +319,7 @@ class RetreatEvent(BaseEvent):
 def log_retreat(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(RetreatEvent, sender.player.game,
+					classname="RetreatEvent",
 					type=sender.type,
 					origin=sender.area.board_area,
 					destination=kwargs['destination'].board_area)
@@ -349,6 +357,7 @@ class UnitEvent(BaseEvent):
 def log_broken_support(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(UnitEvent, sender.player.game,
+					classname="UnitEvent",
 					type=sender.type,
 					area=sender.area.board_area,
 					message=0)
@@ -358,6 +367,7 @@ support_broken.connect(log_broken_support)
 def log_forced_retreat(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(UnitEvent, sender.player.game,
+				classname="UnitEvent",
 				type=sender.type,
 				area=sender.area.board_area,
 				message=1)
@@ -367,6 +377,7 @@ forced_to_retreat.connect(log_forced_retreat)
 def log_unit_surrender(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(UnitEvent, sender.player.game,
+				classname="UnitEvent",
 				type=sender.type,
 				area=sender.area.board_area,
 				message=2)
@@ -376,6 +387,7 @@ unit_surrendered.connect(log_unit_surrender)
 def log_siege_start(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(UnitEvent, sender.player.game,
+				classname="UnitEvent",
 				type=sender.type,
 				area=sender.area.board_area,
 				message=3)
@@ -402,6 +414,7 @@ class CountryEvent(BaseEvent):
 def log_overthrow(sender, **kwargs):
 	assert isinstance(sender, Player), "sender must be a Player"
 	log_event(CountryEvent, sender.game,
+					classname="CountryEvent",
 					country = sender.country,
 					messages = 0)
 
