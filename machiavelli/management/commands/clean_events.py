@@ -2,7 +2,8 @@ from datetime import datetime, timedelta
 
 from django.core.management.base import NoArgsCommand, CommandError
 
-from machiavelli import models
+#from machiavelli import models
+from condottieri_events import models
 
 AGE=30*24*60*60
 
