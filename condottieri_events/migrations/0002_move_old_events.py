@@ -16,6 +16,7 @@ class Migration(DataMigration):
 													year=event.year,
 													season=event.season,
 													phase=event.phase,
+													classname="NewUnitEvent",
 													country=event.country,
 													type=event.type,
 													area=event.area)
@@ -31,6 +32,7 @@ class Migration(DataMigration):
 													year=event.year,
 													season=event.season,
 													phase=event.phase,
+													classname="DisbandEvent",
 													country=event.country,
 													type=event.type,
 													area=event.area)
@@ -46,6 +48,7 @@ class Migration(DataMigration):
 													year=event.year,
 													season=event.season,
 													phase=event.phase,
+													classname="OrderEvent",
 													country=event.country,
 													type=event.type,
 													origin=event.origin,
@@ -69,6 +72,7 @@ class Migration(DataMigration):
 													year=event.year,
 													season=event.season,
 													phase=event.phase,
+													classname="StandoffEvent",
 													area=event.area)
 				e.save()
 				print "Saved event %s" % e
@@ -82,6 +86,7 @@ class Migration(DataMigration):
 													year=event.year,
 													season=event.season,
 													phase=event.phase,
+													classname="ConversionEvent",
 													area=event.area,
 													before=event.before,
 													after=event.after)
@@ -97,6 +102,7 @@ class Migration(DataMigration):
 													year=event.year,
 													season=event.season,
 													phase=event.phase,
+													classname="ControlEvent",
 													country=event.country,
 													area=event.area)
 				e.save()
@@ -112,6 +118,7 @@ class Migration(DataMigration):
 													year=event.year,
 													season=event.season,
 													phase=event.phase,
+													classname="MovementEvent",
 													type=event.type,
 													origin=event.origin,
 													destination=event.destination)
@@ -120,6 +127,7 @@ class Migration(DataMigration):
 													year=event.year,
 													season=event.season,
 													phase=event.phase,
+													classname="RetreatEvent",
 													type=event.type,
 													origin=event.origin,
 													destination=event.destination)
@@ -138,6 +146,7 @@ class Migration(DataMigration):
 													year=event.year,
 													season=event.season,
 													phase=event.phase,
+													classname="UnitEvent",
 													type=event.type,
 													area=event.area,
 													message=event.message)
@@ -153,13 +162,18 @@ class Migration(DataMigration):
 													year=event.year,
 													season=event.season,
 													phase=event.phase,
+													classname="CountryEvent",
 													country=event.country,
 													message=event.message)
 				e.save()
 				print "Saved event %s" % e
 
     def backwards(self, orm):
-		raise RuntimeError("Cannot reverse this migration")
+		i = 0
+		for baseevent in orm.BaseEvent.objects.all():
+			i += 1
+			baseevent.delete()
+		print "Deleted %s events" % i
 
     models = {
         'auth.group': {
@@ -193,7 +207,7 @@ class Migration(DataMigration):
         },
         'condottieri_events.baseevent': {
             'Meta': {'object_name': 'BaseEvent'},
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['contenttypes.ContentType']"}),
+            'classname': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
             'game': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['machiavelli.Game']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'phase': ('django.db.models.fields.PositiveIntegerField', [], {}),

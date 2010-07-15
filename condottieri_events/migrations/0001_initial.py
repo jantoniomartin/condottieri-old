@@ -15,7 +15,7 @@ class Migration(SchemaMigration):
             ('year', self.gf('django.db.models.fields.PositiveIntegerField')()),
             ('season', self.gf('django.db.models.fields.PositiveIntegerField')()),
             ('phase', self.gf('django.db.models.fields.PositiveIntegerField')()),
-            ('content_type', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['contenttypes.ContentType'])),
+            ('classname', self.gf('django.db.models.fields.CharField')(max_length=32)),
         ))
         db.send_create_signal('condottieri_events', ['BaseEvent'])
 
@@ -182,7 +182,7 @@ class Migration(SchemaMigration):
         },
         'condottieri_events.baseevent': {
             'Meta': {'object_name': 'BaseEvent'},
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['contenttypes.ContentType']"}),
+            'classname': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
             'game': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['machiavelli.Game']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'phase': ('django.db.models.fields.PositiveIntegerField', [], {}),

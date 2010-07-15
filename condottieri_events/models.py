@@ -1,8 +1,6 @@
 ## django
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import generic
 
 ## machiavelli
 from machiavelli.models import *
@@ -16,15 +14,11 @@ BaseEvent is the parent class for all kind of game events.
 	year = models.PositiveIntegerField()
 	season = models.PositiveIntegerField(choices=SEASONS)
 	phase = models.PositiveIntegerField(choices=GAME_PHASES)
-	content_type = models.ForeignKey(ContentType)
-	child = generic.GenericForeignKey(fk_field='id')
-
-	def save(self, **kwargs):
-		if not self.pk:
-			self.content_type = ContentType.objects.get_for_model(self)
-		super(BaseEvent, self).save(**kwargs)
-
+	classname = models.CharField(max_length=32, editable=False)
 	
+	def get_concrete(self):
+		return self.__getattribute__(self.classname.lower())
+
 	def unit_string(self, type, area):
 		if type == 'A':
 			return _("the army in %s") % area.name
@@ -43,7 +37,7 @@ Returns a css class name for the game season
 		"""
 Returns a css class name depending on the type of event
 		"""
-		return self.child.event_class()
+		return self.get_concrete().event_class()
 	
 	def color_output(self):
 		"""
@@ -56,21 +50,21 @@ Returns a html list item with
 							}
 
 	def __unicode__(self):
-		return unicode(self.child)
+		return unicode(self.get_concrete())
 	
 	class Meta:
 		abstract = False
 		ordering = ['-year', '-season', '-id']
 
 def log_event(event_class, game, **kwargs):
-	event = event_class(game=game, year=game.year, season=game.season, phase=game.phase, **kwargs)
+	event = event_class(game=game, year=game.year, season=game.season, phase=game.phase, classname=event_class.__class__.__name__, **kwargs)
 	event.save()
 
 class NewUnitEvent(BaseEvent):
 	country = models.ForeignKey(Country)
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	area = models.ForeignKey(Area)
-
+	
 	def event_class(self):
 		return "new-unit-event"
 
