@@ -42,7 +42,7 @@ class Migration(DataMigration):
 			except:
 				pass
 			else:
-				e = orm.DisbandEvent.objects.create(game=event.game,
+				e = orm.OrderEvent.objects.create(game=event.game,
 													year=event.year,
 													season=event.season,
 													phase=event.phase,
@@ -50,7 +50,13 @@ class Migration(DataMigration):
 													type=event.type,
 													origin=event.origin,
 													code=event.code,
-													destination=event.destination)
+													destination=event.destination,
+													conversion=event.conversion,
+													subtype=event.subtype,
+													suborigin=event.suborigin,
+													subcode=event.subcode,
+													subdestination=event.subdestination,
+													subconversion=event.subconversion)
 				e.save()
 				print "Saved event %s" % e
 				continue
