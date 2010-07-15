@@ -6,9 +6,9 @@ from django.db import models
 
 class Migration(DataMigration):
     def forwards(self, orm):
-        for event in orm['machiavelli.BaseEvent'].objects.all():
+        for baseevent in orm['machiavelli.BaseEvent'].objects.all():
 			try:
-				event.newunitevent
+				event = baseevent.newunitevent
 			except:
 				pass
 			else:
@@ -23,7 +23,7 @@ class Migration(DataMigration):
 				print "Saved event %s" % e
 				continue
 			try:
-				event.disbandevent
+				event = baseevent.disbandevent
 			except:
 				pass
 			else:
@@ -38,7 +38,7 @@ class Migration(DataMigration):
 				print "Saved event %s" % e
 				continue
 			try:
-				event.orderevent
+				event = baseevent.orderevent
 			except:
 				pass
 			else:
@@ -61,7 +61,7 @@ class Migration(DataMigration):
 				print "Saved event %s" % e
 				continue
 			try:
-				event.standoffevent
+				event = baseevent.standoffevent
 			except:
 				pass
 			else:
@@ -74,7 +74,7 @@ class Migration(DataMigration):
 				print "Saved event %s" % e
 				continue
 			try:
-				event.conversionevent
+				event = baseevent.conversionevent
 			except:
 				pass
 			else:
@@ -89,7 +89,7 @@ class Migration(DataMigration):
 				print "Saved event %s" % e
 				continue
 			try:
-				event.controlevent
+				event = baseevent.controlevent
 			except:
 				pass
 			else:
@@ -103,7 +103,7 @@ class Migration(DataMigration):
 				print "Saved event %s" % e
 				continue
 			try:
-				event.movementevent
+				event = baseevent.movementevent
 			except:
 				pass
 			else:
@@ -130,7 +130,7 @@ class Migration(DataMigration):
 				print "Saved event %s" % e
 				continue
 			try:
-				event.unitevent
+				event = baseevent.unitevent
 			except:
 				pass
 			else:
@@ -145,7 +145,7 @@ class Migration(DataMigration):
 				print "Saved event %s" % e
 				continue
 			try:
-				event.countryevent
+				event = baseevent.countryevent
 			except:
 				print "Error: event %s has no child" % event
 			else:
