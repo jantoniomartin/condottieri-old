@@ -6,6 +6,11 @@ from django.utils.translation import ugettext_lazy as _
 from machiavelli.models import *
 from machiavelli.signals import *
 
+if "jogging" in settings.INSTALLED_APPS:
+	from jogging import logging
+else:
+	logging = None
+
 class BaseEvent(models.Model):
 	"""
 BaseEvent is the parent class for all kind of game events.
@@ -57,8 +62,12 @@ Returns a html list item with
 		ordering = ['-year', '-season', '-id']
 
 def log_event(event_class, game, **kwargs):
-	event = event_class(game=game, year=game.year, season=game.season, phase=game.phase, classname=event_class.__class__.__name__, **kwargs)
-	event.save()
+	try:
+		event = event_class(game=game, year=game.year, season=game.season, phase=game.phase, classname=event_class.__class__.__name__, **kwargs)
+		event.save()
+	except:
+		if logging:
+			logging.info("Error in log_event")
 
 class NewUnitEvent(BaseEvent):
 	country = models.ForeignKey(Country)
