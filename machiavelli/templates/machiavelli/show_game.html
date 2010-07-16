@@ -48,6 +48,9 @@
 	{% if p.user %}
 	<div class="player {{ p.country.css_class }}">
 	<div><strong>{% trans p.country %}</strong>
+	{% if p.conqueror %}
+		({{ p.conqueror.country }})
+	{% endif %}
 	{% ifequal p.done 1 %}
 	<span><img src="{{ STATIC_URL }}machiavelli/img/icon-yes.gif" /></span>
 	{% endifequal %}
