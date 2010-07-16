@@ -1262,13 +1262,14 @@ Returns a queryset with *Game* Areas in home country controlled by player
 		"""
 		return self.home_country().filter(player=self)
 
+	def controlled_home_cities(self):
+		return self.controlled_home_country().filter(board_area__has_city=True)
+
 	def get_areas_for_new_units(self):
 		"""
 Returns a queryset with the GameAreas that accept new units.
 		"""
-		##TODO in scenario III of the rules, there are two units in Milan, and this shouldn't
-		## be part of a home country. Currently not implemented.
-		areas = self.controlled_home_country().filter(board_area__has_city=True)
+		areas = self.controlled_home_cities()
 		excludes = []
 		for a in areas:
 			if a.board_area.is_fortified and len(a.unit_set.all()) > 1:
