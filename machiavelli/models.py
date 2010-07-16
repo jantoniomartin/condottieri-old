@@ -1193,7 +1193,8 @@ class Player(models.Model):
 	game = models.ForeignKey(Game)
 	country = models.ForeignKey(Country, blank=True, null=True)
 	done = models.BooleanField(default=False)
-	#score = models.PositiveIntegerField(default=0)
+	eliminated = models.BooleanField(default=False)
+	#conqueror = models.ForeignKey('self', related_name='conquered', blank=True, null=True)
 
 	def __unicode__(self):
 		if self.user:
