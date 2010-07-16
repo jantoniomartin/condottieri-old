@@ -1194,7 +1194,7 @@ class Player(models.Model):
 	country = models.ForeignKey(Country, blank=True, null=True)
 	done = models.BooleanField(default=False)
 	eliminated = models.BooleanField(default=False)
-	#conqueror = models.ForeignKey('self', related_name='conquered', blank=True, null=True)
+	conqueror = models.ForeignKey('self', related_name='conquered', blank=True, null=True)
 
 	def __unicode__(self):
 		if self.user:
