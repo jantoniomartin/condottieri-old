@@ -1,6 +1,7 @@
 {% extends "machiavelli/base.html" %}
 
 {% load i18n %}
+{% load game_icons %}
 
 {% block head_title %}{% trans "Game:" %} {{ game.slug }}{% endblock %}
 
@@ -26,8 +27,8 @@
 </li>
 {% endif %}
 {% if rules %}
-<li id="game_rules">
-{% trans "Enabled rules" %}: {{ rules|join:", " }}
+<li>
+{% trans "Rules" %}: {% rule_icons game.configuration %}
 </li>
 {% endif %}
 </ul>

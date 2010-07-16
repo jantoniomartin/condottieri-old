@@ -1,3 +1,5 @@
+{% load i18n %}
+{% load game_icons %}
 		<td><a href="{{ game.get_absolute_url }}">{{ game.slug }}</a></td>
 		<td><a href="{% url show-scenario game.scenario.pk %}">{{ game.scenario.title }}</a></td>
 		<td>{{ game.created_by }}</td>
@@ -13,3 +15,6 @@
 		{% endif %}
 		</td>
 		<td class="data_c">{{ game.get_phase_display }}</td>
+		<td>
+		{% rule_icons game.configuration %}
+		</td>
