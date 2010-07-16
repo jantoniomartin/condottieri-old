@@ -505,6 +505,11 @@ Returns true if, when the function is called, the first BONUS_TIME% of the durat
 					self.assign_scores()
 					self.game_over()
 					return
+				## if conquering is enabled, check now
+				if self.configuration.conquering:
+					for p in self.player_set.filter(eliminated=False):
+						p.check_eliminated()
+						## check if some player has conquered a country
 			self._next_season()
 			if self.season == 1:
 				next_phase = PHORDERS
@@ -532,6 +537,22 @@ if all the players have finished.
 		self.all_players_done()
 		for p in self.player_set.all():
 			p.new_phase()
+
+	##------------------------
+	## optional rules methods
+	##------------------------
+	def check_conquerings(self):
+		if not self.configuration.conquering:
+			return
+		for p in self.player_set.exclude(user=None):
+			## get the players that control part of this player's home country
+			controllers = self.player_set.filter(gamearea__board_area__home__country=p.country,
+									gamearea__board_area__home__scenario=self.scenario).distinct()
+			if len(controllers) == 1:
+				 ## all the areas in home country belong to the same player
+				 if p != controllers[0] and p.conqueror != controllers[0]:
+				 	## controllers[0] conquers p
+					p.set_conqueror(controllers[0])
 	
 	##------------------------
 	## turn processing methods
@@ -1270,7 +1291,17 @@ Returns a queryset with *Game* Areas in home country controlled by player
 		"""
 Returns a queryset with the GameAreas that accept new units.
 		"""
-		areas = self.controlled_home_cities()
+		if self.game.configuration.conquering:
+			conq_countries = []
+			for c in self.conquered_set.all():
+				conq_countries.append(c.country)
+			areas = GameArea.objects.filter(Q(player=self) &
+										Q(board_area__has_city=True) &
+										Q(board_area__home__scenario=self.game.scenario) &
+										(Q(board_area__home__country=self.country) |
+										Q(board_area__home__country__in=conq_countries)))
+		else:
+			areas = self.controlled_home_cities()
 		excludes = []
 		for a in areas:
 			if a.board_area.is_fortified and len(a.unit_set.all()) > 1:
@@ -1279,6 +1310,26 @@ Returns a queryset with the GameAreas that accept new units.
 				excludes.append(a.id)
 		areas = areas.exclude(id__in=excludes)
 		return areas
+
+	def check_eliminated(self):
+		"""
+	If the player has lost all his home cities, eliminate him and disband all his units
+		"""
+		if self.user:
+			if len(self.controlled_home_cities()) <= 0:
+				self.eliminated = True
+				self.save()
+				for unit in self.unit_set.all():
+					unit.delete()
+				for rev in self.revolution_set.all():
+					rev.delete()
+		return self.eliminated
+
+	def set_conqueror(self, player):
+		if player != self:
+			signals.country_conquered.send(sender=self, country=self.country)
+			self.conqueror = player
+			self.save()
 
 	def end_phase(self, forced=False):
 		self.done = True
@@ -1295,7 +1346,8 @@ Returns a queryset with the GameAreas that accept new units.
 		self.game.check_next_phase()
 
 	def new_phase(self):
-		if self.user:
+		## check that the player is not autonomous and is not eliminated
+		if self.user and not self.eliminated:
 			if self.game.phase == PHREINFORCE:
 				if self.units_to_place() == 0:
 					self.done = True

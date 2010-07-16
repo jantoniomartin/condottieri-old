@@ -396,6 +396,7 @@ siege_started.connect(log_siege_start)
 	
 COUNTRY_EVENTS = (
 	(0, _('Government has been overthrown')),
+	(1, _('Has been conquered'))
 )
 
 class CountryEvent(BaseEvent):
@@ -416,6 +417,15 @@ def log_overthrow(sender, **kwargs):
 	log_event(CountryEvent, sender.game,
 					classname="CountryEvent",
 					country = sender.country,
-					messages = 0)
+					message = 0)
 
 government_overthrown.connect(log_overthrow)
+
+def log_conquering(sender, **kwargs):
+	assert isinstance(sender, Player), "sender must be a Player"
+	log_event(CountryEvent, sender.game,
+					classname="CountryEvent",
+					country = kwargs['country'],
+					message = 1)
+
+country_conquered.connect(log_conquering)

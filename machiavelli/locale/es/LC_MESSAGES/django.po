@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-16 12:48+0200\n"
+"POT-Creation-Date: 2010-07-17 01:44+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -20,27 +20,27 @@ msgid "Slug"
 msgstr "Nombre"
 
 #: forms.py:15 templates/machiavelli/game_list.html:17
-#: templates/machiavelli/game_list.html:43
-#: templates/machiavelli/game_list.html:105
+#: templates/machiavelli/game_list.html:44
+#: templates/machiavelli/game_list.html:107
 #: templates/machiavelli/scenario_detail.html:5
 #: templates/machiavelli/scenario_detail.html:8
 msgid "Scenario"
 msgstr "Escenario"
 
 #: forms.py:16 templates/machiavelli/game_list.html:19
-#: templates/machiavelli/game_list.html:45
+#: templates/machiavelli/game_list.html:46
 msgid "Time limit"
 msgstr "Límite de tiempo"
 
-#: forms.py:55 models.py:95
+#: forms.py:65 models.py:95
 msgid "Hold"
 msgstr "Aguantar"
 
-#: forms.py:56 models.py:97
+#: forms.py:66 models.py:97
 msgid "Advance"
 msgstr "Avanzar"
 
-#: forms.py:57 models.py:98
+#: forms.py:67 models.py:98
 msgid "Conversion"
 msgstr "Conversión"
 
@@ -108,56 +108,56 @@ msgstr "1 día"
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: models.py:1453
+#: models.py:1507
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
 
-#: models.py:1826
+#: models.py:1880
 msgid "game"
 msgstr "juego"
 
-#: models.py:1827
+#: models.py:1881
 msgid "finances"
 msgstr "finanzas"
 
-#: models.py:1828
+#: models.py:1882
 msgid "assassinations"
 msgstr "asesinatos"
 
-#: models.py:1829 models.py:1831 models.py:1838
+#: models.py:1883 models.py:1885 models.py:1892
 msgid "will enable Finances"
 msgstr "se activarán las finanzas"
 
-#: models.py:1830
+#: models.py:1884
 msgid "bribes"
 msgstr "sobornos"
 
-#: models.py:1832
+#: models.py:1886
 msgid "excommunication"
 msgstr "excomunión"
 
-#: models.py:1833
+#: models.py:1887
 msgid "natural disasters"
 msgstr "desastres naturales"
 
-#: models.py:1834
+#: models.py:1888
 msgid "special units"
 msgstr "unidades especiales"
 
-#: models.py:1835
+#: models.py:1889
 msgid "will enable Finances and Bribes"
 msgstr "se activarán las finanzas y los sobornos"
 
-#: models.py:1836
+#: models.py:1890
 msgid "strategic movement"
 msgstr "movimiento estratégico"
 
-#: models.py:1837
+#: models.py:1891
 msgid "money lenders"
 msgstr "prestamistas"
 
-#: models.py:1839
+#: models.py:1893
 msgid "conquering"
 msgstr "conquista"
 
@@ -203,7 +203,7 @@ msgstr "La Preponderancia Española"
 
 #: translate.py:17
 msgid "The Balance of Power"
-msgstr ""
+msgstr "El Equilibrio de Poder"
 
 #: translate.py:20
 msgid "Albania"
@@ -523,8 +523,8 @@ msgid "you are being overthrown"
 msgstr "estás siendo derrocado"
 
 #: management/base.py:26 management/base.py:29
-#: templates/machiavelli/game_list.html:86
-#: templates/machiavelli/game_list.html:94
+#: templates/machiavelli/game_list.html:88
+#: templates/machiavelli/game_list.html:96
 msgid "Overthrow"
 msgstr "Derrocar"
 
@@ -550,8 +550,8 @@ msgid "Map"
 msgstr "Mapa"
 
 #: templates/machiavelli/base.html:14 templates/machiavelli/game_form.html:10
-#: templates/machiavelli/game_list.html:37
-#: templates/machiavelli/game_list.html:69
+#: templates/machiavelli/game_list.html:38
+#: templates/machiavelli/game_list.html:71
 msgid "New game"
 msgstr "Nuevo juego"
 
@@ -770,68 +770,74 @@ msgid "Your games"
 msgstr "Tus juegos"
 
 #: templates/machiavelli/game_list.html:16
-#: templates/machiavelli/game_list.html:42
-#: templates/machiavelli/game_list.html:84
-#: templates/machiavelli/game_list.html:104
-#: templates/machiavelli/show_game.html:10
+#: templates/machiavelli/game_list.html:43
+#: templates/machiavelli/game_list.html:86
+#: templates/machiavelli/game_list.html:106
+#: templates/machiavelli/show_game.html:11
 msgid "Game"
 msgstr "Juego"
 
 #: templates/machiavelli/game_list.html:18
-#: templates/machiavelli/game_list.html:44
+#: templates/machiavelli/game_list.html:45
 msgid "Creator"
 msgstr "Creador"
 
 #: templates/machiavelli/game_list.html:20
-#: templates/machiavelli/game_list.html:46
+#: templates/machiavelli/game_list.html:47
 #: templates/machiavelli/log_list.html:11
-#: templates/machiavelli/show_game.html:11
+#: templates/machiavelli/show_game.html:12
 #: templates/machiavelli/turn_log_list.html:11
 #: templates/machiavelli/turn_log_list.html:36
 msgid "Year"
 msgstr "Año"
 
 #: templates/machiavelli/game_list.html:21
-#: templates/machiavelli/game_list.html:47
+#: templates/machiavelli/game_list.html:48
 #: templates/machiavelli/log_list.html:12
-#: templates/machiavelli/show_game.html:12
+#: templates/machiavelli/show_game.html:13
 #: templates/machiavelli/turn_log_list.html:12
 #: templates/machiavelli/turn_log_list.html:38
 msgid "Season"
 msgstr "Estación"
 
 #: templates/machiavelli/game_list.html:22
-#: templates/machiavelli/game_list.html:48
+#: templates/machiavelli/game_list.html:49
 #: templates/machiavelli/log_list.html:13
-#: templates/machiavelli/show_game.html:13
+#: templates/machiavelli/show_game.html:14
 #: templates/machiavelli/turn_log_list.html:13
 msgid "Phase"
 msgstr "Fase"
 
 #: templates/machiavelli/game_list.html:23
-#: templates/machiavelli/game_list.html:49
+#: templates/machiavelli/game_list.html:50
+#: templates/machiavelli/show_game.html:31
+msgid "Rules"
+msgstr "Reglas"
+
+#: templates/machiavelli/game_list.html:24
+#: templates/machiavelli/game_list.html:51
 msgid "Slots"
 msgstr "Plazas"
 
-#: templates/machiavelli/game_list.html:31
+#: templates/machiavelli/game_list.html:32
 msgid "Leave game"
 msgstr "Abandonar"
 
-#: templates/machiavelli/game_list.html:38
+#: templates/machiavelli/game_list.html:39
 msgid "Games you are not playing"
 msgstr "Juegos en los que no estás jugando"
 
-#: templates/machiavelli/game_list.html:62
+#: templates/machiavelli/game_list.html:64
 #: templates/machiavelli/inactive_actions.html:10
-#: templates/machiavelli/show_game.html:24
+#: templates/machiavelli/show_game.html:25
 msgid "Join game"
 msgstr "Únete"
 
-#: templates/machiavelli/game_list.html:72
+#: templates/machiavelli/game_list.html:74
 msgid "Revolutions"
 msgstr "Revoluciones"
 
-#: templates/machiavelli/game_list.html:73
+#: templates/machiavelli/game_list.html:75
 msgid ""
 "The following countries are governed by leaders that are not\n"
 "paying enough attention to their duties. If you feel that you could do "
@@ -843,7 +849,7 @@ msgstr ""
 "mejor,\n"
 "puedes intentar derrocar a un lider."
 
-#: templates/machiavelli/game_list.html:76
+#: templates/machiavelli/game_list.html:78
 msgid ""
 "If you try to overthrow a leader, he will have a chance to\n"
 "recover control in the current phase. If he does not, you will take his "
@@ -855,7 +861,7 @@ msgstr ""
 "ocuparás su lugar.\n"
 "Se te notificará cuando consigas el control del país.\n"
 
-#: templates/machiavelli/game_list.html:80
+#: templates/machiavelli/game_list.html:82
 msgid ""
 "In doing this, you will probably run a damaged country, so\n"
 "you will get some karma for your sacrifice."
@@ -863,13 +869,13 @@ msgstr ""
 "Al hacer esto, probablemente dirigirás un país dañado, por lo que\n"
 "ganarás algo de karma por tu sacrificio."
 
-#: templates/machiavelli/game_list.html:85
+#: templates/machiavelli/game_list.html:87
 #: templates/machiavelli/game_results.html:15
 #: templates/machiavelli/scenario_detail.html:20
 msgid "Country"
 msgstr "Estado"
 
-#: templates/machiavelli/game_list.html:100
+#: templates/machiavelli/game_list.html:102
 msgid "Finished games"
 msgstr "Juegos terminados"
 
@@ -899,7 +905,7 @@ msgid "Cities"
 msgstr "Ciudades"
 
 #: templates/machiavelli/game_results.html:31
-#: templates/machiavelli/show_game.html:109
+#: templates/machiavelli/show_game.html:110
 msgid "Campaign log"
 msgstr "Diario de campaña"
 
@@ -965,7 +971,7 @@ msgid "Letter"
 msgstr "Carta"
 
 #: templates/machiavelli/letter_detail.html:12
-#: templates/machiavelli/show_game.html:59
+#: templates/machiavelli/show_game.html:60
 msgid "Send message"
 msgstr "Enviar carta"
 
@@ -1006,13 +1012,13 @@ msgid "Log of the game"
 msgstr "Diario del juego"
 
 #: templates/machiavelli/log_list.html:14
-#: templates/machiavelli/show_game.html:14
+#: templates/machiavelli/show_game.html:15
 #: templates/machiavelli/turn_log_list.html:14
 msgid "Time left"
 msgstr "Tiempo restante"
 
 #: templates/machiavelli/log_list.html:15
-#: templates/machiavelli/show_game.html:16
+#: templates/machiavelli/show_game.html:17
 #: templates/machiavelli/turn_log_list.html:15
 msgid "Power"
 msgstr "Estado"
@@ -1035,8 +1041,8 @@ msgid ""
 "You will recover some karma every day. You can read the basics of this karma "
 "system in the FAQ section."
 msgstr ""
-"Recuperarás algo de karma cada día. Puedes leer algo sobre el sistema de karma"
-" en la sección FAQ."
+"Recuperarás algo de karma cada día. Puedes leer algo sobre el sistema de "
+"karma en la sección FAQ."
 
 #: templates/machiavelli/orders_actions.html:6
 msgid "Orders writing"
@@ -1176,8 +1182,8 @@ msgid ""
 "all\n"
 "players have done it or the time limit is reached."
 msgstr ""
-"Al menos uno de los jugadores no ha retirado sus unidades. Tendrás que esperar hasta que "
-"todos\n"
+"Al menos uno de los jugadores no ha retirado sus unidades. Tendrás que "
+"esperar hasta que todos\n"
 "lo hayan hecho, o se alcance el límite de tiempo."
 
 #: templates/machiavelli/retreats_actions.html:14
@@ -1223,23 +1229,19 @@ msgstr "Despliegue inicial"
 msgid "Autonomous garrisons"
 msgstr "Guarniciones autónomas"
 
-#: templates/machiavelli/show_game.html:5
+#: templates/machiavelli/show_game.html:6
 msgid "Game:"
 msgstr "Juego:"
 
-#: templates/machiavelli/show_game.html:30
-msgid "Enabled rules"
-msgstr "Reglas activas"
-
-#: templates/machiavelli/show_game.html:54
+#: templates/machiavelli/show_game.html:55
 msgid "Cities:"
 msgstr "Ciudades:"
 
-#: templates/machiavelli/show_game.html:55
+#: templates/machiavelli/show_game.html:56
 msgid "Units:"
 msgstr "Unidades:"
 
-#: templates/machiavelli/show_game.html:72
+#: templates/machiavelli/show_game.html:73
 msgid ""
 "Our cartographers are drawing a new map for you. Please, reload\n"
 "the page in a few seconds."
@@ -1247,35 +1249,35 @@ msgstr ""
 "Nuestros cartógrafos están dibujando un nuevo mapa. Por favor, recarga la "
 "página dentro de unos segundos."
 
-#: templates/machiavelli/show_game.html:79
+#: templates/machiavelli/show_game.html:80
 msgid "Diplomacy"
 msgstr "Diplomacia"
 
-#: templates/machiavelli/show_game.html:82
+#: templates/machiavelli/show_game.html:83
 msgid "Box"
 msgstr "Bandeja"
 
-#: templates/machiavelli/show_game.html:83
+#: templates/machiavelli/show_game.html:84
 msgid "All"
 msgstr "Todos"
 
-#: templates/machiavelli/show_game.html:84
+#: templates/machiavelli/show_game.html:85
 msgid "Unread"
 msgstr "Nuevos"
 
-#: templates/machiavelli/show_game.html:87
+#: templates/machiavelli/show_game.html:88
 msgid "Inbox"
 msgstr "Entrada"
 
-#: templates/machiavelli/show_game.html:96
+#: templates/machiavelli/show_game.html:97
 msgid "Outbox"
 msgstr "Salida"
 
-#: templates/machiavelli/show_game.html:117
+#: templates/machiavelli/show_game.html:118
 msgid "See all"
 msgstr "Ver todo"
 
-#: templates/machiavelli/show_game.html:118
+#: templates/machiavelli/show_game.html:119
 msgid "Process"
 msgstr "Proceso"
 
@@ -1286,3 +1288,6 @@ msgstr "Procesamiento de órdenes en el juego"
 #: templates/machiavelli/turn_log_list.html:40
 msgid "Timestamp"
 msgstr "Tiempo"
+
+#~ msgid "Enabled rules"
+#~ msgstr "Reglas activas"

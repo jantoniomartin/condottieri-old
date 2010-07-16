@@ -43,8 +43,7 @@ class ConfigurationForm(forms.ModelForm):
 				'disasters',
 				'special_units',
 				'strategic',
-				'lenders',
-				'conquering')
+				'lenders')
 
 class UnitForm(forms.ModelForm):
 	type = forms.ChoiceField(required=True, choices=UNIT_TYPES)

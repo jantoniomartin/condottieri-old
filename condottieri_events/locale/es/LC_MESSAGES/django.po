@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-15 08:04+0200\n"
+"POT-Creation-Date: 2010-07-17 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,117 +15,121 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:30
+#: models.py:29
 #, python-format
 msgid "the army in %s"
 msgstr "el ejército en %s"
 
-#: models.py:32
+#: models.py:31
 #, python-format
 msgid "the fleet in %s"
 msgstr "la flota en %s"
 
-#: models.py:34
+#: models.py:33
 #, python-format
 msgid "the garrison in %s"
 msgstr "la guarnición en %s"
 
-#: models.py:78
+#: models.py:81
 #, python-format
 msgid "%(country)s recruits a new %(type)s in %(area)s."
 msgstr "%(country)s recluta %(type)s en %(area)s."
 
-#: models.py:103
+#: models.py:107
 #, python-format
 msgid "%(country)s's %(type)s in %(area)s is disbanded."
 msgstr "%(type)s de %(country)s en %(area)s es desbandada."
 
-#: models.py:109
+#: models.py:113
 #, python-format
 msgid "Autonomous %(type)s in %(area)s is disbanded."
 msgstr "%(type)s autónoma en %(area)s es desbandada."
 
-#: models.py:146
+#: models.py:151
 #, python-format
 msgid "%(unit)s tries to go to %(area)s."
 msgstr "%(unit)s intenta ir a %(area)s."
 
-#: models.py:151
+#: models.py:156
 #, python-format
 msgid "%(unit)s besieges the city."
 msgstr "%(unit)s asedia la ciudad."
 
-#: models.py:153
+#: models.py:158
 #, python-format
 msgid "%(unit)s tries to convert into %(type)s."
 msgstr "%(unit)s intenta convertirse en %(type)s."
 
-#: models.py:158
+#: models.py:163
 #, python-format
 msgid "%(unit)s must convoy %(subunit)s to %(area)s."
 msgstr "%(unit)s intenta transportar a %(subunit)s a %(area)s."
 
-#: models.py:166
+#: models.py:171
 #, python-format
 msgid "%(unit)s supports %(subunit)s to hold its position."
 msgstr "%(unit)s apoya a %(subunit)s a mantener su posición."
 
-#: models.py:172
+#: models.py:177
 #, python-format
 msgid "%(unit)s supports %(subunit)s to go to %(area)s."
 msgstr "%(unit)s apoya a %(subunit)s a ir a %(area)s."
 
-#: models.py:179
+#: models.py:184
 #, python-format
 msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
 msgstr "%(unit)s apoya a %(subunit)s a convertirse en %(type)s."
 
-#: models.py:211
+#: models.py:217
 #, python-format
 msgid "Conflicts in %(area)s result in a standoff."
 msgstr "Los conflictos en %(area)s acaban en empate."
 
-#: models.py:231
+#: models.py:238
 #, python-format
 msgid "%(unit)s converts into %(type)s."
 msgstr "%(unit)s se convierte en %(type)s."
 
-#: models.py:253
+#: models.py:261
 #, python-format
 msgid "%(country)s gets control of %(area)s."
 msgstr "%(country)s consigue el control de %(area)s."
 
-#: models.py:275
+#: models.py:284
 #, python-format
 msgid "%(unit)s advances into %(destination)s."
 msgstr "%(unit)s avanza a %(destination)s."
 
-#: models.py:299
+#: models.py:309
 #, python-format
 msgid "%(unit)s garrisons in the city."
 msgstr "%(unit)s se refugia en la ciudad."
 
-#: models.py:304
+#: models.py:314
 #, python-format
 msgid "%(unit)s retreats to %(destination)s."
 msgstr "%(unit)s se retira a %(destination)s"
 
-#: models.py:319
+#: models.py:330
 msgid "cannot carry out its support order."
 msgstr "no puede ejecutar su orden de apoyo."
 
-#: models.py:320
+#: models.py:331
 msgid "must retreat."
 msgstr "debe retirarse."
 
-#: models.py:321
+#: models.py:332
 msgid "surrenders."
 msgstr "se rinde."
 
-#: models.py:322
+#: models.py:333
 msgid "is now besieging."
 msgstr "empieza su asedio."
 
-#: models.py:383
+#: models.py:398
 msgid "Government has been overthrown"
 msgstr "El gobierno ha sido derrocado"
+
+#: models.py:399
+msgid "Has been conquered"
+msgstr "Ha sido conquistado"
