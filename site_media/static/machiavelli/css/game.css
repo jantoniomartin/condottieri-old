@@ -41,6 +41,10 @@ tr.closed_game a{
 	text-align: center;
 }
 
+#game_rules {
+	font-size: 70%;
+}
+
 .col1,
 .col2,
 .col3 {

@@ -1823,17 +1823,35 @@ class TurnLog(models.Model):
 		return self.log
 
 class Configuration(models.Model):
-	game = models.OneToOneField(Game, verbose_name=_('game'))
+	game = models.OneToOneField(Game, verbose_name=_('game'), editable=False)
 	finances = models.BooleanField(_('finances'), default=False)
-	assassinations = models.BooleanField(_('assassinations'), default=False)
-	bribes = models.BooleanField(_('bribes'), default=False)
+	assassinations = models.BooleanField(_('assassinations'), default=False,
+					help_text=_('will enable Finances'))
+	bribes = models.BooleanField(_('bribes'), default=False,
+					help_text=_('will enable Finances'))
 	excommunication = models.BooleanField(_('excommunication'), default=False)
 	disasters = models.BooleanField(_('natural disasters'), default=False)
-	special_units = models.BooleanField(_('special units'), default=False)
+	special_units = models.BooleanField(_('special units'), default=False,
+					help_text=_('will enable Finances and Bribes'))
 	strategic = models.BooleanField(_('strategic movement'), default=False)
-	lenders = models.BooleanField(_('money lenders'), default=False)
+	lenders = models.BooleanField(_('money lenders'), default=False,
+					help_text=_('will enable Finances'))
 	conquering = models.BooleanField(_('conquering'), default=False)
 
 	def __unicode__(self):
 		return unicode(self.game)
+
+	def get_enabled_rules(self):
+		rules = []
+		for f in self._meta.fields:
+			if isinstance(f, models.BooleanField):
+				if f.value_from_object(self):
+					rules.append(unicode(f.verbose_name))
+		return rules
 	
+def create_configuration(sender, instance, created, **kwargs):
+    if isinstance(instance, Game) and created:
+		config = Configuration(game=instance)
+		config.save()
+
+models.signals.post_save.connect(create_configuration, sender=Game)

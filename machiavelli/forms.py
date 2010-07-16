@@ -23,6 +23,29 @@ class GameForm(forms.ModelForm):
 		model = Game
 		fields = ('slug', 'scenario', 'time_limit')
 
+class ConfigurationForm(forms.ModelForm):
+	def clean(self):
+		cleaned_data = self.cleaned_data
+		return cleaned_data
+		if not cleaned_data['finances']:
+			if cleaned_data['special_units']:
+				cleaned_data['bribes'] = True
+			if cleaned_data['assassinations'] or cleaned_data['lenders'] or cleaned_data['bribes']:
+				cleaned_data['finances'] = True
+		return cleaned_data
+
+	class Meta:
+		model = Configuration
+		exclude = ('finances',
+				'assassinations',
+				'bribes',
+				'excommunication',
+				'disasters',
+				'special_units',
+				'strategic',
+				'lenders',
+				'conquering')
+
 class UnitForm(forms.ModelForm):
 	type = forms.ChoiceField(required=True, choices=UNIT_TYPES)
     

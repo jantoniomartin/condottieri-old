@@ -86,6 +86,9 @@ def base_context(request, game, player):
 	else:
 		context['log'] = log # this will always be an empty queryset
 	#context['log'] = log[:10]
+	rules = game.configuration.get_enabled_rules()
+	if len(rules) > 0:
+		context['rules'] = rules
 		
 	return context
 
@@ -318,23 +321,28 @@ def create_game(request):
 	##
 	context = {'user': request.user,}
 	if request.method == 'POST':
-		form = forms.GameForm(request.user, data=request.POST)
-		if form.is_valid():
-			new_game = form.save(commit=False)
+		game_form = forms.GameForm(request.user, data=request.POST)
+		if game_form.is_valid():
+			new_game = game_form.save(commit=False)
 			new_game.slots = new_game.scenario.get_slots() - 1
 			new_game.save()
 			new_player = Player()
 			new_player.user = request.user
 			new_player.game = new_game
 			new_player.save()
+			config_form = forms.ConfigurationForm(request.POST,
+												instance=new_game.configuration)
+			config_form.save()
 			## create the autonomous player
 			#autonomous = Player(game=new_game, done=True)
 			#autonomous.save()
 			return redirect('game-list')
 	else:
-		form = forms.GameForm(request.user)
+		game_form = forms.GameForm(request.user)
+		config_form = forms.ConfigurationForm()
 	context['scenarios'] = Scenario.objects.filter(enabled=True)
-	context['form'] = form
+	context['game_form'] = game_form
+	context['config_form'] = config_form
 	return render_to_response('machiavelli/game_form.html',
 							context,
 							context_instance=RequestContext(request))
