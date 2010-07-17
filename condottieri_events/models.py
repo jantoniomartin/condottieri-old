@@ -326,7 +326,7 @@ def log_retreat(sender, **kwargs):
 
 unit_retreated.connect(log_retreat)
 
-EVENT_MESSAGES = (
+UNIT_EVENTS = (
 	(0, _('cannot carry out its support order.')),
 	(1, _('must retreat.')),
 	(2, _('surrenders.')),
@@ -336,7 +336,7 @@ EVENT_MESSAGES = (
 class UnitEvent(BaseEvent):
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	area = models.ForeignKey(Area)
-	message = models.PositiveIntegerField(choices=EVENT_MESSAGES)
+	message = models.PositiveIntegerField(choices=UNIT_EVENTS)
 	
 	def event_class(self):
 		if self.message == 0:
@@ -429,3 +429,22 @@ def log_conquering(sender, **kwargs):
 					message = 1)
 
 country_conquered.connect(log_conquering)
+
+DISASTER_EVENTS = (
+	(0, _('is affected by famine.')),
+	(1, _('has been affected by plague.'))
+)
+
+class DisasterEvent(BaseEvent):
+	area = models.ForeignKey(Area)
+	message = models.PositiveIntegerField(choices=DISASTER_EVENTS)
+
+	def __unicode__(self):
+		return "%(area)s %(message)s" % {
+									'area': self.area.name,
+									'message': self.get_message_display()
+									}
+	
+	def event_class(self):
+		return "season_%(season)s" % {'season': self.season}
+

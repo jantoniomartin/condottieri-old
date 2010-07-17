@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-17 01:43+0200\n"
+"POT-Creation-Date: 2010-07-17 12:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,3 +133,11 @@ msgstr "El gobierno ha sido derrocado"
 #: models.py:399
 msgid "Has been conquered"
 msgstr "Ha sido conquistado"
+
+#: models.py:434
+msgid "is affected by famine."
+msgstr "está afectada por la hambruna."
+
+#: models.py:435
+msgid "has been affected by plague."
+msgstr "ha sido afectada por una plaga."
