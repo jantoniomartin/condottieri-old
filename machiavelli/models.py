@@ -509,7 +509,7 @@ Returns true if, when the function is called, the first BONUS_TIME% of the durat
 				if self.configuration.conquering:
 					for p in self.player_set.filter(eliminated=False):
 						p.check_eliminated()
-						## check if some player has conquered a country
+						self.check_conquerings()
 			self._next_season()
 			if self.season == 1:
 				next_phase = PHORDERS
@@ -1293,7 +1293,7 @@ Returns a queryset with the GameAreas that accept new units.
 		"""
 		if self.game.configuration.conquering:
 			conq_countries = []
-			for c in self.conquered_set.all():
+			for c in self.conquered.all():
 				conq_countries.append(c.country)
 			areas = GameArea.objects.filter(Q(player=self) &
 										Q(board_area__has_city=True) &
