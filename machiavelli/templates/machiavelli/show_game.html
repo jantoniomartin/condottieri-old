@@ -60,7 +60,9 @@
 {% if player %}
 	{% ifnotequal game.phase 0 %}
 	{% ifnotequal p player %}
+	{% ifnotequal p.eliminated 1 %}
 	<div><a href="{% url new-letter sender_id=player.id receiver_id=p.id %}">{% trans "Send message" %}</a></div>
+	{% endifnotequal %}
 	{% endifnotequal %}
 	{% endifnotequal %}
 {% endif %}

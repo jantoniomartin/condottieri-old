@@ -440,7 +440,7 @@ def new_letter(request, sender_id, receiver_id):
 	player = get_object_or_404(Player, user=request.user, id=sender_id)
 	game = player.game
 	context = base_context(request, game, player)
-	receiver = get_object_or_404(Player, id=receiver_id, game=game)
+	receiver = get_object_or_404(Player, id=receiver_id, game=game, eliminated=False)
 	## if the game is inactive, return 404 error
 	if game.phase == 0:
 		raise Http404
