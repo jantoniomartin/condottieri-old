@@ -437,7 +437,7 @@ def box_list(request, slug='', box='inbox'):
 
 @login_required
 def new_letter(request, sender_id, receiver_id):
-	player = get_object_or_404(Player, user=request.user, id=sender_id)
+	player = get_object_or_404(Player, user=request.user, id=sender_id, eliminated=False)
 	game = player.game
 	context = base_context(request, game, player)
 	receiver = get_object_or_404(Player, id=receiver_id, game=game, eliminated=False)
