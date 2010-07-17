@@ -510,6 +510,7 @@ Returns true if, when the function is called, the first BONUS_TIME% of the durat
 					for p in self.player_set.filter(eliminated=False):
 						p.check_eliminated()
 						self.check_conquerings()
+				## if natural disasters are enabled, check famine
 			self._next_season()
 			if self.season == 1:
 				next_phase = PHORDERS
@@ -1146,6 +1147,7 @@ class GameArea(models.Model):
 	## player is who controls the area, if any
 	player = models.ForeignKey('Player', blank=True, null=True)
 	standoff = models.BooleanField(default=False)
+	famine = models.BooleanField(default=False)
 
 	def abbr(self):
 		return "%s (%s)" % (self.board_area.code, self.board_area.name)
