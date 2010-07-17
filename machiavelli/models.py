@@ -1313,7 +1313,8 @@ Returns a queryset with the GameAreas that accept new units.
 
 	def check_eliminated(self):
 		"""
-	If the player has lost all his home cities, eliminate him and disband all his units
+	If the player has lost all his home cities, eliminate him and disband all his units.
+	Also delete a possible revolution, and his control flags
 		"""
 		if self.user:
 			if len(self.controlled_home_cities()) <= 0:
@@ -1321,6 +1322,9 @@ Returns a queryset with the GameAreas that accept new units.
 				self.save()
 				for unit in self.unit_set.all():
 					unit.delete()
+				for area in self.gamearea_set.all():
+					area.player = None
+					area.save()
 				for rev in self.revolution_set.all():
 					rev.delete()
 		return self.eliminated
