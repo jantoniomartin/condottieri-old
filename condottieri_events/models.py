@@ -448,3 +448,20 @@ class DisasterEvent(BaseEvent):
 	def event_class(self):
 		return "season_%(season)s" % {'season': self.season}
 
+def log_famine_marker(sender, **kwargs):
+	assert isinstance(sender, GameArea), "sender must be a GameArea"
+	log_event(DisasterEvent, sender.game,
+					classname="DisasterEvent",
+					area = sender.board_area,
+					message = 0)
+
+famine_marker_placed.connect(log_famine_marker)
+
+def log_plague(sender, **kwargs):
+	assert isinstance(sender, GameArea), "sender must be a GameArea"
+	log_event(DisasterEvent, sender.game,
+					classname="DisasterEvent",
+					area = sender.board_area,
+					message = 1)
+
+plague_placed.connect(log_plague)

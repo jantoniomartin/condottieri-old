@@ -61,6 +61,12 @@ def make_map(game):
 		for unit in player.unit_set.filter(type__exact='G'):
 			coords = (unit.area.board_area.gtoken.x, unit.area.board_area.gtoken.y)
 			base_map.paste(garrison, coords, garrison)
+	## paste famine markers
+	if game.configuration.disasters:
+		famine = Image.open("%s/famine-marker.png" % BASEDIR)
+		for a in game.gamearea_set.filter(famine=True):
+			coords = (a.board_area.aftoken.x + 16, a.board_area.aftoken.y + 16)
+			base_map.paste(famine, coords, famine)
 	## save the map
 	result = base_map #.resize((1250, 1780), Image.ANTIALIAS)
 	filename = os.path.join(MAPSDIR, "map-%s.jpg" % game.pk)

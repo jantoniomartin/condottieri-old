@@ -40,7 +40,6 @@ class ConfigurationForm(forms.ModelForm):
 				'assassinations',
 				'bribes',
 				'excommunication',
-				'disasters',
 				'special_units',
 				'strategic',
 				'lenders')

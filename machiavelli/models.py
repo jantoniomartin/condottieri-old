@@ -43,6 +43,7 @@ else:
 from machiavelli.fields import AutoTranslateField
 from machiavelli.graphics import make_map
 from machiavelli.logging import save_snapshot
+import machiavelli.disasters as disasters
 
 ## condottieri_profiles
 from condottieri_profiles.models import CondottieriProfile
@@ -498,7 +499,17 @@ Returns true if, when the function is called, the first BONUS_TIME% of the durat
 			self.process_retreats()
 			end_season = True
 		if end_season:
-			if self.season == 3:
+			if self.season == 1:
+				## delete units in famine areas
+				if self.configuration.disasters:
+					famine_units = Unit.objects.filter(player__game=self, area__famine=True)
+					for f in famine_units:
+						f.delete()
+					## reset famine markers
+					self.gamearea_set.all().update(famine=False)
+					## check plagues
+					self.kill_plague_units()
+			elif self.season == 3:
 				self.update_controls()
 				if self.check_winner() == True:
 					self.make_map()
@@ -510,7 +521,9 @@ Returns true if, when the function is called, the first BONUS_TIME% of the durat
 					for p in self.player_set.filter(eliminated=False):
 						p.check_eliminated()
 						self.check_conquerings()
-				## if natural disasters are enabled, check famine
+				## if natural disasters are enabled, place famine markers
+				if self.configuration.disasters:
+					self.mark_famine_areas()
 			self._next_season()
 			if self.season == 1:
 				next_phase = PHORDERS
@@ -554,6 +567,26 @@ if all the players have finished.
 				 if p != controllers[0] and p.conqueror != controllers[0]:
 				 	## controllers[0] conquers p
 					p.set_conqueror(controllers[0])
+
+	def mark_famine_areas(self):
+		if not self.configuration.disasters:
+			return
+		codes = disasters.get_famine()
+		famine_areas = GameArea.objects.filter(game=self, board_area__code__in=codes)
+		for f in famine_areas:
+			f.famine=True
+			f.save()
+			signals.famine_marker_placed.send(sender=f)
+	
+	def kill_plague_units(self):
+		if not self.configuration.disasters:
+			return
+		codes = disasters.get_plague()
+		plague_areas = GameArea.objects.filter(game=self, board_area__code__in=codes)
+		for p in plague_areas:
+			signals.plague_placed.send(sender=p)
+			for u in p.unit_set.all():
+				u.delete()
 	
 	##------------------------
 	## turn processing methods
@@ -1266,6 +1299,9 @@ to remove units.
 		if not self.user:
 			return 0
 		cities = self.number_of_cities()
+		if self.game.configuration.disasters:
+			famines = self.gamearea_set.filter(famine=True).exclude(unit__type__exact='G').count()
+			cities -= famines
 		units = len(self.unit_set.all())
 		place = cities - units
 		slots = len(self.get_areas_for_new_units())
@@ -1300,10 +1336,11 @@ Returns a queryset with the GameAreas that accept new units.
 			areas = GameArea.objects.filter(Q(player=self) &
 										Q(board_area__has_city=True) &
 										Q(board_area__home__scenario=self.game.scenario) &
+										Q(famine=False) &
 										(Q(board_area__home__country=self.country) |
 										Q(board_area__home__country__in=conq_countries)))
 		else:
-			areas = self.controlled_home_cities()
+			areas = self.controlled_home_cities().exclude(famine=True)
 		excludes = []
 		for a in areas:
 			if a.board_area.is_fortified and len(a.unit_set.all()) > 1:
