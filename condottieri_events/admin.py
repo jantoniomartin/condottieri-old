@@ -67,6 +67,12 @@ class CountryEventAdmin(admin.ModelAdmin):
 	list_display = ('game', '__unicode__', 'year', 'season', 'phase')
 	list_filter = ('game', 'year', 'season', 'phase', 'message')
 
+class DisasterEventAdmin(admin.ModelAdmin):
+	ordering = ['-year']
+	list_per_page = 20
+	list_display = ('game', '__unicode__', 'year', 'season', 'phase')
+	list_filter = ('game', 'year', 'season', 'phase', 'message')
+
 admin.site.register(BaseEvent, BaseEventAdmin)
 admin.site.register(NewUnitEvent, NewUnitEventAdmin)
 admin.site.register(DisbandEvent, DisbandEventAdmin)
@@ -78,3 +84,4 @@ admin.site.register(MovementEvent, MovementEventAdmin)
 admin.site.register(RetreatEvent, RetreatEventAdmin)
 admin.site.register(UnitEvent, UnitEventAdmin)
 admin.site.register(CountryEvent, CountryEventAdmin)
+admin.site.register(DisasterEvent, DisasterEventAdmin)
