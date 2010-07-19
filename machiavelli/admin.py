@@ -46,7 +46,8 @@ class SetupAdmin(admin.ModelAdmin):
 	list_display = ('scenario', 'country', 'area', 'unit_type')
 
 class OrderAdmin(admin.ModelAdmin):
-	list_display = ('player_info', '__unicode__')
+	list_display = ('player_info', '__unicode__', 'confirmed')
+	list_filter = ('confirmed',)
 
 	def player_info(self, obj):
 		return "%(country)s (%(game)s)" % { 'country': obj.unit.player.country,
