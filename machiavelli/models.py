@@ -159,11 +159,12 @@ if twitter_api and settings.TWEET_NEW_SCENARIO:
 	models.signals.post_save.connect(tweet_new_scenario, sender=Scenario)
 
 class Country(models.Model):
-    name = AutoTranslateField(max_length=20, unique=True)
-    css_class = models.CharField(max_length=20, unique=True)
-    
-    def __unicode__(self):
-        return self.name
+	name = AutoTranslateField(max_length=20, unique=True)
+	css_class = models.CharField(max_length=20, unique=True)
+	can_excommunicate = models.BooleanField(default=False)
+
+	def __unicode__(self):
+		return self.name
 
 class Area(models.Model):
 	"""
@@ -1253,6 +1254,7 @@ class Player(models.Model):
 	done = models.BooleanField(default=False)
 	eliminated = models.BooleanField(default=False)
 	conqueror = models.ForeignKey('self', related_name='conquered', blank=True, null=True)
+	excommunicated = models.PositiveIntegerField(blank=True, null=True)
 
 	def __unicode__(self):
 		if self.user:
@@ -1375,6 +1377,28 @@ Returns a queryset with the GameAreas that accept new units.
 			signals.country_conquered.send(sender=self, country=self.country)
 			self.conqueror = player
 			self.save()
+
+	def can_excommunicate(self):
+		"""
+	Returns true if player.country.can_excommunicate and nobody has been
+	excommunicated this year
+		"""
+		if self.game.configuration.excommunication:
+			if self.country.can_excommunicate:
+				try:
+					Player.objects.get(game=self.game,
+									excommunicated=self.game.year)
+				except ObjectDoesNotExist:
+					return True
+		return False
+	
+	def excommunicate(self, year=None):
+		if year:
+			self.excommunicated = year
+		else:
+			self.excommunicated = self.game.year
+		self.save()
+		signals.country_excommunicated.send(sender=self)
 
 	def end_phase(self, forced=False):
 		self.done = True

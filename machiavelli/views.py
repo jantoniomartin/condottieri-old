@@ -74,6 +74,7 @@ def base_context(request, game, player):
 		context['outbox_all'] = player.sent.all().count()
 		context['outbox_unread'] = player.sent.filter(read=False).count()
 		context['done'] = player.done
+		context['can_excommunicate'] = player.can_excommunicate()
 	log = log.exclude(season__exact=game.season,
 							phase__exact=game.phase)
 	if len(log) > 0:
@@ -444,15 +445,23 @@ def new_letter(request, sender_id, receiver_id):
 	## if the game is inactive, return 404 error
 	if game.phase == 0:
 		raise Http404
+	if player.country.can_excommunicate and receiver.excommunicated:
+		raise Http404
 	if request.method == 'POST':
 		letter_form = forms.LetterForm(player, receiver, data=request.POST)
 		if letter_form.is_valid():
 			letter = letter_form.save()
+			if not player.excommunicated and receiver.excommunicated:
+				player.excommunicate(year=receiver.excommunicated)
 			return redirect('show-game', slug=game.slug)
 		else:
 			print letter_form.errors
 	else:
 		letter_form = forms.LetterForm(player, receiver)
+		if not player.excommunicated and receiver.excommunicated:
+			context['excom_notice'] = True
+		if player.excommunicated and not receiver.excommunicated:
+			raise Http404
 	
 	context.update({'form': letter_form,
 					'sender': player,
@@ -462,6 +471,35 @@ def new_letter(request, sender_id, receiver_id):
 	return render_to_response('machiavelli/letter_form.html',
 							context,
 							context_instance=RequestContext(request))
+
+@login_required
+def excommunicate(request, slug, player_id):
+	game = get_object_or_404(Game, slug=slug)
+	if game.phase == 0 or not game.configuration.excommunication:
+		raise Http404
+	player = get_object_or_404(Player, id=player_id,
+								game=game,
+								excommunicated__isnull=True,
+								country__can_excommunicate=False)
+	papacy = get_object_or_404(Player, user=request.user,
+								game=game,
+								country__can_excommunicate=True)
+	## check if someone has been excommunicated this year
+	if papacy.can_excommunicate():
+		player.excommunicate()
+	else:
+		## a player has been already excommunicated this year
+		raise Http404
+	return redirect(game)
+
+@login_required
+def reset_excommunications(request, slug):
+	game = get_object_or_404(Game, slug=slug)
+	if game.phase == 0 or not game.configuration.excommunication:
+		raise Http404
+	player = get_object_or_404(Player, game=game, user=request.user)
+	game.player_set.all().update(excommunicated=None)
+	return redirect(game)
 
 @cache_page(60 * 10)
 def show_scenario(request, scenario_id):

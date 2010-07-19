@@ -52,8 +52,11 @@
 		({{ p.conqueror.country }})
 	{% endif %}
 	{% ifequal p.done 1 %}
-	<span><img src="{{ STATIC_URL }}machiavelli/img/icon-yes.gif" /></span>
+	<img src="{{ STATIC_URL }}machiavelli/img/icon-yes.gif" />
 	{% endifequal %}
+	{% if p.excommunicated %}
+	<img src="{{ STATIC_URL }}machiavelli/img/excommunication-icon-16.png" />
+	{% endif %}
 	</div>
 	<div>{% trans "Cities:" %} {{ p.number_of_cities }}</div>
 	<div>{% trans "Units:" %} {{ p.number_of_units }}</div>
@@ -63,12 +66,20 @@
 	{% ifnotequal p.eliminated 1 %}
 	<div><a href="{% url new-letter sender_id=player.id receiver_id=p.id %}">{% trans "Send message" %}</a></div>
 	{% endifnotequal %}
+	{% if can_excommunicate %}
+		{% ifnotequal p.excommunicated 1 %}
+		<div><a href="{% url excommunicate game.slug p.id %}">{% trans "Excommunicate" %}</a></div>
+		{% endifnotequal %}
+	{% endif %}
 	{% endifnotequal %}
 	{% endifnotequal %}
 {% endif %}
 	</div>
 	{% endif %}
 {% endfor %}
+{% if can_excommunicate %}
+	<a href="{% url reset-excommunications game.slug %}">{% trans "Forgive excommunications" %}</a>
+{% endif %}
 {% endifequal %}
 </div>
 </div>

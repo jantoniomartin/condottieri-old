@@ -8,6 +8,9 @@
 New letter for {{ country }}
 {% endblocktrans %}</p>
 <p>{% trans "Language" %}: {{ receiver.get_language }}</p>
+{% if excom_notice %}
+<p>{% blocktrans %}Notice: This player is currently excommunicated. If you send this letter, you will be also excommunicated.{% endblocktrans %}
+{% endif %}
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 <form action="{% url new-letter sender.id receiver.id %}" method="post">
 {{ form.body.errors }}
