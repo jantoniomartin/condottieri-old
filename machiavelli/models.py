@@ -1384,7 +1384,7 @@ Returns a queryset with the GameAreas that accept new units.
 	excommunicated this year
 		"""
 		if self.game.configuration.excommunication:
-			if self.country.can_excommunicate:
+			if self.country and self.country.can_excommunicate:
 				try:
 					Player.objects.get(game=self.game,
 									excommunicated=self.game.year)
