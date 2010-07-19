@@ -183,7 +183,7 @@ def play_reinforcements(request, game, player):
 					if len(disband_form.cleaned_data['units']) == -units_to_place:
 						for u in disband_form.cleaned_data['units']:
 							u.delete()
-						game.map_changed()
+						#game.map_changed()
 						## odd: the player object needs to be reloaded or
 						## the it doesn't know the change in game.map_outdated
 						## this hack needs to be done in some other places

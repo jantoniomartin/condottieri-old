@@ -334,12 +334,13 @@ populated when the game is started, from the scenario data.
 			self.create_game_board()
 			self.shuffle_countries()
 			self.place_initial_units()
-			self.map_outdated = True
+			#self.map_outdated = True
+			self.make_map()
 			self.last_phase_change = datetime.now()
 			self.notify_players("game_started", {"game": self})
 		self.save()
-		if self.map_outdated == True:
-			self.make_map()
+		#if self.map_outdated == True:
+		#	self.make_map()
 	
 	def shuffle_countries(self):
 		"""
@@ -535,7 +536,7 @@ Returns true if, when the function is called, the first BONUS_TIME% of the durat
 				next_phase = PHORDERS
 		self.phase = next_phase
 		self.last_phase_change = datetime.now()
-		self.map_changed()
+		#self.map_changed()
 		self.save()
 		self.make_map()
 		self.notify_players("new_phase", {"game": self}, on_site=False)

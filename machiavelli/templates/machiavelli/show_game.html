@@ -135,7 +135,6 @@ the page in a few seconds.{% endblocktrans %}
 
 {% block extra_body %}
 {% if map %}
-{% ifequal game.map_outdated 0 %}
 	<script type="text/javascript">
 		var STATIC_URL = "{{ STATIC_URL }}"
 	</script>
@@ -163,7 +162,6 @@ the page in a few seconds.{% endblocktrans %}
 		});
 	}
 	</script>
-{% endifequal %}
 {% endif %}
 
 {% endblock %}

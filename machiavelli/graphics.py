@@ -71,7 +71,7 @@ def make_map(game):
 	result = base_map #.resize((1250, 1780), Image.ANTIALIAS)
 	filename = os.path.join(MAPSDIR, "map-%s.jpg" % game.pk)
 	result.save(filename)
-	game.map_saved()
+	#game.map_saved()
 	td_lapse = datetime.now() - start_dt
 	print "Processed map in %s seconds." % td_lapse.seconds
 	return True
