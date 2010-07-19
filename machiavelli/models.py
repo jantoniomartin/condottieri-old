@@ -216,7 +216,7 @@ Returns True if an given type of Unit can be in the Area
 		return True
 
 	def __unicode__(self):
-		return "(%(code)s) %(name)s" % {'name': self.name, 'code': self.code}
+		return "%(code)s - %(name)s" % {'name': self.name, 'code': self.code}
 	
 	class Meta:
 		ordering = ('code',)
@@ -1188,7 +1188,8 @@ class GameArea(models.Model):
 
 	def __unicode__(self):
 		#return self.board_area.name
-		return "(%(code)s) %(name)s" % {'name': self.board_area.name, 'code': self.board_area.code}
+		#return "(%(code)s) %(name)s" % {'name': self.board_area.name, 'code': self.board_area.code}
+		return unicode(self.board_area)
 
 	def accepts_type(self, type):
 		return self.board_area.accepts_type(type)
