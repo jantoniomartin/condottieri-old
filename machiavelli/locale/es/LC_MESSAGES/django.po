@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-19 12:45+0200\n"
+"POT-Creation-Date: 2010-07-19 14:06+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -482,6 +482,34 @@ msgstr "Mediterráneo Occidental"
 msgid "Create an acccount on %(domain)s"
 msgstr "Crear una cuenta en %(domain)s"
 
+#: views.py:459
+msgid "You cannot send letters in an inactive game."
+msgstr "No puedes enviar cartas en un juego inactivo."
+
+#: views.py:461
+msgid "You cannot write to a country that you have excommunicated."
+msgstr "No puedes escribir a un país al que has excomulgado."
+
+#: views.py:476
+msgid "You can write letters only to other excommunicated countries."
+msgstr "Solo puedes escribir cartas a otros paises excomulgados."
+
+#: views.py:491
+msgid "You cannot excommunicate in this game."
+msgstr "No puedes excomulgar en este juego."
+
+#: views.py:504
+msgid "You have already excommunicated a country this year."
+msgstr "Ya habías excomulgado a un país este año."
+
+#: views.py:511
+msgid "Excommunications cannot be reset."
+msgstr "No se pueden cancelar las excomuniones."
+
+#: views.py:514
+msgid "You are not allowed to forgive excommunications."
+msgstr "No estás autorizado para perdonar excomuniones."
+
 #: management/base.py:11
 msgid "Game started"
 msgstr "Juego comenzado"
@@ -681,6 +709,20 @@ msgstr ""
 "haces en la primera quinta parte del límite de tiempo (p.ej. 9,6 horas en "
 "una partida de 48 horas), ganarás 1 punto de karma. Observa que es mucho más "
 "fácil perder karma que ganarlo."
+
+#: templates/machiavelli/game_error.html:6
+#: templates/machiavelli/low_karma.html:6
+msgid "Error"
+msgstr "Error"
+
+#: templates/machiavelli/game_error.html:12
+#: templates/machiavelli/letter_box.html:62
+#: templates/machiavelli/letter_detail.html:20
+#: templates/machiavelli/letter_form.html:21
+#: templates/machiavelli/log_list.html:40
+#: templates/machiavelli/turn_log_list.html:46
+msgid "Return to game"
+msgstr "Volver al juego"
 
 #: templates/machiavelli/game_form.html:7
 #: templates/machiavelli/game_list.html:5
@@ -959,14 +1001,6 @@ msgstr "Para"
 msgid "Summary"
 msgstr "Resumen"
 
-#: templates/machiavelli/letter_box.html:62
-#: templates/machiavelli/letter_detail.html:20
-#: templates/machiavelli/letter_form.html:21
-#: templates/machiavelli/log_list.html:40
-#: templates/machiavelli/turn_log_list.html:46
-msgid "Return to game"
-msgstr "Volver al juego"
-
 #: templates/machiavelli/letter_detail.html:6
 msgid "Letter"
 msgstr "Carta"
@@ -1002,8 +1036,8 @@ msgid ""
 "Notice: This player is currently excommunicated. If you send this letter, "
 "you will be also excommunicated."
 msgstr ""
-"Aviso: Este jugador está excomulgado. Si envias esta carta, "
-"tú también lo estarás."
+"Aviso: Este jugador está excomulgado. Si envias esta carta, tú también lo "
+"estarás."
 
 #: templates/machiavelli/letter_form.html:18
 #: templates/machiavelli/orders_actions.html:33
@@ -1031,10 +1065,6 @@ msgstr "Tiempo restante"
 #: templates/machiavelli/turn_log_list.html:15
 msgid "Power"
 msgstr "Estado"
-
-#: templates/machiavelli/low_karma.html:6
-msgid "Error"
-msgstr "Error"
 
 #: templates/machiavelli/low_karma.html:7
 #, python-format

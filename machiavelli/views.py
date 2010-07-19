@@ -12,6 +12,7 @@ from django.db.models import Q, Sum
 from django.views.decorators.cache import never_cache, cache_page
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 ## machiavelli
 from machiavelli.models import *
@@ -266,6 +267,17 @@ def play_retreats(request, game, player):
 							context,
 							context_instance=RequestContext(request))
 
+def game_error(request, game, message=''):
+	try:
+		player = Player.objects.get(game=game, user=request.user)
+	except:
+		player = Player.objects.none()
+	context = base_context(request, game, player)
+	context.update({'error': message })
+	return render_to_response('machiavelli/game_error.html',
+							context,
+							context_instance=RequestContext(request))
+
 #@login_required
 @cache_page(60 * 60) # cache 1 hour
 def game_results(request, slug=''):
@@ -444,9 +456,9 @@ def new_letter(request, sender_id, receiver_id):
 	receiver = get_object_or_404(Player, id=receiver_id, game=game, eliminated=False)
 	## if the game is inactive, return 404 error
 	if game.phase == 0:
-		raise Http404
+		return game_error(request, game, _("You cannot send letters in an inactive game."))
 	if player.country.can_excommunicate and receiver.excommunicated:
-		raise Http404
+		return game_error(request, game, _("You cannot write to a country that you have excommunicated."))
 	if request.method == 'POST':
 		letter_form = forms.LetterForm(player, receiver, data=request.POST)
 		if letter_form.is_valid():
@@ -461,7 +473,7 @@ def new_letter(request, sender_id, receiver_id):
 		if not player.excommunicated and receiver.excommunicated:
 			context['excom_notice'] = True
 		if player.excommunicated and not receiver.excommunicated:
-			raise Http404
+			return game_error(request, game, _("You can write letters only to other excommunicated countries."))
 	
 	context.update({'form': letter_form,
 					'sender': player,
@@ -476,7 +488,7 @@ def new_letter(request, sender_id, receiver_id):
 def excommunicate(request, slug, player_id):
 	game = get_object_or_404(Game, slug=slug)
 	if game.phase == 0 or not game.configuration.excommunication:
-		raise Http404
+		return game_error(request, game, _("You cannot excommunicate in this game."))
 	player = get_object_or_404(Player, id=player_id,
 								game=game,
 								excommunicated__isnull=True,
@@ -489,15 +501,17 @@ def excommunicate(request, slug, player_id):
 		player.excommunicate()
 	else:
 		## a player has been already excommunicated this year
-		raise Http404
+		return game_error(request, game, _("You have already excommunicated a country this year."))
 	return redirect(game)
 
 @login_required
 def reset_excommunications(request, slug):
 	game = get_object_or_404(Game, slug=slug)
 	if game.phase == 0 or not game.configuration.excommunication:
-		raise Http404
+		return game_error(request, game, _("Excommunications cannot be reset."))
 	player = get_object_or_404(Player, game=game, user=request.user)
+	if not player.can_excommunicate():
+		return game_error(request, game, _("You are not allowed to forgive excommunications."))
 	game.player_set.all().update(excommunicated=None)
 	return redirect(game)
 
