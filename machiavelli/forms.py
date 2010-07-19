@@ -39,7 +39,6 @@ class ConfigurationForm(forms.ModelForm):
 		exclude = ('finances',
 				'assassinations',
 				'bribes',
-				'excommunication',
 				'special_units',
 				'strategic',
 				'lenders')
