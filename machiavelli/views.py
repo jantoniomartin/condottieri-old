@@ -2,7 +2,7 @@
 import thread
 
 ## django
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -13,6 +13,7 @@ from django.views.decorators.cache import never_cache, cache_page
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.utils import simplejson
 
 ## machiavelli
 from machiavelli.models import *
@@ -31,6 +32,13 @@ if 'clones' in settings.INSTALLED_APPS:
 	from clones import models as clones
 else:
 	clones = None
+
+if "jogging" in settings.INSTALLED_APPS:
+	from jogging import logging
+else:
+	logging = None
+
+from machiavelli.models import Unit
 
 #@login_required
 def game_list(request):
@@ -127,12 +135,6 @@ def play_game(request, slug=''):
 		elif game.phase == PHREINFORCE:
 			return play_reinforcements(request, game, player)
 		elif game.phase == PHORDERS:
-			if player.done:
-				orders = OrderEvent.objects.filter(game=game, year=game.year,
-											season=game.season,
-											phase=game.phase,
-											country=player.country)
-				context['orders'] = orders	
 			return play_orders(request, game, player)
 		elif game.phase == PHRETREATS:
 			return play_retreats(request, game, player)
@@ -201,35 +203,79 @@ def play_reinforcements(request, game, player):
 							context_instance=RequestContext(request))
 
 def play_orders(request, game, player):
-	## receiving orders
 	context = base_context(request, game, player)
-	if player.done:
-		orders = OrderEvent.objects.filter(game=game, year=game.year,
-									season=game.season,
-									phase=game.phase,
-									country=player.country)
-		context['orders'] = orders
-	else:
-		OrderForm = forms.make_jsorder_form(player)
-		n_forms = player.unit_set.count()
-		OrderFormSet = formset_factory(OrderForm, formset=forms.BaseOrderFormSet, extra=n_forms)
+	sent_orders = Order.objects.filter(unit__in=player.unit_set.all())
+	context.update({'sent_orders': sent_orders})
+	if not player.done:
+		OrderForm = forms.make_order_form(player)
 		if request.method == 'POST':
-			orders_formset = OrderFormSet(request.POST)
-			if orders_formset.is_valid():
-				for form in orders_formset.forms:
-					new_order = utils.parse_order_form(form.cleaned_data)
-					if isinstance(new_order, Order):
-						if not new_order.code == 'H':
-							new_order.save()
-				player.end_phase()
-				return HttpResponseRedirect(request.path)
+			order_form = OrderForm(request.POST)
+			if request.is_ajax():
+				## validate the form
+				clean = order_form.is_valid()
+				response_dict = {'bad': 'false'}
+				if not clean:
+					response_dict.update({'bad': 'true'})
+					d = {}
+					for e in order_form.errors.iteritems():
+						d.update({e[0] : unicode(e[1])})
+					response_dict.update({'errs': d})
+				else:
+					new_order = Order(**order_form.cleaned_data)
+					new_order.save()
+					response_dict.update({'pk': new_order.pk ,
+										'new_order': new_order.explain()})
+				response_json = simplejson.dumps(response_dict, ensure_ascii=False)
+
+				return HttpResponse(response_json, mimetype='application/javascript')
+			## not ajax
+			else:
+				if order_form.is_valid():
+					new_order = Order(**order_form.cleaned_data)
+					new_order.save()
+					return HttpResponseRedirect(request.path)
 		else:
-			orders_formset = OrderFormSet()
-		context['orders_formset'] = orders_formset
+			order_form = OrderForm()
+		context.update({'order_form': order_form})
 	return render_to_response('machiavelli/orders_actions.html',
 							context,
 							context_instance=RequestContext(request))
 
+@login_required
+def delete_order(request, slug='', order_id=''):
+	game = get_object_or_404(Game, slug=slug)
+	player = get_object_or_404(Player, game=game, user=request.user)
+	order = get_object_or_404(Order, id=order_id, unit__player=player, confirmed=False)
+	response_dict = {'bad': 'false',
+					'order_id': order.id}
+	try:
+		order.delete()
+	except:
+		response_dict.update({'bad': 'true'})
+	if request.is_ajax():
+		response_json = simplejson.dumps(response_dict, ensure_ascii=False)
+		return HttpResponse(response_json, mimetype='application/javascript')
+		
+	return redirect(game)
+
+@login_required
+def confirm_orders(request, slug=''):
+	game = get_object_or_404(Game, slug=slug)
+	player = get_object_or_404(Player, game=game, user=request.user, done=False)
+	if request.method == 'POST':
+		sent_orders = Order.objects.filter(unit__in=player.unit_set.all())
+		for order in sent_orders:
+			if utils.order_is_possible(order):
+				order.confirm()
+				if logging:
+					logging.info("Confirmed order %s" % order.format())
+			else:
+				if logging:
+					logging.info("Deleting order %s" % order.format())
+				#order.delete()
+		player.end_phase()
+	return redirect(game)		
+	
 def play_retreats(request, game, player):
 	context = base_context(request, game, player)
 	if not player.done:

@@ -100,6 +100,11 @@ ORDER_CODES = (('H', _('Hold')),
 			   ('C', _('Convoy')),
 			   ('S', _('Support'))
 				)
+ORDER_SUBCODES = (
+				('H', _('Hold')),
+				('-', _('Advance')),
+				('=', _('Conversion'))
+)
 
 ## time limit in seconds for a game phase
 TIME_LIMITS = (
@@ -629,10 +634,9 @@ orders.
 												Q(unit__type__exact='G')))
 				if len(attacks) > 0:
 					info += u"Supporting unit is being attacked.\n"
-					params = s.suborder.split(' ')
 					for a in attacks:
-						if (params[2] == '-' and params[3] == a.unit.area.board_area.code) or \
-						(params[2] == '=' and params[3] in ['A','F'] and params[1] == a.unit.area.board_area.code):
+						if (s.subcode == '-' and s.subdestination == a.unit.area) or \
+						(s.subcode == '=' and s.subtype in ['A','F'] and s.subunit.area == a.unit.area):
 							info += u"Support is not broken.\n"
 							continue
 						else:
@@ -996,7 +1000,8 @@ Run a batch of methods in the correct order to process all the orders
 		"""
 		info = u"Processing orders in game %s\n" % self.slug
 		info += u"------------------------------\n\n"
-		## H orders were not saved
+		## delete all orders that were not confirmed
+		Order.objects.filter(unit__player__game=self, confirmed=False).delete()
 		## resolve =G that are not opposed
 		info += self.resolve_auto_garrisons()
 		info += u"\n"
@@ -1304,7 +1309,7 @@ to remove units.
 			return 0
 		cities = self.number_of_cities()
 		if self.game.configuration.disasters:
-			famines = self.gamearea_set.filter(famine=True).exclude(unit__type__exact='G').count()
+			famines = self.gamearea_set.filter(famine=True, board_area__has_city=True).exclude(unit__type__exact='G').count()
 			cities -= famines
 		units = len(self.unit_set.all())
 		place = cities - units
@@ -1495,26 +1500,24 @@ models.signals.post_save.connect(notify_overthrow_attempt, sender=Revolution)
 class UnitManager(models.Manager):
 	def get_with_strength(self, game, **kwargs):
 		u = self.get_query_set().get(**kwargs)
-		origin = u.area
-		suborder = "%s %s" % (u.type, origin.board_area.code)
+		query = Q(unit__player__game=game,
+				  code__exact='S',
+				  subunit=u)
 		try:
 			u.order
 		except:
-			suborder += " H"
+			query &= Q(subcode__exact='H')
 		else:
 			if u.order.code in ('', 'H', 'S', 'C', 'B'): #unit is holding
-				suborder += " H"
-			#elif u.order.code == 'B':
-			#	suborder += " B"
+				query &= Q(subcode__exact='H')
 			elif u.order.code == '=':
-				suborder += " = %s" % u.order.type
+				query &= Q(subcode__exact='=',
+						   subtype=u.order.type)
 			elif u.order.code == '-':
-				suborder += " - %s" % u.order.destination.board_area.code
-		support = Order.objects.filter(unit__player__game=game,
-										code__exact='S',
-										suborder__exact=suborder).count()
+				query &= Q(subcode__exact='-',
+						   subdestination=u.order.destination)
+		support = Order.objects.filter(query).count()
 		u.strength = support
-		print "%s has strength %s" % (u, u.strength)
 		return u
 
 	def list_with_strength(self, game):
@@ -1527,25 +1530,25 @@ class UnitManager(models.Manager):
 		WHERE p.game_id=%s" % game.id)
 		result_list = []
 		for row in cursor.fetchall():
-			origin = GameArea.objects.get(id=row[2])
-			suborder = "%s %s" % (row[1], origin.board_area.code)
+			support_query = Q(unit__player__game=game,
+							  code__exact='S',
+							  subunit__pk=row[0])
 			if row[6] in (None, '', 'H', 'S', 'C', 'B'): #unit is holding
-				suborder += " H"
+				support_query &= Q(subcode__exact='H')
 			elif row[6] == '=':
-				suborder += " = %s" % row[8]
+				support_query &= Q(subcode__exact='=',
+						   		subtype__exact=row[8])
 			elif row[6] == '-':
-				destination = GameArea.objects.get(id=row[7])
-				suborder += " - %s" % destination.board_area.code
-			support = Order.objects.filter(unit__player__game=game,
-											code__exact='S',
-											suborder__exact=suborder).count()
-			unit = self.model(id=row[0], type=row[1], area_id=row[2], player_id=row[3],
-							besieging=row[4], must_retreat=row[5])
+				support_query &= Q(subcode__exact='-',
+								subdestination__pk__exact=row[7])
+			support = Order.objects.filter(support_query).count()
+			unit = self.model(id=row[0], type=row[1], area_id=row[2],
+							player_id=row[3], besieging=row[4],
+							must_retreat=row[5])
 			unit.strength = support
 			result_list.append(unit)
 		result_list.sort(cmp=lambda x,y: cmp(x.strength, y.strength), reverse=True)
 		return result_list
-
 
 class Unit(models.Model):
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
@@ -1555,6 +1558,21 @@ class Unit(models.Model):
 	## must_retreat contains the code, if any, of the area where the attack came from
 	must_retreat = models.CharField(max_length=5, blank=True, default='')
 	objects = UnitManager()
+
+	def supportable_order():
+		supportable = "%s %s" % (self.type, self.area.board_area.code)
+		try:
+			self.order
+		except:
+			supportable += " H"
+		else:
+			if self.order.code in ('', 'H', 'S', 'C', 'B'): #unit is holding
+				supportable += " H"
+			elif self.order.code == '=':
+				supportable += " = %s" % self.order.type
+			elif self.order.code == '-':
+				supportable += " - %s" % self.order.destination.board_area.code
+		return supportable
 
 	def place(self):
 		if signals:
@@ -1659,65 +1677,110 @@ class Order(models.Model):
 	code = models.CharField(max_length=1, choices=ORDER_CODES)
 	destination = models.ForeignKey(GameArea, blank=True, null=True)
 	type = models.CharField(max_length=1, blank=True, null=True, choices=UNIT_TYPES)
+	## suborder field is deprecated, and will be removed
 	suborder = models.CharField(max_length=15, blank=True, null=True)
+	subunit = models.ForeignKey(Unit, related_name='affecting_orders', blank=True, null=True)
+	subcode = models.CharField(max_length=1, choices=ORDER_SUBCODES, blank=True, null=True)
+	subdestination = models.ForeignKey(GameArea, related_name='affecting_orders', blank=True, null=True)
+	subtype = models.CharField(max_length=1, blank=True, null=True, choices=UNIT_TYPES)
 	confirmed = models.BooleanField(default=False)
-
-	def suborder_dict(self):
-		if self.suborder:
-			params = self.suborder.split(" ")
-			result = {}
-			result['subtype'] = params[0]
-			result['suborigin'] = Area.objects.get(code__exact=params[1])
-			result['subcode'] = params[2]
-			if params[2] == 'H':
-				result['subdestination'] = None
-				result['subconversion'] = None
-			if params[2] == '-':
-				result['subdestination'] = Area.objects.get(code__exact=params[3])
-				result['subconversion'] = None
-			if params[2] == '=':
-				result['subdestination'] = None
-				result['subconversion'] = params[3]
-		else:
-			result = {'subtype': None,
-					'suborigin': None,
-					'subcode': None,
-					'subdestination': None,
-					'subconversion': None}
+	
+	def as_dict(self):
+		result = {
+			'id': self.pk,
+			'unit': unicode(self.unit),
+			'code': self.get_code_display(),
+			'destination': '',
+			'type': '',
+			'subunit': '',
+			'subcode': '',
+			'subdestination': '',
+			'subtype': ''
+		}
+		if isinstance(self.destination, GameArea):
+			result.update({'destination': unicode(self.destination)})
+		if not self.type == None:
+			result.update({'type': self.get_type_display()})
+		if isinstance(self.subunit, Unit):
+			result.update({'subunit': unicode(self.subunit)})
+			if not self.subcode == None:
+				result.update({'subcode': self.get_subcode_display()})
+			if isinstance(self.subdestination, GameArea):
+				result.update({'subdestination': unicode(self.subdestination)})
+			if not self.subtype == None:
+				result.update({'subtype': self.get_subtype_display()})
 
 		return result
-
-	def save(self, *args, **kwargs):
-		super(Order, self).save(*args, **kwargs)
-		params = self.suborder_dict()
-		if self.destination:
-			params['destination'] = self.destination.board_area
-		else:
-			params['destination'] = None
-		if signals:
-			signals.order_placed.send(sender=self,
-									destination=params['destination'],
-									subtype=params['subtype'],
-									suborigin=params['suborigin'],
-									subcode=params['subcode'],
-									subdestination=params['subdestination'],
-									subconversion=params['subconversion'])
-		else:
-			self.unit.player.game.log_event(OrderEvent, country=self.unit.player.country,
-													type=self.unit.type,
-													origin=self.unit.area.board_area,
-													code=self.code,
-													destination=params['destination'],
-													conversion=self.type,
-													subtype=params['subtype'],
-													suborigin=params['suborigin'],
-													subcode=params['subcode'],
-													subdestination=params['subdestination'],
-													subconversion=params['subconversion'])
+	
+	def explain(self):
+		"""
+	Returns a human readable order
+		"""
+		if self.code == 'H':
+			msg = _("%(unit)s holds its position.") % {'unit': self.unit,}
+		elif self.code == '-':
+			msg = _("%(unit)s tries to go to %(area)s.") % {
+							'unit': self.unit,
+							'area': self.destination
+							}
+		elif self.code == 'B':
+			msg = _("%(unit)s besieges the city.") % {'unit': self.unit}
+		elif self.code == '=':
+			msg = _("%(unit)s tries to convert into %(type)s.") % {
+							'unit': self.unit,
+							'type': self.get_type_display()
+							}
+		elif self.code == 'C':
+			msg = _("%(unit)s must convoy %(subunit)s to %(area)s.") % {
+							'unit': self.unit,
+							'subunit': self.subunit,
+							'area': self.subdestination
+							}
+		elif self.code == 'S':
+			if self.subcode == 'H':
+				msg=_("%(unit)s supports %(subunit)s to hold its position.") % {
+							'unit': self.unit,
+							'subunit': self.subunit
+							}
+			elif self.subcode == '-':
+				msg = _("%(unit)s supports %(subunit)s to go to %(area)s.") % {
+							'unit': self.unit,
+							'subunit': self.subunit,
+							'area': self.subdestination
+							}
+			elif self.subcode == '=':
+				msg = _("%(unit)s supports %(subunit)s to convert into %(type)s.") % {
+							'unit': self.unit,
+							'subunit': self.subunit,
+							'type': self.get_subtype_display()
+							}
+		return msg
+	
+	def confirm(self):
+		self.confirmed = True
+		self.save()
+		if self.code != 'H':
+			## do not log Hold orders
+			if signals:
+				signals.order_placed.send(sender=self)
 		if self.code != 'B':
 			self.unit.besieging = False
 			self.unit.save()
-	
+
+	def format_suborder(self):
+		"""
+Returns a string with the format (as in Machiavelli) of the suborder.
+		"""
+		if not self.subunit:
+			return ''
+		f = "%s %s" % (self.subunit.type, self.subunit.area.board_area.code)
+		f += " %s" % self.subcode
+		if self.subcode == '-':
+			f += " %s" % self.subdestination.board_area.code
+		elif self.subcode == '=':
+			f += " %s" % self.subtype
+		return f
+
 	def format(self):
 		"""
 Returns a string with the format (as in Machiavelli) of the order.
@@ -1729,7 +1792,7 @@ Returns a string with the format (as in Machiavelli) of the order.
 		elif self.code == '=':
 			f += " %s" % self.type
 		elif self.code == 'S' or self.code == 'C':
-			f += " %s" % self.suborder
+			f += " %s" % self.format_suborder()
 		return f
 
 	def find_convoy_line(self):
@@ -1739,12 +1802,20 @@ to the destination of the order.
 		"""
 		origins = [self.unit.area,]
 		destination = self.destination
-		## get all areas convoying this order AND de destination
-		convoy_areas = GameArea.objects.filter((Q(game=self.unit.player.game) &
-									Q(board_area__is_sea=True) &
-									Q(unit__order__code__exact='C') &
-									Q(unit__order__suborder__exact=self.format())) |
-									Q(id=self.destination.id))
+		## get all areas convoying this order AND the destination
+		convoy_areas = GameArea.objects.filter(
+						## in this game
+						(Q(game=self.unit.player.game) &
+						## being sea areas
+						Q(board_area__is_sea=True) &
+						## with convoy orders
+						Q(unit__order__code__exact='C') &
+						## convoying this unit
+						Q(unit__order__subunit=self.unit) &
+						## convoying to this destination
+						Q(unit__order__subdestination=self.destination)) |
+						## OR being the destination
+						Q(id=self.destination.id))
 		if len(convoy_areas) <= 1:
 			return False
 		while 1:
@@ -1760,7 +1831,6 @@ to the destination of the order.
 			if len(new_origins) == 0:
 				return False
 			origins = new_origins	
-
 	
 	def get_enemies(self):
 		"""

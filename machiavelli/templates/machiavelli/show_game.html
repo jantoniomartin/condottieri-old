@@ -145,6 +145,9 @@ the page in a few seconds.{% endblocktrans %}
 {% endblock %}
 
 {% block extra_body %}
+
+{% block extra_game %}{% endblock %}
+
 {% if map %}
 	<script type="text/javascript">
 		var STATIC_URL = "{{ STATIC_URL }}"
@@ -174,5 +177,6 @@ the page in a few seconds.{% endblocktrans %}
 	}
 	</script>
 {% endif %}
+
 
 {% endblock %}

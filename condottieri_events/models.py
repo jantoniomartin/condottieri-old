@@ -191,19 +191,33 @@ class OrderEvent(BaseEvent):
 
 def log_order(sender, **kwargs):
 	assert isinstance(sender, Order), "sender must be an Order"
+	try:
+		destination = sender.destination.board_area
+	except:
+		destination = None
+	if isinstance(sender.subunit, Unit):
+		subtype = sender.subunit.type
+		suborigin = sender.subunit.area.board_area
+	else:
+		subtype = None
+		suborigin = None
+	try:
+		subdestination = sender.subdestination.board_area
+	except:
+		subdestination = None
 	log_event(OrderEvent, sender.unit.player.game,
 					classname="OrderEvent",
 					country = sender.unit.player.country,
 					type = sender.unit.type,
 					origin = sender.unit.area.board_area,
 					code = sender.code,
-					destination = kwargs['destination'],
+					destination = destination,
 					conversion = sender.type,
-					subtype = kwargs['subtype'],
-					suborigin = kwargs['suborigin'],
-					subcode = kwargs['subcode'],
-					subdestination = kwargs['subdestination'],
-					subconversion = kwargs['subconversion'])
+					subtype = subtype,
+					suborigin = suborigin,
+					subcode = sender.subcode,
+					subdestination = subdestination,
+					subconversion = sender.subtype)
 
 order_placed.connect(log_order)
 

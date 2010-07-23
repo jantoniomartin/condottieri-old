@@ -265,6 +265,10 @@ tr.closed_game a{
 	margin-top: 2em;
 }
 
+#actions form fieldset {
+	border: solid 1px #666;
+}
+
 .action_form table {
 	margin-left: 0;
 	width: 100%;
@@ -274,7 +278,16 @@ tr.closed_game a{
 .action_form table td {
 	width: 15%;
 }
-.action_form select {
-	/*width: 8em;*/
+/*.action_form select {
 	width: 98%;
+}*/
+#sent_orders {
+	padding: 0;
+}
+
+#sent_orders li {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0.5em;
+	border: solid 1px #444;
 }

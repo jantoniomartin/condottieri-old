@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-19 14:06+0200\n"
+"POT-Creation-Date: 2010-07-23 16:33+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -32,17 +32,57 @@ msgstr "Escenario"
 msgid "Time limit"
 msgstr "Límite de tiempo"
 
-#: forms.py:63 models.py:96
-msgid "Hold"
-msgstr "Aguantar"
+#: forms.py:61 forms.py:65
+msgid "Unit"
+msgstr "Unidad"
 
-#: forms.py:64 models.py:98
-msgid "Advance"
-msgstr "Avanzar"
+#: forms.py:62 forms.py:66
+msgid "Order"
+msgstr "Orden"
 
-#: forms.py:65 models.py:99
-msgid "Conversion"
-msgstr "Conversión"
+#: forms.py:63 forms.py:67
+msgid "Destination"
+msgstr "Destino"
+
+#: forms.py:64 forms.py:68
+msgid "Convert into"
+msgstr "Convertir en"
+
+#: forms.py:91
+msgid "This unit has already an order"
+msgstr "Esta unidad ya ha recibido una orden"
+
+#: forms.py:94
+msgid "You must select an area to advance into"
+msgstr "Debes seleccionar un área a la que avanzar"
+
+#: forms.py:97
+msgid "You must select a unit type to convert into"
+msgstr "Debes seleccionar un tipo de unidad para la conversión"
+
+#: forms.py:99 forms.py:114
+msgid "A unit must convert into a different type"
+msgstr "Una unidad debe convertirse a un tipo distinto"
+
+#: forms.py:102
+msgid "You must select a unit to convoy"
+msgstr "Debes seleccionar una unidad a la que transportar"
+
+#: forms.py:104
+msgid "You must select a destination area to convoy the unit"
+msgstr "Debes seleccionar un área hasta la que transportar a la unidad"
+
+#: forms.py:107
+msgid "You must select a unit to support"
+msgstr "Debes seleccionar una unidad a la que apoyar"
+
+#: forms.py:109
+msgid "You must select a destination area for the supported unit"
+msgstr "Debes seleccionar un área de destino para la unidad apoyada"
+
+#: forms.py:112
+msgid "You must select a unit type for the supported unit"
+msgstr "Debes seleccionar un nuevo tipo para la unidad apoyada"
 
 #: models.py:75
 msgid "Army"
@@ -84,9 +124,21 @@ msgstr "Emisión de órdenes"
 msgid "Retreats"
 msgstr "Retiradas"
 
+#: models.py:96 models.py:104
+msgid "Hold"
+msgstr "Aguantar"
+
 #: models.py:97
 msgid "Besiege"
 msgstr "Asediar"
+
+#: models.py:98 models.py:105
+msgid "Advance"
+msgstr "Avanzar"
+
+#: models.py:99 models.py:106
+msgid "Conversion"
+msgstr "Conversión"
 
 #: models.py:100
 msgid "Convoy"
@@ -96,68 +148,108 @@ msgstr "Convoy"
 msgid "Support"
 msgstr "Apoyar"
 
-#: models.py:109
+#: models.py:114
 msgid "2 days"
 msgstr "2 días"
 
-#: models.py:110
+#: models.py:115
 msgid "1 day"
 msgstr "1 día"
 
-#: models.py:111
+#: models.py:116
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: models.py:1576
+#: models.py:1594
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
 
-#: models.py:1949
+#: models.py:1720
+#, python-format
+msgid "%(unit)s holds its position."
+msgstr "%(unit)s mantiene su posición."
+
+#: models.py:1722
+#, python-format
+msgid "%(unit)s tries to go to %(area)s."
+msgstr "%(unit)s intenta ir a %(area)s."
+
+#: models.py:1727
+#, python-format
+msgid "%(unit)s besieges the city."
+msgstr "%(unit)s asedia la ciudad."
+
+#: models.py:1729
+#, python-format
+msgid "%(unit)s tries to convert into %(type)s."
+msgstr "%(unit)s intenta convertirse en %(type)s."
+
+#: models.py:1734
+#, python-format
+msgid "%(unit)s must convoy %(subunit)s to %(area)s."
+msgstr "%(unit)s transporta a %(subunit)s a %(area)s."
+
+#: models.py:1741
+#, python-format
+msgid "%(unit)s supports %(subunit)s to hold its position."
+msgstr "%(unit)s apoya a %(subunit)s a mantener su posición."
+
+#: models.py:1746
+#, python-format
+msgid "%(unit)s supports %(subunit)s to go to %(area)s."
+msgstr "%(unit)s apoya a %(subunit)s a avanzar a %(area)s."
+
+#: models.py:1752
+#, python-format
+msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
+msgstr "%(unit)s apoya a %(subunit)s a convertirse en %(type)s."
+
+#: models.py:2020
 msgid "game"
 msgstr "juego"
 
-#: models.py:1950
+#: models.py:2021
 msgid "finances"
 msgstr "finanzas"
 
-#: models.py:1951
+#: models.py:2022
 msgid "assassinations"
 msgstr "asesinatos"
 
-#: models.py:1952 models.py:1954 models.py:1961
+#: models.py:2023 models.py:2025 models.py:2032
 msgid "will enable Finances"
 msgstr "se activarán las finanzas"
 
-#: models.py:1953
+#: models.py:2024
 msgid "bribes"
 msgstr "sobornos"
 
-#: models.py:1955
+#: models.py:2026
 msgid "excommunication"
 msgstr "excomunión"
 
-#: models.py:1956
+#: models.py:2027
 msgid "natural disasters"
 msgstr "desastres naturales"
 
-#: models.py:1957
+#: models.py:2028
 msgid "special units"
 msgstr "unidades especiales"
 
-#: models.py:1958
+#: models.py:2029
 msgid "will enable Finances and Bribes"
 msgstr "se activarán las finanzas y los sobornos"
 
-#: models.py:1959
+#: models.py:2030
 msgid "strategic movement"
 msgstr "movimiento estratégico"
 
-#: models.py:1960
+#: models.py:2031
 msgid "money lenders"
 msgstr "prestamistas"
 
-#: models.py:1962
+#: models.py:2033
 msgid "conquering"
 msgstr "conquista"
 
@@ -482,31 +574,31 @@ msgstr "Mediterráneo Occidental"
 msgid "Create an acccount on %(domain)s"
 msgstr "Crear una cuenta en %(domain)s"
 
-#: views.py:459
+#: views.py:506
 msgid "You cannot send letters in an inactive game."
 msgstr "No puedes enviar cartas en un juego inactivo."
 
-#: views.py:461
+#: views.py:508
 msgid "You cannot write to a country that you have excommunicated."
 msgstr "No puedes escribir a un país al que has excomulgado."
 
-#: views.py:476
+#: views.py:523
 msgid "You can write letters only to other excommunicated countries."
 msgstr "Solo puedes escribir cartas a otros paises excomulgados."
 
-#: views.py:491
+#: views.py:538
 msgid "You cannot excommunicate in this game."
 msgstr "No puedes excomulgar en este juego."
 
-#: views.py:504
+#: views.py:551
 msgid "You have already excommunicated a country this year."
 msgstr "Ya habías excomulgado a un país este año."
 
-#: views.py:511
+#: views.py:558
 msgid "Excommunications cannot be reset."
 msgstr "No se pueden cancelar las excomuniones."
 
-#: views.py:514
+#: views.py:561
 msgid "You are not allowed to forgive excommunications."
 msgstr "No estás autorizado para perdonar excomuniones."
 
@@ -1040,7 +1132,7 @@ msgstr ""
 "estarás."
 
 #: templates/machiavelli/letter_form.html:18
-#: templates/machiavelli/orders_actions.html:33
+#: templates/machiavelli/orders_actions.html:24
 msgid "Send"
 msgstr "Enviar"
 
@@ -1102,7 +1194,7 @@ msgid ""
 msgstr ""
 "Estas son las órdenes válidas (excepto Aguantar) que has enviado este turno:"
 
-#: templates/machiavelli/orders_actions.html:18
+#: templates/machiavelli/orders_actions.html:12
 msgid ""
 "\n"
 "In the next form, you have to compose an order for each of your units. You "
@@ -1115,7 +1207,7 @@ msgstr ""
 "unidades. No puedes dar más de una orden a la misma unidad.Si quieres que "
 "una unidad no haga nada, elige la opción \"Aguantar\" para ella.\n"
 
-#: templates/machiavelli/orders_actions.html:22
+#: templates/machiavelli/orders_actions.html:16
 msgid ""
 "If you compose an order that break the rules, you should see an error and "
 "you will have to fix the order. However, if you compose an impossible order, "
@@ -1125,17 +1217,35 @@ msgstr ""
 "tendrás que corregir la orden. Sin embargo, si compones una orden imposible, "
 "la unidad aguantará, en lugar de llevar a cabo su orden. Ten cuidado."
 
-#: templates/machiavelli/orders_actions.html:28
-msgid "Unit"
-msgstr "Unidad"
-
-#: templates/machiavelli/orders_actions.html:29
-msgid "Order"
-msgstr "Orden"
-
 #: templates/machiavelli/orders_actions.html:30
-msgid "Parameters"
-msgstr "Parámetros"
+msgid "Sent orders"
+msgstr "Órdenes enviadas"
+
+#: templates/machiavelli/orders_actions.html:36
+#: templates/machiavelli/orders_actions.html:56
+msgid "Delete"
+msgstr "Borrar"
+
+#: templates/machiavelli/orders_actions.html:44
+msgid ""
+"The orders above are saved but <strong>are not confirmed</strong>. If you "
+"don't confirm your orders, they will be ignored."
+msgstr ""
+"Las órdenes anteriores están guardadas pero <strong>no confirmadas</strong>. "
+"Si no confirmas tus órdenes, serán ignoradas."
+
+#: templates/machiavelli/orders_actions.html:45
+msgid ""
+"Once you have confirmed your orders, you will not be able to change or "
+"delete them. To confirm the orders and end your phase, click the \"Confirm\" "
+"button."
+msgstr ""
+"Una vez hayas confirmado tus órdenes, no podrás cambiarlas ni borrarlas. "
+"Para confirmar tus órdenes y terminar tu fase, pulsa e botón \"Confirmar\"."
+
+#: templates/machiavelli/orders_actions.html:46
+msgid "Confirm"
+msgstr "Confirmar"
 
 #: templates/machiavelli/reinforcements_actions.html:6
 msgid "Military Adjustment"
@@ -1335,6 +1445,9 @@ msgstr "Procesamiento de órdenes en el juego"
 #: templates/machiavelli/turn_log_list.html:40
 msgid "Timestamp"
 msgstr "Tiempo"
+
+#~ msgid "Parameters"
+#~ msgstr "Parámetros"
 
 #~ msgid "Enabled rules"
 #~ msgstr "Reglas activas"
