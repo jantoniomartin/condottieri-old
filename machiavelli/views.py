@@ -117,7 +117,7 @@ def play_game(request, slug=''):
 		##################################
 		## IP TRACKING FOR CLONES DETECTION
 		if clones:
-			if request.method == 'POST':
+			if request.method == 'POST' and not request.is_ajax():
 				try:
 					fp = clones.Fingerprint(user=request.user,
 											game=game,
