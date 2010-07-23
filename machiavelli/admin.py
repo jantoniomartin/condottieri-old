@@ -46,7 +46,7 @@ class SetupAdmin(admin.ModelAdmin):
 	list_display = ('scenario', 'country', 'area', 'unit_type')
 
 class OrderAdmin(admin.ModelAdmin):
-	list_display = ('player_info', '__unicode__', 'confirmed')
+	list_display = ('player_info', '__unicode__', 'explain', 'confirmed')
 	list_filter = ('confirmed',)
 
 	def player_info(self, obj):
