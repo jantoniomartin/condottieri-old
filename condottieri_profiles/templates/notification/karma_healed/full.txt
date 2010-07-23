@@ -1,0 +1,8 @@
+{% load i18n %}
+
+{% blocktrans %}You have recovered enough karma to join a game or create a new
+one.{% endblocktrans %}
+
+{% blocktrans %}Before joining or creating a game, please, be sure that you
+are really interested in playing it.{% endblocktrans %}
+
