@@ -449,7 +449,7 @@ def log_excommunication(sender, **kwargs):
 	assert isinstance(sender, Player), "sender must be a Player"
 	log_event(CountryEvent, sender.game,
 					classname="CountryEvent",
-					country = kwargs['country'],
+					country = sender.country,
 					message = 2)
 
 country_excommunicated.connect(log_excommunication)

@@ -102,6 +102,27 @@ def base_context(request, game, player):
 		
 	return context
 
+#@never_cache
+#def js_play_game(request, slug=''):
+#	game = get_object_or_404(Game, slug=slug)
+#	try:
+#		player = Player.objects.get(game=game, user=request.user)
+#	except:
+#		player = Player.objects.none()
+#	units = Unit.objects.filter(player__game=game)
+#	player_list = game.player_list_ordered_by_cities()
+#	context = {
+#		'game': game,
+#		'player': player,
+#		'map': 'base-map.png',
+#		'units': units,
+#		'player_list': player_list,
+#	}
+#	return render_to_response('machiavelli/js_game.html',
+#						context,
+#						context_instance=RequestContext(request))
+#
+
 @never_cache
 #@login_required
 def play_game(request, slug=''):
