@@ -36,16 +36,18 @@ def order_is_possible(order):
 				if order.unit.area.board_area.is_adjacent(order.destination.board_area, fleet=True):
 					return order
 	elif order.code == 'B':
-		## only A and F can besiege
-		if order.unit.type in ('A', 'F') and order.unit.area.board_area.is_fortified:
-			## is there an enemy Garrison in the city
-			try:
-				gar = Unit.objects.get(type='G', area=order.unit.area)
-			except:
-				return False
-			else:
-				if gar.player != order.unit.player:
-					return order
+		## only fortified cities can be besieged
+		if order.unit.area.board_area.is_fortified:
+			## only As and Fs in ports can besiege
+			if order.unit.type == 'A' or (order.unit.type == 'F' and order.unit.area.board_area.has_port):
+				## is there an enemy Garrison in the city
+				try:
+					gar = Unit.objects.get(type='G', area=order.unit.area)
+				except:
+					return False
+				else:
+					if gar.player != order.unit.player:
+						return order
 	elif order.code == '=':
 		if order.unit.area.board_area.is_fortified:
 			if order.unit.type == 'G':
