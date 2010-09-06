@@ -22,7 +22,7 @@ from datetime import datetime, timedelta
 ## django
 from django.db import models
 from django.db.models import permalink, Q, Count
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.contrib.auth.models import User
 import django.forms as forms
 from django.utils.translation import ugettext_lazy as _
@@ -1393,8 +1393,10 @@ Returns a queryset with the GameAreas that accept new units.
 				try:
 					Player.objects.get(game=self.game,
 									excommunicated=self.game.year)
-				except:
+				except ObjectDoesNotExist:
 					return True
+				except MultipleObjectsReturned:
+					return False
 		return False
 	
 	def excommunicate(self, year=None):
