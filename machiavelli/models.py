@@ -1393,7 +1393,7 @@ Returns a queryset with the GameAreas that accept new units.
 				try:
 					Player.objects.get(game=self.game,
 									excommunicated=self.game.year)
-				except ObjectDoesNotExist:
+				except:
 					return True
 		return False
 	
