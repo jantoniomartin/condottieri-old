@@ -1777,7 +1777,9 @@ Returns a string with the format (as in Machiavelli) of the suborder.
 			return ''
 		f = "%s %s" % (self.subunit.type, self.subunit.area.board_area.code)
 		f += " %s" % self.subcode
-		if self.subcode == '-':
+		if self.subcode == None and self.subdestination != None:
+			f += "- %s" % self.subdestination.board_area.code
+		elif self.subcode == '-':
 			f += " %s" % self.subdestination.board_area.code
 		elif self.subcode == '=':
 			f += " %s" % self.subtype
