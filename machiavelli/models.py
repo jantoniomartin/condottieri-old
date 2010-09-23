@@ -819,6 +819,10 @@ area and which units must retreat.
 					## if attacker is not as strong as defender, the invasion
 					## is conditioned to the defender leaving the area
 					if strength >= s:
+						## if the defender is trying to exchange areas with
+						## the attacker, there is a standoff in the defender's
+						## area
+						## TODO
 						info += u"%s's movement is conditioned.\n" % u
 						inv = Invasion(u, defender.area)
 						if u.order.code == '-':
@@ -1561,6 +1565,18 @@ class Unit(models.Model):
 	must_retreat = models.CharField(max_length=5, blank=True, default='')
 	objects = UnitManager()
 
+	def get_attacked_area():
+		"""
+	If the unit has orders, get the attacked area, if any. This method is only
+	a proxy of the Order method with the same name.
+		"""
+		try:
+			self.order
+		except:
+			return GameArea.objects.none()
+		else:
+			return self.order.get_attacked_area()
+
 	def supportable_order():
 		supportable = "%s %s" % (self.type, self.area.board_area.code)
 		try:
@@ -1928,6 +1944,9 @@ Returns a Unit trying to stay in the destination area of this order, or None
 		return defender
 	
 	def get_attacked_area(self):
+		"""
+	Returns the game area being attacked by this order
+		"""
 		if self.code == '-':
 			return self.destination
 		elif self.code == '=':
