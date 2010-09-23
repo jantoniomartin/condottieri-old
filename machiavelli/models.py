@@ -1569,7 +1569,7 @@ class Unit(models.Model):
 	must_retreat = models.CharField(max_length=5, blank=True, default='')
 	objects = UnitManager()
 
-	def get_attacked_area():
+	def get_attacked_area(self):
 		"""
 	If the unit has orders, get the attacked area, if any. This method is only
 	a proxy of the Order method with the same name.
@@ -1581,7 +1581,7 @@ class Unit(models.Model):
 		else:
 			return self.order.get_attacked_area()
 
-	def supportable_order():
+	def supportable_order(self):
 		supportable = "%s %s" % (self.type, self.area.board_area.code)
 		try:
 			self.order
