@@ -765,7 +765,7 @@ area and which units must retreat.
 			rivals = u.order.get_rivals()
 			defender = u.order.get_defender()
 			info += u"Unit has %s rivals.\n" % len(rivals)
-			conflict_area = u.order.get_attacked_area()
+			conflict_area = u.get_attacked_area()
 			## check if the conflict area is reachable
 			if u.order.code == '-':
 				if not (u.area.board_area.is_adjacent(conflict_area.board_area,
@@ -816,21 +816,25 @@ area and which units must retreat.
 						strength = Unit.objects.get_with_strength(self,
 														id=defender.id).strength
 					info += u"Defender %s has %s supports.\n" % (defender, strength)
-					## if attacker is not as strong as defender, the invasion
-					## is conditioned to the defender leaving the area
+					## if attacker is not as strong as defender
 					if strength >= s:
 						## if the defender is trying to exchange areas with
 						## the attacker, there is a standoff in the defender's
 						## area
-						## TODO
-						info += u"%s's movement is conditioned.\n" % u
-						inv = Invasion(u, defender.area)
-						if u.order.code == '-':
-							info += u"%s might get empty.\n" % u.area
-							conditioned_origins.append(u.area)
-						elif u.order.code == '=':
-							inv.conversion = u.order.type
-						conditioned_invasions.append(inv)
+						if defender.get_attacked_area() == u.area:			
+							defender.area.mark_as_standoff()
+							info += u"Trying to exchange areas.\n"
+							info += u"Standoff in %s.\n" % defender.area
+						else:
+						## the invasion is conditioned to the defender leaving
+							info += u"%s's movement is conditioned.\n" % u
+							inv = Invasion(u, defender.area)
+							if u.order.code == '-':
+								info += u"%s might get empty.\n" % u.area
+								conditioned_origins.append(u.area)
+							elif u.order.code == '=':
+								inv.conversion = u.order.type
+							conditioned_invasions.append(inv)
 					## if the defender is weaker, the area is invaded and the
 					## defender must retreat
 					else:
