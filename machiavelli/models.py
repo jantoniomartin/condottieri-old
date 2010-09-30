@@ -339,6 +339,7 @@ populated when the game is started, from the scenario data.
 			self.phase = PHORDERS
 			self.create_game_board()
 			self.shuffle_countries()
+			self.home_control_markers()
 			self.place_initial_units()
 			#self.map_outdated = True
 			self.make_map()
@@ -399,6 +400,10 @@ start of the game.
 				if s.unit_type:
 					new_unit = Unit(type='G', area=a, player=autonomous)
 					new_unit.save()
+
+	def home_control_markers(self):
+		for p in self.player_set.filter(user__isnull=False):
+			p.home_control_markers()
 
 	def place_initial_units(self):
 		for p in self.player_set.filter(user__isnull=False):
@@ -1285,6 +1290,12 @@ class Player(models.Model):
 		return Setup.objects.filter(scenario=self.game.scenario,
 				country=self.country).select_related()
 	
+	def home_control_markers(self):
+		"""
+		Assign each GameArea the player as owner
+		"""
+		self.home_country().update(player=self)
+	
 	def place_initial_units(self):
 		for s in self.get_setups():
 			try:
@@ -1292,8 +1303,8 @@ class Player(models.Model):
 			except:
 				print "Error 2: Area not found!"
 			else:
-				a.player = self
-				a.save()
+				#a.player = self
+				#a.save()
 				if s.unit_type:
 					new_unit = Unit(type=s.unit_type, area=a, player=self)
 					new_unit.save()
