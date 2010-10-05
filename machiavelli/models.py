@@ -1167,7 +1167,8 @@ In a finished game, delete all the data that is not going to be used anymore.
 
 	def notify_players(self, label, extra_context=None, on_site=True):
 		if notification:
-			users = User.objects.filter(player__game=self)
+			users = User.objects.filter(player__game=self,
+										player__eliminated=False)
 			notification.send(users, label, extra_context, on_site)
 
 	def tweet_message(self, message):
