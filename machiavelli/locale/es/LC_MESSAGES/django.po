@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-23 16:33+0200\n"
+"POT-Creation-Date: 2010-10-06 12:45+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -160,96 +160,96 @@ msgstr "1 día"
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: models.py:1594
+#: models.py:1637
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
 
-#: models.py:1720
+#: models.py:1763
 #, python-format
 msgid "%(unit)s holds its position."
 msgstr "%(unit)s mantiene su posición."
 
-#: models.py:1722
+#: models.py:1765
 #, python-format
 msgid "%(unit)s tries to go to %(area)s."
 msgstr "%(unit)s intenta ir a %(area)s."
 
-#: models.py:1727
+#: models.py:1770
 #, python-format
 msgid "%(unit)s besieges the city."
 msgstr "%(unit)s asedia la ciudad."
 
-#: models.py:1729
+#: models.py:1772
 #, python-format
 msgid "%(unit)s tries to convert into %(type)s."
 msgstr "%(unit)s intenta convertirse en %(type)s."
 
-#: models.py:1734
+#: models.py:1777
 #, python-format
 msgid "%(unit)s must convoy %(subunit)s to %(area)s."
 msgstr "%(unit)s transporta a %(subunit)s a %(area)s."
 
-#: models.py:1741
+#: models.py:1784
 #, python-format
 msgid "%(unit)s supports %(subunit)s to hold its position."
 msgstr "%(unit)s apoya a %(subunit)s a mantener su posición."
 
-#: models.py:1746
+#: models.py:1789
 #, python-format
 msgid "%(unit)s supports %(subunit)s to go to %(area)s."
 msgstr "%(unit)s apoya a %(subunit)s a avanzar a %(area)s."
 
-#: models.py:1752
+#: models.py:1795
 #, python-format
 msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
 msgstr "%(unit)s apoya a %(subunit)s a convertirse en %(type)s."
 
-#: models.py:2020
+#: models.py:2068
 msgid "game"
 msgstr "juego"
 
-#: models.py:2021
+#: models.py:2069
 msgid "finances"
 msgstr "finanzas"
 
-#: models.py:2022
+#: models.py:2070
 msgid "assassinations"
 msgstr "asesinatos"
 
-#: models.py:2023 models.py:2025 models.py:2032
+#: models.py:2071 models.py:2073 models.py:2080
 msgid "will enable Finances"
 msgstr "se activarán las finanzas"
 
-#: models.py:2024
+#: models.py:2072
 msgid "bribes"
 msgstr "sobornos"
 
-#: models.py:2026
+#: models.py:2074
 msgid "excommunication"
 msgstr "excomunión"
 
-#: models.py:2027
+#: models.py:2075
 msgid "natural disasters"
 msgstr "desastres naturales"
 
-#: models.py:2028
+#: models.py:2076
 msgid "special units"
 msgstr "unidades especiales"
 
-#: models.py:2029
+#: models.py:2077
 msgid "will enable Finances and Bribes"
 msgstr "se activarán las finanzas y los sobornos"
 
-#: models.py:2030
+#: models.py:2078
 msgid "strategic movement"
 msgstr "movimiento estratégico"
 
-#: models.py:2031
+#: models.py:2079
 msgid "money lenders"
 msgstr "prestamistas"
 
-#: models.py:2033
+#: models.py:2081
 msgid "conquering"
 msgstr "conquista"
 
@@ -574,31 +574,31 @@ msgstr "Mediterráneo Occidental"
 msgid "Create an acccount on %(domain)s"
 msgstr "Crear una cuenta en %(domain)s"
 
-#: views.py:506
+#: views.py:526
 msgid "You cannot send letters in an inactive game."
 msgstr "No puedes enviar cartas en un juego inactivo."
 
-#: views.py:508
+#: views.py:528
 msgid "You cannot write to a country that you have excommunicated."
 msgstr "No puedes escribir a un país al que has excomulgado."
 
-#: views.py:523
+#: views.py:543
 msgid "You can write letters only to other excommunicated countries."
 msgstr "Solo puedes escribir cartas a otros paises excomulgados."
 
-#: views.py:538
+#: views.py:558
 msgid "You cannot excommunicate in this game."
 msgstr "No puedes excomulgar en este juego."
 
-#: views.py:551
+#: views.py:571
 msgid "You have already excommunicated a country this year."
 msgstr "Ya habías excomulgado a un país este año."
 
-#: views.py:558
+#: views.py:578
 msgid "Excommunications cannot be reset."
 msgstr "No se pueden cancelar las excomuniones."
 
-#: views.py:561
+#: views.py:581
 msgid "You are not allowed to forgive excommunications."
 msgstr "No estás autorizado para perdonar excomuniones."
 
@@ -1013,6 +1013,10 @@ msgstr "Estado"
 #: templates/machiavelli/game_list.html:102
 msgid "Finished games"
 msgstr "Juegos terminados"
+
+#: templates/machiavelli/game_list.html:108
+msgid "Winner"
+msgstr "Vencedor"
 
 #: templates/machiavelli/game_results.html:5
 msgid "Game results"

@@ -105,12 +105,14 @@ you will get some karma for your sacrifice.{% endblocktrans %}</p>
 	<tr>
 	<th>{% trans "Game" %}</th>
 	<th>{% trans "Scenario" %}</th>
+	<th>{% trans "Winner" %}</th>
 	</tr>
 	</thead>
 	{% for game in finished_games %}
 	<tr>
 		<td><a href="{{ game.get_absolute_url }}">{{ game.slug }}</a></td>
 		<td><a href="{% url show-scenario game.scenario.pk %}">{{ game.scenario.title }}</a></td>
+		<td><a href="{% url profile_detail username=game.highest_score.user.username %}">{{ game.highest_score.user }}</a> ({{ game.highest_score.country }})</td>
 	</tr>
 	{% endfor %}
 

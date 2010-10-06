@@ -304,6 +304,15 @@ populated when the game is started, from the scenario data.
 			result_list.append(Player.objects.get(id=row[0]))
 		return result_list
 
+	def highest_score(self):
+		"""
+	Returns the Score with the highest points value
+		"""
+		if self.slots > 0 or self.phase != PHINACTIVE:
+			return Score.objects.none()
+		scores = self.score_set.all().order_by('-points')
+		return scores[0]
+
 	##------------------------
 	## map methods
 	##------------------------
