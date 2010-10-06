@@ -43,7 +43,7 @@ from machiavelli.models import Unit
 #@login_required
 def game_list(request):
 	active_games = Game.objects.exclude(slots=0, phase=PHINACTIVE)
-	finished_games = Game.objects.filter(slots=0, phase=PHINACTIVE)
+	finished_games = Game.objects.filter(slots=0, phase=PHINACTIVE).order_by('-id')
 	if request.user.is_authenticated():
 		other_games = active_games.exclude(player__user=request.user)
 		your_games = active_games.filter(player__user=request.user)
