@@ -1271,6 +1271,7 @@ class Score(models.Model):
 	country = models.ForeignKey(Country)
 	points = models.PositiveIntegerField(default=0)
 	cities = models.PositiveIntegerField(default=0)
+	position = models.PositiveIntegerField(default=0)
 
 	def __unicode__(self):
 		return "%s (%s)" % (self.user, self.game)
