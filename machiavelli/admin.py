@@ -27,7 +27,7 @@ class RevolutionAdmin(admin.ModelAdmin):
 	list_display = ('government', 'opposition')
 
 class ScoreAdmin(admin.ModelAdmin):
-	list_display = ('user', 'game', 'country', 'points', 'cities')
+	list_display = ('user', 'game', 'country', 'points', 'cities', 'position')
 	list_filter = ('game', 'user', 'country')
 	ordering = ['game']
 
