@@ -583,7 +583,8 @@ if all the players have finished.
 		for p in self.player_set.exclude(user=None):
 			## get the players that control part of this player's home country
 			controllers = self.player_set.filter(gamearea__board_area__home__country=p.country,
-									gamearea__board_area__home__scenario=self.scenario).distinct()
+									gamearea__board_area__home__scenario=self.scenario,
+									gamearea__board_area__home__is_home=True).distinct()
 			if len(controllers) == 1:
 				 ## all the areas in home country belong to the same player
 				 if p != controllers[0] and p.conqueror != controllers[0]:
@@ -1306,7 +1307,9 @@ class Player(models.Model):
 		"""
 		Assign each GameArea the player as owner
 		"""
-		self.home_country().update(player=self)
+		GameArea.objects.filter(game=self.game,
+								board_area__home__scenario=self.game.scenario,
+								board_area__home__country=self.country).update(player=self)
 	
 	def place_initial_units(self):
 		for s in self.get_setups():
@@ -1355,7 +1358,8 @@ Returns a queryset with Game Areas in home country
 		"""
 		return GameArea.objects.filter(game=self.game,
 									board_area__home__scenario=self.game.scenario,
-									board_area__home__country=self.country)
+									board_area__home__country=self.country,
+									board_area__home__is_home=True)
 
 	def controlled_home_country(self):
 		"""
@@ -1377,6 +1381,7 @@ Returns a queryset with the GameAreas that accept new units.
 			areas = GameArea.objects.filter(Q(player=self) &
 										Q(board_area__has_city=True) &
 										Q(board_area__home__scenario=self.game.scenario) &
+										Q(board_area__home__is_home=True) &
 										Q(famine=False) &
 										(Q(board_area__home__country=self.country) |
 										Q(board_area__home__country__in=conq_countries)))
