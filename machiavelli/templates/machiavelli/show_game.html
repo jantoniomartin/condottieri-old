@@ -16,7 +16,7 @@
 {% if player %}
 <li>{% trans "Power" %}:
 	{% if player.country %}
-		{% trans player.country %}
+		{{ player.country }}
 	{% endif %}
 </li>
 {% else %}
@@ -47,7 +47,7 @@
 {% for p in player_list %}
 	{% if p.user %}
 	<div class="player {{ p.country.css_class }}">
-	<div><strong>{% trans p.country %}</strong>
+	<div><strong>{{ p.country }}</strong>
 	{% if p.conqueror %}
 		({{ p.conqueror.country }})
 	{% endif %}
@@ -151,7 +151,7 @@ the page in a few seconds.{% endblocktrans %}
 {% if map %}
 	<script type="text/javascript">
 		var STATIC_URL = "{{ STATIC_URL }}"
-		ver MEDIA_URL = "{{ MEDIA_URL }}"
+		var MEDIA_URL = "{{ MEDIA_URL }}"
 	</script>
 	<!-- Import the prototype library -->
 	<script type="text/javascript" src="{{ STATIC_URL }}machiavelli/js/prototype-1.5.0.js"></script>
@@ -166,7 +166,7 @@ the page in a few seconds.{% endblocktrans %}
 	
 	window.onload = function() {
 		viewer = new experience.panorama.Viewer({
-			ImageURL: MEDIA_URL + maps/{{ map }}",
+			ImageURL: MEDIA_URL + "maps/{{ map }}",
 			ImageWidth: 1250,
 			ImageHeight: 1780,
 			RenderIn: 'map',
