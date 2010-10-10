@@ -231,6 +231,7 @@ class Home(models.Model):
 	scenario = models.ForeignKey(Scenario)
 	country = models.ForeignKey(Country)
 	area = models.ForeignKey(Area)
+	is_home = models.BooleanField(default=True)
 
 	def __unicode__(self):
 		return "%s" % self.area.name
