@@ -36,6 +36,7 @@ phases of the game. This time limit is reset when all the players have completed
 
 <div style="width: 50%">
 <form action="{% url new-game %}" method="post" class="uniForm">
+{% csrf_token %}
 <fieldset class="inlineLabels">
 {{ game_form|as_uni_form }}
 <h3>{% trans "Rules" %}</h3>

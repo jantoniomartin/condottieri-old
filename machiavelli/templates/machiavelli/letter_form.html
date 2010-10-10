@@ -13,6 +13,7 @@ New letter for {{ country }}
 {% endif %}
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 <form action="{% url new-letter sender.id receiver.id %}" method="post">
+{% csrf_token %}
 {{ form.body.errors }}
 <p>{{ form.body }}</p>
 <p><input type="submit" value="{% trans "Send" %}" />

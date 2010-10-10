@@ -17,6 +17,7 @@ orders. If you want a unit to do nothing, select the "Hold" option for it.
 {% if order_form %}
 <div class="action_form">
 <form action="{% url show-game game.slug %}" method="post" id="order_form">
+{% csrf_token %}
 <div id="emsg">&nbsp;</div>
 <fieldset>
 {{ order_form.as_p }}
@@ -41,6 +42,7 @@ orders. If you want a unit to do nothing, select the "Hold" option for it.
 
 {% ifequal player.done 0 %}
 <form action="{% url confirm-orders game.slug %}" method="POST" />
+{% csrf_token %}
 <p>{% blocktrans %}The orders above are saved but <strong>are not confirmed</strong>. If you don't confirm your orders, they will be ignored.{% endblocktrans %}</p>
 <p>{% blocktrans %}Once you have confirmed your orders, you will not be able to change or delete them. To confirm the orders and end your phase, click the "Confirm" button.{% endblocktrans %}</p>
 <input type="submit" value="{% trans "Confirm" %}" />

@@ -20,6 +20,7 @@ players have done it or the time limit is reached.{% endblocktrans %}</p>
 {% endblocktrans %}</p>
 
 <form action="{% url show-game game.slug %}" method="post">
+{% csrf_token %}
 
 {% if reinforce_form %}
 <p>{% blocktrans count units_to_place as counter %} You have to place <b>{{ units_to_place }}</b> unit in the map.

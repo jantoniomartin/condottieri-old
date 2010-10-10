@@ -9,6 +9,7 @@
 <h1>{% trans "Profile for" %} {{ user.username }}</h1>
 
 <form action="{% url profile_edit %}" method="POST" class="uniForm">
+{% csrf_token %}
 <fieldset class="inlineLabels">
 {{ form|as_uni_form }}
 <div class="form_block">

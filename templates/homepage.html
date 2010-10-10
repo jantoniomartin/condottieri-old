@@ -59,6 +59,7 @@
     </p>
     
     <form method="POST" action="">
+        {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="{% trans "Sign up" %}" />
     </form>
@@ -70,6 +71,7 @@
 	</p>
     
     <form method="GET" action="{% url acct_signup %}">
+        {% csrf_token %}
         <input type="text" name="code" />
         <input type="submit" value="{% trans "Sign up" %}" />
     </form>

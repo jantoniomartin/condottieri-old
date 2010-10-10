@@ -10,6 +10,7 @@
 players have done it or the time limit is reached.{% endblocktrans %}</p>
 {% else %}
 <form action="{% url show-game game.slug %}" method="post">
+{% csrf_token %}
 {% if retreat_forms %}
 <p>{% blocktrans %}
 Some of your units have been defeated and must retreat. For each unit, you can decide a retreat area
