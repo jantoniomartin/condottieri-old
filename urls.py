@@ -11,19 +11,21 @@ admin.autodiscover()
 from account.openid_consumer import PinaxConsumer
 from waitinglist.forms import WaitingListEntryForm
 
+handler500 = "pinax.views.server_error"
+
 
 # @@@ turn into template tag
-def homepage(request):
-    if request.method == "POST":
-        form = WaitingListEntryForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse("waitinglist_sucess"))
-    else:
-        form = WaitingListEntryForm()
-    return direct_to_template(request, "homepage.html", {
-        "form": form,
-    })
+#def homepage(request):
+#    if request.method == "POST":
+#        form = WaitingListEntryForm(request.POST)
+#        if form.is_valid():
+#            form.save()
+#            return HttpResponseRedirect(reverse("waitinglist_sucess"))
+#    else:
+#        form = WaitingListEntryForm()
+#    return direct_to_template(request, "homepage.html", {
+#        "form": form,
+#    })
 
 
 if settings.ACCOUNT_OPEN_SIGNUP:
@@ -33,7 +35,7 @@ else:
 
 
 urlpatterns = patterns('',
-    url(r'^$', homepage, name="home"),
+    url(r'^$', direct_to_template, { "template": "homepage.html" }, name="home"),
     url(r'^success/$', direct_to_template, {"template": "waitinglist/success.html"}, name="waitinglist_sucess"),
     
     url(r'^admin/invite_user/$', 'signup_codes.views.admin_invite_user', name="admin_invite_user"),
@@ -42,9 +44,9 @@ urlpatterns = patterns('',
     (r'^about/', include('about.urls')),
     (r'^account/', include('account.urls')),
     (r'^openid/(.*)', PinaxConsumer()),
-    (r'^profiles/', include('basic_profiles.urls')),
+    #(r'^profiles/', include('basic_profiles.urls')),
     (r'^notices/', include('notification.urls')),
-    (r'^announcements/', include('announcements.urls')),
+    #(r'^announcements/', include('announcements.urls')),
     
     (r'^admin/(.*)', admin.site.root),
 		
