@@ -1352,7 +1352,8 @@ to remove units.
 		"""
 Returns a queryset with Game Areas in home country
 		"""
-		return GameArea.objects.filter(board_area__home__scenario=self.game.scenario,
+		return GameArea.objects.filter(game=self.game,
+									board_area__home__scenario=self.game.scenario,
 									board_area__home__country=self.country)
 
 	def controlled_home_country(self):
