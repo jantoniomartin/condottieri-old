@@ -627,8 +627,16 @@ def show_letter(request, letter_id):
 #@login_required
 @cache_page(60 * 10)
 def hall_of_fame(request):
-	profiles = CondottieriProfile.objects.all().order_by('-total_score')
-	#users = User.objects.all().annotate(total_score=Sum('score__points')).order_by('-total_score')
+	profiles_list = CondottieriProfile.objects.all().order_by('-total_score')
+	paginator = Paginator(profiles_list, 1)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		profiles = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		profiles = paginator.page(paginator.num_pages)
 	context = {'profiles': profiles}
 	return render_to_response('machiavelli/hall_of_fame.html',
 							context,
