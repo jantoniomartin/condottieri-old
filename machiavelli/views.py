@@ -628,7 +628,7 @@ def show_letter(request, letter_id):
 @cache_page(60 * 10)
 def hall_of_fame(request):
 	profiles_list = CondottieriProfile.objects.all().order_by('-total_score')
-	paginator = Paginator(profiles_list, 1)
+	paginator = Paginator(profiles_list, 10)
 	try:
 		page = int(request.GET.get('page', '1'))
 	except ValueError:
