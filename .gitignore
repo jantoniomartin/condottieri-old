@@ -10,3 +10,4 @@ machiavelli/fixtures/
 robots.txt
 maintenance.html*
 */migrations/
+cron/
