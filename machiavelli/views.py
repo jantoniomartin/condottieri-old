@@ -417,9 +417,8 @@ def create_game(request):
 			#autonomous = Player(game=new_game, done=True)
 			#autonomous.save()
 			return redirect('game-list')
-	else:
-		game_form = forms.GameForm(request.user)
-		config_form = forms.ConfigurationForm()
+	game_form = forms.GameForm(request.user)
+	config_form = forms.ConfigurationForm()
 	context['scenarios'] = Scenario.objects.filter(enabled=True)
 	context['game_form'] = game_form
 	context['config_form'] = config_form
