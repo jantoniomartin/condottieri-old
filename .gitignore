@@ -11,3 +11,4 @@ robots.txt
 maintenance.html*
 */migrations/
 cron/
+activate
