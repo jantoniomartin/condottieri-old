@@ -13,6 +13,13 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/agpl.txt>.
 ##
 ## This license is also included in the file COPYING
+##
+## AUTHOR: Jose Antonio Martin <jantonio.martin AT gmail DOT com>
+
+""" Class definitions for machiavelli django application
+
+Defines the core classes of the machiavelli game.
+"""
 
 ## stdlib
 import random
@@ -62,15 +69,6 @@ else:
 	import twitter
 	twitter_api = twitter.Api(username=settings.TWITTER_USER,
 							  password=settings.TWITTER_PASSWORD)
-
-if settings.TWEET_NEW_USERS:
-	def tweet_new_user(sender, instance, created, **kw):
-		if twitter_api and isinstance(instance, User):
-			if created == True:
-				message = "New user: %s" % instance.username
-				twitter_api.PostUpdate(message)
-	
-	models.signals.post_save.connect(tweet_new_user, sender=User)
 
 UNIT_TYPES = (('A', _('Army')),
               ('F', _('Fleet')),
