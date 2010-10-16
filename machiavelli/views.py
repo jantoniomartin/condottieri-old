@@ -606,7 +606,7 @@ def show_scenario(request, scenario_id):
 
 
 @login_required
-@cache_page(60 * 60)
+#@cache_page(60 * 60)
 def show_letter(request, letter_id):
 	letters = Letter.objects.filter(Q(sender__user=request.user) | Q(receiver__user=request.user))
 	try:

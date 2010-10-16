@@ -13,6 +13,13 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/agpl.txt>.
 ##
 ## This license is also included in the file COPYING
+##
+## AUTHOR: Jose Antonio Martin <jantonio.martin AT gmail DOT com>
+
+""" This application is meant to substitute the profiles in Pinax, so that the
+profiles hold more information related to the game, such as scores, and karma.
+
+"""
 
 from django.db import models
 from django.db.models.signals import post_save
@@ -25,7 +32,15 @@ KARMA_MINIMUM = settings.KARMA_MINIMUM
 KARMA_DEFAULT = settings.KARMA_DEFAULT
 KARMA_MAXIMUM = settings.KARMA_MAXIMUM
 
+
 class CondottieriProfile(models.Model):
+	""" Defines the actual profile for a Condottieri user.
+
+	Attributes:
+		user: A User object related to the profile
+		name: Charfield for the user complete name (optional)
+
+	"""
 	user = models.ForeignKey(User, unique=True, verbose_name=_('user'))
 	name = models.CharField(_('name'), max_length=50, null=True, blank=True)
 	about = models.TextField(_('about'), null=True, blank=True)
