@@ -36,17 +36,19 @@ KARMA_MAXIMUM = settings.KARMA_MAXIMUM
 class CondottieriProfile(models.Model):
 	""" Defines the actual profile for a Condottieri user.
 
-	Attributes:
-		user: A User object related to the profile
-		name: Charfield for the user complete name (optional)
-
 	"""
 	user = models.ForeignKey(User, unique=True, verbose_name=_('user'))
+	""" A User object related to the profile """
 	name = models.CharField(_('name'), max_length=50, null=True, blank=True)
+	""" The user complete name """
 	about = models.TextField(_('about'), null=True, blank=True)
+	""" More user info """
 	location = models.CharField(_('location'), max_length=40, null=True, blank=True)
+	""" Geographic location string """
 	karma = models.PositiveIntegerField(default=KARMA_DEFAULT, editable=False)
+	""" Total karma value """
 	total_score = models.PositiveIntegerField(default=0, editable=False)
+	""" Sum of game scores """
 
 	def __unicode__(self):
 		return self.user.username
@@ -56,6 +58,7 @@ class CondottieriProfile(models.Model):
 	get_absolute_url = models.permalink(get_absolute_url)
 	
 	def adjust_karma(self, k):
+		""" Adds or substracts some karma to the total """
 		if not isinstance(k, int):
 			return
 		new_karma = self.karma + k
@@ -67,8 +70,9 @@ class CondottieriProfile(models.Model):
 		self.save()
 
 def create_profile(sender, instance=None, **kwargs):
-    if instance is None:
-        return
-    profile, created = CondottieriProfile.objects.get_or_create(user=instance)
+	""" Creates a profile associated to a User	"""
+	if instance is None:
+		return
+	profile, created = CondottieriProfile.objects.get_or_create(user=instance)
 
 post_save.connect(create_profile, sender=User)
