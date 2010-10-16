@@ -41,6 +41,7 @@ else:
 from machiavelli.models import Unit
 
 #@login_required
+@cache_page(15 * 60) # cache 15 minutes
 def game_list(request):
 	active_games = Game.objects.exclude(slots=0, phase=PHINACTIVE)
 	finished_games = Game.objects.filter(slots=0, phase=PHINACTIVE).order_by('-id')
@@ -581,7 +582,7 @@ def reset_excommunications(request, slug):
 	game.player_set.all().update(excommunicated=None)
 	return redirect(game)
 
-@cache_page(60 * 10)
+@cache_page(60 * 60)
 def show_scenario(request, scenario_id):
 	scenario = get_object_or_404(Scenario, id=scenario_id, enabled=True)
 
@@ -605,7 +606,7 @@ def show_scenario(request, scenario_id):
 
 
 @login_required
-@cache_page(60 * 10)
+@cache_page(60 * 60)
 def show_letter(request, letter_id):
 	letters = Letter.objects.filter(Q(sender__user=request.user) | Q(receiver__user=request.user))
 	try:
@@ -625,7 +626,7 @@ def show_letter(request, letter_id):
 							context_instance=RequestContext(request))
 
 #@login_required
-@cache_page(60 * 10)
+@cache_page(30 * 60)
 def hall_of_fame(request):
 	profiles_list = CondottieriProfile.objects.all().order_by('-total_score')
 	paginator = Paginator(profiles_list, 10)
@@ -643,6 +644,7 @@ def hall_of_fame(request):
 							context_instance=RequestContext(request))
 
 @login_required
+@cache_page(120 * 60) # cache 2 hours
 def low_karma_error(request):
 	context = {
 		'karma': request.user.get_profile().karma,
@@ -653,6 +655,7 @@ def low_karma_error(request):
 							context_instance=RequestContext(request))
 
 @login_required
+@cache_page(60 * 60) # cache 1 hour
 def turn_log_list(request, slug=''):
 	game = get_object_or_404(Game, slug=slug)
 	log_list = game.turnlog_set.all()
