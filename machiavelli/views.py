@@ -41,7 +41,7 @@ else:
 from machiavelli.models import Unit
 
 #@login_required
-@cache_page(15 * 60) # cache 15 minutes
+#@cache_page(15 * 60) # cache 15 minutes
 def game_list(request):
 	active_games = Game.objects.exclude(slots=0, phase=PHINACTIVE)
 	finished_games = Game.objects.filter(slots=0, phase=PHINACTIVE).order_by('-id')
