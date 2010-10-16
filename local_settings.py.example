@@ -1,0 +1,115 @@
+""" Sample local_settings.py file
+
+You can edit this file and save it as local_settings.py
+"""
+
+
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+
+SERVE_MEDIA = DEBUG
+
+ADMINS=(
+	# ('John Doe', 'johndoe@example.com'),
+)
+
+MANAGERS = ADMINS
+
+DATABASES = {
+	"default" : {
+		"ENGINE": "django.db.backends.mysql",
+		"NAME": "",
+		"USER": "",
+		"PASSWORD": "",
+		"HOST": "",
+		"PORT": "",
+	}
+}
+
+TIME_ZONE = 'Europe/Madrid'
+
+ugettext = lambda s: s
+
+LANGUAGES = (
+	('en', u'English'),
+	('es', u'Spanish'),
+)
+
+#MEDIA_ROOT = ''
+#MEDIA_URL = '/media/'
+
+#STATIC_ROOT = ''
+#STATIC_URL = '/static/'
+
+#ADMIN_MEDIA_PREFIX = '/admin_media/'
+ACCOUNT_OPEN_SIGNUP = False
+ACCOUNT_REQUIRED_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = False
+ACCOUNT_EMAIL_AUTHENTICATION = False
+ACCOUNT_UNIQUE_EMAIL = EMAIL_CONFIRMATION_UNIQUE_EMAIL = False
+
+LOGIN_REDIRECT_URLNAME = "game-list"
+
+AUTHENTICATED_EXEMPT_URLS = [
+	r'^/$',
+	r'^/success/$',
+	r'^/account/signup/$',
+	r'^/account/password_reset',
+	r'^/account/confirm_email',
+	#r'/openid',
+	r'/machiavelli/$',
+	r'^/machiavelli/faq',
+	r'^machaivelli/ranking',
+	r'^machiavelli/game/(\d+)$',
+	r'^machiavelli/game/log/(\d+)$',
+	r'^machiavelli/game/results/(\d+)$',
+]
+
+AUTH_PROFILE_MODULE = 'condottieri_profiles.CondottieriProfile'
+
+CONTACT_EMAIL=''
+
+SITE_NAME=''
+
+EMAIL_HOST=''
+EMAIL_PORT=25
+EMAIL_HOST_USER=''
+EMAIL_HOST_PASSWORD=''
+EMAIL_USE_TLS=False
+
+NOTIFICATION_QUEUE_ALL=True
+
+DEFAULT_FROM_EMAIL=''
+SERVER_EMAIL=''
+SEND_BROKEN_LINKS_EMAILS=True
+
+CACHE_BACKEND = 'locmem://'
+
+## JOGGING SETTINGS
+#from jogging.handlers import DatabaseHandler
+#import logging
+
+#GLOBAL_LOG_LEVEL = logging.DEBUG # everything INFO and above is logged
+#GLOBAL_LOG_HANDLERS = [DatabaseHandler()]
+
+LOGGING = {
+	'machiavelli': {
+		'handler': DatabaseHandler(),
+		'level': logging.DEBUG,
+	}
+}
+
+## KARMA SETTINGS
+KARMA_MINIMUM = 10
+KARMA_DEFAULT = 100
+KARMA_MAXIMUM = 200
+BONUS_TIME = 0.2
+KARMA_TO_JOIN = 50
+
+## CLONES DETECTION
+## IP_HEADER is the META header that contains the IP
+#IP_HEADER = 'REMOTE_ADDR'
+IP_HEADER = 'HTTP_X_FORWARDED_FOR'
+
+## FORUM SETTINGS
+#FORUM_BASE = '/forum'
