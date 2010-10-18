@@ -4,6 +4,7 @@
 robots.txt
 settings.py
 local_settings.py
+deploy/
 logs/
 cron/
 forum/
