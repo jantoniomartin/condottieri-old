@@ -18,9 +18,6 @@
 
 """ This module defines miscellaneous functions. """
 
-import random
-
-from django.db.models import Q
 from django.conf import settings
 
 if "jogging" in settings.INSTALLED_APPS:
