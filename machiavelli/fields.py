@@ -13,6 +13,10 @@
 ## along with this program. If not, see <http://www.gnu.org/licenses/agpl.txt>.
 ##
 ## This license is also included in the file COPYING
+##
+## AUTHOR: Jose Antonio Martin <jantonio.martin AT gmail DOT com>
+
+""" This module defines custom field types. """
 
 from django.db import models
 from django.conf import settings
@@ -24,10 +28,11 @@ else:
 	modelsinspector = None
 
 class AutoTranslateField(models.CharField):
-	"""
-This class is a CharField whose contents are translated when shown to the
-user. You need an aux file (translate.py) for manage.py to make the messages.
-Taken from http://overtag.dk/wordpress/2008/07/django-auto-translation-of-field-values/
+	""" This class is a CharField whose contents are translated when shown to
+	the user. You need an aux file (translate.py) for manage.py to make the
+	messages.
+
+	Taken from http://overtag.dk/wordpress/2008/07/django-auto-translation-of-field-values/
 	"""
 	__metaclass__ = models.SubfieldBase
 	def to_python(self, value):
