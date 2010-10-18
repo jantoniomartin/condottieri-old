@@ -124,9 +124,10 @@ KARMA_MAXIMUM = settings.KARMA_MAXIMUM
 BONUS_TIME = settings.BONUS_TIME
 
 class Invasion(object):
+	""" This class is used in conflicts resolution for conditioned invasions.
+	Invasion objects are not persistent (i.e. not stored in the database).
 	"""
-This class is used in conflicts resolution for conditioned invasions.
-	"""
+
 	def __init__(self, unit, area, conv=''):
 		assert isinstance(unit, Unit), u"%s is not a Unit" % unit
 		assert isinstance(area, GameArea), u"%s is not a GameArea" % area
@@ -136,6 +137,8 @@ This class is used in conflicts resolution for conditioned invasions.
 		self.conversion = conv
 
 class Scenario(models.Model):
+	""" This class defines a Machiavelli scenario basic data. """
+
 	name = models.CharField(max_length=16, unique=True)
 	title = AutoTranslateField(max_length=128)
 	start_year = models.PositiveIntegerField()
@@ -162,6 +165,8 @@ if twitter_api and settings.TWEET_NEW_SCENARIO:
 	models.signals.post_save.connect(tweet_new_scenario, sender=Scenario)
 
 class Country(models.Model):
+	""" This class defines a Machiavelly country. """
+
 	name = AutoTranslateField(max_length=20, unique=True)
 	css_class = models.CharField(max_length=20, unique=True)
 	can_excommunicate = models.BooleanField(default=False)
@@ -170,10 +175,10 @@ class Country(models.Model):
 		return self.name
 
 class Area(models.Model):
+	""" his class describes **only** the area features in the board. The game is
+actually played in GameArea objects.
 	"""
-This model describes *only* the area features in the board. The game is
-actually played in GameArea objects
-	"""
+
 	name = AutoTranslateField(max_length=25, unique=True)
 	code = models.CharField(max_length=5 ,unique=True)
 	is_sea = models.BooleanField(default=False)
@@ -184,9 +189,12 @@ actually played in GameArea objects
 	borders = models.ManyToManyField("self", editable=False)
 
 	def is_adjacent(self, area, fleet=False):
+		""" Two areas can be adjacent through land, but not through a coast. 
+		
+		The list ``only_armies`` shows the areas that are adjacent but their
+		coasts are not, so a Fleet can move between them.
 		"""
-Two areas can be adjacent through land, but not through a coast.
-		"""
+
 		only_armies = [
 			('AVI', 'PRO'),
 			('PISA', 'SIE'),
@@ -204,9 +212,8 @@ Two areas can be adjacent through land, but not through a coast.
 		return area in self.borders.all()
 
 	def accepts_type(self, type):
-		"""
-Returns True if an given type of Unit can be in the Area
-		"""
+		""" Returns True if an given type of Unit can be in the Area. """
+
 		assert type in ('A', 'F', 'G'), 'Wrong unit type'
 		if type=='A':
 			if self.is_sea or self.code=='VEN':
@@ -226,6 +233,14 @@ Returns True if an given type of Unit can be in the Area
 		ordering = ('code',)
 
 class Home(models.Model):
+	""" This class defines which Country controls each Area in a given Scenario,
+	at the beginning of a game.
+	
+	Note that, in some special cases, a province controlled by a country does
+	not belong to the **home country** of this country. The ``is_home``
+	attribute controls that.
+	"""
+
 	scenario = models.ForeignKey(Scenario)
 	country = models.ForeignKey(Country)
 	area = models.ForeignKey(Area)
@@ -238,6 +253,8 @@ class Home(models.Model):
 		unique_together = (("scenario", "country", "area"),)
 
 class Setup(models.Model):
+	""" This class defines the initial setup of a unit in a given Scenario. """
+
 	scenario = models.ForeignKey(Scenario)
 	country = models.ForeignKey(Country, blank=True, null=True)
 	area = models.ForeignKey(Area)
@@ -251,10 +268,13 @@ class Setup(models.Model):
 
 
 class Game(models.Model):
+	""" This is the main class of the machiavelli application. It includes all the
+	logic to control the flow of the game, and to resolve conflicts.
+
+	The attributes year, season and field are null when the game is first created
+	and will be populated when the game is started, from the scenario data.
 	"""
-year, season and field are null when the game is first created and will be
-populated when the game is started, from the scenario data.
-	"""
+
 	slug = models.SlugField(max_length=20, unique=True)
 	year = models.PositiveIntegerField(blank=True, null=True)
 	season = models.PositiveIntegerField(blank=True, null=True,
@@ -304,9 +324,8 @@ populated when the game is started, from the scenario data.
 		return result_list
 
 	def highest_score(self):
-		"""
-	Returns the Score with the highest points value
-		"""
+		""" Returns the Score with the highest points value. """
+
 		if self.slots > 0 or self.phase != PHINACTIVE:
 			return Score.objects.none()
 		scores = self.score_set.all().order_by('-points')
@@ -358,9 +377,8 @@ populated when the game is started, from the scenario data.
 		#	self.make_map()
 	
 	def shuffle_countries(self):
-		"""
-Assign a Country of the Scenario to each Player
-		"""
+		""" Assign a Country of the Scenario to each Player, randomly. """
+
 		countries_dict = self.scenario.setup_set.values('country').distinct()
 		countries = []
 		for c in countries_dict:
@@ -380,9 +398,8 @@ Assign a Country of the Scenario to each Player
 			t[0].save()
 
 	def create_game_board(self):
-		"""
-Creates the GameAreas for the Game
-		"""
+		""" Creates the GameAreas for the Game.	"""
+
 		for a in Area.objects.all():
 			ga = GameArea(game=self, board_area=a)
 			ga.save()
@@ -392,10 +409,10 @@ Creates the GameAreas for the Game
 				country__isnull=True).select_related()
 	
 	def place_initial_garrisons(self):
+		""" Creates the Autonomous Player, and places the autonomous garrisons at the
+		start of the game.
 		"""
-Creates the Autonomous Player, and places the autonomous garrisons at the
-start of the game.
-		"""
+
 		## create the autonomous player
 		autonomous = Player(game=self, done=True)
 		autonomous.save()
@@ -423,9 +440,8 @@ start of the game.
 	##--------------------------
 
 	def next_phase_change(self):
-		"""
-Returns the Time of the next compulsory phase change.
-		"""
+		""" Returns the Time of the next compulsory phase change. """
+
 		## get the player with the highest karma, and not done
 		if self.phase == PHINACTIVE :
 			return False
@@ -443,10 +459,10 @@ Returns the Time of the next compulsory phase change.
 		return self.last_phase_change + duration
 	
 	def force_phase_change(self):
+		""" When the time limit is reached and one or more of the players are not
+		done, a phase change is forced.
 		"""
-When the time limit is reached and one or more of the players are not done,
-a phase change is forced.
-		"""
+
 		for p in self.player_set.all():
 			if p.done:
 				continue
@@ -467,9 +483,8 @@ a phase change is forced.
 				p.end_phase(forced=True)
 		
 	def check_time_limit(self):
-		"""
-Checks if the time limit has been reached
-		"""
+		""" Checks if the time limit has been reached. """
+
 		if not self.phase == PHINACTIVE:
 			limit = self.next_phase_change()
 			to_limit = limit - datetime.now()
@@ -477,9 +492,10 @@ Checks if the time limit has been reached
 				self.force_phase_change()
 	
 	def check_bonus_time(self):
+		""" Returns true if, when the function is called, the first BONUS_TIME% of the
+		duration has not been reached.
 		"""
-Returns true if, when the function is called, the first BONUS_TIME% of the duration has not been reached.
-		"""
+
 		duration = timedelta(0, self.time_limit * BONUS_TIME)
 		limit = self.last_phase_change + duration
 		to_limit = limit - datetime.now()
@@ -561,10 +577,10 @@ Returns true if, when the function is called, the first BONUS_TIME% of the durat
 		self.notify_players("new_phase", {"game": self}, on_site=False)
     
 	def check_next_phase(self):
+		""" When a player ends its phase, send a signal to the game. This function
+		checks if all the players have finished.
 		"""
-When a player ends its phase, send a signal to the game. This function checks
-if all the players have finished.
-		"""
+
 		for p in self.player_set.all():
 			if not p.done:
 				return False
@@ -614,10 +630,10 @@ if all the players have finished.
 	##------------------------
 
 	def get_conflict_areas(self):
+		""" Returns the orders that could result in a possible conflict these are the
+		advancing units and the units that try to convert into A or F.
 		"""
-Return the orders that could result in a possible conflict
-these are the advancing units and the units that try to convert into A or F
-		"""
+
 		conflict_orders = Order.objects.filter(unit__player__game=self, code__in=['-', '=']).exclude(type__exact='G')
 		conflict_areas = []
 		for o in conflict_orders:
@@ -634,10 +650,10 @@ these are the advancing units and the units that try to convert into A or F
 		return conflict_areas
 
 	def filter_supports(self):
+		""" Checks which Units with support orders are being attacked and delete their
+		orders.
 		"""
-Checks which Units with support orders are being attacked and delete their
-orders.
-		"""
+
 		info = u"Step 2: Cancel supports from units under attack.\n"
 		support_orders = Order.objects.filter(unit__player__game=self, code__exact='S')
 		for s in support_orders:
@@ -664,10 +680,11 @@ orders.
 		return info
 
 	def filter_convoys(self):
+		""" Checks which Units with C orders are being attacked. Checks if they
+		are going to be defeated, and if so, delete the C order. However, it
+		doesn't resolve the conflict
 		"""
-Check which Units with C orders are being attacked. Check if they are going to
-be defeated, and if so, delete the C order. However doesn't resolve the conflict
-		"""
+
 		info = u"Step 3: Cancel convoys by fleets that will be dislodged.\n"
 		## find units attacking fleets
 		sea_attackers = Unit.objects.filter(Q(player__game=self),
@@ -707,9 +724,10 @@ be defeated, and if so, delete the C order. However doesn't resolve the conflict
 		return info
 	
 	def filter_unreachable_attacks(self):
+		""" Delete the orders of units trying to go to non-adjacent areas and not
+		having a convoy line.
 		"""
-Delete the orders of units trying to go to non-adjacent areas and not having a convoy line.
-		"""
+
 		info = u"Step 4: Cancel attacks to unreachable areas.\n"
 		attackers = Order.objects.filter(unit__player__game=self, code__exact='-')
 		for o in attackers:
@@ -725,9 +743,9 @@ Delete the orders of units trying to go to non-adjacent areas and not having a c
 		return info
 	
 	def resolve_auto_garrisons(self):
+		""" Units with '= G' orders in areas without a garrison, convert into garrison.
 		"""
-Units with '= G' orders in areas without a garrison, convert into garrison
-		"""
+
 		info = u"Step 1: Garrisoning units.\n"
 		garrisoning = Unit.objects.filter(player__game=self,
 									order__code__exact='=',
@@ -747,11 +765,12 @@ Units with '= G' orders in areas without a garrison, convert into garrison
 		return info
 
 	def resolve_conflicts(self):
+		""" Conflict: When two or more units want to occupy the same area.
+		
+		This method takes all the units and decides which unit occupies each conflict
+		area and which units must retreat.
 		"""
-Conflict: When two or more units want to occupy the same area.
-This method takes all the units and decides which unit occupies each conflict
-area and which units must retreat.
-		"""
+
 		## units sorted (reverse) by a temporary strength attribute
 		## strength = 0 means unit without supports
 		info = u"Step 5: Process conflicts.\n"
@@ -1017,9 +1036,9 @@ area and which units must retreat.
 		return info
 
 	def process_orders(self):
+		""" Run a batch of methods in the correct order to process all the orders.
 		"""
-Run a batch of methods in the correct order to process all the orders
-		"""
+
 		info = u"Processing orders in game %s\n" % self.slug
 		info += u"------------------------------\n\n"
 		## delete all orders that were not confirmed
@@ -1053,9 +1072,8 @@ Run a batch of methods in the correct order to process all the orders
 		turn_log.save()
 
 	def process_retreats(self):
-		"""
-From the saved RetreaOrders, process the retreats.
-		"""
+		""" From the saved RetreaOrders, process the retreats. """
+
 		disbands = RetreatOrder.objects.filter(unit__player__game=self, area__isnull=True)
 		for d in disbands:
 			d.unit.delete()
@@ -1073,9 +1091,9 @@ From the saved RetreaOrders, process the retreats.
 				order.delete()
 	
 	def update_controls(self):
+		""" Checks which GameAreas have been controlled by a Player and update them.
 		"""
-Check which GameAreas have been controlled by a Player and update them. 
-		"""
+
 		for area in GameArea.objects.filter(Q(game=self) &
 								Q(unit__isnull=False) &
 								(Q(board_area__is_sea=False) |
@@ -1112,9 +1130,8 @@ Check which GameAreas have been controlled by a Player and update them.
 	##------------------------
 
 	def check_winner(self):
-		"""
-Returns True if at least one player has reached the cities_to_win
-		"""
+		""" Returns True if at least one player has reached the cities_to_win. """
+
 		for p in self.player_set.filter(user__isnull=False):
 			if p.number_of_cities() >= self.scenario.cities_to_win:
 				return True
@@ -1164,9 +1181,9 @@ Returns True if at least one player has reached the cities_to_win
 		self.clean_useless_data()
 
 	def clean_useless_data(self):
-		"""
-In a finished game, delete all the data that is not going to be used anymore.
-		"""
+		""" In a finished game, delete all the data that is not going to be used
+		anymore. """
+
 		self.player_set.all().delete()
 		self.gamearea_set.all().delete()
 	
@@ -1205,6 +1222,8 @@ if twitter_api and settings.TWEET_NEW_GAME:
 	models.signals.post_save.connect(tweet_new_game, sender=Game)
 
 class GameArea(models.Model):
+	""" This class defines the actual game areas where each game is played. """
+
 	game = models.ForeignKey(Game)
 	board_area = models.ForeignKey(Area)
 	## player is who controls the area, if any
@@ -1224,9 +1243,8 @@ class GameArea(models.Model):
 		return self.board_area.accepts_type(type)
 	
 	def possible_reinforcements(self):
-		"""
-Returns a _list_ of possible unit types for an area
-		"""
+		""" Returns a list of possible unit types for an area. """
+
 		existing_types = []
 		result = []
 		units = self.unit_set.all()
@@ -1266,6 +1284,8 @@ models.signals.post_save.connect(check_min_karma, sender=CondottieriProfile)
 
 
 class Score(models.Model):
+	""" This class defines the scores that a user got in a finished game. """
+
 	user = models.ForeignKey(User)
 	game = models.ForeignKey(Game)
 	country = models.ForeignKey(Country)
@@ -1277,6 +1297,8 @@ class Score(models.Model):
 		return "%s (%s)" % (self.user, self.game)
 
 class Player(models.Model):
+	""" This class defines the relationship between a User and a Game. """
+
 	user = models.ForeignKey(User, blank=True, null=True) # can be null because of autonomous units
 	game = models.ForeignKey(Game)
 	country = models.ForeignKey(Country, blank=True, null=True)
@@ -1302,9 +1324,7 @@ class Player(models.Model):
 				country=self.country).select_related()
 	
 	def home_control_markers(self):
-		"""
-		Assign each GameArea the player as owner
-		"""
+		""" Assigns each GameArea the player as owner. """
 		GameArea.objects.filter(game=self.game,
 								board_area__home__scenario=self.game.scenario,
 								board_area__home__country=self.country).update(player=self)
@@ -1323,9 +1343,8 @@ class Player(models.Model):
 					new_unit.save()
 	
 	def number_of_cities(self):
-		"""
-Return the number of _controlled_ cities
-		"""
+		""" Returns the number of cities controlled by the player. """
+
 		cities = GameArea.objects.filter(player=self, board_area__has_city=True)
 		return len(cities)
 
@@ -1333,10 +1352,10 @@ Return the number of _controlled_ cities
 		return self.unit_set.all().count()
 	
 	def units_to_place(self):
+		""" Return the number of units that the player must place. Negative if
+		the player has to remove units.
 		"""
-Get the number of units that the player must place. Negative if the player has
-to remove units.
-		"""
+
 		if not self.user:
 			return 0
 		cities = self.number_of_cities()
@@ -1351,27 +1370,25 @@ to remove units.
 		return place
 	
 	def home_country(self):
-		"""
-Returns a queryset with Game Areas in home country
-		"""
+		""" Returns a queryset with Game Areas in home country. """
+
 		return GameArea.objects.filter(game=self.game,
 									board_area__home__scenario=self.game.scenario,
 									board_area__home__country=self.country,
 									board_area__home__is_home=True)
 
 	def controlled_home_country(self):
+		""" Returns a queryset with GameAreas in home country controlled by player.
 		"""
-Returns a queryset with *Game* Areas in home country controlled by player
-		"""
+
 		return self.home_country().filter(player=self)
 
 	def controlled_home_cities(self):
 		return self.controlled_home_country().filter(board_area__has_city=True)
 
 	def get_areas_for_new_units(self):
-		"""
-Returns a queryset with the GameAreas that accept new units.
-		"""
+		""" Returns a queryset with the GameAreas that accept new units. """
+
 		if self.game.configuration.conquering:
 			conq_countries = []
 			for c in self.conquered.all():
@@ -1395,10 +1412,10 @@ Returns a queryset with the GameAreas that accept new units.
 		return areas
 
 	def check_eliminated(self):
+		""" If the player has lost all his home cities, eliminates him and disbands
+		all his units. Also deletes a possible revolution, and his control flags.
 		"""
-	If the player has lost all his home cities, eliminate him and disband all his units.
-	Also delete a possible revolution, and his control flags
-		"""
+
 		if self.user:
 			if len(self.controlled_home_cities()) <= 0:
 				self.eliminated = True
@@ -1419,10 +1436,10 @@ Returns a queryset with the GameAreas that accept new units.
 			self.save()
 
 	def can_excommunicate(self):
+		""" Returns true if player.country.can_excommunicate and nobody has been
+		excommunicated this year.
 		"""
-	Returns true if player.country.can_excommunicate and nobody has been
-	excommunicated this year
-		"""
+
 		if self.game.configuration.excommunication:
 			if self.country and self.country.can_excommunicate:
 				try:
@@ -1516,10 +1533,10 @@ Returns a queryset with the GameAreas that accept new units.
 				self.user.get_profile().adjust_karma(10)
 
 class Revolution(models.Model):
+	""" A Revolution instance means that ``government`` is not playing, and
+	``opposition`` is trying to replace it.
 	"""
-A Revolution instance means that 'government' is not playing, so 'opposition'
-can replace it.
-	"""
+
 	government = models.ForeignKey(Player)
 	opposition = models.ForeignKey(User, blank=True, null=True)
 
@@ -1588,6 +1605,8 @@ class UnitManager(models.Manager):
 		return result_list
 
 class Unit(models.Model):
+	""" This class defines a unit in a game, its location and status. """
+
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	area = models.ForeignKey(GameArea)
 	player = models.ForeignKey(Player)
@@ -1597,10 +1616,10 @@ class Unit(models.Model):
 	objects = UnitManager()
 
 	def get_attacked_area(self):
+		""" If the unit has orders, get the attacked area, if any. This method is
+		only a proxy of the Order method with the same name.
 		"""
-	If the unit has orders, get the attacked area, if any. This method is only
-	a proxy of the Order method with the same name.
-		"""
+
 		try:
 			self.order
 		except:
@@ -1722,6 +1741,10 @@ class Unit(models.Model):
 		return True
 
 class Order(models.Model):
+	""" This class defines an order from a player to a unit. The order will not be
+	effective unless it is confirmed.
+	"""
+
 	unit = models.OneToOneField(Unit)
 	code = models.CharField(max_length=1, choices=ORDER_CODES)
 	destination = models.ForeignKey(GameArea, blank=True, null=True)
@@ -1762,9 +1785,8 @@ class Order(models.Model):
 		return result
 	
 	def explain(self):
-		"""
-	Returns a human readable order
-		"""
+		""" Returns a human readable order.	"""
+
 		if self.code == 'H':
 			msg = _("%(unit)s holds its position.") % {'unit': self.unit,}
 		elif self.code == '-':
@@ -1817,9 +1839,10 @@ class Order(models.Model):
 			self.unit.save()
 
 	def format_suborder(self):
+		""" Returns a string with the abbreviated code (as in Machiavelli) of
+		the suborder.
 		"""
-Returns a string with the format (as in Machiavelli) of the suborder.
-		"""
+
 		if not self.subunit:
 			return ''
 		f = "%s %s" % (self.subunit.type, self.subunit.area.board_area.code)
@@ -1833,9 +1856,10 @@ Returns a string with the format (as in Machiavelli) of the suborder.
 		return f
 
 	def format(self):
+		""" Returns a string with the abreviated code (as in Machiavelli) of
+		the order.
 		"""
-Returns a string with the format (as in Machiavelli) of the order.
-		"""
+
 		f = "%s %s" % (self.unit.type, self.unit.area.board_area.code)
 		f += " %s" % self.code
 		if self.code == '-':
@@ -1847,10 +1871,10 @@ Returns a string with the format (as in Machiavelli) of the order.
 		return f
 
 	def find_convoy_line(self):
+		""" Returns True if there is a continuous line of convoy orders from 
+		the origin to the destination of the order.
 		"""
-Returns True if there is a continuous line of convoy orders from the origin
-to the destination of the order.
-		"""
+
 		origins = [self.unit.area,]
 		destination = self.destination
 		## get all areas convoying this order AND the destination
@@ -1884,10 +1908,10 @@ to the destination of the order.
 			origins = new_origins	
 	
 	def get_enemies(self):
+		""" Returns a Queryset with all the units trying to oppose an advance or
+		conversion order.
 		"""
-Returns a Queryset with all the units trying to oppose an advance or conversion
-order.
-		"""
+
 		if self.code == '-':
 			enemies = Unit.objects.filter(Q(player__game=self.unit.player.game),
 										## trying to go to the same area
@@ -1921,10 +1945,10 @@ order.
 		return enemies
 	
 	def get_rivals(self):
+		""" Returns a Queryset with all the units trying to enter the same
+		province as the unit that gave this order.
 		"""
-Returns a Queryset with all the units trying to enter the same province as the
-unit that gave this order.
-		"""
+
 		if self.code == '-':
 			rivals = Unit.objects.filter(Q(player__game=self.unit.player.game),
 										## trying to go to the same area
@@ -1945,9 +1969,10 @@ unit that gave this order.
 		return rivals
 	
 	def get_defender(self):
+		""" Returns a Unit trying to stay in the destination area of this order, or
+		None.
 		"""
-Returns a Unit trying to stay in the destination area of this order, or None
-		"""
+
 		try:
 			if self.code == '-':
 				defender = Unit.objects.get(Q(player__game=self.unit.player.game),
@@ -1975,9 +2000,8 @@ Returns a Unit trying to stay in the destination area of this order, or None
 		return defender
 	
 	def get_attacked_area(self):
-		"""
-	Returns the game area being attacked by this order
-		"""
+		""" Returns the game area being attacked by this order. """
+
 		if self.code == '-':
 			return self.destination
 		elif self.code == '=':
@@ -1989,6 +2013,10 @@ Returns a Unit trying to stay in the destination area of this order, or None
 		return self.format()
 
 class RetreatOrder(models.Model):
+	""" Defines the area where the unit must try to retreat. If ``area`` is
+	blank, the unit will be disbanded.
+	"""
+
 	unit = models.ForeignKey(Unit)
 	area = models.ForeignKey(GameArea, null=True, blank=True)
 
@@ -1996,6 +2024,8 @@ class RetreatOrder(models.Model):
 		return "%s" % self.unit
 
 class ControlToken(models.Model):
+	""" Defines the coordinates of the control token for a board area. """
+
 	area = models.OneToOneField(Area)
 	x = models.PositiveIntegerField()
 	y = models.PositiveIntegerField()
@@ -2005,6 +2035,8 @@ class ControlToken(models.Model):
 
 
 class GToken(models.Model):
+	""" Defines the coordinates of the Garrison token in a board area. """
+
 	area = models.OneToOneField(Area)
 	x = models.PositiveIntegerField()
 	y = models.PositiveIntegerField()
@@ -2014,6 +2046,8 @@ class GToken(models.Model):
 
 
 class AFToken(models.Model):
+	""" Defines the coordinates of the Army and Fleet tokens in a board area."""
+
 	area = models.OneToOneField(Area)
 	x = models.PositiveIntegerField()
 	y = models.PositiveIntegerField()
@@ -2022,6 +2056,8 @@ class AFToken(models.Model):
 		return "%s, %s" % (self.x, self.y)
 
 class Letter(models.Model):
+	""" Defines a message sent from a player to another player in the same game. """
+
 	sender = models.ForeignKey(Player, related_name='sent')
 	receiver = models.ForeignKey(Player, related_name='received')
 	body = models.TextField()
@@ -2057,6 +2093,10 @@ def notify_new_letter(sender, instance, created, **kw):
 models.signals.post_save.connect(notify_new_letter, sender=Letter)
 
 class TurnLog(models.Model):
+	""" A TurnLog is text describing the processing of the method
+	``Game.process_orders()``.
+	"""
+
 	game = models.ForeignKey(Game)
 	year = models.PositiveIntegerField()
 	season = models.PositiveIntegerField(choices=SEASONS)
@@ -2071,6 +2111,11 @@ class TurnLog(models.Model):
 		return self.log
 
 class Configuration(models.Model):
+	""" Defines the configuration options for each game. 
+	
+	At the moment, only some of them are actually implemented.
+	"""
+
 	game = models.OneToOneField(Game, verbose_name=_('game'), editable=False)
 	finances = models.BooleanField(_('finances'), default=False)
 	assassinations = models.BooleanField(_('assassinations'), default=False,
