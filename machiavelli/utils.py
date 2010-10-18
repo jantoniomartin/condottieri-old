@@ -1,10 +1,25 @@
+## Copyright (c) 2010 by Jose Antonio Martin <jantonio.martin AT gmail DOT com>
+## This program is free software: you can redistribute it and/or modify it
+## under the terms of the GNU Affero General Public License as published by the
+## Free Software Foundation, either version 3 of the License, or (at your option
+## any later version.
 ##
-## Functions library
+## This program is distributed in the hope that it will be useful, but WITHOUT
+## ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+## FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License
+## for more details.
 ##
+## You should have received a copy of the GNU Affero General Public License
+## along with this program. If not, see <http://www.gnu.org/licenses/agpl.txt>.
+##
+## This license is also included in the file COPYING
+##
+## AUTHOR: Jose Antonio Martin <jantonio.martin AT gmail DOT com>
+
+""" This module defines miscellaneous functions. """
+
 import random
 
-#import django.forms as forms
-#from django.forms.formsets import BaseFormSet
 from django.db.models import Q
 from django.conf import settings
 
@@ -16,7 +31,11 @@ else:
 from machiavelli.models import Unit
 
 def order_is_possible(order):
-	""" Returns the order if it is possible, as stated in the rules, or False if not"""
+	""" Checks if an Order is possible as stated in the rules.
+
+	If ``order`` is possible, returns the same ``order``. If not, returns False.
+	"""
+
 	if logging:
 		logging.debug("Checking if order is possible: %s" % order)
 	if order.code == 'H':
