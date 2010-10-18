@@ -1,3 +1,25 @@
+## Copyright (c) 2010 by Jose Antonio Martin <jantonio.martin AT gmail DOT com>
+## This program is free software: you can redistribute it and/or modify it
+## under the terms of the GNU Affero General Public License as published by the
+## Free Software Foundation, either version 3 of the License, or (at your option
+## any later version.
+##
+## This program is distributed in the hope that it will be useful, but WITHOUT
+## ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+## FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License
+## for more details.
+##
+## You should have received a copy of the GNU Affero General Public License
+## along with this program. If not, see <http://www.gnu.org/licenses/agpl.txt>.
+##
+## This license is also included in the file COPYING
+##
+## AUTHOR: Jose Antonio Martin <jantonio.martin AT gmail DOT com>
+
+""" This application manages the log of events during a Condottieri game.
+
+"""
+
 ## django
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -11,6 +33,7 @@ if "jogging" in settings.INSTALLED_APPS:
 else:
 	logging = None
 
+
 class BaseEvent(models.Model):
 	"""
 BaseEvent is the parent class for all kind of game events.
@@ -22,9 +45,11 @@ BaseEvent is the parent class for all kind of game events.
 	classname = models.CharField(max_length=32, editable=False)
 	
 	def get_concrete(self):
+		""" Gets the name of the child class of this BaseEvent """
 		return self.__getattribute__(self.classname.lower())
 
 	def unit_string(self, type, area):
+		""" Returns a string like **the garrison in Naples** """
 		if type == 'A':
 			return _("the army in %s") % area.name
 		elif type == 'F':
@@ -33,21 +58,15 @@ BaseEvent is the parent class for all kind of game events.
 			return _("the garrison in %s") % area.name
 
 	def season_class(self):
-		"""
-Returns a css class name for the game season
-		"""
+		""" Returns a css class name for the game season """
 		return "season_%s" % self.season
 
 	def event_class(self):
-		"""
-Returns a css class name depending on the type of event
-		"""
+		""" Returns a css class name depending on the type of event """
 		return self.get_concrete().event_class()
 	
 	def color_output(self):
-		"""
-Returns a html list item with
-		"""
+		""" Returns a html list item with season and event styles """
 		return "<li class=\"%(season_class)s %(event_class)s\">%(log)s</li>" % {
 							'season_class': self.season_class(),
 							'event_class': self.event_class(),
@@ -62,6 +81,7 @@ Returns a html list item with
 		ordering = ['-year', '-season', '-id']
 
 def log_event(event_class, game, **kwargs):
+	""" Creates a new BaseEvent and its child event. """
 	try:
 		event = event_class(game=game, year=game.year, season=game.season, phase=game.phase, **kwargs)
 		event.save()
@@ -70,6 +90,8 @@ def log_event(event_class, game, **kwargs):
 			logging.info("Error in log_event")
 
 class NewUnitEvent(BaseEvent):
+	""" Event triggered when a new unit is placed in the map. """
+
 	country = models.ForeignKey(Country)
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	area = models.ForeignKey(Area)
@@ -95,6 +117,7 @@ def log_new_unit(sender, **kwargs):
 unit_placed.connect(log_new_unit)
 
 class DisbandEvent(BaseEvent):
+	""" Event triggered when a unit is disbanded. """
 	country = models.ForeignKey(Country, blank=True, null=True)
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	area = models.ForeignKey(Area)
@@ -125,6 +148,7 @@ def log_disband(sender, **kwargs):
 unit_disbanded.connect(log_disband)
 
 class OrderEvent(BaseEvent):
+	""" Event triggered when an order is confirmed. """
 	country = models.ForeignKey(Country)
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	origin = models.ForeignKey(Area, related_name='event_origin')
@@ -222,6 +246,7 @@ def log_order(sender, **kwargs):
 order_placed.connect(log_order)
 
 class StandoffEvent(BaseEvent):
+	""" Event triggered when a standoff happens. """
 	area = models.ForeignKey(Area)
 
 	def event_class(self):
@@ -241,6 +266,8 @@ def log_standoff(sender, **kwargs):
 standoff_happened.connect(log_standoff)
 
 class ConversionEvent(BaseEvent):
+	""" Event triggered when a unit changes its type. """
+
 	area = models.ForeignKey(Area)
 	before = models.CharField(max_length=1, choices=UNIT_TYPES)
 	after = models.CharField(max_length=1, choices=UNIT_TYPES)
@@ -265,6 +292,7 @@ def log_conversion(sender, **kwargs):
 unit_converted.connect(log_conversion)
 
 class ControlEvent(BaseEvent):
+	""" Event triggered when a player gets the control of a province. """
 	country = models.ForeignKey(Country)
 	area = models.ForeignKey(Area)
 
@@ -287,6 +315,8 @@ def log_control(sender, **kwargs):
 area_controlled.connect(log_control)
 
 class MovementEvent(BaseEvent):
+	""" Event triggered when a unit moves to a different province. """
+
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	origin = models.ForeignKey(Area, related_name="movement_origin")
 	destination = models.ForeignKey(Area, related_name="movement_destination")
@@ -311,6 +341,8 @@ def log_movement(sender, **kwargs):
 unit_moved.connect(log_movement)
 
 class RetreatEvent(BaseEvent):
+	""" Event triggered when a unit retreats. """
+
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	origin = models.ForeignKey(Area, related_name="retreat_origin")
 	destination = models.ForeignKey(Area, related_name="retreat_destination")
@@ -348,6 +380,21 @@ UNIT_EVENTS = (
 )
 
 class UnitEvent(BaseEvent):
+	""" Event triggered when a unit is subject to some conditions.
+
+	Currently, the conditions are:
+	
+	* The unit cannot carry out its support order.
+	
+	* The unit must retreat.
+	
+	* The unit surrenders (because of a siege).
+	
+	* The unit starts a siege.
+	
+	Each condition must have its own signal.
+	"""
+
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	area = models.ForeignKey(Area)
 	message = models.PositiveIntegerField(choices=UNIT_EVENTS)
@@ -415,6 +462,18 @@ COUNTRY_EVENTS = (
 )
 
 class CountryEvent(BaseEvent):
+	""" Event triggered when a country is subject to some conditions.
+
+	Currently, the conditions are:
+	
+	* A new player (not playing) takes the control of the country.
+	
+	* The country has been conquered.
+	
+	* The country has been excommunicated.
+	
+	Each condition must have its own signal.
+	"""
 	country = models.ForeignKey(Country)
 	message = models.PositiveIntegerField(choices=COUNTRY_EVENTS)
 
@@ -460,6 +519,16 @@ DISASTER_EVENTS = (
 )
 
 class DisasterEvent(BaseEvent):
+	""" Event triggered when a province is affected by a natural disaster.
+
+	Currently, the conditions are:
+	
+	* The province is affected by famine.
+	
+	* The province is affected by plague.
+	
+	Each condition must have its own signal.
+	"""
 	area = models.ForeignKey(Area)
 	message = models.PositiveIntegerField(choices=DISASTER_EVENTS)
 
