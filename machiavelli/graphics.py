@@ -1,10 +1,25 @@
+## Copyright (c) 2010 by Jose Antonio Martin <jantonio.martin AT gmail DOT com>
+## This program is free software: you can redistribute it and/or modify it
+## under the terms of the GNU Affero General Public License as published by the
+## Free Software Foundation, either version 3 of the License, or (at your option
+## any later version.
 ##
-## Library of graphic functions
-## 
+## This program is distributed in the hope that it will be useful, but WITHOUT
+## ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+## FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License
+## for more details.
+##
+## You should have received a copy of the GNU Affero General Public License
+## along with this program. If not, see <http://www.gnu.org/licenses/agpl.txt>.
+##
+## This license is also included in the file COPYING
+##
+## AUTHOR: Jose Antonio Martin <jantonio.martin AT gmail DOT com>
+
+""" This module defines functions to generate the map. """
 
 import Image
 import os
-from datetime import datetime
 
 from django.conf import settings
 
@@ -17,11 +32,9 @@ else:
 	MAPSDIR = os.path.join(settings.MEDIA_ROOT, 'maps')
 
 def make_map(game):
+	""" Opens the base map and add flags, control markers, unit tokens and other tokens. Then saves
+	the map with an appropriate name in the maps directory.
 	"""
-	Open the base map, and add flags, control markers and unit tokens
-	"""
-	start_dt = datetime.now()
-	print "Starting map generation for game %s at %s" % (game, start_dt)
 	base_map = Image.open(os.path.join(BASEDIR, BASEMAP))
 	garrisons = []
 	for player in game.player_set.filter(user__isnull=False):
@@ -71,7 +84,4 @@ def make_map(game):
 	result = base_map #.resize((1250, 1780), Image.ANTIALIAS)
 	filename = os.path.join(MAPSDIR, "map-%s.jpg" % game.pk)
 	result.save(filename)
-	#game.map_saved()
-	td_lapse = datetime.now() - start_dt
-	print "Processed map in %s seconds." % td_lapse.seconds
 	return True
