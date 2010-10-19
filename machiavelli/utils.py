@@ -69,7 +69,7 @@ def order_is_possible(order):
 	elif order.code == '=':
 		if order.unit.area.board_area.is_fortified:
 			if order.unit.type == 'G':
-				if order.type == 'A':
+				if order.type == 'A' and not order.unit.area.board_area.is_sea:
 					return order
 				if order.type == 'F' and order.unit.area.board_area.has_port:
 					return order
