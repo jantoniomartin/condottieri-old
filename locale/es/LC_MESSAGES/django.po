@@ -95,7 +95,7 @@ msgstr ""
 
 #: templates/homepage.html:38
 msgid "Condottieri is Libre Software"
-msgstr ""
+msgstr "Condottieri es Software Libre"
 
 #: templates/homepage.html:40
 msgid ""
@@ -103,14 +103,17 @@ msgid ""
 "\t\tas such, you are free to copy, improve and modify it, under the terms\n"
 "\t\tof the Affero GNU/GPL-3 License."
 msgstr ""
+"<b>Condottieri</b> es software libre, y\n"
+"como tal, eres libre de copiarlo, mejorarlo y modificarlo, según los términos\n"
+"de la Licencia Affero GNU/GPL-3."
 
 #: templates/homepage.html:45
 msgid "You can get a copy of the source code in the"
-msgstr ""
+msgstr "Puedes conseguir una copia del código fuente en el"
 
 #: templates/homepage.html:46
 msgid "public repository"
-msgstr ""
+msgstr "repositorio público"
 
 #: templates/homepage.html:48
 msgid "Features"
