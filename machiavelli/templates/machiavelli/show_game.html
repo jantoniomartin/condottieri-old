@@ -51,9 +51,6 @@
 	{% if p.conqueror %}
 		({{ p.conqueror.country }})
 	{% endif %}
-	{% ifequal p.done 1 %}
-	<img src="{{ STATIC_URL }}machiavelli/img/icon-yes.gif" />
-	{% endifequal %}
 	{% if p.excommunicated %}
 	<img src="{{ STATIC_URL }}machiavelli/img/excommunication-icon-16.png" />
 	{% endif %}
