@@ -1,0 +1,149 @@
+# GERMAN TRANSLATION FOR condottieri_events.
+# Copyright (C) Jose Antonio Martin Prieto
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <jantonio.martin@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-21 09:32+0200\n"
+"PO-Revision-Date: 2010-10-21 09:32+0200\n"
+"Last-Translator: Jose Antonio Martin Prieto <jantonio.martin@gmail.com>\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: models.py:54
+#, python-format
+msgid "the army in %s"
+msgstr "der Heer in %s"
+
+#: models.py:56
+#, python-format
+msgid "the fleet in %s"
+msgstr "die Flotte in %s"
+
+#: models.py:58
+#, python-format
+msgid "the garrison in %s"
+msgstr "die garnison in %s"
+
+#: models.py:103
+#, python-format
+msgid "%(country)s recruits a new %(type)s in %(area)s."
+msgstr "%(country)s werben %(type)s in %(area)s."
+
+#: models.py:130
+#, python-format
+msgid "%(country)s's %(type)s in %(area)s is disbanded."
+msgstr "%(type)s von %(country)s in %(area)s wird aufgelöst."
+
+#: models.py:136
+#, python-format
+msgid "Autonomous %(type)s in %(area)s is disbanded."
+msgstr "Selbständige(r) %(type)s in %(area)s wird aufgelöst."
+
+#: models.py:175
+#, python-format
+msgid "%(unit)s tries to go to %(area)s."
+msgstr "%(unit)s versucht zu %(area)s sich bewegen."
+
+#: models.py:180
+#, python-format
+msgid "%(unit)s besieges the city."
+msgstr "%(unit)s belagert die Stadt."
+
+#: models.py:182
+#, python-format
+msgid "%(unit)s tries to convert into %(type)s."
+msgstr "%(unit)s versucht in %(type)s sich umwandeln."
+
+#: models.py:187
+#, python-format
+msgid "%(unit)s must convoy %(subunit)s to %(area)s."
+msgstr "%(unit)s muss %(subunit)s befördern nach %(area)s."
+
+#: models.py:195
+#, python-format
+msgid "%(unit)s supports %(subunit)s to hold its position."
+msgstr "%(unit)s unterstützt %(subunit)s in halten."
+
+#: models.py:201
+#, python-format
+msgid "%(unit)s supports %(subunit)s to go to %(area)s."
+msgstr "%(unit)s unterstützt %(subunit)s in zu %(area)s bewegen."
+
+#: models.py:208
+#, python-format
+msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
+msgstr "%(unit)s unterstützt %(subunit)s in %(type)s sich umwandeln."
+
+#: models.py:256
+#, python-format
+msgid "Conflicts in %(area)s result in a standoff."
+msgstr "Die Kämpfe in %(area)s endet in einem Patt."
+
+#: models.py:279
+#, python-format
+msgid "%(unit)s converts into %(type)s."
+msgstr "%(unit)s wandelt sich in %(type)s um."
+
+#: models.py:303
+#, python-format
+msgid "%(country)s gets control of %(area)s."
+msgstr "%(country)s nimmt die Kontrolle von %(area)s."
+
+#: models.py:328
+#, python-format
+msgid "%(unit)s advances into %(destination)s."
+msgstr "%(unit)s bewegt sich nach %(destination)s."
+
+#: models.py:355
+#, python-format
+msgid "%(unit)s garrisons in the city."
+msgstr "%(unit)s flüchtet sich in der Stadt."
+
+#: models.py:360
+#, python-format
+msgid "%(unit)s retreats to %(destination)s."
+msgstr "%(unit)s zieht zu %(destination)s zurück."
+
+#: models.py:376
+msgid "cannot carry out its support order."
+msgstr "kann nicht die Unterstützung erfüllen."
+
+#: models.py:377
+msgid "must retreat."
+msgstr "muss zurückziehen."
+
+#: models.py:378
+msgid "surrenders."
+msgstr "ergibt sich."
+
+#: models.py:379
+msgid "is now besieging."
+msgstr "belagert ab jetzt die Stadt."
+
+#: models.py:459
+msgid "Government has been overthrown"
+msgstr "Regierung hat gestürzt worden"
+
+#: models.py:460
+msgid "Has been conquered"
+msgstr "Hat erobert worden"
+
+#: models.py:461
+msgid "Has been declared enemy of Christendom"
+msgstr "Ist jetzt ein Feind der Christenheit"
+
+#: models.py:517
+msgid "is affected by famine."
+msgstr "wird von Hunger betroffen."
+
+#: models.py:518
+msgid "has been affected by plague."
+msgstr "hat von der Pest betroffen worden."
