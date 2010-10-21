@@ -7,7 +7,6 @@
 <p>{% blocktrans with receiver.country as country %}
 New letter for {{ country }}
 {% endblocktrans %}</p>
-<p>{% trans "Language" %}: {{ receiver.get_language }}</p>
 {% if excom_notice %}
 <p>{% blocktrans %}Notice: This player is currently excommunicated. If you send this letter, you will be also excommunicated.{% endblocktrans %}
 {% endif %}
