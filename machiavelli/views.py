@@ -18,8 +18,6 @@
 
 """ Django views definitions for machiavelli application. """
 
-## stdlib
-import thread
 
 ## django
 from django.http import HttpResponseRedirect, Http404, HttpResponse
@@ -28,7 +26,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms.formsets import formset_factory
-from django.db.models import Q, Sum
+from django.db.models import Q
 from django.views.decorators.cache import never_cache, cache_page
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.conf import settings
@@ -39,13 +37,9 @@ from django.utils import simplejson
 from machiavelli.models import *
 import machiavelli.utils as utils
 import machiavelli.forms as forms
-import machiavelli.graphics as graphics
 
 ## condottieri_profiles
 from condottieri_profiles.models import CondottieriProfile
-
-## condottieri_events
-from condottieri_events.models import OrderEvent
 
 ## clones detection
 if 'clones' in settings.INSTALLED_APPS:
