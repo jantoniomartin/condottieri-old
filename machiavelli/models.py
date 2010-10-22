@@ -1440,6 +1440,8 @@ class Player(models.Model):
 		excommunicated this year.
 		"""
 
+		if self.eliminated:
+			return False
 		if self.game.configuration.excommunication:
 			if self.country and self.country.can_excommunicate:
 				try:
