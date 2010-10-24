@@ -44,8 +44,8 @@ def order_is_possible(order):
 			## it cannot go to Venice or seas
 			if order.destination.board_area.is_sea or order.destination.board_area.code=='VEN':
 				return False
-			#if order.unit.area.board_area.is_coast and order.destination.board_area.is_coast and order.destination.board_area.code != 'VEN':
-			#	return order
+			if order.unit.area.board_area.is_coast and order.destination.board_area.is_coast:
+				return order
 			if order.unit.area.board_area.is_adjacent(order.destination.board_area):
 				return order
 		elif order.unit.type == 'F':
