@@ -142,13 +142,13 @@ def base_context(request, game, player):
 #@login_required
 def play_game(request, slug=''):
 	game = get_object_or_404(Game, slug=slug)
+	if game.slots == 0 and game.phase == PHINACTIVE:
+		return redirect('game-results', slug=game.slug)
 	try:
 		player = Player.objects.get(game=game, user=request.user)
 	except:
 		player = Player.objects.none()
 	context = base_context(request, game, player)
-	if game.slots == 0 and game.phase == PHINACTIVE:
-		return redirect('game-results', slug=game.slug)
 	if player:
 		##################################
 		## IP TRACKING FOR CLONES DETECTION
