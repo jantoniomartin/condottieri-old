@@ -14,3 +14,4 @@ machiavelli/media/machiavelli/maps/
 maintenance.html*
 */migrations/
 activate
+doc/_*
