@@ -3,7 +3,16 @@
 {% load i18n %}
 {% load game_icons %}
 
-{% block head_title %}{% trans "Game:" %} {{ game.slug }}{% endblock %}
+{% block head_title %}
+{% if player %}
+	{% if player.done %}
+		[&bull;]
+	{% else %}
+		[ ]
+	{% endif %}
+{% endif %}
+ {{ game.slug }}
+{% endblock %}
 
 {% block body %}
 <div id="game_info">
