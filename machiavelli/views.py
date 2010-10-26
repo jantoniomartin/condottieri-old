@@ -75,6 +75,7 @@ def summary(request):
 		'other_games': other_games,
 		'revolutions': revolutions,
 		'user': request.user,
+		'forum': 'forum' in settings.INSTALLED_APPS,
 	}
 
 	return render_to_response('machiavelli/summary.html',

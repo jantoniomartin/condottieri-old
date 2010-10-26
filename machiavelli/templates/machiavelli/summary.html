@@ -1,6 +1,7 @@
 {% extends "machiavelli/base.html" %}
 
 {% load i18n %}
+{% load forum_tags %}
 
 {% block head_title %}{% blocktrans %}Games{% endblocktrans %}{% endblock %}
 
@@ -97,6 +98,20 @@
 	</tr>
 {% endfor %}
 </table>
+{% endif %}
+
+{% if forum %}
+{% forum_latest_thread_activity 5 as latest_activity %}
+<h2>{% trans "Latest forum posts" %}</h2>
+
+<ul>
+{% for thread in latest_activity %}
+<li>
+<a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
+{{ thread.latest_post_time|date }}
+</li>
+{% endfor %}
+</ul>
 {% endif %}
 
 {% endblock %}
