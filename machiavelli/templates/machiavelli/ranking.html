@@ -13,7 +13,7 @@
 	<th>{% trans "Points" %}</th>
 	<th>{% trans "Cities" %}</th>
 	<th>{% trans "Position" %}</th>
-	<th>{% trans "Game" %}
+	<th>{% trans "Game" %}</th>
 	{% if key == "user" %}
 	<th>{% trans "Scenario" %}</th>
 	<th>{% trans "Country" %}</th>
@@ -33,9 +33,9 @@
 	<td>{{ q.points }}</td>
 	<td>{{ q.cities }}</td>
 	<td>{{ q.position }}</td>
-	<td><a href="{% url show-game q.game %}">{{ q.game }}</a></td> 
+	<td><a href="{% url show-game q.game.slug %}">{{ q.game.slug }}</a></td> 
 	{% if key == "user" %}
-	<td><a href="{% url scenario-detail q.game.scenario.pk %}">{{ q.game.scenario }}</a><td>
+	<td><a href="{% url show-scenario q.game.scenario.pk %}">{{ q.game.scenario }}</a></td>
 	<td>{{ q.country }}</td>
 	{% endif %}
 	{% if key == "scenario" %}
@@ -43,7 +43,7 @@
 	<td><a href="{% url profile_detail username=q.user.username %}">{{ q.user }}</a></td>
 	{% endif %}
 	{% if key == "country" %}
-	<td><a href="{% url scenario-detail q.game.scenario.pk %}">{{ q.game.scenario }}</a><td>
+	<td><a href="{% url show-scenario q.game.scenario.pk %}">{{ q.game.scenario }}</a></td>
 	<td><a href="{% url profile_detail username=q.user.username %}">{{ q.user }}</a></td>
 	{% endif %}
 	</tr>
