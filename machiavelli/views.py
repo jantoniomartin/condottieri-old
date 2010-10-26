@@ -148,7 +148,6 @@ def play_game(request, slug=''):
 		player = Player.objects.get(game=game, user=request.user)
 	except:
 		player = Player.objects.none()
-	context = base_context(request, game, player)
 	if player:
 		##################################
 		## IP TRACKING FOR CLONES DETECTION
@@ -165,6 +164,7 @@ def play_game(request, slug=''):
 		if game.slots == 0:
 			game.check_time_limit()
 		if game.phase == PHINACTIVE:
+			context = base_context(request, game, player)
 			return render_to_response('machiavelli/inactive_actions.html',
 							context,
 							context_instance=RequestContext(request))
@@ -178,6 +178,7 @@ def play_game(request, slug=''):
 			raise Http404
 	## no player
 	else:
+		context = base_context(request, game, player)
 		return render_to_response('machiavelli/inactive_actions.html',
 							context,
 							context_instance=RequestContext(request))
