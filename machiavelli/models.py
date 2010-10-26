@@ -51,6 +51,7 @@ from machiavelli.fields import AutoTranslateField
 from machiavelli.graphics import make_map
 from machiavelli.logging import save_snapshot
 import machiavelli.disasters as disasters
+import machiavelli.exceptions as exceptions
 
 ## condottieri_profiles
 from condottieri_profiles.models import CondottieriProfile
@@ -1099,7 +1100,10 @@ class Game(models.Model):
 								(Q(board_area__is_sea=False) |
 								Q(board_area__code__exact='VEN'))).distinct():
 			players = self.player_set.filter(unit__area=area).distinct()
-			if len(players) == 1 and players[0].user:
+			if len(players) > 2:
+				err_msg = "%s units in %s (game %s)" % (len(players),area, self)
+				raise exceptions.WrongUnitCount(err_msg)
+			elif len(players) == 1 and players[0].user:
 				if area.player != players[0]:
 					area.player = players[0]
 					area.save()
@@ -1107,11 +1111,9 @@ class Game(models.Model):
 						signals.area_controlled.send(sender=area)
 					else:
 						self.log_event(ControlEvent, country=area.player.country, area=area.board_area)
-			elif len(players) == 2:
+			else:
 					area.player = None
 					area.save()
-			else:
-				print "There are more than 2 players in the same area!"
 
 	##---------------------
 	## logging methods
