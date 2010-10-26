@@ -693,12 +693,15 @@ def ranking(request, key='', val=''):
 	if key == 'user': # by user
 		user = get_object_or_404(User, username=val)
 		scores.filter(user=user)
+		title = _("Ranking for the user") + ' ' + val
 	elif key == 'scenario': # by scenario
-		scenario = get_object_or_404(Scenario, id=val)
+		scenario = get_object_or_404(Scenario, name=val)
 		scores.filter(game__scenario=scenario)
+		title = _("Ranking for the scenario") + ' ' + val
 	elif key == 'country': # by country
 		country = get_object_or_404(Country, id=val)
 		scores.filter(country=country)
+		title = _("Ranking for the country") + ' ' + country.name
 	else:
 		raise Http404
 
@@ -715,6 +718,7 @@ def ranking(request, key='', val=''):
 		'qualification': qualification,
 		'key': key,
 		'val': val,
+		'title': title,
 		}
 	return render_to_response('machiavelli/ranking.html',
 							context,
