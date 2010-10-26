@@ -56,7 +56,7 @@ from machiavelli.models import Unit
 
 #@login_required
 #@cache_page(15 * 60) # cache 15 minutes
-def game_list(request):
+def summary(request):
 	active_games = Game.objects.exclude(slots=0, phase=PHINACTIVE)
 	finished_games = Game.objects.filter(slots=0, phase=PHINACTIVE).order_by('-id')
 	if request.user.is_authenticated():
@@ -77,7 +77,7 @@ def game_list(request):
 		'user': request.user,
 	}
 
-	return render_to_response('machiavelli/game_list.html',
+	return render_to_response('machiavelli/summary.html',
 							context,
 							context_instance=RequestContext(request))
 
@@ -432,7 +432,7 @@ def create_game(request):
 			## create the autonomous player
 			#autonomous = Player(game=new_game, done=True)
 			#autonomous.save()
-			return redirect('game-list')
+			return redirect('summary')
 	game_form = forms.GameForm(request.user)
 	config_form = forms.ConfigurationForm()
 	context['scenarios'] = Scenario.objects.filter(enabled=True)
@@ -456,7 +456,7 @@ def join_game(request, slug=''):
 			new_player = Player(user=request.user, game=g)
 			new_player.save()
 			g.player_joined()
-	return redirect('game-list')
+	return redirect('summary')
 
 @login_required
 def leave_game(request, slug=''):
@@ -474,7 +474,7 @@ def leave_game(request, slug=''):
 	else:
 		## you cannot leave a game that has already started
 		raise Http404
-	return redirect('game-list')
+	return redirect('summary')
 
 @login_required
 def overthrow(request, revolution_id):
@@ -493,7 +493,7 @@ def overthrow(request, revolution_id):
 				return low_karma_error(request)
 			revolution.opposition = request.user
 			revolution.save()
-			return redirect('game-list')
+			return redirect('summary')
 		else:
 			raise Http404
 	else:

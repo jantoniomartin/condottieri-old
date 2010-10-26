@@ -9,7 +9,7 @@
     {% if user.is_authenticated %}
     	<p>
 		{% blocktrans %}If you want to start playing, go to{% endblocktrans %}
-		<a href="{% url game-list %}">{% trans "the game list" %}</a>
+		<a href="{% url summary %}">{% trans "the game list" %}</a>
 		</p>
         <p>
 		{% blocktrans %}However, there are some things that you may want to do before:{% endblocktrans %}
