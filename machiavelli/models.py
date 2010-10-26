@@ -440,25 +440,35 @@ class Game(models.Model):
 	## time controlling methods
 	##--------------------------
 
+	def get_highest_karma(self):
+		""" Returns the karma of the non-finished player with the highest value.
+			
+			Returns 0 if all the players have finished.
+		"""
+
+		players = CondottieriProfile.objects.filter(user__player__game=self,
+								user__player__done=False).order_by('-karma')
+		if len(players) > 0:
+			return float(players[0].karma)
+		return 0
+
+
 	def next_phase_change(self):
 		""" Returns the Time of the next compulsory phase change. """
 
 		## get the player with the highest karma, and not done
 		if self.phase == PHINACTIVE :
 			return False
-		karmas = CondottieriProfile.objects.filter(user__player__game=self,
-									  user__player__done=False).order_by('-karma')
-		if len(karmas) > 0:
-			highest = float(karmas[0].karma)
-			if highest <= 100:
-				time_limit = self.time_limit * highest / 100
-			else:
-				time_limit = self.time_limit * (1 + (highest - 100)/200)
+		highest = self.get_highest_karma()
+		if highest <= 100:
+			time_limit = self.time_limit * highest / 100
 		else:
-			time_limit = self.time_limit
+			time_limit = self.time_limit * (1 + (highest - 100)/200)
 		duration = timedelta(0, time_limit)
+
 		return self.last_phase_change + duration
 	
+
 	def force_phase_change(self):
 		""" When the time limit is reached and one or more of the players are not
 		done, a phase change is forced.
@@ -1506,6 +1516,20 @@ class Player(models.Model):
 			else:
 				self.done = False
 			self.save()
+
+	def next_phase_change(self):
+		""" Returns the time that the next forced phase change would happen,
+		if this were the only player (i.e. only his own karma is considered)
+		"""
+		
+		karma = float(self.user.get_profile().karma)
+		if karma <= 100:
+			time_limit = self.game.time_limit * karma / 100
+		else:
+			time_limit = self.game.time_limit * (1 + (karma - 100)/200)
+		duration = timedelta(0, time_limit)
+
+		return self.game.last_phase_change + duration
 
 	def force_phase_change(self):
 		## the player didn't take his actions, so he loses karma
