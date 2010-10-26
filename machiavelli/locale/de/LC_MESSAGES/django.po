@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-21 09:32+0200\n"
+"POT-Creation-Date: 2010-10-26 09:52+0200\n"
 "PO-Revision-Date: 2010-10-21 09:32+0200\n"
 "Last-Translator: Jose Antonio Martin Prieto <jantonio.martin@gmail.com>\n"
 "Language-Team: \n"
@@ -21,16 +21,15 @@ msgstr ""
 msgid "Slug"
 msgstr "Slug"
 
-#: forms.py:15 templates/machiavelli/game_list.html:17
-#: templates/machiavelli/game_list.html:44
-#: templates/machiavelli/game_list.html:107
+#: forms.py:15 templates/machiavelli/game_list.html:19
 #: templates/machiavelli/scenario_detail.html:5
 #: templates/machiavelli/scenario_detail.html:8
+#: templates/machiavelli/summary.html:17 templates/machiavelli/summary.html:44
 msgid "Scenario"
 msgstr "Szenario"
 
-#: forms.py:16 templates/machiavelli/game_list.html:19
-#: templates/machiavelli/game_list.html:46
+#: forms.py:16 templates/machiavelli/game_list.html:20
+#: templates/machiavelli/summary.html:19 templates/machiavelli/summary.html:46
 msgid "Time limit"
 msgstr "Zeitlimit"
 
@@ -86,172 +85,172 @@ msgstr "Du musst ein Ziel für die unterstützte Einheit wählen"
 msgid "You must select a unit type for the supported unit"
 msgstr "Du musst eine Typ für die unterstützte Einheit wählen"
 
-#: models.py:73
+#: models.py:74
 msgid "Army"
 msgstr "Heer"
 
-#: models.py:74
+#: models.py:75
 msgid "Fleet"
 msgstr "Flotte"
 
-#: models.py:75
+#: models.py:76
 msgid "Garrison"
 msgstr "Garnison"
 
-#: models.py:78
+#: models.py:79
 msgid "Spring"
 msgstr "Frühling"
 
-#: models.py:79
+#: models.py:80
 msgid "Summer"
 msgstr "Sommer"
 
-#: models.py:80
+#: models.py:81
 msgid "Fall"
 msgstr "Herbst"
 
-#: models.py:88
+#: models.py:89
 msgid "Inactive game"
 msgstr "Inaktiv Spiel"
 
-#: models.py:89
+#: models.py:90
 msgid "Military adjustments"
 msgstr "Militärischen Anpassungen"
 
-#: models.py:90
+#: models.py:91
 msgid "Order writing"
 msgstr "Auftrag schreiben"
 
-#: models.py:91 templates/machiavelli/retreats_actions.html:7
+#: models.py:92 templates/machiavelli/retreats_actions.html:7
 msgid "Retreats"
 msgstr "Rückzüge"
 
-#: models.py:94 models.py:102
+#: models.py:95 models.py:103
 msgid "Hold"
 msgstr "Halten"
 
-#: models.py:95
+#: models.py:96
 msgid "Besiege"
 msgstr "Belagern"
 
-#: models.py:96 models.py:103
+#: models.py:97 models.py:104
 msgid "Advance"
 msgstr "Bewegen"
 
-#: models.py:97 models.py:104
+#: models.py:98 models.py:105
 msgid "Conversion"
 msgstr "Umwandeln"
 
-#: models.py:98
+#: models.py:99
 msgid "Convoy"
 msgstr "Konvoi"
 
-#: models.py:99
+#: models.py:100
 msgid "Support"
 msgstr "Unterstützen"
 
-#: models.py:112
+#: models.py:113
 msgid "2 days"
 msgstr "2 Tage"
 
-#: models.py:113
+#: models.py:114
 msgid "1 day"
 msgstr "1 Tag"
 
-#: models.py:114
+#: models.py:115
 msgid "1/2 day"
 msgstr "1/2 Tag"
 
-#: models.py:1662
+#: models.py:1672
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s in %(area)s"
 
-#: models.py:1791
+#: models.py:1801
 #, python-format
 msgid "%(unit)s holds its position."
 msgstr "%(unit)s hält sich"
 
-#: models.py:1793
+#: models.py:1803
 #, python-format
 msgid "%(unit)s tries to go to %(area)s."
 msgstr "%(unit)s versucht zu %(area)s sich bewegen."
 
-#: models.py:1798
+#: models.py:1808
 #, python-format
 msgid "%(unit)s besieges the city."
 msgstr "%(unit)s belagert die Stadt."
 
-#: models.py:1800
+#: models.py:1810
 #, python-format
 msgid "%(unit)s tries to convert into %(type)s."
 msgstr "%(unit)s versucht in %(type)s sich umwandeln."
 
-#: models.py:1805
+#: models.py:1815
 #, python-format
 msgid "%(unit)s must convoy %(subunit)s to %(area)s."
 msgstr "%(unit)s muss %(subunit)s befördern nach %(area)s."
 
-#: models.py:1812
+#: models.py:1822
 #, python-format
 msgid "%(unit)s supports %(subunit)s to hold its position."
 msgstr "%(unit)s unterstützt %(subunit)s in halten."
 
-#: models.py:1817
+#: models.py:1827
 #, python-format
 msgid "%(unit)s supports %(subunit)s to go to %(area)s."
 msgstr "%(unit)s unterstützt %(subunit)s in zu %(area)s bewegen."
 
-#: models.py:1823
+#: models.py:1833
 #, python-format
 msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
 msgstr "%(unit)s unterstützt %(subunit)s in %(type)s sich umwandeln."
 
-#: models.py:2119
+#: models.py:2129
 msgid "game"
 msgstr "Spiel"
 
-#: models.py:2120
+#: models.py:2130
 msgid "finances"
 msgstr "Finanzen"
 
-#: models.py:2121
+#: models.py:2131
 msgid "assassinations"
 msgstr "Ermordungen"
 
-#: models.py:2122 models.py:2124 models.py:2131
+#: models.py:2132 models.py:2134 models.py:2141
 msgid "will enable Finances"
 msgstr "Finanzen aktivieren"
 
-#: models.py:2123
+#: models.py:2133
 msgid "bribes"
 msgstr "Bestechungen"
 
-#: models.py:2125
+#: models.py:2135
 msgid "excommunication"
 msgstr "Excommunikation"
 
-#: models.py:2126
+#: models.py:2136
 msgid "natural disasters"
 msgstr "Naturkatastrophen"
 
-#: models.py:2127
+#: models.py:2137
 msgid "special units"
 msgstr "Spezialeinheiten"
 
-#: models.py:2128
+#: models.py:2138
 msgid "will enable Finances and Bribes"
 msgstr "Finanzen und Bestechungen aktivieren"
 
-#: models.py:2129
+#: models.py:2139
 msgid "strategic movement"
 msgstr "strategische Bewegung"
 
-#: models.py:2130
+#: models.py:2140
 msgid "money lenders"
 msgstr "Geldverleiher"
 
-#: models.py:2132
+#: models.py:2142
 msgid "conquering"
 msgstr "Eroberung"
 
@@ -576,31 +575,31 @@ msgstr "Westliches Mittelmeer"
 msgid "Create an acccount on %(domain)s"
 msgstr "Ein Konto in %(domain)s erstellen"
 
-#: views.py:540
+#: views.py:562
 msgid "You cannot send letters in an inactive game."
 msgstr "In einem inaktiven Spiel kannst du keine Briefe senden."
 
-#: views.py:542
+#: views.py:564
 msgid "You cannot write to a country that you have excommunicated."
 msgstr "Du kannst nicht einem exkommunizierten Land schreiben."
 
-#: views.py:557
+#: views.py:579
 msgid "You can write letters only to other excommunicated countries."
 msgstr "Du kannst nur anderer exkommunizierten Länder schreiben."
 
-#: views.py:572
+#: views.py:594
 msgid "You cannot excommunicate in this game."
 msgstr "In diesem Spiel kannst du nicht exkommunizieren"
 
-#: views.py:585
+#: views.py:607
 msgid "You have already excommunicated a country this year."
 msgstr "Bereits hast du dieses Jahr ein Land exkommuniziert."
 
-#: views.py:592
+#: views.py:614
 msgid "Excommunications cannot be reset."
 msgstr ""
 
-#: views.py:595
+#: views.py:617
 msgid "You are not allowed to forgive excommunications."
 msgstr "Du kannst keine Exkommunikationen vergeben."
 
@@ -645,8 +644,7 @@ msgid "you are being overthrown"
 msgstr ""
 
 #: management/base.py:26 management/base.py:29
-#: templates/machiavelli/game_list.html:88
-#: templates/machiavelli/game_list.html:96
+#: templates/machiavelli/summary.html:88 templates/machiavelli/summary.html:96
 msgid "Overthrow"
 msgstr "Sturz"
 
@@ -672,8 +670,7 @@ msgid "Map"
 msgstr "Landkarte"
 
 #: templates/machiavelli/base.html:14 templates/machiavelli/game_form.html:10
-#: templates/machiavelli/game_list.html:38
-#: templates/machiavelli/game_list.html:71
+#: templates/machiavelli/summary.html:38 templates/machiavelli/summary.html:71
 msgid "New game"
 msgstr "Neues Spiel"
 
@@ -784,14 +781,13 @@ msgstr "Fehler"
 #: templates/machiavelli/game_error.html:12
 #: templates/machiavelli/letter_box.html:62
 #: templates/machiavelli/letter_detail.html:20
-#: templates/machiavelli/letter_form.html:22
+#: templates/machiavelli/letter_form.html:21
 #: templates/machiavelli/log_list.html:40
 #: templates/machiavelli/turn_log_list.html:46
 msgid "Return to game"
 msgstr "Züruck zum Spiel"
 
-#: templates/machiavelli/game_form.html:7
-#: templates/machiavelli/game_list.html:5
+#: templates/machiavelli/game_form.html:7 templates/machiavelli/summary.html:5
 msgid "Games"
 msgstr "Spiele"
 
@@ -801,9 +797,10 @@ msgid ""
 "you create. You must choose a short name for the game, that will be used "
 "only to identify it."
 msgstr ""
-"Hier kannst du ein neues Spiel erstellen. Immer wenn du ein Spiel erstellst,\n"
-"bist du der erste Spieler in diesem Spiel. Du musst einen kurzen Name für das "
-"Spiel wählen, der das Spiel identifiziert."
+"Hier kannst du ein neues Spiel erstellen. Immer wenn du ein Spiel "
+"erstellst,\n"
+"bist du der erste Spieler in diesem Spiel. Du musst einen kurzen Name für "
+"das Spiel wählen, der das Spiel identifiziert."
 
 #: templates/machiavelli/game_form.html:13
 msgid ""
@@ -853,9 +850,9 @@ msgid "Create a new game"
 msgstr "Ein neues Spiel erstellen"
 
 #: templates/machiavelli/game_form.html:42
-#: templates/machiavelli/game_list.html:23
-#: templates/machiavelli/game_list.html:50
+#: templates/machiavelli/game_list.html:21
 #: templates/machiavelli/show_game.html:31
+#: templates/machiavelli/summary.html:23 templates/machiavelli/summary.html:50
 msgid "Rules"
 msgstr "Regeln"
 
@@ -863,129 +860,44 @@ msgstr "Regeln"
 msgid "Save"
 msgstr "Speichern"
 
-#: templates/machiavelli/game_list.html:8
+#: templates/machiavelli/game_list.html:7
+msgid "All the games"
+msgstr "Alle Spiele"
+
+#: templates/machiavelli/game_list.html:11
 msgid "Game list"
 msgstr "Spiele Liste"
 
-#: templates/machiavelli/game_list.html:9
-msgid ""
-"This is a list of all the games in this server. The first are the ones that "
-"you\n"
-"are a player in. If a game has empty slots, you can join it. If you can't "
-"find any available games,\n"
-"you can also create one, but it's better if you join an existing game."
+#: templates/machiavelli/game_list.html:13
+msgid "This is a list of all the games in this server, be they active or not."
 msgstr ""
-"Das ist eine Liste aller Spiele in diesem Server. Die Ersten sind die Spiele, "
-"die du spielst.\n"
-"Wenn ein Spiel leere Plätze hat, kannst du am Spiel teilnehmen. Wenn du keine "
-"leere Plätze findest, kannst du ein neues\n"
-"Spiel erstellen, aber es ist besser ein existentes Spiel teilnehmen."
 
-#: templates/machiavelli/game_list.html:12
-msgid "Your games"
-msgstr "Deine Spiele"
-
-#: templates/machiavelli/game_list.html:16
-#: templates/machiavelli/game_list.html:43
-#: templates/machiavelli/game_list.html:86
-#: templates/machiavelli/game_list.html:106
+#: templates/machiavelli/game_list.html:18
 #: templates/machiavelli/show_game.html:11
+#: templates/machiavelli/summary.html:16 templates/machiavelli/summary.html:43
+#: templates/machiavelli/summary.html:86
 msgid "Game"
 msgstr "Spiel"
 
-#: templates/machiavelli/game_list.html:18
-#: templates/machiavelli/game_list.html:45
-msgid "Creator"
-msgstr "Schöpfer"
-
-#: templates/machiavelli/game_list.html:20
-#: templates/machiavelli/game_list.html:47
-#: templates/machiavelli/log_list.html:11
-#: templates/machiavelli/show_game.html:12
-#: templates/machiavelli/turn_log_list.html:11
-#: templates/machiavelli/turn_log_list.html:36
-msgid "Year"
-msgstr "Jahr"
-
-#: templates/machiavelli/game_list.html:21
-#: templates/machiavelli/game_list.html:48
-#: templates/machiavelli/log_list.html:12
-#: templates/machiavelli/show_game.html:13
-#: templates/machiavelli/turn_log_list.html:12
-#: templates/machiavelli/turn_log_list.html:38
-msgid "Season"
-msgstr "Jahreszeit"
-
 #: templates/machiavelli/game_list.html:22
-#: templates/machiavelli/game_list.html:49
-#: templates/machiavelli/log_list.html:13
-#: templates/machiavelli/show_game.html:14
-#: templates/machiavelli/turn_log_list.html:13
-msgid "Phase"
-msgstr "Phase"
-
-#: templates/machiavelli/game_list.html:24
-#: templates/machiavelli/game_list.html:51
-msgid "Slots"
-msgstr "Plätze"
-
-#: templates/machiavelli/game_list.html:32
-msgid "Leave game"
-msgstr "Spiel verlassen"
-
-#: templates/machiavelli/game_list.html:39
-msgid "Games you are not playing"
-msgstr "Spiele, die du nicht spielst"
-
-#: templates/machiavelli/game_list.html:64
-#: templates/machiavelli/inactive_actions.html:10
-#: templates/machiavelli/show_game.html:25
-msgid "Join game"
-msgstr "Spiel teilnehmen"
-
-#: templates/machiavelli/game_list.html:74
-msgid "Revolutions"
-msgstr "Revolutionen"
-
-#: templates/machiavelli/game_list.html:75
-msgid ""
-"The following countries are governed by leaders that are not\n"
-"paying enough attention to their duties. If you feel that you could do "
-"better,\n"
-"you may try to overthrow a leader."
-msgstr ""
-"Die folgenden Länder werden von Führern regiert, die keine Aufmerksamkeit\n"
-"ihr schenken. Wenn du glaubst, dass du besser es tun kannst, "
-"kannst du\n"
-"einen Sturz versuchen."
-
-#: templates/machiavelli/game_list.html:78
-msgid ""
-"If you try to overthrow a leader, he will have a chance to\n"
-"recover control in the current phase. If he does not, you will take his "
-"place.\n"
-"You will be notified when you get control of the country.\n"
-msgstr ""
-
-#: templates/machiavelli/game_list.html:82
-msgid ""
-"In doing this, you will probably run a damaged country, so\n"
-"you will get some karma for your sacrifice."
-msgstr ""
-
-#: templates/machiavelli/game_list.html:87
-#: templates/machiavelli/game_results.html:15
-#: templates/machiavelli/scenario_detail.html:20
-msgid "Country"
-msgstr "Land"
-
-#: templates/machiavelli/game_list.html:102
-msgid "Finished games"
-msgstr "Beendet Spiele"
-
-#: templates/machiavelli/game_list.html:108
 msgid "Winner"
 msgstr "Gewinner"
+
+#: templates/machiavelli/game_list.html:47
+#: templates/machiavelli/hall_of_fame.html:40
+#: templates/machiavelli/letter_box.html:22
+#: templates/machiavelli/log_list.html:26
+#: templates/machiavelli/turn_log_list.html:26
+msgid "Page"
+msgstr "Seite"
+
+#: templates/machiavelli/game_list.html:47
+#: templates/machiavelli/hall_of_fame.html:40
+#: templates/machiavelli/letter_box.html:22
+#: templates/machiavelli/log_list.html:26
+#: templates/machiavelli/turn_log_list.html:26
+msgid "of"
+msgstr "von"
 
 #: templates/machiavelli/game_results.html:5
 msgid "Game results"
@@ -1002,6 +914,12 @@ msgstr "Diese sind die Ergebnisse von jedem Spieler im Spiel"
 #: templates/machiavelli/game_results.html:14
 msgid "Player"
 msgstr "Spieler"
+
+#: templates/machiavelli/game_results.html:15
+#: templates/machiavelli/scenario_detail.html:20
+#: templates/machiavelli/summary.html:87
+msgid "Country"
+msgstr "Land"
 
 #: templates/machiavelli/game_results.html:16
 #: templates/machiavelli/hall_of_fame.html:16
@@ -1029,23 +947,15 @@ msgstr ""
 msgid "User"
 msgstr "Benutzer"
 
-#: templates/machiavelli/hall_of_fame.html:40
-#: templates/machiavelli/letter_box.html:22
-#: templates/machiavelli/log_list.html:26
-#: templates/machiavelli/turn_log_list.html:26
-msgid "Page"
-msgstr "Seite"
-
-#: templates/machiavelli/hall_of_fame.html:40
-#: templates/machiavelli/letter_box.html:22
-#: templates/machiavelli/log_list.html:26
-#: templates/machiavelli/turn_log_list.html:26
-msgid "of"
-msgstr "von"
-
 #: templates/machiavelli/inactive_actions.html:6
 msgid "This game is inactive or you are not playing in it."
 msgstr "Dieses Spiel ist inaktiv oder du spielst es nicht."
+
+#: templates/machiavelli/inactive_actions.html:10
+#: templates/machiavelli/show_game.html:25
+#: templates/machiavelli/summary.html:64
+msgid "Join game"
+msgstr "Spiel teilnehmen"
 
 #: templates/machiavelli/letter_box.html:8
 msgid "Received letters"
@@ -1066,6 +976,7 @@ msgid "To"
 msgstr "An"
 
 #: templates/machiavelli/letter_box.html:40
+#: templates/machiavelli/summary.html:8
 msgid "Summary"
 msgstr "Überblick"
 
@@ -1095,19 +1006,15 @@ msgstr ""
 "\n"
 "Neuer Brief für %(country)s\n"
 
-#: templates/machiavelli/letter_form.html:10
-msgid "Language"
-msgstr "Sprache"
-
-#: templates/machiavelli/letter_form.html:12
+#: templates/machiavelli/letter_form.html:11
 msgid ""
 "Notice: This player is currently excommunicated. If you send this letter, "
 "you will be also excommunicated."
 msgstr ""
-"Achtung: Dieser Spieler ist jetzt exkommuniziert. Wenn du diesen Briefe sendst, "
-"würdest du auch excommuniziert sein."
+"Achtung: Dieser Spieler ist jetzt exkommuniziert. Wenn du diesen Briefe "
+"sendst, würdest du auch excommuniziert sein."
 
-#: templates/machiavelli/letter_form.html:19
+#: templates/machiavelli/letter_form.html:18
 #: templates/machiavelli/orders_actions.html:25
 msgid "Send"
 msgstr "Senden"
@@ -1121,6 +1028,29 @@ msgstr "Journal"
 #: templates/machiavelli/log_list.html:8
 msgid "Log of the game"
 msgstr "Journal des Spiels"
+
+#: templates/machiavelli/log_list.html:11
+#: templates/machiavelli/show_game.html:12
+#: templates/machiavelli/summary.html:20 templates/machiavelli/summary.html:47
+#: templates/machiavelli/turn_log_list.html:11
+#: templates/machiavelli/turn_log_list.html:36
+msgid "Year"
+msgstr "Jahr"
+
+#: templates/machiavelli/log_list.html:12
+#: templates/machiavelli/show_game.html:13
+#: templates/machiavelli/summary.html:21 templates/machiavelli/summary.html:48
+#: templates/machiavelli/turn_log_list.html:12
+#: templates/machiavelli/turn_log_list.html:38
+msgid "Season"
+msgstr "Jahreszeit"
+
+#: templates/machiavelli/log_list.html:13
+#: templates/machiavelli/show_game.html:14
+#: templates/machiavelli/summary.html:22 templates/machiavelli/summary.html:49
+#: templates/machiavelli/turn_log_list.html:13
+msgid "Phase"
+msgstr "Phase"
 
 #: templates/machiavelli/log_list.html:14
 #: templates/machiavelli/show_game.html:15
@@ -1140,8 +1070,9 @@ msgid ""
 "Because of your low karma (%(karma)s), you can't join games or create new "
 "ones. You need a minimum karma of %(minimum)s."
 msgstr ""
-"Dein Karma-Wert ist zu niedrig (%(karma)s). Du kannst keine Spiele unternehmen oder erstellen. "
-"Du brauchst einen minimalen Karma-Wert von %(minimum)s."
+"Dein Karma-Wert ist zu niedrig (%(karma)s). Du kannst keine Spiele "
+"unternehmen oder erstellen. Du brauchst einen minimalen Karma-Wert von "
+"%(minimum)s."
 
 #: templates/machiavelli/low_karma.html:8
 msgid ""
@@ -1160,14 +1091,16 @@ msgid ""
 "At least one player has not yet sent his orders. You have to wait until all\n"
 "players have done it or the time limit is reached."
 msgstr ""
-"Mindestens hat ein Spieler seine Aufträge nicht gesendet. Du musst warten, bis alle\n"
+"Mindestens hat ein Spieler seine Aufträge nicht gesendet. Du musst warten, "
+"bis alle\n"
 "Spieler es gemacht haben oder die Zeitlimit erreicht wird."
 
 #: templates/machiavelli/orders_actions.html:10
 msgid ""
 "These are the valid orders (except Hold orders) that you have sent this turn:"
 msgstr ""
-"Diese sind die gültigen Aufträge (außer ,halten' Aufträge), dass du gesendet hast:"
+"Diese sind die gültigen Aufträge (außer ,halten' Aufträge), dass du gesendet "
+"hast:"
 
 #: templates/machiavelli/orders_actions.html:12
 msgid ""
@@ -1178,10 +1111,9 @@ msgid ""
 "it.\n"
 msgstr ""
 "\n"
-"In der nächsten Formular kannst du einen Auftrag für eine ihrer Einheiten erteilen. "
-"Du kannst nicht zwei Aufträge zur gleichen Einheit geben.\n"
-"Wenn eine Einheit muss nichts machen, wähl den \"Halten\" Auftrag für "
-"sie.\n"
+"In der nächsten Formular kannst du einen Auftrag für eine ihrer Einheiten "
+"erteilen. Du kannst nicht zwei Aufträge zur gleichen Einheit geben.\n"
+"Wenn eine Einheit muss nichts machen, wähl den \"Halten\" Auftrag für sie.\n"
 
 #: templates/machiavelli/orders_actions.html:16
 msgid ""
@@ -1189,9 +1121,9 @@ msgid ""
 "you will have to fix the order. However, if you compose an impossible order, "
 "this unit will hold, instead of carrying out its order. Be careful."
 msgstr ""
-"Wenn du einen Auftrag erteilst, der die Regeln bricht, bekommst du einen Fehler "
-"und musst du den Auftrag richtigstellen. Trotzdem, wenn du einen unmöglichen Auftrag "
-"erteilst, wird die Einheit halten. Sei vorsichtig!"
+"Wenn du einen Auftrag erteilst, der die Regeln bricht, bekommst du einen "
+"Fehler und musst du den Auftrag richtigstellen. Trotzdem, wenn du einen "
+"unmöglichen Auftrag erteilst, wird die Einheit halten. Sei vorsichtig!"
 
 #: templates/machiavelli/orders_actions.html:31
 msgid "Sent orders"
@@ -1207,8 +1139,9 @@ msgid ""
 "The orders above are saved but <strong>are not confirmed</strong>. If you "
 "don't confirm your orders, they will be ignored."
 msgstr ""
-"Die vorstehenden Aufträge sind gespeichert, aber sie sind <strong>nicht bestätigt</strong>. "
-"Wenn du bestätigst nicht die Aufträge, sie werden ignoriert."
+"Die vorstehenden Aufträge sind gespeichert, aber sie sind <strong>nicht "
+"bestätigt</strong>. Wenn du bestätigst nicht die Aufträge, sie werden "
+"ignoriert."
 
 #: templates/machiavelli/orders_actions.html:47
 msgid ""
@@ -1216,9 +1149,8 @@ msgid ""
 "delete them. To confirm the orders and end your phase, click the \"Confirm\" "
 "button."
 msgstr ""
-"Nachdem du deine Aufträge bestätigt hast, kannst du nicht sie ändern oder löschen. "
-"Um deine Aufträge bestätigen, drück den Button "
-"\"Bestätigen\" "
+"Nachdem du deine Aufträge bestätigt hast, kannst du nicht sie ändern oder "
+"löschen. Um deine Aufträge bestätigen, drück den Button \"Bestätigen\" "
 
 #: templates/machiavelli/orders_actions.html:48
 msgid "Confirm"
@@ -1234,8 +1166,8 @@ msgid ""
 "all\n"
 "players have done it or the time limit is reached."
 msgstr ""
-"Mindestens hat ein Spieler seine Einheiten nicht angepasst. Du musst warten, bis "
-"alle\n"
+"Mindestens hat ein Spieler seine Einheiten nicht angepasst. Du musst warten, "
+"bis alle\n"
 "Spieler es gemacht haben oder die Zeitlimit erreicht wird."
 
 #: templates/machiavelli/reinforcements_actions.html:14
@@ -1265,7 +1197,9 @@ msgstr "Erinnere die folgende Einschränkungen, als du Einheiten legst:"
 
 #: templates/machiavelli/reinforcements_actions.html:31
 msgid "Any unit: Only in cities with your flag <b>and</b> under your control."
-msgstr "Alle Einheiten: Nur in Städte mit deiner Fahne <b>und</b> unter deiner Kontrolle."
+msgstr ""
+"Alle Einheiten: Nur in Städte mit deiner Fahne <b>und</b> unter deiner "
+"Kontrolle."
 
 #: templates/machiavelli/reinforcements_actions.html:32
 msgid "Fleets: Only in port cities."
@@ -1291,8 +1225,8 @@ msgid_plural ""
 "Ctrl key to select more than one unit.\n"
 msgstr[0] "Du musst %(units_to_disband)s Einheit auflösen.\n"
 msgstr[1] ""
-"Du musst %(units_to_disband)s Einheiten auflösen. "
-"Benutz die Strg Taste für mehreren Einheiten wählen.\n" 
+"Du musst %(units_to_disband)s Einheiten auflösen. Benutz die Strg Taste für "
+"mehreren Einheiten wählen.\n"
 
 #: templates/machiavelli/reinforcements_actions.html:81
 msgid "Disband!"
@@ -1304,10 +1238,9 @@ msgid ""
 "all\n"
 "players have done it or the time limit is reached."
 msgstr ""
-"Mindestens hat ein Spieler seine Einheiten nicht zurückgezogen. Du musst warten, bis "
-"alle\n"
+"Mindestens hat ein Spieler seine Einheiten nicht zurückgezogen. Du musst "
+"warten, bis alle\n"
 "Spieler es gemacht haben oder die Zeitlimit erreicht wird."
-
 
 #: templates/machiavelli/retreats_actions.html:15
 msgid ""
@@ -1319,8 +1252,8 @@ msgid ""
 "disbanded.\n"
 msgstr ""
 "\n"
-"Einige deiner Einheiten haben geschlagen worden. Für jede Einheit, musst "
-"du einen Gebiet wählen, um die Einheit zurückziehen\n"
+"Einige deiner Einheiten haben geschlagen worden. Für jede Einheit, musst du "
+"einen Gebiet wählen, um die Einheit zurückziehen\n"
 "oder kannst du die Einheit auflösen. Wenn eine geschlagene Einheit hat keine "
 "möglichen Gebiete, muss sie\n"
 "auflösen.\n"
@@ -1378,7 +1311,8 @@ msgid ""
 "Our cartographers are drawing a new map for you. Please, reload\n"
 "the page in a few seconds."
 msgstr ""
-"Unsere Kartographen zeichnen gerade eine neue Karte für dich. Bitte, aktualisier\n"
+"Unsere Kartographen zeichnen gerade eine neue Karte für dich. Bitte, "
+"aktualisier\n"
 "die Seite in ein paar Sekunden."
 
 #: templates/machiavelli/show_game.html:93
@@ -1413,6 +1347,65 @@ msgstr "Alle ansehen"
 msgid "Process"
 msgstr "Prozess"
 
+#: templates/machiavelli/summary.html:10
+msgid ""
+"This is a list of all the non-finished games in this server. The first are "
+"the ones that you are a player in. If a game has empty slots, you can join "
+"it. If you can't find any available games, you can also create one, but it's "
+"better if you join an existing game."
+msgstr ""
+"Das ist eine Liste aller Spiele (nicht geendet) in diesem Server. Die Ersten "
+"sind die Spiele, die du spielst. Wenn ein Spiel leere Plätze hat, kannst du "
+"am Spiel teilnehmen. Wenn du keine leere Plätze findest, kannst du ein neues "
+"Spiel erstellen, aber es ist besser ein existentes Spiel teilnehmen."
+
+#: templates/machiavelli/summary.html:12
+msgid "Your games"
+msgstr "Deine Spiele"
+
+#: templates/machiavelli/summary.html:18 templates/machiavelli/summary.html:45
+msgid "Creator"
+msgstr "Schöpfer"
+
+#: templates/machiavelli/summary.html:24 templates/machiavelli/summary.html:51
+msgid "Slots"
+msgstr "Plätze"
+
+#: templates/machiavelli/summary.html:32
+msgid "Leave game"
+msgstr "Spiel verlassen"
+
+#: templates/machiavelli/summary.html:39
+msgid "Games you are not playing"
+msgstr "Spiele, die du nicht spielst"
+
+#: templates/machiavelli/summary.html:74
+msgid "Revolutions"
+msgstr "Revolutionen"
+
+#: templates/machiavelli/summary.html:76
+msgid ""
+"The following countries are governed by leaders that are not paying enough "
+"attention to their duties. If you feel that you could do better, you may try "
+"to overthrow a leader."
+msgstr ""
+"Die folgenden Länder werden von Führern regiert, die keine Aufmerksamkeit "
+"ihr schenken. Wenn du glaubst, dass du besser es tun kannst, kannst du "
+"einen Sturz versuchen."
+
+#: templates/machiavelli/summary.html:79
+msgid ""
+"If you try to overthrow a leader, he will have a chance to recover control "
+"in the current phase. If he does not, you will take his place. You will be "
+"notified when you get control of the country."
+msgstr ""
+
+#: templates/machiavelli/summary.html:82
+msgid ""
+"In doing this, you will probably run a damaged country, so you will get some "
+"karma for your sacrifice."
+msgstr ""
+
 #: templates/machiavelli/turn_log_list.html:8
 msgid "Orders processing in game"
 msgstr "Verarbeitung der Aufträge im Spiel"
@@ -1420,3 +1413,9 @@ msgstr "Verarbeitung der Aufträge im Spiel"
 #: templates/machiavelli/turn_log_list.html:40
 msgid "Timestamp"
 msgstr "Zeitstempel"
+
+#~ msgid "Finished games"
+#~ msgstr "Beendet Spiele"
+
+#~ msgid "Language"
+#~ msgstr "Sprache"

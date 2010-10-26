@@ -5,10 +5,10 @@
 {% block head_title %}{% blocktrans %}Games{% endblocktrans %}{% endblock %}
 
 {% block body %}
-<h1>{% trans "Game list" %}</h1>
-<p>{% blocktrans %}This is a list of all the games in this server. The first are the ones that you
-are a player in. If a game has empty slots, you can join it. If you can't find any available games,
-you can also create one, but it's better if you join an existing game.{% endblocktrans %}</p>
+<h1>{% trans "Summary" %}</h1>
+<p>
+{% blocktrans %}This is a list of all the non-finished games in this server. The first are the ones that you are a player in. If a game has empty slots, you can join it. If you can't find any available games, you can also create one, but it's better if you join an existing game.{% endblocktrans %}
+</p>
 <h2>{% trans "Your games" %}</h2>
 <table>
 	<thead>
@@ -72,15 +72,15 @@ you can also create one, but it's better if you join an existing game.{% endbloc
 
 {% if revolutions %}
 <h3>{% trans "Revolutions" %}</h3>
-<p>{% blocktrans %}The following countries are governed by leaders that are not
-paying enough attention to their duties. If you feel that you could do better,
-you may try to overthrow a leader.{% endblocktrans %}</p>
-<p>{% blocktrans %}If you try to overthrow a leader, he will have a chance to
-recover control in the current phase. If he does not, you will take his place.
-You will be notified when you get control of the country.
-{% endblocktrans %}</p>
-<p>{% blocktrans %}In doing this, you will probably run a damaged country, so
-you will get some karma for your sacrifice.{% endblocktrans %}</p>
+<p>
+{% blocktrans %}The following countries are governed by leaders that are not paying enough attention to their duties. If you feel that you could do better, you may try to overthrow a leader.{% endblocktrans %}
+</p>
+<p>
+{% blocktrans %}If you try to overthrow a leader, he will have a chance to recover control in the current phase. If he does not, you will take his place. You will be notified when you get control of the country.{% endblocktrans %}
+</p>
+<p>
+{% blocktrans %}In doing this, you will probably run a damaged country, so you will get some karma for your sacrifice.{% endblocktrans %}
+</p>
 <table>
 	<tr><thead>
 	<th>{% trans "Game" %}</th>
