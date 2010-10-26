@@ -9,6 +9,7 @@ from django.views.decorators.cache import cache_page
 urlpatterns = patterns('machiavelli.views',
     #url(r'^$', 'game_list', name='game-list'),
 	url(r'^$', 'summary', name='summary'),
+	url(r'^games$', 'game_list', name='game-list'),
 	url(r'^scenario/(?P<scenario_id>\d+)', 'show_scenario', name='show-scenario'),
 	url(r'^faq$', cache_page(direct_to_template, 24*60*60), {'template': 'machiavelli/faq.html'}, name='faq'),
 	url(r'^ranking$', 'hall_of_fame', name='hall-of-fame'),

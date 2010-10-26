@@ -81,6 +81,29 @@ def summary(request):
 							context,
 							context_instance=RequestContext(request))
 
+@cache_page(10 * 60)
+def game_list(request):
+	""" Gets a paginated list of all the games in the server. """
+	all_games = Game.objects.all().order_by('-id')
+	paginator = Paginator(all_games, 10)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		game_list = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		game_list = paginator.page(paginator.num_pages)
+	context = {
+		'game_list': game_list,
+		'user': request.user,
+		}
+
+	return render_to_response('machiavelli/game_list.html',
+							context,
+							context_instance=RequestContext(request))
+
+
 def base_context(request, game, player):
 	context = {
 		'user': request.user,
