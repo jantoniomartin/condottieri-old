@@ -686,6 +686,41 @@ def hall_of_fame(request):
 							context,
 							context_instance=RequestContext(request))
 
+def ranking(request, key='', val=''):
+	""" Gets the qualification, ordered by scores, for a given parameter. """
+	
+	scores = Score.objects.all().order_by('-points')
+	if key == 'user': # by user
+		user = get_object_or_404(User, username=val)
+		scores.filter(user=user)
+	elif key == 'scenario': # by scenario
+		scenario = get_object_or_404(Scenario, id=val)
+		scores.filter(game__scenario=scenario)
+	elif key == 'country': # by country
+		country = get_object_or_404(Country, id=val)
+		scores.filter(country=country)
+	else:
+		raise Http404
+
+	paginator = Paginator(scores, 10)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		qualification = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		qualification = paginator.page(paginator.num_pages)
+	context = {
+		'qualification': qualification,
+		'key': key,
+		'val': val,
+		}
+	return render_to_response('machiavelli/ranking.html',
+							context,
+							context_instance=RequestContext(request))
+
+
 @login_required
 @cache_page(120 * 60) # cache 2 hours
 def low_karma_error(request):
