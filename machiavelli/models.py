@@ -1098,8 +1098,7 @@ class Game(models.Model):
 								Q(unit__isnull=False) &
 								(Q(board_area__is_sea=False) |
 								Q(board_area__code__exact='VEN'))).distinct():
-			#units = area.unit_set.filter(player__user__isnull=False)
-			players = self.player_set.filter(unit__area=area)
+			players = self.player_set.filter(unit__area=area).distinct()
 			if len(players) == 1 and players[0].user:
 				if area.player != players[0]:
 					area.player = players[0]
