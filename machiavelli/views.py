@@ -692,15 +692,15 @@ def ranking(request, key='', val=''):
 	scores = Score.objects.all().order_by('-points')
 	if key == 'user': # by user
 		user = get_object_or_404(User, username=val)
-		scores.filter(user=user)
+		scores = scores.filter(user=user)
 		title = _("Ranking for the user") + ' ' + val
 	elif key == 'scenario': # by scenario
 		scenario = get_object_or_404(Scenario, name=val)
-		scores.filter(game__scenario=scenario)
+		scores = scores.filter(game__scenario=scenario)
 		title = _("Ranking for the scenario") + ' ' + val
 	elif key == 'country': # by country
 		country = get_object_or_404(Country, css_class=val)
-		scores.filter(country=country)
+		scores = scores.filter(country=country)
 		title = _("Ranking for the country") + ' ' + country.name
 	else:
 		raise Http404
