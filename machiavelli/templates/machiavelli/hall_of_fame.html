@@ -9,11 +9,12 @@
 <p>{% blocktrans %}These are the global scores for all the users in this
 server{% endblocktrans %}</p>
 
-<table style="width: 30%">
+<table style="width: 40%">
 	<thead>
 	<tr>
 	<th>{% trans "User" %}</th>
 	<th>{% trans "Score" %}</th>
+	<th>{% trans "Details" %}</th>
 	</tr>
 	</thead>
 	{% for p in profiles.object_list %}
@@ -26,6 +27,7 @@ server{% endblocktrans %}</p>
 		0
 	{% endif %}
 	</td>
+	<td><a href="{% url ranking "user" p.user.username %}">{% trans "Details" %}</a></td>
 	</tr>
 	{% endfor %}
 
