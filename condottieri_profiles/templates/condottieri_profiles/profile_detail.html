@@ -24,7 +24,9 @@
 <dd>{{ user_shown.get_profile.karma }}</dd>
 {% endif %}
 <dt>{% trans "Total score" %}</dt>
-<dd>{{ user_shown.get_profile.total_score }}</dd>
+<dd>{{ user_shown.get_profile.total_score }}
+(<a href="{% url ranking "user" user_shown.username %}">{% trans "Detail" %}</a>)
+</dd>
 </dl>
 
 {% if is_own %}
