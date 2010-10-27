@@ -625,6 +625,19 @@ def reset_excommunications(request, slug):
 	game.player_set.all().update(excommunicated=None)
 	return redirect(game)
 
+
+@cache_page(60 * 60)
+def scenario_list(request):
+	""" Gets a list of all the enabled scenarios. """
+	
+	scenarios = Scenario.objects.filter(enabled=True)
+	context = {'scenarios': scenarios, }
+
+	return render_to_response('machiavelli/scenario_list.html',
+							context,
+							context_instance = RequestContext(request))
+
+
 @cache_page(60 * 60)
 def show_scenario(request, scenario_id):
 	scenario = get_object_or_404(Scenario, id=scenario_id, enabled=True)
