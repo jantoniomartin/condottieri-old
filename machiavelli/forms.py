@@ -14,6 +14,7 @@ class GameForm(forms.ModelForm):
 									cache_choices=True,
 									label=_("Scenario"))
 	time_limit = forms.ChoiceField(choices=TIME_LIMITS, label=_("Time limit"))
+	visible = forms.BooleanField(label=_("Visible players?"))
 	
 	def __init__(self, user, **kwargs):
 		super(GameForm, self).__init__(**kwargs)
@@ -21,7 +22,7 @@ class GameForm(forms.ModelForm):
 
 	class Meta:
 		model = Game
-		fields = ('slug', 'scenario', 'time_limit')
+		fields = ('slug', 'scenario', 'time_limit', 'visible')
 
 class ConfigurationForm(forms.ModelForm):
 	def clean(self):

@@ -112,6 +112,7 @@ def base_context(request, game, player):
 		'map' : game.get_map_url(),
 		'player': player,
 		'player_list': game.player_list_ordered_by_cities(),
+		'show_users': game.visible,
 		}
 	log = game.baseevent_set.all()
 	if player:
@@ -123,10 +124,11 @@ def base_context(request, game, player):
 		context['outbox_unread'] = player.sent.filter(read=False).count()
 		context['done'] = player.done
 		context['can_excommunicate'] = player.can_excommunicate()
-		if player.next_phase_change() > datetime.now():
-			context['time_exceeded'] = False
-		else:
-			context['time_exceeded'] = True
+		if game.slots == 0:
+			if player.next_phase_change() > datetime.now():
+				context['time_exceeded'] = False
+			else:
+				context['time_exceeded'] = True
 	log = log.exclude(season__exact=game.season,
 							phase__exact=game.phase)
 	if len(log) > 0:
