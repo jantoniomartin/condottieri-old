@@ -114,10 +114,10 @@ def base_context(request, game, player):
 		'player_list': game.player_list_ordered_by_cities(),
 		'show_users': game.visible,
 		}
+	if game.slots > 0:
+		context['player_list'] = game.player_set.filter(user__isnull=False)
 	log = game.baseevent_set.all()
 	if player:
-		#context['phase_partial'] = "machiavelli/phase_%s.html" % game.phase
-		#context['inbox'] = player.received.order_by('-id')[:10]
 		context['inbox_all'] = player.received.all().count()
 		context['inbox_unread'] = player.received.filter(read=False).count()
 		context['outbox_all'] = player.sent.all().count()

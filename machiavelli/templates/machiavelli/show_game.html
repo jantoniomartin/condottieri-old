@@ -66,7 +66,7 @@
 <img src="{{ STATIC_URL }}machiavelli/img/banner-{{ player.country.css_class }}.png" />
 </div>
 {% endif %}
-{% ifequal game.slots 0 %}
+{% if game.slots == 0 %} {# show all the powers info #}
 {% for p in player_list %}
 	{% if p.user %}
 	<div class="player {{ p.country.css_class }}">
@@ -103,7 +103,17 @@
 {% if can_excommunicate %}
 	<a href="{% url reset-excommunications game.slug %}">{% trans "Forgive excommunications" %}</a>
 {% endif %}
-{% endifequal %}
+
+{% else %} {# show only the user names of the players #}
+	{% if show_users %}
+	<div>{% trans "Current players" %}</div>
+	<ul>
+		{% for p in player_list %}
+			<li>{{ p.user.username }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+{% endif %}
 </div>
 </div>
 
