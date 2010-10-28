@@ -557,17 +557,21 @@ class Game(models.Model):
 					## check plagues
 					self.kill_plague_units()
 			elif self.season == 3:
+				## if conquering is enabled, check if any users are eliminated
+				if self.configuration.conquering:
+					for p in self.player_set.filter(eliminated=False,
+													user__isnull=False):
+						if p.check_eliminated():
+							p.eliminate()
 				self.update_controls()
+				## if conquering is enabled, check conquerings
+				if self.configuration.conquering:
+					self.check_conquerings()
 				if self.check_winner() == True:
 					self.make_map()
 					self.assign_scores()
 					self.game_over()
 					return
-				## if conquering is enabled, check now
-				if self.configuration.conquering:
-					for p in self.player_set.filter(eliminated=False):
-						p.check_eliminated()
-						self.check_conquerings()
 				## if natural disasters are enabled, place famine markers
 				if self.configuration.disasters:
 					self.mark_famine_areas()
@@ -605,7 +609,8 @@ class Game(models.Model):
 	def check_conquerings(self):
 		if not self.configuration.conquering:
 			return
-		for p in self.player_set.exclude(user=None):
+		## a player can only be conquered if he is eliminated
+		for p in self.player_set.filter(eliminated=True):
 			## get the players that control part of this player's home country
 			controllers = self.player_set.filter(gamearea__board_area__home__country=p.country,
 									gamearea__board_area__home__scenario=self.scenario,
@@ -1423,6 +1428,55 @@ class Player(models.Model):
 		return areas
 
 	def check_eliminated(self):
+		""" Before updating controls, check if the player is eliminated.
+
+		A player will be eliminated, **unless**:
+		- He has at least one empty **and** controlled home city, **OR**
+		- One of his home cities is occupied **only** by him.
+		"""
+
+		if not self.user:
+			return False
+		## find a home city controlled by the player, and empty
+		cities = self.home_country().filter(player=self,
+										unit__isnull=True).count()
+		if cities > 0:
+			print "%s has empty controlled home cities" % self
+			return False
+		## find a home city occupied only by the player
+		enemies = self.game.player_set.exclude(id=self.id)
+		occupied = self.game.gamearea_set.filter(unit__player__in=enemies).distinct().values('id')
+		safe = self.home_country().filter(unit__player=self).exclude(id__in=occupied).count()
+		if safe > 0:
+			print "%s has safe cities" % self
+			return False
+		print "%s is eliminated" % self
+		return True
+
+	def eliminate(self):
+		""" Eliminates the player and removes units, controls, etc.
+
+		If excommunication rule is being used, clear excommunications.
+		.. Warning::
+			This only should be used while there's only one country that can excommunicate.
+		"""
+		
+		if self.user:
+			self.eliminated = True
+			self.save()
+			for unit in self.unit_set.all():
+				unit.delete()
+			for area in self.gamearea_set.all():
+				area.player = None
+				area.save()
+			for rev in self.revolution_set.all():
+				rev.delete()
+			if self.game.configuration.excommunication:
+				if self.country.can_excommunicate:
+					self.game.player_set.all().update(excommunicated=None)
+		
+
+	def deprecated_check_eliminated(self):
 		""" If the player has lost all his home cities, eliminates him and disbands
 		all his units. Also deletes a possible revolution, and his control flags.
 
