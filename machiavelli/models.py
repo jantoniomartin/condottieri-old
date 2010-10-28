@@ -1464,6 +1464,7 @@ class Player(models.Model):
 		if self.user:
 			self.eliminated = True
 			self.save()
+			signals.country_eliminated.send(sender=self, country=self.country)
 			for unit in self.unit_set.all():
 				unit.delete()
 			for area in self.gamearea_set.all():

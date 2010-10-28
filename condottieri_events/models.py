@@ -458,7 +458,8 @@ siege_started.connect(log_siege_start)
 COUNTRY_EVENTS = (
 	(0, _('Government has been overthrown')),
 	(1, _('Has been conquered')),
-	(2, _('Has been declared enemy of Christendom'))
+	(2, _('Has been declared enemy of Christendom')),
+	(3, _('Has been eliminated')),
 )
 
 class CountryEvent(BaseEvent):
@@ -471,6 +472,8 @@ class CountryEvent(BaseEvent):
 	* The country has been conquered.
 	
 	* The country has been excommunicated.
+
+	* The country has been eliminated.
 	
 	Each condition must have its own signal.
 	"""
@@ -512,6 +515,15 @@ def log_excommunication(sender, **kwargs):
 					message = 2)
 
 country_excommunicated.connect(log_excommunication)
+
+def log_elimination(sender, **kwargs):
+	assert isinstance(sender, Player), "sender must be a Player"
+	log_event(CountryEvent, sender.game,
+					classname="CountryEvent",
+					country = kwargs['country'],
+					message = 3)
+
+country_eliminated.connect(log_elimination)
 
 DISASTER_EVENTS = (
 	(0, _('is affected by famine.')),
