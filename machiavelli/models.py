@@ -206,6 +206,7 @@ actually played in GameArea objects.
 			('HER', 'ALB'),
 			('BOL', 'MOD'),
 			('BOL', 'LUC'),
+			('CAR', 'CRO'),
 		]
 		if fleet:
 			if (self.code, area.code) in only_armies or (area.code, self.code) in only_armies:
