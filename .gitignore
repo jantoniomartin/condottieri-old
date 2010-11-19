@@ -15,4 +15,4 @@ maintenance.html*
 */migrations/
 activate
 doc/_*
-templates/gnalytics.html
+templates/ganalytics.html
