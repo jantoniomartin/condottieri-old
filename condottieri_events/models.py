@@ -165,7 +165,7 @@ class OrderEvent(BaseEvent):
 		return "order-event"
 
 	def __unicode__(self):
-		country_info = "<small>(%s)</small>" % (self.country,)
+		country_info = "<small>(%s)</small>" % (unicode(self.country),)
 		msg = self.get_message()
 		return "%s %s" % (country_info, msg)
 	
