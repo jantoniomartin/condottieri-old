@@ -1764,6 +1764,7 @@ class Unit(models.Model):
 		## for armies, exclude seas
 		if self.type == 'A':
 			cond = cond & Q(board_area__is_sea=False)
+			cond = cond & ~Q(board_area__code__exact='VEN')
 		## for fleets, exclude areas that are adjacent but their coasts are not
 		elif self.type == 'F':
 			exclude = []
