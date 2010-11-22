@@ -82,7 +82,7 @@ def summary(request):
 							context,
 							context_instance=RequestContext(request))
 
-@cache_page(10 * 60)
+#@cache_page(10 * 60)
 def game_list(request):
 	""" Gets a paginated list of all the games in the server. """
 	all_games = Game.objects.all().order_by('-id')
@@ -392,7 +392,7 @@ def game_error(request, game, message=''):
 							context_instance=RequestContext(request))
 
 #@login_required
-@cache_page(60 * 60) # cache 1 hour
+#@cache_page(60 * 60) # cache 1 hour
 def game_results(request, slug=''):
 	game = get_object_or_404(Game, slug=slug)
 	if game.phase != PHINACTIVE:
@@ -438,7 +438,7 @@ def logs_by_game(request, slug=''):
 							context_instance=RequestContext(request))
 
 @login_required
-@cache_page(60 * 60)
+#@cache_page(60 * 60)
 def create_game(request):
 	## check minimum karma to create a game
 	karma = request.user.get_profile().karma
@@ -628,7 +628,7 @@ def reset_excommunications(request, slug):
 	return redirect(game)
 
 
-@cache_page(60 * 60)
+#@cache_page(60 * 60)
 def scenario_list(request):
 	""" Gets a list of all the enabled scenarios. """
 	
@@ -640,7 +640,7 @@ def scenario_list(request):
 							context_instance = RequestContext(request))
 
 
-@cache_page(60 * 60)
+#@cache_page(60 * 60)
 def show_scenario(request, scenario_id):
 	scenario = get_object_or_404(Scenario, id=scenario_id, enabled=True)
 
@@ -684,7 +684,7 @@ def show_letter(request, letter_id):
 							context_instance=RequestContext(request))
 
 #@login_required
-@cache_page(30 * 60)
+#@cache_page(30 * 60)
 def hall_of_fame(request):
 	profiles_list = CondottieriProfile.objects.all().order_by('-total_score')
 	paginator = Paginator(profiles_list, 10)
@@ -741,7 +741,7 @@ def ranking(request, key='', val=''):
 
 
 @login_required
-@cache_page(120 * 60) # cache 2 hours
+#@cache_page(120 * 60) # cache 2 hours
 def low_karma_error(request):
 	context = {
 		'karma': request.user.get_profile().karma,
@@ -752,7 +752,7 @@ def low_karma_error(request):
 							context_instance=RequestContext(request))
 
 @login_required
-@cache_page(60 * 60) # cache 1 hour
+#@cache_page(60 * 60) # cache 1 hour
 def turn_log_list(request, slug=''):
 	game = get_object_or_404(Game, slug=slug)
 	log_list = game.turnlog_set.all()
