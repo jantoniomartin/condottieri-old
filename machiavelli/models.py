@@ -495,7 +495,7 @@ class Game(models.Model):
 				p.end_phase(forced=True)
 		
 	def check_time_limit(self):
-		""" Checks if the time limit has been reached. """
+		""" Checks if the time limit has been reached. If yes, force a phase change """
 
 		if not self.phase == PHINACTIVE:
 			limit = self.next_phase_change()
@@ -1586,6 +1586,12 @@ class Player(models.Model):
 		duration = timedelta(0, time_limit)
 
 		return self.game.last_phase_change + duration
+	
+	def time_exceeded(self):
+		""" Returns true if the player has exceeded his own time, and he is playing because
+		other players have not yet finished. """
+
+		return self.next_phase_change() < datetime.now()
 
 	def force_phase_change(self):
 		## the player didn't take his actions, so he loses karma

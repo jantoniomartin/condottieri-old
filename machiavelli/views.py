@@ -61,17 +61,20 @@ from machiavelli.models import Unit
 def summary(request):
 	active_games = Game.objects.exclude(slots=0, phase=PHINACTIVE)
 	if request.user.is_authenticated():
+		your_players = Player.objects.filter(user=request.user)
 		other_games = active_games.exclude(player__user=request.user)
-		your_games = active_games.filter(player__user=request.user)
+		#your_games = active_games.filter(player__user=request.user)
 	else:
 		other_games = active_games
-		your_games = Game.objects.none()
+		your_players = Player.objects.none()
+		#your_games = Game.objects.none()
 	revolutions = []
 	for r in Revolution.objects.filter(opposition__isnull=True):
 		if r.government.game in other_games:
 			revolutions.append(r)
 	context = {
-		'your_games': your_games,
+		#'your_games': your_games,
+		'your_players': your_players,
 		'other_games': other_games,
 		'revolutions': revolutions,
 		'user': request.user,
@@ -125,10 +128,7 @@ def base_context(request, game, player):
 		context['done'] = player.done
 		context['can_excommunicate'] = player.can_excommunicate()
 		if game.slots == 0:
-			if player.next_phase_change() > datetime.now():
-				context['time_exceeded'] = False
-			else:
-				context['time_exceeded'] = True
+			context['time_exceeded'] = player.time_exceeded()
 	log = log.exclude(season__exact=game.season,
 							phase__exact=game.phase)
 	if len(log) > 0:
