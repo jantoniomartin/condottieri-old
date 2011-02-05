@@ -939,9 +939,9 @@ class Game(models.Model):
 							elif u.order.code == '=':
 								inv.conversion = u.order.type
 							conditioned_invasions.append(inv)
-				#u.delete_order()
-		for u in units:
-			u.delete_order()
+				u.delete_order()
+		#for u in units:
+		#	u.delete_order()
 		##
 		## at this point, all the 'easy' movements and conversions have been
 		## made, and we have a conditioned_invasions sequence
