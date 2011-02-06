@@ -494,14 +494,37 @@ class Game(models.Model):
 					Unit.objects.filter(player=p).exclude(must_retreat__exact='').delete()
 				p.end_phase(forced=True)
 		
-	def check_time_limit(self):
-		""" Checks if the time limit has been reached. If yes, force a phase change """
+	def time_is_exceeded(self):
+		""" Checks if the time limit has been reached. If yes, return True """
 
 		if not self.phase == PHINACTIVE:
 			limit = self.next_phase_change()
 			to_limit = limit - datetime.now()
-			if to_limit <= timedelta(0, 0):
-				self.force_phase_change()
+			return to_limit <= timedelta(0, 0)
+			#self.force_phase_change()
+	
+	def check_finished_phase(self):
+		""" This method is to be called by a management script, called by cron.
+		It checks if all the players are done, then process the phase.
+		If at least a player is not done, check the time limit
+		"""
+		players = self.player_set.all()
+		msg = u"Checking phase change in game %s\n" % self.pk
+		if self.time_is_exceeded():
+			msg += u"Time exceeded.\n"
+			self.force_phase_change()
+		for p in players:
+			if not p.done:
+				msg += u"At least a player is not done.\n"
+				return False
+		msg += u"All players done.\n"
+		if logging:
+			logging.info(msg)
+		self.all_players_done()
+		for p in players:
+			p.new_phase()
+
+	
 	
 	def check_bonus_time(self):
 		""" Returns true if, when the function is called, the first BONUS_TIME% of the
@@ -592,17 +615,18 @@ class Game(models.Model):
 		self.make_map()
 		self.notify_players("new_phase", {"game": self}, on_site=False)
     
-	def check_next_phase(self):
-		""" When a player ends its phase, send a signal to the game. This function
-		checks if all the players have finished.
-		"""
-
-		for p in self.player_set.all():
-			if not p.done:
-				return False
-		self.all_players_done()
-		for p in self.player_set.all():
-			p.new_phase()
+	## deprecated because of check_finished_phase
+	#def check_next_phase(self):
+	#	""" When a player ends its phase, send a signal to the game. This function
+	#	checks if all the players have finished.
+	#	"""
+	#
+	#	for p in self.player_set.all():
+	#		if not p.done:
+	#			return False
+	#	self.all_players_done()
+	#	for p in self.player_set.all():
+	#		p.new_phase()
 
 	##------------------------
 	## optional rules methods
@@ -1551,7 +1575,7 @@ class Player(models.Model):
 			Revolution.objects.filter(government=self).delete()
 		else:
 			self.force_phase_change()
-		self.game.check_next_phase()
+		#self.game.check_next_phase()
 
 	def new_phase(self):
 		## check that the player is not autonomous and is not eliminated

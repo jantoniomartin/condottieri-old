@@ -191,8 +191,8 @@ def play_game(request, slug=''):
 				except:
 					pass
 		##################################
-		if game.slots == 0:
-			game.check_time_limit()
+		#if game.slots == 0:
+		#	game.check_time_limit()
 		if game.phase == PHINACTIVE:
 			context = base_context(request, game, player)
 			return render_to_response('machiavelli/inactive_actions.html',
