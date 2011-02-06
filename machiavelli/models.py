@@ -801,12 +801,12 @@ class Game(models.Model):
 			try:
 				u.order
 			except:
+				info += u"%s has no orders.\n" % u
 				continue
 			else:
+				info += u"%s was ordered: %s.\n" % (u, u.order)
 				if u.order.code in ['H', 'S', 'B', 'C']:
 					continue
-				else:
-					info += u"%s was ordered: %s.\n" % (u, u.order)
 			##################
 			s = u.strength
 			info += u"Supported by = %s.\n" % s
