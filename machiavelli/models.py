@@ -817,13 +817,14 @@ class Game(models.Model):
 			info += u"Unit has %s rivals.\n" % len(rivals)
 			conflict_area = u.get_attacked_area()
 			## check if the conflict area is reachable
-			if u.order.code == '-':
-				if not (u.area.board_area.is_adjacent(conflict_area.board_area,
-										fleet=(u.type=='F')) or \
-										u.order.find_convoy_line()):
-					info += u"Trying to enter an unreachable area.\n"
-					u.delete_order()
-					continue
+			## DEPRECATED since it's being checked in filter_unreachable_attacks()
+			#if u.order.code == '-':
+			#	if not (u.area.board_area.is_adjacent(conflict_area.board_area,
+			#							fleet=(u.type=='F')) or \
+			#							u.order.find_convoy_line()):
+			#		info += u"Trying to enter an unreachable area.\n"
+			#		u.delete_order()
+			#		continue
 			if conflict_area.standoff:
 				info += u"Trying to enter a standoff area.\n"
 				u.delete_order()
