@@ -827,7 +827,7 @@ class Game(models.Model):
 			#		continue
 			if conflict_area.standoff:
 				info += u"Trying to enter a standoff area.\n"
-				u.delete_order()
+				#u.delete_order()
 				continue
 			else:
 				standoff = False
@@ -940,7 +940,8 @@ class Game(models.Model):
 							elif u.order.code == '=':
 								inv.conversion = u.order.type
 							conditioned_invasions.append(inv)
-				u.delete_order()
+				## DEPRECATED since orders are deleted in all_players_done()
+				#u.delete_order()
 		#for u in units:
 		#	u.delete_order()
 		##
