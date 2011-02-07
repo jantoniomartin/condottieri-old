@@ -75,7 +75,7 @@ def make_map(game):
 			coords = (unit.area.board_area.gtoken.x, unit.area.board_area.gtoken.y)
 			base_map.paste(garrison, coords, garrison)
 	## paste famine markers
-	if game.configuration.disasters:
+	if game.configuration.famine:
 		famine = Image.open("%s/famine-marker.png" % BASEDIR)
 		for a in game.gamearea_set.filter(famine=True):
 			coords = (a.board_area.aftoken.x + 16, a.board_area.aftoken.y + 16)
