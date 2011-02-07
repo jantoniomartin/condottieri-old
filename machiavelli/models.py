@@ -2255,6 +2255,8 @@ class Configuration(models.Model):
 	lenders = models.BooleanField(_('money lenders'), default=False,
 					help_text=_('will enable Finances'))
 	conquering = models.BooleanField(_('conquering'), default=False)
+	famine = models.BooleanField(_('famine'), default=False)
+	plague = models.BooleanField(_('plague'), default=False)
 
 	def __unicode__(self):
 		return unicode(self.game)
