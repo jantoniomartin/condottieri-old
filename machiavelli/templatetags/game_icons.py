@@ -13,8 +13,12 @@ def rule_icons(config):
 		icons.append('bribes')
 	if config.excommunication:
 		icons.append('excommunication')
-	if config.disasters:
-		icons.append('disasters')
+	#if config.disasters:
+	#	icons.append('disasters')
+	if config.famine:
+		icons.append('famine')
+	if config.plague:
+		icons.append('plague')
 	if config.special_units:
 		icons.append('special-units')
 	if config.strategic:
