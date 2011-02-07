@@ -572,7 +572,7 @@ class Game(models.Model):
 		if end_season:
 			if self.season == 1:
 				## delete units in famine areas
-				if self.configuration.disasters:
+				if self.configuration.famine:
 					famine_units = Unit.objects.filter(player__game=self, area__famine=True)
 					for f in famine_units:
 						f.delete()
@@ -596,8 +596,8 @@ class Game(models.Model):
 					self.assign_scores()
 					self.game_over()
 					return
-				## if natural disasters are enabled, place famine markers
-				if self.configuration.disasters:
+				## if famine enabled, place famine markers
+				if self.configuration.famine:
 					self.mark_famine_areas()
 			self._next_season()
 			if self.season == 1:
@@ -647,7 +647,7 @@ class Game(models.Model):
 					p.set_conqueror(controllers[0])
 
 	def mark_famine_areas(self):
-		if not self.configuration.disasters:
+		if not self.configuration.famine:
 			return
 		codes = disasters.get_famine()
 		famine_areas = GameArea.objects.filter(game=self, board_area__code__in=codes)
@@ -657,7 +657,7 @@ class Game(models.Model):
 			signals.famine_marker_placed.send(sender=f)
 	
 	def kill_plague_units(self):
-		if not self.configuration.disasters:
+		if not self.configuration.plague:
 			return
 		codes = disasters.get_plague()
 		plague_areas = GameArea.objects.filter(game=self, board_area__code__in=codes)
@@ -1404,7 +1404,7 @@ class Player(models.Model):
 		if not self.user:
 			return 0
 		cities = self.number_of_cities()
-		if self.game.configuration.disasters:
+		if self.game.configuration.famine:
 			famines = self.gamearea_set.filter(famine=True, board_area__has_city=True).exclude(unit__type__exact='G').count()
 			cities -= famines
 		units = len(self.unit_set.all())
@@ -2248,7 +2248,7 @@ class Configuration(models.Model):
 	bribes = models.BooleanField(_('bribes'), default=False,
 					help_text=_('will enable Finances'))
 	excommunication = models.BooleanField(_('excommunication'), default=False)
-	disasters = models.BooleanField(_('natural disasters'), default=False)
+	#disasters = models.BooleanField(_('natural disasters'), default=False)
 	special_units = models.BooleanField(_('special units'), default=False,
 					help_text=_('will enable Finances and Bribes'))
 	strategic = models.BooleanField(_('strategic movement'), default=False)
