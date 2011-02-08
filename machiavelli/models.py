@@ -188,6 +188,12 @@ actually played in GameArea objects.
 	is_fortified = models.BooleanField(default=False)
 	has_port = models.BooleanField(default=False)
 	borders = models.ManyToManyField("self", editable=False)
+	## control_income is the number of ducats that the area gives to the player
+	## that controls it, including the city (seas give 0)
+	control_income = models.PositiveIntegerField(null=False, default=0)
+	## garrison_income is the number of ducats given by an unbesieged
+	## garrison in the area's city, if any (no fortified city, 0)
+	garrison_income = models.PositiveIntegerField(null=False, default=0)
 
 	def is_adjacent(self, area, fleet=False):
 		""" Two areas can be adjacent through land, but not through a coast. 
