@@ -28,7 +28,7 @@ from datetime import datetime, timedelta
 
 ## django
 from django.db import models
-from django.db.models import permalink, Q, Count
+from django.db.models import permalink, Q, Count, Sum
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.contrib.auth.models import User
 import django.forms as forms
@@ -1659,8 +1659,50 @@ class Player(models.Model):
 								message=0)
 				self.save()
 				rev.delete()
-				#self.user.stats.adjust_karma(10)
 				self.user.get_profile().adjust_karma(10)
+
+	##
+	## Income calculation
+	##
+	def get_control_income(self):
+		""" Gets the sum of the control income of all controlled AND empty provinces. """
+		gamearea_ids = self.gamearea_set.values_list('board_area', flat=True)
+		income = Area.objects.filter(id__in = gamearea_ids).aggregate(Sum('control_income'))
+
+		return income['control_income__sum']
+
+	def get_occupation_income(self):
+		""" Gets the sum of the income of all the armies and fleets in not controlled areas """
+		units = self.unit_set.exclude(type="G")
+		units = units.filter(~Q(area__player=self) | Q(area__player__isnull=True))
+
+		return units.count()
+
+	def get_garrisons_income(self):
+		""" Gets the sum of the income of all the non-besieged garrisons in non-controlled areas
+		"""
+		## get garrisons in non-controlled areas
+		garrisons = self.unit_set.filter(type="G")
+		garrisons = garrisons.filter(~Q(area__player=self) | Q(area__player__isnull=True))
+		garrisons = garrisons.values_list('area__board_area__id', flat=True)
+		if len(garrisons) > 0:
+			## get ids of gameareas where garrisons are under siege
+			sieges = Unit.objects.filter(player__game=self.game, besieging=True)
+			sieges = sieges.values_list('area__board_area__id', flat=True)
+			## get the income
+			income = Area.objects.filter(id__in=garrisons).exclude(id__in=sieges)
+			if income.count() > 0:
+				income = income.aggregate(Sum('garrison_income'))
+				return income['garrison_income__sum']
+		return 0
+
+	def get_income(self):
+		""" Gets the total income in one turn """
+		income = self.get_control_income()
+		income += self.get_occupation_income()
+		income += self.get_garrisons_income()
+		return income
+
 
 class Revolution(models.Model):
 	""" A Revolution instance means that ``government`` is not playing, and
