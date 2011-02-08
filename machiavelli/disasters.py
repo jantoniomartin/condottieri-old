@@ -49,7 +49,7 @@ FAMINE_TABLE = [
 ['FER'  , ''     , 'ROME' , 'PAV'  , ''     , ''     , 'ARE'  , ''     , 'SALZ' , 'ALB'  , 'GEN'  ],
 [''     , ''     , 'CRO'  , ''     , 'FLO'  , 'TUR'  , 'MAN'  , 'CAP'  , 'TRE'  , ''     , ''     ],
 ['SAV'  , ''     , 'SAR'  , ''     , 'PAR'  , 'BOS'  , 'TYR'  , ''     , 'NAP'  , ''     , 'DAL'  ],
-[''     , ''     , 'VEN'  , ''     , ''     , ''     , ''     , 'CAR'  , ''     , 'MES'  , 'PER'  ],
+[''     , ''     , 'VEN'  , ''     , ''     , ''     , ''     , 'CAR'  , ''     , 'MES'  , ''  ],
 [''     , ''     , ''     , 'PISA' , 'AQU'  , 'AVI'  , 'LUC'  , ''     , 'IST'  , ''     , ''     ]
 ]
 
