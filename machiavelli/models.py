@@ -605,6 +605,15 @@ class Game(models.Model):
 				## if famine enabled, place famine markers
 				if self.configuration.famine:
 					self.mark_famine_areas()
+				## if finances are enabled, assign incomes
+				## this is now enabled just for testing purposes. In case of an
+				## error, it will be reported by the cron job
+				#if self.configuration.finances:
+				try:
+					self.assign_incomes()
+				except Exception, e:
+					print "Error assigning incomes in game %s:\n" % self.id
+					print e
 			self._next_season()
 			if self.season == 1:
 				next_phase = PHORDERS
