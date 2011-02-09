@@ -527,10 +527,13 @@ class Game(models.Model):
 		if logging:
 			logging.info(msg)
 		self.all_players_done()
+		## If I don't reload players, p.new_phase overwrite the changes made by
+		## self.assign_incomes()
+		## TODO: optimize this
+		players = self.player_set.all()
 		for p in players:
 			p.new_phase()
 
-	
 	
 	def check_bonus_time(self):
 		""" Returns true if, when the function is called, the first BONUS_TIME% of the
@@ -687,8 +690,7 @@ class Game(models.Model):
 		for p in players:
 			i = p.get_income()
 			if i > 0:
-				p.ducats = F('ducats') + i
-				p.save()
+				p.add_ducats(i)
 	
 	##------------------------
 	## turn processing methods
@@ -1690,6 +1692,9 @@ class Player(models.Model):
 		gamearea_ids = self.gamearea_set.filter(famine=False).values_list('board_area', flat=True)
 		income = Area.objects.filter(id__in = gamearea_ids).aggregate(Sum('control_income'))
 
+		i =  income['control_income__sum']
+		if i is None:
+			return 0
 		return income['control_income__sum']
 
 	def get_occupation_income(self):
@@ -1697,7 +1702,10 @@ class Player(models.Model):
 		units = self.unit_set.exclude(type="G").exclude(area__famine=True)
 		units = units.filter(~Q(area__player=self) | Q(area__player__isnull=True))
 
-		return units.count()
+		i = units.count()
+		if i > 0:
+			return i
+		return 0
 
 	def get_garrisons_income(self):
 		""" Gets the sum of the income of all the non-besieged garrisons in non-controlled areas
@@ -1726,6 +1734,11 @@ class Player(models.Model):
 		income += self.get_occupation_income()
 		income += self.get_garrisons_income()
 		return income
+
+	def add_ducats(self, d):
+		""" Adds d to the ducats field of the player."""
+		self.ducats = F('ducats') + d
+		self.save()
 
 
 class Revolution(models.Model):
