@@ -78,13 +78,19 @@ class ConfigurationInline(admin.TabularInline):
 
 class GameAdmin(admin.ModelAdmin):
 	list_display = ('pk', 'slug', 'year', 'season', 'phase', 'slots', 'scenario', 'created_by', 'next_phase_change', 'player_list')
-	actions = ['redraw_map']
+	actions = ['redraw_map',
+				'check_finished_phase',]
 	inlines = [ ConfigurationInline, ]
 
 	def redraw_map(self, request, queryset):
 		for obj in queryset:
 			obj.make_map()
 	redraw_map.short_description = "Redraw map"
+
+	def check_finished_phase(self, request, queryset):
+		for obj in queryset:
+			obj.check_finished_phase()
+	check_finished_phase.short_description = "Check finished phase"
 	
 	def player_list(self, obj):
 		users = []
