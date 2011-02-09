@@ -1675,15 +1675,17 @@ class Player(models.Model):
 	## Income calculation
 	##
 	def get_control_income(self):
-		""" Gets the sum of the control income of all controlled AND empty provinces. """
-		gamearea_ids = self.gamearea_set.values_list('board_area', flat=True)
+		""" Gets the sum of the control income of all controlled AND empty
+		provinces. Note that provinces affected by plague don't genearate
+		any income"""
+		gamearea_ids = self.gamearea_set.filter(famine=False).values_list('board_area', flat=True)
 		income = Area.objects.filter(id__in = gamearea_ids).aggregate(Sum('control_income'))
 
 		return income['control_income__sum']
 
 	def get_occupation_income(self):
 		""" Gets the sum of the income of all the armies and fleets in not controlled areas """
-		units = self.unit_set.exclude(type="G")
+		units = self.unit_set.exclude(type="G").exclude(area__famine=True)
 		units = units.filter(~Q(area__player=self) | Q(area__player__isnull=True))
 
 		return units.count()
@@ -1692,8 +1694,11 @@ class Player(models.Model):
 		""" Gets the sum of the income of all the non-besieged garrisons in non-controlled areas
 		"""
 		## get garrisons in non-controlled areas
+		cond = ~Q(area__player=self)
+		cond |= Q(area__player__isnull=True)
+		cond |= (Q(area__player=self, area__famine=True))
 		garrisons = self.unit_set.filter(type="G")
-		garrisons = garrisons.filter(~Q(area__player=self) | Q(area__player__isnull=True))
+		garrisons = garrisons.filter(cond)
 		garrisons = garrisons.values_list('area__board_area__id', flat=True)
 		if len(garrisons) > 0:
 			## get ids of gameareas where garrisons are under siege
