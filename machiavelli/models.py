@@ -1357,6 +1357,7 @@ class Player(models.Model):
 	eliminated = models.BooleanField(default=False)
 	conqueror = models.ForeignKey('self', related_name='conquered', blank=True, null=True)
 	excommunicated = models.PositiveIntegerField(blank=True, null=True)
+	ducats = models.PositiveIntegerField(default=0)
 
 	def __unicode__(self):
 		if self.user:
