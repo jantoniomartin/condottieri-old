@@ -28,7 +28,7 @@ from datetime import datetime, timedelta
 
 ## django
 from django.db import models
-from django.db.models import permalink, Q, Count, Sum
+from django.db.models import permalink, Q, F, Count, Sum
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.contrib.auth.models import User
 import django.forms as forms
@@ -671,6 +671,15 @@ class Game(models.Model):
 			signals.plague_placed.send(sender=p)
 			for u in p.unit_set.all():
 				u.delete()
+
+	def assign_incomes(self):
+		""" Gets each player's income and add it to the player's treasury """
+		players = self.player_set.filter(user__isnull=False, eliminated=False)
+		for p in players:
+			i = p.get_income()
+			if i > 0:
+				p.ducats = F('ducats') + i
+				p.save()
 	
 	##------------------------
 	## turn processing methods
