@@ -405,6 +405,8 @@ class Game(models.Model):
 			self.shuffle_countries()
 			self.home_control_markers()
 			self.place_initial_units()
+			if self.configuration.finances:
+				self.assign_initial_income()
 			#self.map_outdated = True
 			self.make_map()
 			self.last_phase_change = datetime.now()
@@ -471,6 +473,12 @@ class Game(models.Model):
 		for p in self.player_set.filter(user__isnull=False):
 			p.place_initial_units()
 		self.place_initial_garrisons()
+
+	def assign_initial_income(self):
+		for p in self.player_set.filter(user__isnull=False):
+			t = Treasury.objects.get(scenario=self.scenario, country=p.country)
+			p.ducats = t.ducats
+			p.save()
 
 	##--------------------------
 	## time controlling methods
