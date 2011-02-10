@@ -1420,7 +1420,7 @@ class Player(models.Model):
 	excommunicated = models.PositiveIntegerField(blank=True, null=True)
 	ducats = models.PositiveIntegerField(default=0)
 	double_income = models.BooleanField(default=False)
-	can_excommunicate = models.BooleanField(default=False)
+	may_excommunicate = models.BooleanField(default=False)
 
 	def __unicode__(self):
 		if self.user:
