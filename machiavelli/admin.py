@@ -16,9 +16,14 @@ class TreasuryInline(admin.TabularInline):
 	extra = 1
 	ordering = ['country']
 
+class CityIncomeInline(admin.TabularInline):
+	model = CityIncome
+	extra = 1
+	ordering = ['city']
+
 class ScenarioAdmin(admin.ModelAdmin):
 	list_display = ('title', 'start_year')
-	inlines = [HomeInline, SetupInline, TreasuryInline,]
+	inlines = [HomeInline, SetupInline, TreasuryInline, CityIncomeInline,]
 
 class CountryAdmin(admin.ModelAdmin):
 	list_display = ('name', 'css_class')

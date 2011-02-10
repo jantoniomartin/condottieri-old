@@ -290,6 +290,20 @@ class Treasury(models.Model):
 		unique_together = (("scenario", "country"),)
 
 
+class CityIncome(models.Model):
+	""" This class represents a City that generates an income in a given
+	Scenario"""
+	
+	city = models.ForeignKey(Area)
+	scenario = models.ForeignKey(Scenario)
+
+	def __unicode__(self):
+		return "%s" % self.city
+
+	class Meta:
+		unique_together = (("city", "scenario"),)
+
+
 class Game(models.Model):
 	""" This is the main class of the machiavelli application. It includes all the
 	logic to control the flow of the game, and to resolve conflicts.
