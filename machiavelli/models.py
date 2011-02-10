@@ -172,7 +172,7 @@ class Country(models.Model):
 	name = AutoTranslateField(max_length=20, unique=True)
 	css_class = models.CharField(max_length=20, unique=True)
 	can_excommunicate = models.BooleanField(default=False)
-	static_name = models.CharField(max_length=20, unique=True)
+	static_name = models.CharField(max_length=20, default="")
 
 	def __unicode__(self):
 		return self.name
