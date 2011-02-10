@@ -446,13 +446,13 @@ class Game(models.Model):
 		finances = self.configuration.finances
 
 		for p in self.player_set.filter(user__isnull=False):
+			p.static_name = p.country.static_name
 			if excom:
 				p.may_excommunicate = p.country.can_excommunicate
 			if finances:
 				t = Treasury.objects.get(scenario=self.scenario, country=p.country)
 				p.double_income = t.double
-			if excom or finances:
-				p.save()
+			p.save()
 
 	def create_game_board(self):
 		""" Creates the GameAreas for the Game.	"""
@@ -1437,6 +1437,7 @@ class Player(models.Model):
 	ducats = models.PositiveIntegerField(default=0)
 	double_income = models.BooleanField(default=False)
 	may_excommunicate = models.BooleanField(default=False)
+	static_name = models.CharField(max_length=20, default="")
 
 	def __unicode__(self):
 		if self.user:
