@@ -11,9 +11,14 @@ class HomeInline(admin.TabularInline):
 	extra = 5
 	ordering = ['country']
 
+class TreasuryInline(admin.TabularInline):
+	model = Treasury
+	extra = 1
+	ordering = ['country']
+
 class ScenarioAdmin(admin.ModelAdmin):
 	list_display = ('title', 'start_year')
-	inlines = [HomeInline, SetupInline,]
+	inlines = [HomeInline, SetupInline, TreasuryInline,]
 
 class CountryAdmin(admin.ModelAdmin):
 	list_display = ('name', 'css_class')

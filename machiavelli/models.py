@@ -274,6 +274,21 @@ class Setup(models.Model):
 	class Meta:
 		unique_together = (("scenario", "area", "unit_type"),)
 
+class Treasury(models.Model):
+	""" This class represents the initial amount of ducats that a Country starts
+	each Scenario with """
+	
+	scenario = models.ForeignKey(Scenario)
+	country = models.ForeignKey(Country)
+	ducats = models.PositiveIntegerField(default=0)
+	double = models.BooleanField(default=False)
+
+	def __unicode__(self):
+		return "%s starts %s with %s ducats" % (self.country, self.scenario, self.ducats)
+
+	class Meta:
+		unique_together = (("scenario", "country"),)
+
 
 class Game(models.Model):
 	""" This is the main class of the machiavelli application. It includes all the
