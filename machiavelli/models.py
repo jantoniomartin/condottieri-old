@@ -52,6 +52,7 @@ from machiavelli.graphics import make_map
 from machiavelli.logging import save_snapshot
 import machiavelli.dice as dice
 import machiavelli.disasters as disasters
+import machiavelli.finances as finances
 import machiavelli.exceptions as exceptions
 
 ## condottieri_profiles
@@ -743,9 +744,13 @@ class Game(models.Model):
 		""" Gets each player's income and add it to the player's treasury """
 		## get the column for variable income
 		die = dice.roll_1d6()
+		## get a list of the ids of the major cities that generate income
+		majors = CityIncome.objects.filter(scenario=self.scenario)
+		majors_ids = majors.values_list('city', flat=True)
+		##
 		players = self.player_set.filter(user__isnull=False, eliminated=False)
 		for p in players:
-			i = p.get_income(die)
+			i = p.get_income(die, majors_ids)
 			if i > 0:
 				p.add_ducats(i)
 	
@@ -1745,7 +1750,7 @@ class Player(models.Model):
 	##
 	## Income calculation
 	##
-	def get_control_income(self, die):
+	def get_control_income(self, die, majors_ids):
 		""" Gets the sum of the control income of all controlled AND empty
 		provinces. Note that provinces affected by plague don't genearate
 		any income"""
@@ -1755,7 +1760,14 @@ class Player(models.Model):
 		i =  income['control_income__sum']
 		if i is None:
 			return 0
-		return income['control_income__sum']
+		
+		v = 0
+		for a in majors_ids:
+			if a in gamearea_ids:
+				city = Area.objects.get(id=a)
+				v += finances.get_ducats(city.code, die)
+
+		return income['control_income__sum'] + v
 
 	def get_occupation_income(self):
 		""" Gets the sum of the income of all the armies and fleets in not controlled areas """
@@ -1767,7 +1779,7 @@ class Player(models.Model):
 			return i
 		return 0
 
-	def get_garrisons_income(self, die):
+	def get_garrisons_income(self, die, majors_ids):
 		""" Gets the sum of the income of all the non-besieged garrisons in non-controlled areas
 		"""
 		## get garrisons in non-controlled areas
@@ -1784,19 +1796,30 @@ class Player(models.Model):
 			## get the income
 			income = Area.objects.filter(id__in=garrisons).exclude(id__in=sieges)
 			if income.count() > 0:
+				v = 0
+				for a in income:
+					if a.id in majors_ids:
+						v += finances.get_ducats(a.code, die)
 				income = income.aggregate(Sum('garrison_income'))
-				return income['garrison_income__sum']
+				return income['garrison_income__sum'] + v
 		return 0
 
 	def get_variable_income(self, die):
 		""" Gets the variable income for the country """
-		return 0
+		v = finances.get_ducats(self.static_name, die, self.double_income)
+		## the player gets the variable income of conquered players
+		if self.game.configuration.conquering:
+			conquered = self.game.player_set.filter(conqueror=self)
+			for c in conquered:
+				v += finances.get_ducats(c.static_name, die, c.double_income)
 
-	def get_income(self, die):
+		return v
+
+	def get_income(self, die, majors_ids):
 		""" Gets the total income in one turn """
-		income = self.get_control_income(die)
+		income = self.get_control_income(die, majors_ids)
 		income += self.get_occupation_income()
-		income += self.get_garrisons_income(die)
+		income += self.get_garrisons_income(die, majors_ids)
 		income += self.get_variable_income(die)
 		return income
 
