@@ -405,6 +405,7 @@ class Game(models.Model):
 			self.phase = PHORDERS
 			self.create_game_board()
 			self.shuffle_countries()
+			self.copy_country_data()
 			self.home_control_markers()
 			self.place_initial_units()
 			if self.configuration.finances:
@@ -437,6 +438,21 @@ class Game(models.Model):
 		for t in assignment:
 			t[0].country = Country.objects.get(id=t[1])
 			t[0].save()
+
+	def copy_country_data(self):
+		""" Copies to the player objects some properties that will never change during the game.
+		This way, I hope to save some hits to the database """
+		excom = self.configuration.excommunication
+		finances = self.configuration.finances
+
+		for p in self.player_set.filter(user__isnull=False):
+			if excom:
+				p.may_excommunicate = p.country.can_excommunicate
+			if finances:
+				t = Treasury.objects.get(scenario=self.scenario, country=p.country)
+				p.double_income = t.double
+			if excom or finances:
+				p.save()
 
 	def create_game_board(self):
 		""" Creates the GameAreas for the Game.	"""
@@ -1608,14 +1624,14 @@ class Player(models.Model):
 			self.save()
 
 	def can_excommunicate(self):
-		""" Returns true if player.country.can_excommunicate and nobody has been
+		""" Returns true if player.may_excommunicate and nobody has been
 		excommunicated this year.
 		"""
 
 		if self.eliminated:
 			return False
 		if self.game.configuration.excommunication:
-			if self.country and self.country.can_excommunicate:
+			if self.may_excommunicate:
 				try:
 					Player.objects.get(game=self.game,
 									excommunicated=self.game.year)
