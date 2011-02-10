@@ -50,6 +50,7 @@ else:
 from machiavelli.fields import AutoTranslateField
 from machiavelli.graphics import make_map
 from machiavelli.logging import save_snapshot
+import machiavelli.dice as dice
 import machiavelli.disasters as disasters
 import machiavelli.exceptions as exceptions
 
@@ -723,9 +724,11 @@ class Game(models.Model):
 
 	def assign_incomes(self):
 		""" Gets each player's income and add it to the player's treasury """
+		## get the column for variable income
+		die = dice.roll_1d6()
 		players = self.player_set.filter(user__isnull=False, eliminated=False)
 		for p in players:
-			i = p.get_income()
+			i = p.get_income(die)
 			if i > 0:
 				p.add_ducats(i)
 	
@@ -1722,7 +1725,7 @@ class Player(models.Model):
 	##
 	## Income calculation
 	##
-	def get_control_income(self):
+	def get_control_income(self, die):
 		""" Gets the sum of the control income of all controlled AND empty
 		provinces. Note that provinces affected by plague don't genearate
 		any income"""
@@ -1744,7 +1747,7 @@ class Player(models.Model):
 			return i
 		return 0
 
-	def get_garrisons_income(self):
+	def get_garrisons_income(self, die):
 		""" Gets the sum of the income of all the non-besieged garrisons in non-controlled areas
 		"""
 		## get garrisons in non-controlled areas
@@ -1765,11 +1768,16 @@ class Player(models.Model):
 				return income['garrison_income__sum']
 		return 0
 
-	def get_income(self):
+	def get_variable_income(self, die):
+		""" Gets the variable income for the country """
+		return 0
+
+	def get_income(self, die):
 		""" Gets the total income in one turn """
-		income = self.get_control_income()
+		income = self.get_control_income(die)
 		income += self.get_occupation_income()
-		income += self.get_garrisons_income()
+		income += self.get_garrisons_income(die)
+		income += self.get_variable_income(die)
 		return income
 
 	def add_ducats(self, d):
