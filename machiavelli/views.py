@@ -60,6 +60,7 @@ from machiavelli.models import Unit
 #@cache_page(15 * 60) # cache 15 minutes
 def summary(request):
 	active_games = Game.objects.exclude(slots=0, phase=PHINACTIVE)
+	activity = Player.objects.values("user").distinct().count()
 	if request.user.is_authenticated():
 		your_players = Player.objects.filter(user=request.user)
 		other_games = active_games.exclude(player__user=request.user)
@@ -74,6 +75,7 @@ def summary(request):
 			revolutions.append(r)
 	context = {
 		#'your_games': your_games,
+		'activity': activity,
 		'your_players': your_players,
 		'other_games': other_games,
 		'revolutions': revolutions,
