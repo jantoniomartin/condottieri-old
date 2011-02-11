@@ -16,4 +16,10 @@ when all the players have finished OR the time limit is exceeded
 	def handle_noargs(self, **options):
 		active_games = models.Game.objects.exclude(phase=0)
 		for game in active_games:
-			game.check_finished_phase()
+			try:
+				game.check_finished_phase()
+			except Exception, e:
+				print "Error while checking if phase is finished in game %s\n\n" % game.pk
+				print e
+				continue
+
