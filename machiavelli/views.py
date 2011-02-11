@@ -126,6 +126,8 @@ def base_context(request, game, player):
 		context['outbox_all'] = player.sent.all().count()
 		context['outbox_unread'] = player.sent.filter(read=False).count()
 		context['done'] = player.done
+		if game.configuration.finances:
+			context['ducats'] = player.ducats
 		context['can_excommunicate'] = player.can_excommunicate()
 		if game.slots == 0:
 			context['time_exceeded'] = player.time_exceeded()

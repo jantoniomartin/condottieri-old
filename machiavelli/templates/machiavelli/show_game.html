@@ -54,6 +54,10 @@
 {% trans "Rules" %}: {% rule_icons game.configuration %}
 </li>
 {% endif %}
+
+{% if ducats %}
+<li>{% trans "Ducats" %}: {{ ducats }}</li>
+{% endif %}
 </ul>
 </div>
 
