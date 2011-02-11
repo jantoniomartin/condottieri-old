@@ -42,7 +42,7 @@ class ScoreAdmin(admin.ModelAdmin):
 	ordering = ['game']
 
 class UnitAdmin(admin.ModelAdmin):
-	list_display = ('__unicode__', 'player', 'must_retreat')
+	list_display = ('__unicode__', 'player', 'must_retreat', 'placed', 'paid')
 	ordering = ['player']
 	list_filter = ('player', 'must_retreat')
 

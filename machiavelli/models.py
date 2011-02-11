@@ -1910,6 +1910,8 @@ class Unit(models.Model):
 	besieging = models.BooleanField(default=0)
 	## must_retreat contains the code, if any, of the area where the attack came from
 	must_retreat = models.CharField(max_length=5, blank=True, default='')
+	placed = models.BooleanField(default=True)
+	paid = models.BooleanField(default=True)
 	objects = UnitManager()
 
 	def get_attacked_area(self):
