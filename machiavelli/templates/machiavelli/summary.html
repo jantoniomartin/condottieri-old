@@ -15,26 +15,24 @@
 {% blocktrans %}At this time, there are {{ activity }} people playing Condottieri games.{% endblocktrans %}
 </p>
 <h2>{% trans "Your games" %}</h2>
+<h3>{% trans "Ongoing games" %}</h3>
 <table>
 	<thead>
 	<tr>
 	<th>{% trans "Game" %}</th>
 	<th>{% trans "Scenario" %}</th>
-	<th>{% trans "Creator" %}</th>
 	<th>{% trans "Year" %}</th>
 	<th>{% trans "Season" %}</th>
 	<th>{% trans "Phase" %}</th>
 	<th>{% trans "Time left" %}</th>
 	<th>{% trans "Rules" %}</th>
-	<th>{% trans "Visible players" %}</th>
-	<th>{% trans "Slots" %}</th>
+	<th>{% trans "Unread" %}</th>
 	</tr>
 	</thead>
 	{% for player in your_players %}
 	<tr>
 		<td><a href="{{ player.game.get_absolute_url }}">{{ player.game.slug }}</a></td>
 		<td><a href="{% url show-scenario player.game.scenario.pk %}">{{ player.game.scenario.title }}</a></td>
-		<td>{{ player.game.created_by }}</td>
 		<td class="data_c">
 		{% if player.game.year %}
 			{{ player.game.year }}
@@ -64,17 +62,13 @@
 		<td>
 		{% rule_icons player.game.configuration %}
 		</td>
-		<td class="data_c">{{ player.game.visible|yesno }}</td>
-		<td>{{ player.game.slots }}
-		{% ifnotequal player.game.slots 0 %}
-			<a href="{% url leave-game player.game.slug %}">{% trans "Leave game" %}</a>
-		{% endifnotequal %}
+		<td class="data_c">
+		<a href="{% url inbox player.game.slug %}">{{ player.unread_count }}</a>
 		</td>
 	</tr>
 	{% endfor %}
 </table>
-<p><a href="{% url new-game %}">{% trans "New game" %}</a></p>
-<h2>{% trans "Games you are not playing" %}</h2>
+<h3>{% trans "Not started games" %}</h3>
 <table>
 	<thead>
 	<tr>
@@ -82,32 +76,55 @@
 	<th>{% trans "Scenario" %}</th>
 	<th>{% trans "Creator" %}</th>
 	<th>{% trans "Time limit" %}</th>
-	<th>{% trans "Year" %}</th>
-	<th>{% trans "Season" %}</th>
-	<th>{% trans "Phase" %}</th>
 	<th>{% trans "Rules" %}</th>
 	<th>{% trans "Visible players" %}</th>
 	<th>{% trans "Slots" %}</th>
 	</tr>
 	</thead>
-	{% for game in other_games %}
-	{% ifequal game.slots 0 %}
-	<tr class="closed_game">
-	{% endifequal %}
-	{% ifnotequal game.slots 0 %}
-	<tr class="open_game">
-	{% endifnotequal %}
-		{% include 'machiavelli/game_row_inc.html' %}
-		<td>{{ game.slots }}
-		{% ifnotequal game.slots 0 %}
-			<a href="{% url machiavelli.views.join_game game.slug %}">{% trans "Join game" %}</a>
-		{% endifnotequal %}
+	{% for player in your_pending %}
+	<tr>
+		<td><a href="{{ player.game.get_absolute_url }}">{{ player.game.slug }}</a></td>
+		<td><a href="{% url show-scenario player.game.scenario.pk %}">{{ player.game.scenario.title }}</a></td>
+		<td>{{ player.game.created_by }}</td>
+		<td>{{ player.game.get_time_limit_display }}</td>
+		<td>{% rule_icons player.game.configuration %}</td>
+		<td class="data_c">{{ player.game.visible|yesno }}</td>
+		<td>{{ player.game.slots }}
+			<a href="{% url leave-game player.game.slug %}">{% trans "Leave game" %}</a>
 		</td>
 	</tr>
 	{% endfor %}
-
 </table>
+
 <p><a href="{% url new-game %}">{% trans "New game" %}</a></p>
+
+<h2>{% trans "Games you can join" %}</h2>
+<table>
+	<thead>
+	<tr>
+	<th>{% trans "Game" %}</th>
+	<th>{% trans "Scenario" %}</th>
+	<th>{% trans "Creator" %}</th>
+	<th>{% trans "Time limit" %}</th>
+	<th>{% trans "Rules" %}</th>
+	<th>{% trans "Visible players" %}</th>
+	<th>{% trans "Slots" %}</th>
+	</tr>
+	</thead>
+	{% for game in available %}
+	<tr>
+		<td><a href="{{ game.get_absolute_url }}">{{ game.slug }}</a></td>
+		<td><a href="{% url show-scenario game.scenario.pk %}">{{ game.scenario.title }}</a></td>
+		<td>{{ game.created_by }}</td>
+		<td>{{ game.get_time_limit_display }}</td>
+		<td>{% rule_icons game.configuration %}</td>
+		<td class="data_c">{{ game.visible|yesno }}</td>
+		<td>{{ game.slots }}
+			<a href="{% url machiavelli.views.join_game game.slug %}">{% trans "Join game" %}</a>
+		</td>
+	</tr>
+	{% endfor %}
+</table>
 
 {% if revolutions %}
 <h3>{% trans "Revolutions" %}</h3>
@@ -137,6 +154,44 @@
 {% endfor %}
 </table>
 {% endif %}
+
+<h2>{% trans "Games you are not playing" %}</h2>
+<table>
+	<thead>
+	<tr>
+	<th>{% trans "Game" %}</th>
+	<th>{% trans "Scenario" %}</th>
+	<th>{% trans "Year" %}</th>
+	<th>{% trans "Season" %}</th>
+	<th>{% trans "Phase" %}</th>
+	<th>{% trans "Rules" %}</th>
+	<th>{% trans "Visible players" %}</th>
+	</tr>
+	</thead>
+	{% for game in other_games %}
+	<tr>
+		<td><a href="{{ game.get_absolute_url }}">{{ game.slug }}</a></td>
+		<td><a href="{% url show-scenario game.scenario.pk %}">{{ game.scenario.title }}</a></td>
+		<td class="data_c">
+		{% if game.year %}
+			{{ game.year }}
+		{% endif %}
+		</td>
+		<td class="data_c">
+		{% if game.season %}
+			{{ game.get_season_display }}
+		{% endif %}
+		</td>
+		<td class="data_c">{{ game.get_phase_display }}</td>
+		<td>
+		{% rule_icons game.configuration %}
+		</td>
+		<td class="data_c">{{ game.visible|yesno }}</td>
+	</tr>
+	{% endfor %}
+</table>
+<p><a href="{% url new-game %}">{% trans "New game" %}</a></p>
+
 
 {% if forum %}
 {% forum_latest_thread_activity 5 as latest_activity %}

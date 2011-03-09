@@ -59,24 +59,26 @@ from machiavelli.models import Unit
 #@login_required
 #@cache_page(15 * 60) # cache 15 minutes
 def summary(request):
-	active_games = Game.objects.exclude(slots=0, phase=PHINACTIVE)
 	activity = Player.objects.values("user").distinct().count()
 	if request.user.is_authenticated():
-		your_players = Player.objects.filter(user=request.user)
-		other_games = active_games.exclude(player__user=request.user)
-		#your_games = active_games.filter(player__user=request.user)
+		your_players = Player.objects.filter(user=request.user, game__slots=0)
+		your_pending = Player.objects.filter(user=request.user, game__slots__gt=0)
+		available = Game.objects.filter(slots__gt=0).exclude(player__user=request.user)
+		other_games = Game.objects.filter(slots=0).exclude(phase=PHINACTIVE).exclude(player__user=request.user)
 	else:
-		other_games = active_games
 		your_players = Player.objects.none()
-		#your_games = Game.objects.none()
+		your_pending = Player.objects.none()
+		available = Game.objects.filter(slots__gt=0)
+		other_games = Game.objects.filter(slots=0).exclude(phase=PHINACTIVE)
 	revolutions = []
 	for r in Revolution.objects.filter(opposition__isnull=True):
 		if r.government.game in other_games:
 			revolutions.append(r)
 	context = {
-		#'your_games': your_games,
 		'activity': activity,
 		'your_players': your_players,
+		'your_pending': your_pending,
+		'available': available,
 		'other_games': other_games,
 		'revolutions': revolutions,
 		'user': request.user,
