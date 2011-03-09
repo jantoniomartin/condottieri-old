@@ -124,7 +124,7 @@ def base_context(request, game, player):
 	log = game.baseevent_set.all()
 	if player:
 		context['inbox_all'] = player.received.all().count()
-		context['inbox_unread'] = player.received.filter(read=False).count()
+		context['inbox_unread'] = player.unread_count()
 		context['outbox_all'] = player.sent.all().count()
 		context['outbox_unread'] = player.sent.filter(read=False).count()
 		context['done'] = player.done

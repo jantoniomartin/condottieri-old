@@ -1747,6 +1747,12 @@ class Player(models.Model):
 				rev.delete()
 				self.user.get_profile().adjust_karma(10)
 
+	def unread_count(self):
+		""" Gets the number of unread received letters """
+		
+		return self.received.filter(read=False).count()
+	
+	
 	##
 	## Income calculation
 	##
