@@ -14,6 +14,9 @@ when all the players have finished OR the time limit is exceeded
 	This happens either when all the players have finished OR the time limit is exceeded.'
 
 	def handle_noargs(self, **options):
+		if settings.MAINTENANCE_MODE:
+			print "App is in maintenance mode. Exiting."
+			return
 		active_games = models.Game.objects.exclude(phase=0)
 		for game in active_games:
 			try:
