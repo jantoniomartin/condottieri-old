@@ -238,9 +238,12 @@ def play_reinforcements(request, game, player):
 					for f in reinforce_form.forms:
 						new_unit = Unit(type=f.cleaned_data['type'],
 								area=f.cleaned_data['area'],
-								player=player)
-						new_unit.place()
+								player=player,
+								placed=False)
+						new_unit.save()
+						#new_unit.place()
 					#game.map_changed()
+					## not sure, but i think i could remove the fol. line
 					player = Player.objects.get(id=player.pk) ## see below
 					player.end_phase()
 					return HttpResponseRedirect(request.path)
@@ -259,7 +262,9 @@ def play_reinforcements(request, game, player):
 				if disband_form.is_valid():
 					if len(disband_form.cleaned_data['units']) == -units_to_place:
 						for u in disband_form.cleaned_data['units']:
-							u.delete()
+							#u.delete()
+							u.paid = False
+							u.save()
 						#game.map_changed()
 						## odd: the player object needs to be reloaded or
 						## the it doesn't know the change in game.map_outdated

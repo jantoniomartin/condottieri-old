@@ -622,6 +622,7 @@ class Game(models.Model):
 		if self.phase == PHINACTIVE:
 			return
 		elif self.phase == PHREINFORCE:
+			self.adjust_units()
 			next_phase = PHORDERS
 		elif self.phase == PHORDERS:
 			self.process_orders()
@@ -689,6 +690,15 @@ class Game(models.Model):
 		self.make_map()
 		self.notify_players("new_phase", {"game": self}, on_site=False)
     
+	def adjust_units(self):
+		""" Places new units and disbands the ones that are not paid """
+		to_place = Unit.objects.filter(player__game=self, placed=False)
+		to_disband = Unit.objects.filter(player__game=self, paid=False)
+		for u in to_place:
+			u.place()
+		for u in to_disband:
+			u.delete()
+
 	## deprecated because of check_finished_phase
 	#def check_next_phase(self):
 	#	""" When a player ends its phase, send a signal to the game. This function
@@ -1948,6 +1958,8 @@ class Unit(models.Model):
 		return supportable
 
 	def place(self):
+		self.placed = True
+		self.paid = True
 		if signals:
 			signals.unit_placed.send(sender=self)
 		else:
