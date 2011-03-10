@@ -9,7 +9,9 @@
 <h1>{% trans "Profile for" %} {{ user_shown.username }}</h1>
 <div>
 {% avatar user_shown %}<br/>
+{% if is_own %}
 <a href="{% url avatar_change %}">{% trans "Change avatar" %}</a>
+{% endif %}
 </div>
 <dl>
 {% if user_shown.get_profile.name %}
