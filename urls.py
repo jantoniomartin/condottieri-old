@@ -56,6 +56,9 @@ urlpatterns = patterns('',
 	
 	## forum urls
 	(r'^forum/', include('forum.urls')),
+
+	## avatar urls
+	(r'^avatar/', include('avatar.urls')),
 )
 
 if settings.SERVE_MEDIA:
