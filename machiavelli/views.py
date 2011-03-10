@@ -221,7 +221,11 @@ def play_game(request, slug=''):
 
 def play_reinforcements(request, game, player):
 	context = base_context(request, game, player)
-	if not player.done:
+	if player.done:
+		context['to_place'] = player.unit_set.filter(placed=False)
+		context['to_disband'] = player.unit_set.filter(placed=True, paid=False)
+		context['to_keep'] = player.unit_set.filter(placed=True, paid=True)
+	else:
 		units_to_place = player.units_to_place()
 		context['cities_qty'] = player.number_of_cities()
 		context['cur_units'] = len(player.unit_set.all())

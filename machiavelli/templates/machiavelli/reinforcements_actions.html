@@ -6,6 +6,33 @@
 <h2>{% trans "Military Adjustment" %}</h2>
 {% if done %}
 
+{% if to_place %}
+<p>{% blocktrans %}This year you will place the following new units on the mapboard:{% endblocktrans %}</p>
+<ul>
+{% for u in to_place %}
+<li>{{ u }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if to_disband %}
+<p>{% blocktrans %}The following of your units will be disbanded:{% endblocktrans %}</p>
+<ul>
+{% for u in to_disband %}
+<li>{{ u }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if to_keep %}
+<p>{% blocktrans %}You have paid the wage of the following units to keep them:{% endblocktrans %}</p>
+<ul>
+{% for u in to_keep %}
+<li>{{ u }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
 <p>{% blocktrans %}At least one player has not yet adjusted his units. You have to wait until all
 players have done it or the time limit is reached.{% endblocktrans %}</p>
 
