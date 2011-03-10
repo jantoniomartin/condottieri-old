@@ -27,6 +27,7 @@
 	<th>{% trans "Time left" %}</th>
 	<th>{% trans "Rules" %}</th>
 	<th>{% trans "Unread" %}</th>
+	<th>{% trans "Ducats" %}</th>
 	</tr>
 	</thead>
 	{% for player in your_players %}
@@ -65,6 +66,7 @@
 		<td class="data_c">
 		<a href="{% url inbox player.game.slug %}">{{ player.unread_count }}</a>
 		</td>
+		<td class="data_c">{{ player.ducats }}</td>
 	</tr>
 	{% endfor %}
 </table>
