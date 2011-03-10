@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load game_icons %}
+{% load avatar_tags %}
 
 {% block head_title %}
 {% if player %}
@@ -83,7 +84,7 @@
 	{% endif %}
 	</div>
 	{% if show_users %}
-	<div><a href="{% url profile_detail username=p.user.username %}">{{ p.user.username }}</a></div>
+	<div><a href="{% url profile_detail username=p.user.username %}">{% avatar p.user 20 %}{{ p.user.username }}</a></div>
 	{% endif %}
 	<div>{% trans "Cities:" %} {{ p.number_of_cities }}</div>
 	<div>{% trans "Units:" %} {{ p.number_of_units }}</div>
