@@ -1,6 +1,7 @@
 {% extends "machiavelli/base.html" %}
 
 {% load i18n %}
+{% load avatar_tags %}
 
 {% block head_title %}{% trans "Hall of Fame" %}{% endblock %}
 
@@ -12,13 +13,14 @@ server{% endblocktrans %}</p>
 <table style="width: 40%">
 	<thead>
 	<tr>
-	<th>{% trans "User" %}</th>
+	<th colspan=2>{% trans "User" %}</th>
 	<th>{% trans "Score" %}</th>
 	<th>{% trans "Details" %}</th>
 	</tr>
 	</thead>
 	{% for p in profiles.object_list %}
 	<tr>
+	<td>{% avatar p.user %}</td>
 	<td><a href="{% url profile_detail username=p.user.username %}">{{ p }}</a></td>
 	<td class="data_c">
 	{% if p.total_score %}
