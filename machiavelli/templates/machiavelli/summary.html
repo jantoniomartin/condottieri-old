@@ -21,6 +21,7 @@
 	<tr>
 	<th>{% trans "Game" %}</th>
 	<th>{% trans "Scenario" %}</th>
+	<th>{% trans "Country" %}</th>
 	<th>{% trans "Year" %}</th>
 	<th>{% trans "Season" %}</th>
 	<th>{% trans "Phase" %}</th>
@@ -34,6 +35,7 @@
 	<tr>
 		<td><a href="{{ player.game.get_absolute_url }}">{{ player.game.slug }}</a></td>
 		<td><a href="{% url show-scenario player.game.scenario.pk %}">{{ player.game.scenario.title }}</a></td>
+		<td>{{ player.country }}</td>
 		<td class="data_c">
 		{% if player.game.year %}
 			{{ player.game.year }}
