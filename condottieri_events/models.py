@@ -570,3 +570,25 @@ def log_plague(sender, **kwargs):
 					message = 1)
 
 plague_placed.connect(log_plague)
+
+class IncomeEvent(BaseEvent):
+	""" Event triggered when a country receives income """
+	country = models.ForeignKey(Country)
+	ducats = models.PositiveIntegerField()
+
+	def event_class(self):
+		return "income-event"
+
+	def __unicode__(self):
+		return _("%(country)s raises %(ducats)s ducats.") % {
+						'country': self.country,
+						'ducats': self.ducats,
+						}
+
+def log_income(sender, **kwargs):
+	assert isinstance(sender, Player), "sender must be a Player"
+	log_event(IncomeEvent, sender.game,
+					classname="IncomeEvent",
+					country=sender.country,
+					ducats=kwargs['ducats'])
+
