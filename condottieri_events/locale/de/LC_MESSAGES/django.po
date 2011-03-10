@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-21 09:32+0200\n"
+"POT-Creation-Date: 2011-03-10 09:51+0100\n"
 "PO-Revision-Date: 2010-10-21 09:32+0200\n"
 "Last-Translator: Jose Antonio Martin Prieto <jantonio.martin@gmail.com>\n"
 "Language-Team: \n"
@@ -140,10 +140,19 @@ msgstr "Hat erobert worden"
 msgid "Has been declared enemy of Christendom"
 msgstr "Ist jetzt ein Feind der Christenheit"
 
-#: models.py:517
+#: models.py:462
+msgid "Has been eliminated"
+msgstr "Wird eliminiert"
+
+#: models.py:529
 msgid "is affected by famine."
 msgstr "wird von Hunger betroffen."
 
-#: models.py:518
+#: models.py:530
 msgid "has been affected by plague."
 msgstr "hat von der Pest betroffen worden."
+
+#: models.py:583
+#, python-format
+msgid "%(country)s raises %(ducats)s ducats."
+msgstr "%(country)s erhebt %(ducats)s Dukaten."
