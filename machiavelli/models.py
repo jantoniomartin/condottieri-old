@@ -666,17 +666,18 @@ class Game(models.Model):
 				if self.configuration.famine:
 					self.mark_famine_areas()
 				## if finances are enabled, assign incomes
-				## this is now enabled just for testing purposes. In case of an
-				## error, it will be reported by the cron job
-				#if self.configuration.finances:
-				try:
-					self.assign_incomes()
-				except Exception, e:
-					print "Error assigning incomes in game %s:\n" % self.id
-					print e
+				if self.configuration.finances:
+					try:
+						self.assign_incomes()
+					except Exception, e:
+						print "Error assigning incomes in game %s:\n" % self.id
+						print e
 			self._next_season()
 			if self.season == 1:
 				next_phase = PHORDERS
+				## if there are not finances all units are paid
+				if not self.configuration.finances:
+					Unit.objects.filter(player__game=self).update(paid=True)
 				for p in self.player_set.all():
 					if p.units_to_place() != 0:
 						next_phase = PHREINFORCE
@@ -692,12 +693,14 @@ class Game(models.Model):
     
 	def adjust_units(self):
 		""" Places new units and disbands the ones that are not paid """
-		to_place = Unit.objects.filter(player__game=self, placed=False)
 		to_disband = Unit.objects.filter(player__game=self, paid=False)
-		for u in to_place:
-			u.place()
 		for u in to_disband:
 			u.delete()
+		to_place = Unit.objects.filter(player__game=self, placed=False)
+		for u in to_place:
+			u.place()
+		## mark as unpaid all non-autonomous units
+		Unit.objects.filter(player__game=self).exclude(player__user__isnull=True).update(paid=False)
 
 	## deprecated because of check_finished_phase
 	#def check_next_phase(self):
@@ -1453,6 +1456,7 @@ class Player(models.Model):
 	double_income = models.BooleanField(default=False)
 	may_excommunicate = models.BooleanField(default=False)
 	static_name = models.CharField(max_length=20, default="")
+	step = models.PositiveIntegerField(default=0)
 
 	def __unicode__(self):
 		if self.user:
@@ -1486,7 +1490,7 @@ class Player(models.Model):
 				#a.player = self
 				#a.save()
 				if s.unit_type:
-					new_unit = Unit(type=s.unit_type, area=a, player=self)
+					new_unit = Unit(type=s.unit_type, area=a, player=self, paid=False)
 					new_unit.save()
 	
 	def number_of_cities(self):
@@ -1533,7 +1537,7 @@ class Player(models.Model):
 	def controlled_home_cities(self):
 		return self.controlled_home_country().filter(board_area__has_city=True)
 
-	def get_areas_for_new_units(self):
+	def get_areas_for_new_units(self, finances=False):
 		""" Returns a queryset with the GameAreas that accept new units. """
 
 		if self.game.configuration.conquering:
@@ -1555,6 +1559,10 @@ class Player(models.Model):
 				excludes.append(a.id)
 			elif not a.board_area.is_fortified and len(a.unit_set.all()) > 0:
 				excludes.append(a.id)
+		if finances:
+			## exclude areas where a unit has not been paid
+			for u in self.unit_set.filter(placed=True, paid=False):
+				excludes.append(u.area.id)
 		areas = areas.exclude(id__in=excludes)
 		return areas
 
@@ -1667,6 +1675,7 @@ class Player(models.Model):
 
 	def end_phase(self, forced=False):
 		self.done = True
+		self.step = 0
 		self.save()
 		if not forced:
 			if self.game.check_bonus_time():
@@ -1843,6 +1852,7 @@ class Player(models.Model):
 		""" Adds d to the ducats field of the player."""
 		self.ducats = F('ducats') + d
 		self.save()
+		signals.income_raised.send(sender=self, ducats=d)
 
 
 class Revolution(models.Model):
@@ -1890,7 +1900,7 @@ class UnitManager(models.Manager):
 	def list_with_strength(self, game):
 		from django.db import connection
 		cursor = connection.cursor()
-		cursor.execute("SELECT u.id, u.type, u.area_id, u.player_id, u.besieging, u.must_retreat, \
+		cursor.execute("SELECT u.id, u.type, u.area_id, u.player_id, u.besieging, u.must_retreat, u.placed, u.paid, \
 		o.code, o.destination_id, o.type \
 		FROM (machiavelli_player p INNER JOIN machiavelli_unit u on p.id=u.player_id) \
 		LEFT JOIN machiavelli_order o ON u.id=o.unit_id \
@@ -1900,18 +1910,18 @@ class UnitManager(models.Manager):
 			support_query = Q(unit__player__game=game,
 							  code__exact='S',
 							  subunit__pk=row[0])
-			if row[6] in (None, '', 'H', 'S', 'C', 'B'): #unit is holding
+			if row[8] in (None, '', 'H', 'S', 'C', 'B'): #unit is holding
 				support_query &= Q(subcode__exact='H')
-			elif row[6] == '=':
+			elif row[8] == '=':
 				support_query &= Q(subcode__exact='=',
-						   		subtype__exact=row[8])
-			elif row[6] == '-':
+						   		subtype__exact=row[10])
+			elif row[8] == '-':
 				support_query &= Q(subcode__exact='-',
-								subdestination__pk__exact=row[7])
+								subdestination__pk__exact=row[9])
 			support = Order.objects.filter(support_query).count()
 			unit = self.model(id=row[0], type=row[1], area_id=row[2],
 							player_id=row[3], besieging=row[4],
-							must_retreat=row[5])
+							must_retreat=row[5], placed=row[6], paid=row[7])
 			unit.strength = support
 			result_list.append(unit)
 		result_list.sort(cmp=lambda x,y: cmp(x.strength, y.strength), reverse=True)
@@ -1959,7 +1969,7 @@ class Unit(models.Model):
 
 	def place(self):
 		self.placed = True
-		self.paid = True
+		self.paid = False ## to be unpaid in the next reinforcement phase
 		if signals:
 			signals.unit_placed.send(sender=self)
 		else:

@@ -28,6 +28,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms.formsets import formset_factory
+from django.forms.models import modelformset_factory
 from django.db.models import Q
 from django.views.decorators.cache import never_cache, cache_page
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
@@ -205,7 +206,10 @@ def play_game(request, slug=''):
 							context,
 							context_instance=RequestContext(request))
 		elif game.phase == PHREINFORCE:
-			return play_reinforcements(request, game, player)
+			if game.configuration.finances:
+				return play_finance_reinforcements(request, game, player)
+			else:
+				return play_reinforcements(request, game, player)
 		elif game.phase == PHORDERS:
 			return play_orders(request, game, player)
 		elif game.phase == PHRETREATS:
@@ -283,6 +287,68 @@ def play_reinforcements(request, game, player):
 	return render_to_response('machiavelli/reinforcements_actions.html',
 							context,
 							context_instance=RequestContext(request))
+
+def play_finance_reinforcements(request, game, player):
+	context = base_context(request, game, player)
+	if player.done:
+		context['to_place'] = player.unit_set.filter(placed=False)
+		context['to_disband'] = player.unit_set.filter(placed=True, paid=False)
+		context['to_keep'] = player.unit_set.filter(placed=True, paid=True)
+		template_name = 'machiavelli/reinforcements_actions.html'
+	else:
+		step = player.step
+		if step == 0:
+			## the player must select the units that he wants to pay and keep
+			UnitPaymentForm = forms.make_unit_payment_form(player)
+			if request.method == 'POST':
+				form = UnitPaymentForm(request.POST)
+				if form.is_valid():
+					cost = len(form.cleaned_data['units']) * 3
+					if cost <= player.ducats:
+						for u in form.cleaned_data['units']:
+							u.paid = True
+							u.save()
+						player.ducats = player.ducats - cost
+						step = 1
+						player.step = step
+						player.save()
+						return HttpResponseRedirect(request.path)
+			else:
+				form = UnitPaymentForm()
+			context['form'] = form
+		elif step == 1:
+			## the player can create new units if he has money and areas
+			max_units = player.ducats / 3
+			print "Max no of units is %s" % max_units
+			ReinforceForm = forms.make_reinforce_form(player, finances=True)
+			ReinforceFormSet = formset_factory(ReinforceForm,
+								formset=forms.BaseReinforceFormSet,
+								extra=max_units)
+			if request.method == 'POST':
+				formset = ReinforceFormSet(request.POST)
+				if formset.is_valid():
+					cost = 0
+					for f in formset.forms:
+						if 'area' in f.cleaned_data:
+							new_unit = Unit(type=f.cleaned_data['type'],
+									area=f.cleaned_data['area'],
+									player=player,
+									placed=False)
+							new_unit.save()
+							cost += 3
+					player.ducats = player.ducats - cost
+					player.save()
+					player.end_phase()
+					return HttpResponseRedirect(request.path)
+			else:
+				formset = ReinforceFormSet()
+			context['formset'] = formset
+		else:
+			raise Http404
+		template_name = 'machiavelli/finance_reinforcements_%s.html' % step
+	return render_to_response(template_name, context,
+							context_instance=RequestContext(request))
+
 
 def play_orders(request, game, player):
 	context = base_context(request, game, player)

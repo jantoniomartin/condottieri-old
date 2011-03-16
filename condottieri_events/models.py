@@ -592,3 +592,4 @@ def log_income(sender, **kwargs):
 					country=sender.country,
 					ducats=kwargs['ducats'])
 
+income_raised.connect(log_income)

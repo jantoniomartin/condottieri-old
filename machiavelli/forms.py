@@ -158,12 +158,20 @@ def make_retreat_form(u):
 	
 	return RetreatForm
 
-def make_reinforce_form(player):
+def make_reinforce_form(player, finances=False):
+	if finances:
+		unit_types = (('', '---'),) + UNIT_TYPES
+		noarea_label = '---'
+	else:
+		unit_types = UNIT_TYPES
+		noarea_label = None
+	area_qs = player.get_areas_for_new_units(finances)
+
 	class ReinforceForm(forms.Form):
-		type = forms.ChoiceField(required=True, choices=UNIT_TYPES)
+		type = forms.ChoiceField(required=True, choices=unit_types)
 		area = forms.ModelChoiceField(required=True,
-					      queryset=player.get_areas_for_new_units(),
-					      empty_label=None)
+					      queryset=area_qs,
+					      empty_label=noarea_label)
 
 		def clean(self):
 			cleaned_data = self.cleaned_data
@@ -182,11 +190,12 @@ class BaseReinforceFormSet(BaseFormSet):
 		areas = []
 		for i in range(0, self.total_form_count()):
 			form = self.forms[i]
-			area = form.cleaned_data['area']
-			if area in areas:
-				print 'Two units in one area error'
-				raise forms.ValidationError, 'You cannot place two units in the same area in one turn'
-			areas.append(area)
+			if 'area' in form.cleaned_data:
+				area = form.cleaned_data['area']
+				if area in areas:
+					print 'Two units in one area error'
+					raise forms.ValidationError, 'You cannot place two units in the same area in one turn'
+				areas.append(area)
 
 def make_disband_form(player):
 	class DisbandForm(forms.Form):
@@ -194,6 +203,15 @@ def make_disband_form(player):
 					      queryset=player.unit_set.all(),
 					      label="Units to disband")
 	return DisbandForm
+
+def make_unit_payment_form(player):
+	class UnitPaymentForm(forms.Form):
+		units = forms.ModelMultipleChoiceField(required=True,
+					      queryset=player.unit_set.filter(placed=True),
+						  widget=forms.CheckboxSelectMultiple,
+					      label="")
+	return UnitPaymentForm
+
 
 class LetterForm(forms.ModelForm):
 	def __init__(self, sender, receiver, **kwargs):

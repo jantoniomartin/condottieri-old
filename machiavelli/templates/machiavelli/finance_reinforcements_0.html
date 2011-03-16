@@ -1,0 +1,30 @@
+{% extends 'machiavelli/show_game.html' %}
+
+{% load i18n %}
+
+{% block actions %}
+<h2>{% trans "Military Adjustment" %}</h2>
+<h3>{% trans "Military unit payment" %}</h3>
+{% if done %}
+
+<p>{% blocktrans %}At least one player has not yet adjusted his units. You have to wait until all
+players have done it or the time limit is reached.{% endblocktrans %}</p>
+
+{% else %}
+
+<p>{% blocktrans %}You must select which of your existing units you will pay
+in order to keep them in play. You will pay 3 ducats for every unit that you
+select. The units not selected will be disbanded.</p>{% endblocktrans %}
+
+<form action="{% url show-game game.slug %}" method="post">
+{% csrf_token %}
+
+<div class="action_form">
+{{ form.as_p }}
+<p><input type="submit" value="{% trans "Pay" %}" /></p>
+</div>
+
+</form>
+{% endif %}
+
+{% endblock %}
