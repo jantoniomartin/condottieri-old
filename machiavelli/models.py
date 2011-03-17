@@ -2478,3 +2478,65 @@ def create_configuration(sender, instance, created, **kwargs):
 		config.save()
 
 models.signals.post_save.connect(create_configuration, sender=Game)
+
+###
+### EXPENSES
+###
+
+EXPENSE_TYPES = (
+	(0, _("Famine relief")),
+	(1, _("Pacify rebellion")),
+	(2, _("Conquered province to rebel")),
+	(3, _("Home province to rebel")),
+	(4, _("Counter bribe")),
+	(5, _("Disband autonomous garrison")),
+	(6, _("Buy autonomous garrison")),
+	(7, _("Convert garrison unit")),
+	(8, _("Disband enemy unit")),
+	(9, _("Buy enemy unit")),
+)
+
+class Expense(models.Model):
+	""" A player may expend unit to affect some units or areas in the game. """
+	player = models.ForeignKey(Player)
+	ducats = models.PositiveIntegerField(default=0)
+	type = models.PositiveIntegerField(choices=EXPENSE_TYPES)
+	area = models.ForeignKey(GameArea, null=True, blank=True)
+	unit = models.ForeignKey(Unit, null=True, blank=True)
+
+	def save(self, *args, **kwargs):
+		## expenses that need an area
+		if self.type in (0, 1, 2, 3):
+			assert isinstance(self.area, GameArea), "Expense needs a GameArea"
+		## expenses that need a unit
+		elif self.type in (4, 5, 6, 7, 8, 9):
+			assert isinstance(self.unit, Unit), "Expense needs a Unit"
+		else:
+			raise ValueError, "Wrong expense type %s" % self.type
+		## if no errors raised, save the expense
+		super(Expense, self).save(*args, **kwargs)
+	
+	def __unicode__(self):
+		data = {
+			'country': self.player.country,
+			'area': self.area,
+			'unit': self.unit,
+		}
+		messages = {
+			0: _("%(country)s reliefs famine in %(area)s"),
+			1: _("%(country)s pacifies rebellion in %(area)s"),
+			2: _("%(country)s promotes a rebellion in %(area)s"),
+			3: _("%(country)s promotes a rebellion in %(area)s"),
+			4: _("%(country)s tries to counter bribe on %(unit)s"),
+			5: _("%(country)s tries to disband %(unit)s"),
+			6: _("%(country)s tries to buy %(unit)s"),
+			7: _("%(country)s tries to turn %(unit)s into an autonomous garrison"),
+			8: _("%(country)s tries to disband %(unit)s"),
+			9: _("%(country)s tries to buy %(unit)s"),
+		}
+
+		if self.type in messages.keys():
+			return messages[self.type] % data
+		else:
+			return "Unknown expense"
+

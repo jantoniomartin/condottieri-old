@@ -122,6 +122,10 @@ class TurnLogAdmin(admin.ModelAdmin):
 	list_display = ('game', 'timestamp')
 	list_filter = ('game',)
 
+class ExpenseAdmin(admin.ModelAdmin):
+	list_display = ('__unicode__', 'player', 'ducats', 'type', 'unit', 'area')
+	list_filter = ('player', 'type',)
+
 admin.site.register(Scenario, ScenarioAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Game, GameAdmin)
@@ -136,3 +140,4 @@ admin.site.register(Order, OrderAdmin)
 admin.site.register(RetreatOrder, RetreatOrderAdmin)
 admin.site.register(Letter, LetterAdmin)
 admin.site.register(TurnLog, TurnLogAdmin)
+admin.site.register(Expense, ExpenseAdmin)
