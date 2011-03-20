@@ -29,7 +29,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
-from django.db.models import Q
+from django.db.models import Q, F
 from django.views.decorators.cache import never_cache, cache_page
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.conf import settings
@@ -473,7 +473,9 @@ def play_expenses(request, game, player):
 	if request.method == 'POST':
 		form = ExpenseForm(player, data=request.POST)
 		if form.is_valid():
-			form.save()
+			expense = form.save()
+			player.ducats = F('ducats') - expense.ducats
+			player.save()
 			return HttpResponseRedirect(request.path)
 	else:
 		form = ExpenseForm(player)
