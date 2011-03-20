@@ -2518,6 +2518,17 @@ EXPENSE_COST = {
 	9: 18,
 }
 
+def get_expense_cost(type, unit=None):
+	assert type in EXPENSE_COST.keys()
+	k = 1
+	if type in (5, 6, 7, 8, 9):
+		assert isinstance(unit, Unit)
+		## if the unit is in a major city
+		if unit.type == 'G' and unit.area.board_area.garrison_income > 1:
+			k = 2
+	return k * EXPENSE_COST[type]
+		
+
 class Expense(models.Model):
 	""" A player may expend unit to affect some units or areas in the game. """
 	player = models.ForeignKey(Player)

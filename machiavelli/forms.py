@@ -2,6 +2,7 @@ import django.forms as forms
 from django.forms.formsets import BaseFormSet
 from django.utils.safestring import mark_safe
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.utils.translation import ugettext_lazy as _
 
 from machiavelli.models import *
@@ -263,9 +264,6 @@ def make_expense_form(player):
 			## temporarily disable rebellion related expenses
 			if type in (1,2,3):
 				raise forms.ValidationError(_("This expense is not yet implemented"))
-	
-			if ducats < EXPENSE_COST[type]:
-				raise forms.ValidationError(_("You must pay at least %s ducats") % EXPENSE_COST[type])
 			if type in (0,1,2,3):
 				if not isinstance(area, GameArea):
 					raise forms.ValidationError(_("You must choose an area"))
@@ -274,9 +272,49 @@ def make_expense_form(player):
 					raise forms.ValidationError(_("You must choose a unit"))
 			else:
 				raise forms.ValidationError(_("Unknown expense"))
+			## check that the minimum cost is paid
+			cost = get_expense_cost(type, unit)
+			if int(ducats) < cost:
+				raise forms.ValidationError(_("You must pay at least %s ducats") % cost)
+			## if famine relief, check if there is a famine marker
+			if type == 0:
+				if not area.famine:
+					raise forms.ValidationError(_("There is no famine in this area"))
+			## if disband or buy autonomous garrison, check if the unit is an autonomous garrison
+			if type in (5, 6):
+				if unit.type != 'G' or unit.player.country != None:
+					raise forms.ValidationError(_("You must choose an autonomous garrison"))
+			## checks for convert, disband or buy enemy units
+			if type in (7, 8, 9):
+				if unit.player == player:
+					raise forms.ValidationError(_("You cannot choose one of your own units"))
+				if unit.player.country == None:
+					raise forms.ValidationError(_("You must choose an enemy unit"))
+				if type == 7 and unit.type != 'G':
+					raise forms.ValidationError(_("You must choose a non-autonomous garrison"))
+			## check if bribing the unit is possible
 			if type in (5,6,7,8,9):
-				## TODO: check if it's possible to bribe the unit
-				pass
+				check_areas = unit.area.get_adjacent_areas(include_self=True)
+				ok = False
+				for a in check_areas:
+					if a.player == player:
+						ok = True
+						break
+				if not ok:
+					check_ids = check_areas.values_list('id', flat=True)
+					try:
+						Unit.objects.get(player=player, area__id__in=check_ids)
+					except MultipleObjectsReturned:
+						## there is more than one unit
+						ok = True
+					except:
+						## no units or any other exception
+						ok = False
+					else:
+						## there is just one unit
+						ok = True
+				if not ok:
+					raise forms.ValidationError(_("You cannot bribe this unit because it's too far from your units or areas"))
 			return cleaned_data
 	
 	return ExpenseForm
