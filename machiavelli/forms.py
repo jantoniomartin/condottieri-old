@@ -222,3 +222,61 @@ class LetterForm(forms.ModelForm):
 	class Meta:
 		model = Letter
 		fields = ('body',)
+
+def make_ducats_list(ducats):
+	if ducats >= 3:
+		items = ducats / 3 + 1
+		ducats_list = ()
+		for i in range(1, items):
+			j = i * 3
+			ducats_list += ((j,j),)
+		print ducats_list
+		return ducats_list
+	else:
+		return ((0, 0),)
+
+def make_expense_form(player):
+	ducats_list = make_ducats_list(player.ducats)
+	unit_qs = Unit.objects.filter(player__game=player.game).order_by('area__board_area__code')
+	area_qs = GameArea.objects.filter(game=player.game).order_by('board_area__code')
+
+	class ExpenseForm(forms.ModelForm):
+		ducats = forms.ChoiceField(required=True, choices=ducats_list)
+		area = forms.ModelChoiceField(required=False, queryset=area_qs)
+		unit = forms.ModelChoiceField(required=False, queryset=unit_qs)
+	
+		def __init__(self, player, **kwargs):
+			super(ExpenseForm, self).__init__(**kwargs)
+			self.instance.player = player
+	
+		class Meta:
+			model = Expense
+			fields = ('type', 'ducats', 'area', 'unit')
+	
+		def clean(self):
+			cleaned_data = self.cleaned_data
+			type = cleaned_data.get('type')
+			ducats = cleaned_data.get('ducats')
+			area = cleaned_data.get('area')
+			unit = cleaned_data.get('unit')
+	
+			## temporarily disable rebellion related expenses
+			if type in (1,2,3):
+				raise forms.ValidationError(_("This expense is not yet implemented"))
+	
+			if ducats < EXPENSE_COST[type]:
+				raise forms.ValidationError(_("You must pay at least %s ducats") % EXPENSE_COST[type])
+			if type in (0,1,2,3):
+				if not isinstance(area, GameArea):
+					raise forms.ValidationError(_("You must choose an area"))
+			elif type in (4,5,6,7,8,9):
+				if not isinstance(unit, Unit):
+					raise forms.ValidationError(_("You must choose a unit"))
+			else:
+				raise forms.ValidationError(_("Unknown expense"))
+			if type in (5,6,7,8,9):
+				## TODO: check if it's possible to bribe the unit
+				pass
+			return cleaned_data
+	
+	return ExpenseForm

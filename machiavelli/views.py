@@ -177,7 +177,7 @@ def base_context(request, game, player):
 
 @never_cache
 #@login_required
-def play_game(request, slug=''):
+def play_game(request, slug='', **kwargs):
 	game = get_object_or_404(Game, slug=slug)
 	if game.slots == 0 and game.phase == PHINACTIVE:
 		return redirect('game-results', slug=game.slug)
@@ -211,6 +211,9 @@ def play_game(request, slug=''):
 			else:
 				return play_reinforcements(request, game, player)
 		elif game.phase == PHORDERS:
+			if 'extra' in kwargs and kwargs['extra'] == 'expenses':
+				if game.configuration.finances:
+					return play_expenses(request, game, player)
 			return play_orders(request, game, player)
 		elif game.phase == PHRETREATS:
 			return play_retreats(request, game, player)
@@ -354,6 +357,8 @@ def play_orders(request, game, player):
 	context = base_context(request, game, player)
 	sent_orders = Order.objects.filter(unit__in=player.unit_set.all())
 	context.update({'sent_orders': sent_orders})
+	if game.configuration.finances:
+		context['current_expenses'] = player.expense_set.all()
 	if not player.done:
 		OrderForm = forms.make_order_form(player)
 		if request.method == 'POST':
@@ -458,6 +463,24 @@ def play_retreats(request, game, player):
 		if len(retreat_forms) > 0:
 			context['retreat_forms'] = retreat_forms
 	return render_to_response('machiavelli/retreats_actions.html',
+							context,
+							context_instance=RequestContext(request))
+
+def play_expenses(request, game, player):
+	context = base_context(request, game, player)
+	context['current_expenses'] = player.expense_set.all()
+	ExpenseForm = forms.make_expense_form(player)
+	if request.method == 'POST':
+		form = ExpenseForm(player, data=request.POST)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect(request.path)
+	else:
+		form = ExpenseForm(player)
+
+	context['form'] = form
+
+	return render_to_response('machiavelli/expenses_actions.html',
 							context,
 							context_instance=RequestContext(request))
 

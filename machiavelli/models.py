@@ -1415,6 +1415,15 @@ class GameArea(models.Model):
 	def province_is_empty(self):
 		return self.unit_set.exclude(type__exact='G').count() == 0
 
+	def get_adjacent_areas(self, include_self=False):
+		""" Returns a queryset with all the adjacent GameAreas """
+		if include_self:
+			cond = Q(board_area__borders=self.board_area, game=self.game) | Q(id=self.id)
+		else:
+			cond = Q(board_area__borders=self.board_area, game=self.game)
+		adj = GameArea.objects.filter(cond).distinct()
+		return adj
+
 def check_min_karma(sender, instance=None, **kwargs):
 	if isinstance(instance, CondottieriProfile):
 		if instance.karma < settings.KARMA_TO_JOIN:		
@@ -2496,6 +2505,19 @@ EXPENSE_TYPES = (
 	(9, _("Buy enemy unit")),
 )
 
+EXPENSE_COST = {
+	0: 3,
+	1: 12,
+	2: 9,
+	3: 15,
+	4: 3,
+	5: 6,
+	6: 9,
+	7: 9,
+	8: 12,
+	9: 18,
+}
+
 class Expense(models.Model):
 	""" A player may expend unit to affect some units or areas in the game. """
 	player = models.ForeignKey(Player)
@@ -2539,4 +2561,14 @@ class Expense(models.Model):
 			return messages[self.type] % data
 		else:
 			return "Unknown expense"
+
+	def is_allowed(self):
+		""" Return true if it's not a bribe or the unit is in a valid area as
+		stated in the rules. """
+		if self.type in (0, 1, 2, 3, 4):
+			return True
+		elif self.type in (5, 6, 7, 8, 9):
+			## self.unit must be adjacent to a unit or area of self.player
+			## then, find the borders of self.unit
+			adjacent = self.unit.area.get_adjacent_areas()
 

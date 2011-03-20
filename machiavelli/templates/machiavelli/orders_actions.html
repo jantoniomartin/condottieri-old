@@ -40,7 +40,22 @@ orders. If you want a unit to do nothing, select the "Hold" option for it.
 {% endfor %}
 </ul>
 
+{% if game.configuration.finances %}
+<h2>{% trans "Expenses" %}</h2>
+{% if not done %}
+<p>{% blocktrans %}Finances are applied in this game. If you want to expend some of your ducats, click on the following link.{% endblocktrans %}</p>
+<p><a href="{% url expenses game.slug %}">{% trans "Expenses" %}</a></p>
+{% endif %}
+{% if current_expenses %}
+<h3>{% trans "Your expenses for this turn" %}</h3>
+<ul>
+{{ current_expenses|unordered_list }}
+</ul>
+{% endif %}
+{% endif %}
+
 {% ifequal player.done 0 %}
+<h2>{% trans "Confirm your actions" %}</h2>
 <form action="{% url confirm-orders game.slug %}" method="POST" />
 {% csrf_token %}
 <p>{% blocktrans %}The orders above are saved but <strong>are not confirmed</strong>. If you don't confirm your orders, they will be ignored.{% endblocktrans %}</p>
