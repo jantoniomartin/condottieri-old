@@ -1189,6 +1189,9 @@ class Game(models.Model):
 		info += u"------------------------------\n\n"
 		## delete all orders that were not confirmed
 		Order.objects.filter(unit__player__game=self, confirmed=False).delete()
+		## delete all orders sent by players that don't control the unit
+		if self.configuration.finances:
+			Order.objects.exclude(player=F('unit__player')).delete()
 		## resolve =G that are not opposed
 		info += self.resolve_auto_garrisons()
 		info += u"\n"
