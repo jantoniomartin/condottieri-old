@@ -53,14 +53,18 @@ class UnitForm(forms.ModelForm):
 		fields = ('type', 'area')
     
 def make_order_form(player):
-	order_units = Order.objects.filter(unit__player=player).values_list('unit', flat=True)
-	free_units = player.unit_set.exclude(id__in=order_units)
+	if player.game.configuration.finances:
+		## units bought by this player
+		bought_ids = Expense.objects.filter(player=player, type__in=(6,9)).values_list('unit', flat=True)
+		units_qs = Unit.objects.filter(Q(player=player) | Q(id__in=bought_ids))
+	else:
+		units_qs = player.unit_set.all()
 	all_units = Unit.objects.filter(player__game=player.game,
 									player__user__isnull=False).order_by('area__board_area__name')
 	all_areas = player.game.gamearea_set.order_by('board_area__code')
 	
 	class OrderForm(forms.ModelForm):
-		unit = forms.ModelChoiceField(queryset=player.unit_set.all(), label=_("Unit"))
+		unit = forms.ModelChoiceField(queryset=units_qs, label=_("Unit"))
 		code = forms.ChoiceField(choices=ORDER_CODES, label=_("Order"))
 		destination = forms.ModelChoiceField(required=False, queryset=all_areas, label=_("Destination"))
 		type = forms.ChoiceField(choices=UNIT_TYPES, label=_("Convert into"))
