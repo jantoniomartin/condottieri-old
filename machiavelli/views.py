@@ -355,14 +355,15 @@ def play_finance_reinforcements(request, game, player):
 
 def play_orders(request, game, player):
 	context = base_context(request, game, player)
-	sent_orders = Order.objects.filter(unit__in=player.unit_set.all())
+	#sent_orders = Order.objects.filter(unit__in=player.unit_set.all())
+	sent_orders = player.order_set.all()
 	context.update({'sent_orders': sent_orders})
 	if game.configuration.finances:
 		context['current_expenses'] = player.expense_set.all()
 	if not player.done:
 		OrderForm = forms.make_order_form(player)
 		if request.method == 'POST':
-			order_form = OrderForm(request.POST)
+			order_form = OrderForm(player, data=request.POST)
 			if request.is_ajax():
 				## validate the form
 				clean = order_form.is_valid()
@@ -374,8 +375,9 @@ def play_orders(request, game, player):
 						d.update({e[0] : unicode(e[1])})
 					response_dict.update({'errs': d})
 				else:
-					new_order = Order(**order_form.cleaned_data)
-					new_order.save()
+					#new_order = Order(**order_form.cleaned_data)
+					#new_order.save()
+					new_order = order_form.save()
 					response_dict.update({'pk': new_order.pk ,
 										'new_order': new_order.explain()})
 				response_json = simplejson.dumps(response_dict, ensure_ascii=False)
@@ -384,11 +386,12 @@ def play_orders(request, game, player):
 			## not ajax
 			else:
 				if order_form.is_valid():
-					new_order = Order(**order_form.cleaned_data)
-					new_order.save()
+					#new_order = Order(**order_form.cleaned_data)
+					#new_order.save()
+					new_order = order_form.save()
 					return HttpResponseRedirect(request.path)
 		else:
-			order_form = OrderForm()
+			order_form = OrderForm(player)
 		context.update({'order_form': order_form})
 	return render_to_response('machiavelli/orders_actions.html',
 							context,
@@ -398,7 +401,8 @@ def play_orders(request, game, player):
 def delete_order(request, slug='', order_id=''):
 	game = get_object_or_404(Game, slug=slug)
 	player = get_object_or_404(Player, game=game, user=request.user)
-	order = get_object_or_404(Order, id=order_id, unit__player=player, confirmed=False)
+	#order = get_object_or_404(Order, id=order_id, unit__player=player, confirmed=False)
+	order = get_object_or_404(Order, id=order_id, player=player, confirmed=False)
 	response_dict = {'bad': 'false',
 					'order_id': order.id}
 	try:
@@ -416,7 +420,8 @@ def confirm_orders(request, slug=''):
 	game = get_object_or_404(Game, slug=slug)
 	player = get_object_or_404(Player, game=game, user=request.user, done=False)
 	if request.method == 'POST':
-		sent_orders = Order.objects.filter(unit__in=player.unit_set.all())
+		#sent_orders = Order.objects.filter(unit__in=player.unit_set.all())
+		sent_orders = player.order_set.all()
 		for order in sent_orders:
 			if utils.order_is_possible(order):
 				order.confirm()

@@ -59,7 +59,7 @@ def make_order_form(player):
 									player__user__isnull=False).order_by('area__board_area__name')
 	all_areas = player.game.gamearea_set.order_by('board_area__code')
 	
-	class OrderForm(forms.Form):
+	class OrderForm(forms.ModelForm):
 		unit = forms.ModelChoiceField(queryset=player.unit_set.all(), label=_("Unit"))
 		code = forms.ChoiceField(choices=ORDER_CODES, label=_("Order"))
 		destination = forms.ModelChoiceField(required=False, queryset=all_areas, label=_("Destination"))
@@ -68,6 +68,15 @@ def make_order_form(player):
 		subcode = forms.ChoiceField(required=False, choices=ORDER_SUBCODES, label=_("Order"))
 		subdestination = forms.ModelChoiceField(required=False, queryset=all_areas, label=_("Destination"))
 		subtype = forms.ChoiceField(required=False, choices=UNIT_TYPES, label=_("Convert into"))
+		
+		def __init__(self, player, **kwargs):
+			super(OrderForm, self).__init__(**kwargs)
+			self.instance.player = player
+		
+		class Meta:
+			model = Order
+			fields = ('unit', 'code', 'destination', 'type',
+					'subunit', 'subcode', 'subdestination', 'subtype')
 		
 		class Media:
 			js = ("%smachiavelli/js/order_form.js" % settings.STATIC_URL,

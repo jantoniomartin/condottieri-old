@@ -231,7 +231,7 @@ def log_order(sender, **kwargs):
 		subdestination = None
 	log_event(OrderEvent, sender.unit.player.game,
 					classname="OrderEvent",
-					country = sender.unit.player.country,
+					country = sender.player.country,
 					type = sender.unit.type,
 					origin = sender.unit.area.board_area,
 					code = sender.code,

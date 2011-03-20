@@ -56,13 +56,13 @@ class SetupAdmin(admin.ModelAdmin):
 	list_display = ('scenario', 'country', 'area', 'unit_type')
 
 class OrderAdmin(admin.ModelAdmin):
-	list_display = ('player_info', '__unicode__', 'explain', 'confirmed')
+	list_display = ('player', '__unicode__', 'explain', 'confirmed')
 	list_filter = ('confirmed',)
 
-	def player_info(self, obj):
-		return "%(country)s (%(game)s)" % { 'country': obj.unit.player.country,
-											'game': obj.unit.player.game }
-	player_info.short_description = 'Player'
+	#def player_info(self, obj):
+	#	return "%(country)s (%(game)s)" % { 'country': obj.unit.player.country,
+	#										'game': obj.unit.player.game }
+	#player_info.short_description = 'Player'
 
 class ControlTokenInline(admin.TabularInline):
 	model = ControlToken

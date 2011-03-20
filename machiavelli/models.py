@@ -2082,7 +2082,8 @@ class Order(models.Model):
 	effective unless it is confirmed.
 	"""
 
-	unit = models.OneToOneField(Unit)
+	#unit = models.OneToOneField(Unit)
+	unit = models.ForeignKey(Unit)
 	code = models.CharField(max_length=1, choices=ORDER_CODES)
 	destination = models.ForeignKey(GameArea, blank=True, null=True)
 	type = models.CharField(max_length=1, blank=True, null=True, choices=UNIT_TYPES)
@@ -2093,6 +2094,9 @@ class Order(models.Model):
 	subdestination = models.ForeignKey(GameArea, related_name='affecting_orders', blank=True, null=True)
 	subtype = models.CharField(max_length=1, blank=True, null=True, choices=UNIT_TYPES)
 	confirmed = models.BooleanField(default=False)
+	## player field is to be used when a player buys an enemy unit. It can be null for backwards
+	## compatibility
+	player = models.ForeignKey(Player, null=True)
 	
 	def as_dict(self):
 		result = {
