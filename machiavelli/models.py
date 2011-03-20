@@ -2555,6 +2555,8 @@ class Expense(models.Model):
 			raise ValueError, "Wrong expense type %s" % self.type
 		## if no errors raised, save the expense
 		super(Expense, self).save(*args, **kwargs)
+		if signals:
+			signals.expense_paid.send(sender=self)
 	
 	def __unicode__(self):
 		data = {

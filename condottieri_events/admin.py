@@ -79,6 +79,12 @@ class IncomeEventAdmin(admin.ModelAdmin):
 	list_display = ('game', '__unicode__', 'year')
 	list_filter = ('game', 'year')
 
+class ExpenseEventAdmin(admin.ModelAdmin):
+	ordering = ['-year']
+	list_per_page = 20
+	list_display = ('game', '__unicode__', 'year')
+	list_filter = ('game', 'year')
+
 admin.site.register(BaseEvent, BaseEventAdmin)
 admin.site.register(NewUnitEvent, NewUnitEventAdmin)
 admin.site.register(DisbandEvent, DisbandEventAdmin)
@@ -92,3 +98,4 @@ admin.site.register(UnitEvent, UnitEventAdmin)
 admin.site.register(CountryEvent, CountryEventAdmin)
 admin.site.register(DisasterEvent, DisasterEventAdmin)
 admin.site.register(IncomeEvent, IncomeEventAdmin)
+admin.site.register(ExpenseEvent, ExpenseEventAdmin)

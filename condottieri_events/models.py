@@ -593,3 +593,57 @@ def log_income(sender, **kwargs):
 					ducats=kwargs['ducats'])
 
 income_raised.connect(log_income)
+
+class ExpenseEvent(BaseEvent):
+	country = models.ForeignKey(Country)
+	ducats = models.PositiveIntegerField(default=0)
+	type = models.PositiveIntegerField(choices=EXPENSE_TYPES)
+	area = models.ForeignKey(Area, null=True, blank=True)
+	unit_type = models.CharField(max_length=1, choices=UNIT_TYPES, null=True, blank=True)
+
+	def event_class(self):
+		return "expense-event"
+
+	def __unicode__(self):
+		data = {
+			'country': self.country,
+			'ducats' : self.ducats,
+			'area'   : self.area,
+			'unit'   : self.unit_string(self.unit_type, self.area),
+		}
+
+		if self.type == 0:
+			msg = _("%(country)s pays %(ducats)sd to relief famine in %(area)s")
+		elif self.type == 1:
+			msg = _("%(country)s pays %(ducats)sd to pacify the rebellion in %(area)s")
+		elif self.type in (2, 3):
+			msg = _("%(country)s pays %(ducats)sd to cause a rebellion in %(area)s")
+		elif self.type == 4:
+			msg = _("%(country)s pays %(ducats)sd to protect %(unit)s from bribes")
+		elif self.type in (5, 8):
+			msg = _("%(country)s pays %(ducats)sd to disband %(unit)s")
+		elif self.type in (6, 9):
+			msg = _("%(country)s pays %(ducats)sd to buy %(unit)s")
+		elif self.type == 7:
+			msg = _("%(country)s pays %(ducats)sd to turn %(unit)s into an autonomous garrison")
+		else:
+			msg = _("Unknown expense")
+		return msg % data
+
+def log_expense(sender, **kwargs):
+	assert isinstance(sender, Expense), "sender must be an Expense"
+	if sender.unit:
+		_area = sender.unit.area.board_area
+		_unit_type = sender.unit.type
+	else:
+		_area = sender.area.board_area
+		_unit_type = ""
+	log_event(ExpenseEvent, sender.player.game,
+					classname="ExpenseEvent",
+					country=sender.player.country,
+					ducats=sender.ducats,
+					type=sender.type,
+					area=_area,
+					unit_type=_unit_type)
+
+expense_paid.connect(log_expense)
