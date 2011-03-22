@@ -376,7 +376,9 @@ UNIT_EVENTS = (
 	(0, _('cannot carry out its support order.')),
 	(1, _('must retreat.')),
 	(2, _('surrenders.')),
-	(3, _('is now besieging.'))
+	(3, _('is now besieging.')),
+	(4, _('changes of country.')),
+	(5, _('becomes autonomous.')),
 )
 
 class UnitEvent(BaseEvent):
@@ -391,6 +393,10 @@ class UnitEvent(BaseEvent):
 	* The unit surrenders (because of a siege).
 	
 	* The unit starts a siege.
+
+	* The unit changes of country because of a bribe.
+
+	* The unit becomes autonomous because of a bribe.
 	
 	Each condition must have its own signal.
 	"""
@@ -408,6 +414,8 @@ class UnitEvent(BaseEvent):
 			return 'surrender-event'
 		elif self.message == 3:
 			return 'besieging-event'
+		elif self.message == 4 or self.message == 5:
+			return 'bribe-event'
 
 	def __unicode__(self):
 		return "%(unit)s %(message)s" % {
@@ -455,6 +463,26 @@ def log_siege_start(sender, **kwargs):
 
 siege_started.connect(log_siege_start)
 	
+def log_change_country(sender, **kwargs):
+	assert isinstance(sender, Unit), "sender must be a Unit"
+	log_event(UnitEvent, sender.player.game,
+				classname="UnitEvent",
+				type=sender.type,
+				area=sender.area.board_area,
+				message=4)
+
+unit_changed_country.connect(log_change_country)
+
+def log_to_autonomous(sender, **kwargs):
+	assert isinstance(sender, Unit), "sender must be a Unit"
+	log_event(UnitEvent, sender.player.game,
+				classname="UnitEvent",
+				type=sender.type,
+				area=sender.area.board_area,
+				message=5)
+
+unit_to_autonomous.connect(log_to_autonomous)
+
 COUNTRY_EVENTS = (
 	(0, _('Government has been overthrown')),
 	(1, _('Has been conquered')),

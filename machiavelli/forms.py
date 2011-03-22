@@ -97,9 +97,9 @@ def make_order_form(player):
 			subdestination = cleaned_data.get('subdestination')
 			subtype = cleaned_data.get('subtype')
 			
-			## check if unit has already an order
+			## check if unit has already an order from the same player
 			try:
-				unit.order
+				Order.objects.get(unit=unit, player=player)
 			except:
 				pass
 			else:

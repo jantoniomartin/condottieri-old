@@ -625,6 +625,8 @@ class Game(models.Model):
 			self.adjust_units()
 			next_phase = PHORDERS
 		elif self.phase == PHORDERS:
+			if self.configuration.finances:
+				self.process_expenses()
 			self.process_orders()
 			Order.objects.filter(unit__player__game=self).delete()
 			retreats_count = Unit.objects.filter(player__game=self).exclude(must_retreat__exact='').count()
@@ -674,14 +676,17 @@ class Game(models.Model):
 						print e
 			self._next_season()
 			if self.season == 1:
-				next_phase = PHORDERS
 				## if there are not finances all units are paid
 				if not self.configuration.finances:
+					next_phase = PHORDERS
 					Unit.objects.filter(player__game=self).update(paid=True)
-				for p in self.player_set.all():
-					if p.units_to_place() != 0:
-						next_phase = PHREINFORCE
-						break
+					for p in self.player_set.all():
+						if p.units_to_place() != 0:
+							next_phase = PHREINFORCE
+							break
+				else:
+					## if playing with finances, reinforcement phase must be always played
+					next_phase = PHREINFORCE
 			else:
 				next_phase = PHORDERS
 		self.phase = next_phase
@@ -766,6 +771,40 @@ class Game(models.Model):
 			i = p.get_income(die, majors_ids)
 			if i > 0:
 				p.add_ducats(i)
+
+	def process_expenses(self):
+		## First, process famine reliefs
+		for e in Expense.objects.filter(player__game=self, type=0):
+			e.area.famine = False
+			e.area.save()
+		## then, delete bribes that are countered
+		expenses = Expense.objects.filter(player__game=self)
+		for e in expenses:
+			if e.is_bribe():
+				## get the sum of counter-bribes
+				cb = Expense.objects.filter(player__game=self, type=4, unit=e.unit).aggregate(Sum('ducats'))
+				if not cb['ducats__sum']:
+					cb['ducats__sum'] = 0
+				total_cost = get_expense_cost(e.type, e.unit) + cb['ducats__sum']
+				if total_cost > e.ducats:
+					e.delete()
+		## then, resolve the bribes for each bribed unit
+		bribed_ids = Expense.objects.filter(unit__player__game=self, type__in=(5,6,7,8,9)).values_list('unit', flat=True).distinct()
+		chosen = []
+		## TODO: if two bribes have the same value, decide randomly between them
+		for i in bribed_ids:
+			bribes = Expense.objects.filter(type__in=(5,6,7,8,9), unit__id=i).order_by('-ducats')
+			chosen.append(bribes[0])
+		## all bribes in 'chosen' are successful, and executed
+		for c in chosen:
+			if c.type in (5, 8): #disband unit
+				c.unit.delete()
+			elif c.type in (6, 9): #buy unit
+				c.unit.change_player(c.player)
+			elif c.type == 7: #to autonomous
+				c.unit.to_autonomous()
+		## finally, delete all the expenses
+		Expense.objects.filter(player__game=self).delete()
 	
 	##------------------------
 	## turn processing methods
@@ -836,14 +875,15 @@ class Game(models.Model):
 											Q(area__board_area__code__exact='VEN') &
 											Q(type__exact='G')))
 		for s in sea_attackers:
+			order = s.get_order()
 			try:
 				## find the defender
-				if s.order.code == '-':
+				if order.code == '-':
 					defender = Unit.objects.get(player__game=self,
-											area=s.order.destination,
+											area=order.destination,
 											type__exact='F',
 											order__code__exact='C')
-				elif s.order.code == '=' and s.area.board_area.code == 'VEN':
+				elif order.code == '=' and s.area.board_area.code == 'VEN':
 					defender = Unit.objects.get(player__game=self,
 												area=s.area,
 												type__exact='F',
@@ -856,13 +896,12 @@ class Game(models.Model):
 				a_strength = Unit.objects.get_with_strength(self, id=s.id).strength
 				d_strength = Unit.objects.get_with_strength(self, id=defender.id).strength
 				if a_strength > d_strength:
-					try:
-						defender.order
-					except:
-						continue
-					else:
+					d_order = defender.get_order()
+					if d_order:
 						info += u"%s can't convoy.\n" % defender
 						defender.delete_order()
+					else:
+						continue
 		return info
 	
 	def filter_unreachable_attacks(self):
@@ -901,7 +940,7 @@ class Game(models.Model):
 			except:
 				info += u"Success!\n"
 				g.convert('G')
-				g.order.delete()
+				g.delete_order()
 			else:
 				info += u"Fail: there is a garrison in the city.\n"
 		return info
@@ -923,33 +962,24 @@ class Game(models.Model):
 		for u in units:
 			## discard all the units with H, S, B, C or no orders
 			## they will not move
-			try:
-				u.order
-			except:
+			u_order = u.get_order()
+			if not u_order:
 				info += u"%s has no orders.\n" % u
 				continue
 			else:
-				info += u"%s was ordered: %s.\n" % (u, u.order)
-				if u.order.code in ['H', 'S', 'B', 'C']:
+				info += u"%s was ordered: %s.\n" % (u, u_order)
+				if u_order.code in ['H', 'S', 'B', 'C']:
 					continue
 			##################
 			s = u.strength
 			info += u"Supported by = %s.\n" % s
 			## rivals and defender are the units trying to enter into or stay
 			## in the same area as 'u'
-			rivals = u.order.get_rivals()
-			defender = u.order.get_defender()
+			rivals = u_order.get_rivals()
+			defender = u_order.get_defender()
 			info += u"Unit has %s rivals.\n" % len(rivals)
 			conflict_area = u.get_attacked_area()
-			## check if the conflict area is reachable
-			## DEPRECATED since it's being checked in filter_unreachable_attacks()
-			#if u.order.code == '-':
-			#	if not (u.area.board_area.is_adjacent(conflict_area.board_area,
-			#							fleet=(u.type=='F')) or \
-			#							u.order.find_convoy_line()):
-			#		info += u"Trying to enter an unreachable area.\n"
-			#		u.delete_order()
-			#		continue
+			##
 			if conflict_area.standoff:
 				info += u"Trying to enter a standoff area.\n"
 				#u.delete_order()
@@ -1005,23 +1035,23 @@ class Game(models.Model):
 						## the invasion is conditioned to the defender leaving
 							info += u"%s's movement is conditioned.\n" % u
 							inv = Invasion(u, defender.area)
-							if u.order.code == '-':
+							if u_order.code == '-':
 								info += u"%s might get empty.\n" % u.area
 								conditioned_origins.append(u.area)
-							elif u.order.code == '=':
-								inv.conversion = u.order.type
+							elif u_order.code == '=':
+								inv.conversion = u_order.type
 							conditioned_invasions.append(inv)
 					## if the defender is weaker, the area is invaded and the
 					## defender must retreat
 					else:
 						defender.must_retreat = u.area.board_area.code
 						defender.save()
-						if u.order.code == '-':
+						if u_order.code == '-':
 							u.invade_area(defender.area)
 							info += u"Invading %s.\n" % defender.area
-						elif u.order.code == '=':
-							info += u"Converting into %s.\n" % u.order.type
-							u.convert(u.order.type)
+						elif u_order.code == '=':
+							info += u"Converting into %s.\n" % u_order.type
+							u.convert(u_order.type)
 						defender.delete_order()
 				## no defender means either that the area is empty *OR*
 				## that there is a unit trying to leave the area
@@ -1033,12 +1063,12 @@ class Game(models.Model):
 					except ObjectDoesNotExist:
 						## if the province is empty, invade it
 						info += u"Province is empty.\n"
-						if u.order.code == '-':
+						if u_order.code == '-':
 							info += u"Invading %s.\n" % conflict_area
 							u.invade_area(conflict_area)
-						elif u.order.code == '=':
-							info += u"Converting into %s.\n" % u.order.type
-							u.convert(u.order.type)
+						elif u_order.code == '=':
+							info += u"Converting into %s.\n" % u_order.type
+							u.convert(u_order.type)
 					else:
 						## if the area is not empty, and the unit in province
 						## is not a friend, and the attacker has supports
@@ -1048,28 +1078,23 @@ class Game(models.Model):
 							info += u"There is a unit in %s, but attacker is supported.\n" % conflict_area
 							unit_leaving.must_retreat = u.area.board_area.code
 							unit_leaving.save()
-							if u.order.code == '-':
+							if u_order.code == '-':
 								u.invade_area(unit_leaving.area)
 								info += u"Invading %s.\n" % unit_leaving.area
-							elif u.order.code == '=':
-								info += u"Converting into %s.\n" % u.order.type
-								u.convert(u.order.type)
+							elif u_order.code == '=':
+								info += u"Converting into %s.\n" % u_order.type
+								u.convert(u_order.type)
 						## if the area is not empty, the invasion is conditioned
 						else:
 							info += u"Area is not empty and attacker isn't supported, or there is a friend\n"
 							info += u"%s movement is conditioned.\n" % u
 							inv = Invasion(u, conflict_area)
-							if u.order.code == '-':
+							if u_order.code == '-':
 								info += u"%s might get empty.\n" % u.area
 								conditioned_origins.append(u.area)
-							elif u.order.code == '=':
-								inv.conversion = u.order.type
+							elif u_order.code == '=':
+								inv.conversion = u_order.type
 							conditioned_invasions.append(inv)
-				## DEPRECATED since orders are deleted in all_players_done()
-				#u.delete_order()
-		#for u in units:
-		#	u.delete_order()
-		##
 		## at this point, all the 'easy' movements and conversions have been
 		## made, and we have a conditioned_invasions sequence
 		## conditioned_invasions is a list of Invasion objects:
@@ -1167,7 +1192,7 @@ class Game(models.Model):
 					else:
 						self.log_event(UnitEvent, type=b.type, area=b.area.board_area, message=3)
 					b.save()
-			b.order.delete()
+			b.delete_order()
 		return info
 	
 	def announce_retreats(self):
@@ -1191,7 +1216,7 @@ class Game(models.Model):
 		Order.objects.filter(unit__player__game=self, confirmed=False).delete()
 		## delete all orders sent by players that don't control the unit
 		if self.configuration.finances:
-			Order.objects.exclude(player=F('unit__player')).delete()
+			Order.objects.filter(player__game=self).exclude(player=F('unit__player')).delete()
 		## resolve =G that are not opposed
 		info += self.resolve_auto_garrisons()
 		info += u"\n"
@@ -1657,6 +1682,11 @@ class Player(models.Model):
 		if player != self:
 			signals.country_conquered.send(sender=self, country=self.country)
 			self.conqueror = player
+			if self.game.configuration.finances:
+				if self.ducats > 0:
+					player.ducats = F('ducats') + self.ducats
+					player.save()
+					self.ducats = 0
 			self.save()
 
 	def can_excommunicate(self):
@@ -1703,7 +1733,7 @@ class Player(models.Model):
 	def new_phase(self):
 		## check that the player is not autonomous and is not eliminated
 		if self.user and not self.eliminated:
-			if self.game.phase == PHREINFORCE:
+			if self.game.phase == PHREINFORCE and not self.game.configuration.finances:
 				if self.units_to_place() == 0:
 					self.done = True
 				else:
@@ -1892,19 +1922,18 @@ class UnitManager(models.Manager):
 		query = Q(unit__player__game=game,
 				  code__exact='S',
 				  subunit=u)
-		try:
-			u.order
-		except:
+		u_order = u.get_order()
+		if not u_order:
 			query &= Q(subcode__exact='H')
 		else:
-			if u.order.code in ('', 'H', 'S', 'C', 'B'): #unit is holding
+			if u_order.code in ('', 'H', 'S', 'C', 'B'): #unit is holding
 				query &= Q(subcode__exact='H')
-			elif u.order.code == '=':
+			elif u_order.code == '=':
 				query &= Q(subcode__exact='=',
-						   subtype=u.order.type)
-			elif u.order.code == '-':
+						   subtype=u_order.type)
+			elif u_order.code == '-':
 				query &= Q(subcode__exact='-',
-						   subdestination=u.order.destination)
+						   subdestination=u_order.destination)
 		support = Order.objects.filter(query).count()
 		u.strength = support
 		return u
@@ -1952,31 +1981,40 @@ class Unit(models.Model):
 	paid = models.BooleanField(default=True)
 	objects = UnitManager()
 
+	def get_order(self):
+		""" If the unit has more than one order, raises an error. If not, return the order.
+		When this method is called, each unit should have 0 or 1 order """
+		try:
+			order = Order.objects.get(unit=self)
+		except MultipleObjectsReturned:
+			raise MultipleObjectsReturned
+		except:
+			return None
+		else:
+			return order
+	
 	def get_attacked_area(self):
 		""" If the unit has orders, get the attacked area, if any. This method is
 		only a proxy of the Order method with the same name.
 		"""
-
-		try:
-			self.order
-		except:
-			return GameArea.objects.none()
+		order = self.get_order()
+		if order:
+			return order.get_attacked_area()
 		else:
-			return self.order.get_attacked_area()
+			return GameArea.objects.none()
 
 	def supportable_order(self):
 		supportable = "%s %s" % (self.type, self.area.board_area.code)
-		try:
-			self.order
-		except:
+		order = self.get_order()
+		if not order:
 			supportable += " H"
 		else:
-			if self.order.code in ('', 'H', 'S', 'C', 'B'): #unit is holding
+			if order.code in ('', 'H', 'S', 'C', 'B'): #unit is holding
 				supportable += " H"
-			elif self.order.code == '=':
-				supportable += " = %s" % self.order.type
-			elif self.order.code == '-':
-				supportable += " - %s" % self.order.destination.board_area.code
+			elif order.code == '=':
+				supportable += " = %s" % order.type
+			elif order.code == '-':
+				supportable += " - %s" % order.destination.board_area.code
 		return supportable
 
 	def place(self):
@@ -2074,11 +2112,24 @@ class Unit(models.Model):
 		self.save()
 
 	def delete_order(self):
-		try:
-			self.order.delete()
-		except ObjectDoesNotExist:
-			pass
+		order = self.get_order()
+		if order:
+			order.delete()
 		return True
+
+	def change_player(self, player):
+		assert isinstance(player, Player)
+		self.player = player
+		self.save()
+		if signals:
+			signals.unit_changed_country.send(sender=self)
+
+	def to_autonomous(self):
+		assert self.type == 'G'
+		self.player = None
+		self.save()
+		if signals:
+			signals.unit_to_autonomous.send(sender=self)
 
 class Order(models.Model):
 	""" This class defines an order from a player to a unit. The order will not be
@@ -2581,13 +2632,16 @@ class Expense(models.Model):
 			return messages[self.type] % data
 		else:
 			return "Unknown expense"
+	
+	def is_bribe(self):
+		return self.type in (5, 6, 7, 8, 9)
 
 	def is_allowed(self):
 		""" Return true if it's not a bribe or the unit is in a valid area as
 		stated in the rules. """
 		if self.type in (0, 1, 2, 3, 4):
 			return True
-		elif self.type in (5, 6, 7, 8, 9):
+		elif self.is_bribe():
 			## self.unit must be adjacent to a unit or area of self.player
 			## then, find the borders of self.unit
 			adjacent = self.unit.area.get_adjacent_areas()

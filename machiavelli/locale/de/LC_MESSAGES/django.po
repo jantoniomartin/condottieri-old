@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-10 17:00+0100\n"
+"POT-Creation-Date: 2011-03-22 21:37+0100\n"
 "PO-Revision-Date: 2010-10-21 09:32+0200\n"
 "Last-Translator: Jose Antonio Martin Prieto <jantonio.martin@gmail.com>\n"
 "Language-Team: \n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: forms.py:11
+#: forms.py:12
 msgid "Slug"
 msgstr "Slug"
 
-#: forms.py:15 templates/machiavelli/game_list.html:19
+#: forms.py:16 templates/machiavelli/game_list.html:19
 #: templates/machiavelli/ranking.html:18 templates/machiavelli/ranking.html:26
 #: templates/machiavelli/scenario_detail.html:5
 #: templates/machiavelli/scenario_detail.html:8
@@ -31,67 +31,117 @@ msgstr "Slug"
 msgid "Scenario"
 msgstr "Szenario"
 
-#: forms.py:16 templates/machiavelli/game_list.html:20
+#: forms.py:17 templates/machiavelli/game_list.html:20
 #: templates/machiavelli/summary.html:82
 #: templates/machiavelli/summary.html:112
 msgid "Time limit"
 msgstr "Zeitlimit"
 
-#: forms.py:17
+#: forms.py:18
 msgid "Visible players?"
 msgstr "Sichtbare Spieler?"
 
-#: forms.py:62 forms.py:66
+#: forms.py:67 forms.py:71
 msgid "Unit"
 msgstr "Einheit"
 
-#: forms.py:63 forms.py:67
+#: forms.py:68 forms.py:72
 msgid "Order"
 msgstr "Auftrag"
 
-#: forms.py:64 forms.py:68
+#: forms.py:69 forms.py:73
 msgid "Destination"
 msgstr "Ziel"
 
-#: forms.py:65 forms.py:69
+#: forms.py:70 forms.py:74
 msgid "Convert into"
 msgstr "Umwandeln zu"
 
-#: forms.py:92
+#: forms.py:106
 msgid "This unit has already an order"
 msgstr "Diese Einheit hat gerade einen Auftrag"
 
-#: forms.py:95
+#: forms.py:109
 msgid "You must select an area to advance into"
 msgstr "Du musst ein Ziel wählen"
 
-#: forms.py:98
+#: forms.py:112
 msgid "You must select a unit type to convert into"
 msgstr "Du musst die Typ der Einheit wählen"
 
-#: forms.py:100 forms.py:115
+#: forms.py:114 forms.py:129
 msgid "A unit must convert into a different type"
 msgstr "Eine Einheit muss zu anderer Typ umwandeln"
 
-#: forms.py:103
+#: forms.py:117
 msgid "You must select a unit to convoy"
 msgstr "Du musst die beförderte Einheit wählen"
 
-#: forms.py:105
+#: forms.py:119
 msgid "You must select a destination area to convoy the unit"
 msgstr "Du musst ein Ziel für den Konvoi wählen"
 
-#: forms.py:108
+#: forms.py:122
 msgid "You must select a unit to support"
 msgstr "Du musst die Einheit wählen, die du unterstützen willst"
 
-#: forms.py:110
+#: forms.py:124
 msgid "You must select a destination area for the supported unit"
 msgstr "Du musst ein Ziel für die unterstützte Einheit wählen"
 
-#: forms.py:113
+#: forms.py:127
 msgid "You must select a unit type for the supported unit"
 msgstr "Du musst eine Typ für die unterstützte Einheit wählen"
+
+#: forms.py:279
+msgid "This expense is not yet implemented"
+msgstr ""
+
+#: forms.py:282
+#, fuzzy
+msgid "You must choose an area"
+msgstr "Du musst ein Ziel wählen"
+
+#: forms.py:285
+#, fuzzy
+msgid "You must choose a unit"
+msgstr "Du musst die beförderte Einheit wählen"
+
+#: forms.py:287
+msgid "Unknown expense"
+msgstr ""
+
+#: forms.py:291
+#, python-format
+msgid "You must pay at least %s ducats"
+msgstr ""
+
+#: forms.py:295
+msgid "There is no famine in this area"
+msgstr ""
+
+#: forms.py:299
+#, fuzzy
+msgid "You must choose an autonomous garrison"
+msgstr "Selbständige Garnisonen"
+
+#: forms.py:303
+msgid "You cannot choose one of your own units"
+msgstr ""
+
+#: forms.py:305
+#, fuzzy
+msgid "You must choose an enemy unit"
+msgstr "Du musst ein Ziel wählen"
+
+#: forms.py:307
+msgid "You must choose a non-autonomous garrison"
+msgstr ""
+
+#: forms.py:330
+msgid ""
+"You cannot bribe this unit because it's too far from your units or areas"
+msgstr ""
 
 #: models.py:76
 msgid "Army"
@@ -169,102 +219,182 @@ msgstr "1 Tag"
 msgid "1/2 day"
 msgstr "1/2 Tag"
 
-#: models.py:1979
+#: models.py:2039
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s in %(area)s"
 
-#: models.py:2109
+#: models.py:2186
 #, python-format
 msgid "%(unit)s holds its position."
 msgstr "%(unit)s hält sich"
 
-#: models.py:2111
+#: models.py:2188
 #, python-format
 msgid "%(unit)s tries to go to %(area)s."
 msgstr "%(unit)s versucht zu %(area)s sich bewegen."
 
-#: models.py:2116
+#: models.py:2193
 #, python-format
 msgid "%(unit)s besieges the city."
 msgstr "%(unit)s belagert die Stadt."
 
-#: models.py:2118
+#: models.py:2195
 #, python-format
 msgid "%(unit)s tries to convert into %(type)s."
 msgstr "%(unit)s versucht in %(type)s sich umwandeln."
 
-#: models.py:2123
+#: models.py:2200
 #, python-format
 msgid "%(unit)s must convoy %(subunit)s to %(area)s."
 msgstr "%(unit)s muss %(subunit)s befördern nach %(area)s."
 
-#: models.py:2130
+#: models.py:2207
 #, python-format
 msgid "%(unit)s supports %(subunit)s to hold its position."
 msgstr "%(unit)s unterstützt %(subunit)s in halten."
 
-#: models.py:2135
+#: models.py:2212
 #, python-format
 msgid "%(unit)s supports %(subunit)s to go to %(area)s."
 msgstr "%(unit)s unterstützt %(subunit)s in zu %(area)s bewegen."
 
-#: models.py:2141
+#: models.py:2218
 #, python-format
 msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
 msgstr "%(unit)s unterstützt %(subunit)s in %(type)s sich umwandeln."
 
-#: models.py:2437
+#: models.py:2514
 msgid "game"
 msgstr "Spiel"
 
-#: models.py:2438
+#: models.py:2515
 msgid "finances"
 msgstr "Finanzen"
 
-#: models.py:2439
+#: models.py:2516
 msgid "assassinations"
 msgstr "Ermordungen"
 
-#: models.py:2440 models.py:2442 models.py:2449
+#: models.py:2517 models.py:2519 models.py:2526
 msgid "will enable Finances"
 msgstr "Finanzen aktivieren"
 
-#: models.py:2441
+#: models.py:2518
 msgid "bribes"
 msgstr "Bestechungen"
 
-#: models.py:2443
+#: models.py:2520
 msgid "excommunication"
 msgstr "Exkommunikation"
 
-#: models.py:2445
+#: models.py:2522
 msgid "special units"
 msgstr "Spezialeinheiten"
 
-#: models.py:2446
+#: models.py:2523
 msgid "will enable Finances and Bribes"
 msgstr "Finanzen und Bestechungen aktivieren"
 
-#: models.py:2447
+#: models.py:2524
 msgid "strategic movement"
 msgstr "strategische Bewegung"
 
-#: models.py:2448
+#: models.py:2525
 msgid "money lenders"
 msgstr "Geldverleiher"
 
-#: models.py:2450
+#: models.py:2527
 msgid "conquering"
 msgstr "Eroberung"
 
-#: models.py:2451
+#: models.py:2528
 msgid "famine"
 msgstr "Hungersnot"
 
-#: models.py:2452
+#: models.py:2529
 msgid "plague"
 msgstr "Plage"
+
+#: models.py:2554 templates/machiavelli/expenses_actions.html:20
+msgid "Famine relief"
+msgstr ""
+
+#: models.py:2555 templates/machiavelli/expenses_actions.html:23
+msgid "Pacify rebellion"
+msgstr ""
+
+#: models.py:2556 templates/machiavelli/expenses_actions.html:26
+msgid "Conquered province to rebel"
+msgstr ""
+
+#: models.py:2557 templates/machiavelli/expenses_actions.html:29
+#, fuzzy
+msgid "Home province to rebel"
+msgstr "Heimatprovinzen"
+
+#: models.py:2558 templates/machiavelli/expenses_actions.html:32
+#, fuzzy
+msgid "Counter bribe"
+msgstr "Land"
+
+#: models.py:2559 templates/machiavelli/expenses_actions.html:35
+#, fuzzy
+msgid "Disband autonomous garrison"
+msgstr "Selbständige Garnisonen"
+
+#: models.py:2560 templates/machiavelli/expenses_actions.html:38
+#, fuzzy
+msgid "Buy autonomous garrison"
+msgstr "Selbständige Garnisonen"
+
+#: models.py:2561 templates/machiavelli/expenses_actions.html:41
+#, fuzzy
+msgid "Convert garrison unit"
+msgstr "Umwandeln zu"
+
+#: models.py:2562 templates/machiavelli/expenses_actions.html:44
+msgid "Disband enemy unit"
+msgstr ""
+
+#: models.py:2563 templates/machiavelli/expenses_actions.html:47
+msgid "Buy enemy unit"
+msgstr ""
+
+#: models.py:2619
+#, fuzzy, python-format
+msgid "%(country)s reliefs famine in %(area)s"
+msgstr "%(unit)s versucht zu %(area)s sich bewegen."
+
+#: models.py:2620
+#, fuzzy, python-format
+msgid "%(country)s pacifies rebellion in %(area)s"
+msgstr "%(unit)s versucht zu %(area)s sich bewegen."
+
+#: models.py:2621 models.py:2622
+#, fuzzy, python-format
+msgid "%(country)s promotes a rebellion in %(area)s"
+msgstr "%(unit)s versucht zu %(area)s sich bewegen."
+
+#: models.py:2623
+#, fuzzy, python-format
+msgid "%(country)s tries to counter bribe on %(unit)s"
+msgstr "%(unit)s versucht in %(type)s sich umwandeln."
+
+#: models.py:2624 models.py:2627
+#, fuzzy, python-format
+msgid "%(country)s tries to disband %(unit)s"
+msgstr "%(unit)s versucht in %(type)s sich umwandeln."
+
+#: models.py:2625 models.py:2628
+#, fuzzy, python-format
+msgid "%(country)s tries to buy %(unit)s"
+msgstr "%(unit)s versucht zu %(area)s sich bewegen."
+
+#: models.py:2626
+#, python-format
+msgid "%(country)s tries to turn %(unit)s into an autonomous garrison"
+msgstr ""
 
 #: translate.py:5
 msgid "Austria"
@@ -587,43 +717,43 @@ msgstr "Westliches Mittelmeer"
 msgid "Create an acccount on %(domain)s"
 msgstr "Ein Konto in %(domain)s erstellen"
 
-#: views.py:586
+#: views.py:684
 msgid "You cannot send letters in an inactive game."
 msgstr "In einem inaktiven Spiel kannst du keine Briefe senden."
 
-#: views.py:588
+#: views.py:686
 msgid "You cannot write to a country that you have excommunicated."
 msgstr "Du kannst nicht einem exkommunizierten Land schreiben."
 
-#: views.py:603
+#: views.py:701
 msgid "You can write letters only to other excommunicated countries."
 msgstr "Du kannst nur anderer exkommunizierten Länder schreiben."
 
-#: views.py:618
+#: views.py:716
 msgid "You cannot excommunicate in this game."
 msgstr "In diesem Spiel kannst du nicht exkommunizieren"
 
-#: views.py:631
+#: views.py:729
 msgid "You have already excommunicated a country this year."
 msgstr "Bereits hast du dieses Jahr ein Land exkommuniziert."
 
-#: views.py:638
+#: views.py:736
 msgid "Excommunications cannot be reset."
 msgstr "Exkommunicationen können nicht vergeben werden."
 
-#: views.py:641
+#: views.py:739
 msgid "You are not allowed to forgive excommunications."
 msgstr "Du kannst keine Exkommunikationen vergeben."
 
-#: views.py:726
+#: views.py:824
 msgid "Ranking for the user"
 msgstr "Ränge des Benutzers"
 
-#: views.py:730
+#: views.py:828
 msgid "Ranking for the scenario"
 msgstr "Ränge des Szenarios"
 
-#: views.py:734
+#: views.py:832
 msgid "Ranking for the country"
 msgstr "Ränge des Landes"
 
@@ -716,6 +846,92 @@ msgstr "Ruhmeshalle"
 msgid "Scenarios"
 msgstr "Szenarios"
 
+#: templates/machiavelli/expenses_actions.html:6
+#: templates/machiavelli/orders_actions.html:44
+#: templates/machiavelli/orders_actions.html:47
+msgid "Expenses"
+msgstr ""
+
+#: templates/machiavelli/expenses_actions.html:8
+msgid ""
+"You may expend some of your ducats to affect an area or a unit in different "
+"ways. Expenses take effect just before the conflicts resolution."
+msgstr ""
+
+#: templates/machiavelli/expenses_actions.html:9
+msgid ""
+"Some of the expenses are 'bribes'. You can only bribe a unit that is "
+"adjacent to one of your controlled provinces or to one of your units. Note "
+"that bribes can be countered, and that you can pay more money to make the "
+"bribe more expensive to counter. Also, if a unit is affected by more than "
+"one bribe only the best paid is applied, and the money for the others is "
+"wasted."
+msgstr ""
+
+#: templates/machiavelli/expenses_actions.html:10
+#, fuzzy
+msgid "Available expenses"
+msgstr "Verfügbar Szenarios"
+
+#: templates/machiavelli/expenses_actions.html:11
+msgid "The following is a summary of all the available expenses:"
+msgstr ""
+
+#: templates/machiavelli/expenses_actions.html:14
+msgid "Expense"
+msgstr ""
+
+#: templates/machiavelli/expenses_actions.html:15
+msgid "Cost"
+msgstr ""
+
+#: templates/machiavelli/expenses_actions.html:16
+#, fuzzy
+msgid "Bribe"
+msgstr "Bestechungen"
+
+#: templates/machiavelli/expenses_actions.html:20
+#: templates/machiavelli/expenses_actions.html:23
+#: templates/machiavelli/expenses_actions.html:26
+#: templates/machiavelli/expenses_actions.html:29
+#: templates/machiavelli/expenses_actions.html:32
+msgid "No"
+msgstr ""
+
+#: templates/machiavelli/expenses_actions.html:35
+#: templates/machiavelli/expenses_actions.html:38
+#: templates/machiavelli/expenses_actions.html:41
+#: templates/machiavelli/expenses_actions.html:44
+#: templates/machiavelli/expenses_actions.html:47
+msgid "Yes"
+msgstr ""
+
+#: templates/machiavelli/expenses_actions.html:53
+#, fuzzy
+msgid "New expense"
+msgstr "Neue Phase"
+
+#: templates/machiavelli/expenses_actions.html:60
+#: templates/machiavelli/finance_reinforcements_0.html:24
+#, fuzzy
+msgid "Pay"
+msgstr "Papst"
+
+#: templates/machiavelli/expenses_actions.html:69
+#: templates/machiavelli/orders_actions.html:50
+msgid "Your expenses for this turn"
+msgstr ""
+
+#: templates/machiavelli/expenses_actions.html:75
+#: templates/machiavelli/game_error.html:12
+#: templates/machiavelli/letter_box.html:62
+#: templates/machiavelli/letter_detail.html:20
+#: templates/machiavelli/letter_form.html:21
+#: templates/machiavelli/log_list.html:40
+#: templates/machiavelli/turn_log_list.html:46
+msgid "Return to game"
+msgstr "Züruck zum Spiel"
+
 #: templates/machiavelli/faq.html:8
 msgid "Frequently Asked Questions"
 msgstr "Häufig gestellte Fragen"
@@ -805,19 +1021,47 @@ msgid ""
 "losing karma than increasing it."
 msgstr ""
 
+#: templates/machiavelli/finance_reinforcements_0.html:6
+#: templates/machiavelli/finance_reinforcements_1.html:6
+#: templates/machiavelli/reinforcements_actions.html:6
+msgid "Military Adjustment"
+msgstr "Militarischen Anpassungen"
+
+#: templates/machiavelli/finance_reinforcements_0.html:7
+#: templates/machiavelli/finance_reinforcements_1.html:7
+#, fuzzy
+msgid "Military unit payment"
+msgstr "Militarischen Anpassungen"
+
+#: templates/machiavelli/finance_reinforcements_0.html:10
+#: templates/machiavelli/finance_reinforcements_1.html:10
+#: templates/machiavelli/reinforcements_actions.html:36
+msgid ""
+"At least one player has not yet adjusted his units. You have to wait until "
+"all\n"
+"players have done it or the time limit is reached."
+msgstr ""
+"Mindestens hat ein Spieler seine Einheiten nicht angepasst. Du musst warten, "
+"bis alle\n"
+"Spieler es gemacht haben oder die Zeitlimit erreicht wird."
+
+#: templates/machiavelli/finance_reinforcements_0.html:15
+#: templates/machiavelli/finance_reinforcements_1.html:15
+msgid ""
+"You must select which of your existing units you will pay\n"
+"in order to keep them in play. You will pay 3 ducats for every unit that "
+"you\n"
+"select. The units not selected will be disbanded.</p>"
+msgstr ""
+
+#: templates/machiavelli/finance_reinforcements_1.html:52
+msgid "Buy units"
+msgstr ""
+
 #: templates/machiavelli/game_error.html:6
 #: templates/machiavelli/low_karma.html:6
 msgid "Error"
 msgstr "Fehler"
-
-#: templates/machiavelli/game_error.html:12
-#: templates/machiavelli/letter_box.html:62
-#: templates/machiavelli/letter_detail.html:20
-#: templates/machiavelli/letter_form.html:21
-#: templates/machiavelli/log_list.html:40
-#: templates/machiavelli/turn_log_list.html:46
-msgid "Return to game"
-msgstr "Züruck zum Spiel"
 
 #: templates/machiavelli/game_form.html:7 templates/machiavelli/summary.html:7
 msgid "Games"
@@ -1186,11 +1430,21 @@ msgid "Sent orders"
 msgstr "Gesendete Aufträge"
 
 #: templates/machiavelli/orders_actions.html:37
-#: templates/machiavelli/orders_actions.html:58
+#: templates/machiavelli/orders_actions.html:76
 msgid "Delete"
 msgstr "Löschen"
 
 #: templates/machiavelli/orders_actions.html:46
+msgid ""
+"Finances are applied in this game. If you want to expend some of your "
+"ducats, click on the following link."
+msgstr ""
+
+#: templates/machiavelli/orders_actions.html:58
+msgid "Confirm your actions"
+msgstr ""
+
+#: templates/machiavelli/orders_actions.html:61
 msgid ""
 "The orders above are saved but <strong>are not confirmed</strong>. If you "
 "don't confirm your orders, they will be ignored."
@@ -1199,7 +1453,7 @@ msgstr ""
 "bestätigt</strong>. Wenn du bestätigst nicht die Aufträge, sie werden "
 "ignoriert."
 
-#: templates/machiavelli/orders_actions.html:47
+#: templates/machiavelli/orders_actions.html:62
 msgid ""
 "Once you have confirmed your orders, you will not be able to change or "
 "delete them. To confirm the orders and end your phase, click the \"Confirm\" "
@@ -1208,7 +1462,16 @@ msgstr ""
 "Nachdem du deine Aufträge bestätigt hast, kannst du nicht sie ändern oder "
 "löschen. Um deine Aufträge bestätigen, drück den Button \"Bestätigen\" "
 
-#: templates/machiavelli/orders_actions.html:48
+#: templates/machiavelli/orders_actions.html:64
+#, fuzzy
+msgid ""
+"Note that you will not be able to make new expenses once you have clicked "
+"the \"Confirm\" button."
+msgstr ""
+"Nachdem du deine Aufträge bestätigt hast, kannst du nicht sie ändern oder "
+"löschen. Um deine Aufträge bestätigen, drück den Button \"Bestätigen\" "
+
+#: templates/machiavelli/orders_actions.html:66
 msgid "Confirm"
 msgstr "Bestätigen"
 
@@ -1219,10 +1482,6 @@ msgstr "Punkte"
 #: templates/machiavelli/ranking.html:15
 msgid "Position"
 msgstr "Rang"
-
-#: templates/machiavelli/reinforcements_actions.html:6
-msgid "Military Adjustment"
-msgstr "Militarischen Anpassungen"
 
 #: templates/machiavelli/reinforcements_actions.html:10
 msgid "This year you will place the following new units on the mapboard:"
@@ -1235,16 +1494,6 @@ msgstr "Die folgenden Einheiten sind aufzulösen:"
 #: templates/machiavelli/reinforcements_actions.html:28
 msgid "You have paid the wage of the following units to keep them:"
 msgstr "Du hast den Lohn der folgenden Einheiten bezahlt, um sie zu behalten:"
-
-#: templates/machiavelli/reinforcements_actions.html:36
-msgid ""
-"At least one player has not yet adjusted his units. You have to wait until "
-"all\n"
-"players have done it or the time limit is reached."
-msgstr ""
-"Mindestens hat ein Spieler seine Einheiten nicht angepasst. Du musst warten, "
-"bis alle\n"
-"Spieler es gemacht haben oder die Zeitlimit erreicht wird."
 
 #: templates/machiavelli/reinforcements_actions.html:41
 #, python-format

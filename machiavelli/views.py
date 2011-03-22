@@ -321,7 +321,9 @@ def play_finance_reinforcements(request, game, player):
 			context['form'] = form
 		elif step == 1:
 			## the player can create new units if he has money and areas
-			max_units = player.ducats / 3
+			can_buy = player.ducats / 3
+			can_place = player.get_areas_for_new_units(finances=True).count()
+			max_units = min(can_buy, can_place)
 			print "Max no of units is %s" % max_units
 			ReinforceForm = forms.make_reinforce_form(player, finances=True)
 			ReinforceFormSet = formset_factory(ReinforceForm,
