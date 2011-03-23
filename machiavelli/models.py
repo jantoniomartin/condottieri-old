@@ -541,14 +541,24 @@ class Game(models.Model):
 			if p.done:
 				continue
 			else:
-				#p.force_phase_change()
 				if self.phase == PHREINFORCE:
-					reinforce = p.units_to_place()
-					if reinforce < 0:
-						## delete the newest units
-						units = Unit.objects.filter(player=p).order_by('-id')[:-reinforce]
-						for u in units:
-							u.delete()
+					units = Unit.objects.filter(player=p).order_by('-id')
+					if self.configuration.finances:
+						payable = p.ducats / 3
+						cost = 0
+						if payable > 0:
+							for u in units[-payable:]:
+								u.paid = True
+								u.save()
+								cost += 3
+						p.ducats = F('ducats') - cost
+						p.save()
+					else:
+						reinforce = p.units_to_place()
+						if reinforce < 0:
+							## delete the newest units
+							for u in units[:-reinforce]:
+								u.delete()
 				elif self.phase == PHORDERS:
 					pass
 				elif self.phase == PHRETREATS:
