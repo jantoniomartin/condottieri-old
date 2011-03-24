@@ -2656,3 +2656,40 @@ class Expense(models.Model):
 			## then, find the borders of self.unit
 			adjacent = self.unit.area.get_adjacent_areas()
 
+class Rebellion(models.Model):
+	"""
+	A Rebellion may be placed in a GameArea if finances rules are applied.
+	Rebellion.player is the player who controlled the GameArea when the
+	Rebellion was placed. Rebellion.garrisoned is True if the Rebellion is
+	in a garrisoned city.
+	"""
+	area = models.ForeignKey(GameArea, unique=True)
+	player = models.ForeignKey(Player)
+	garrisoned = models.BooleanField(default=False)
+
+	def __unicode__(self):
+		return "Rebellion in %(area)s against %(player)s" % {'area': self.area,
+														'player': self.player}
+	
+	def save(self, *args, **kwargs):
+		## area must be controlled by a player, who is assigned to the rebellion
+		try:
+			self.player = self.area.player
+		except:
+			return False
+		## a rebellion cannot be placed in a sea area
+		if self.area.board_area.is_sea:
+			return False
+		## check if the rebellion is to be garrisoned
+		if self.area.board_area.is_fortified:
+			try:
+				Unit.objects.get(area=self.area, type='G')
+			except ObjectDoesNotExist:
+				self.garrisoned = True
+			else:
+				## there is a garrison in the city
+				if self.area.board_area.code == 'VEN':
+					## there cannot be a rebellion in Venice sea area
+					return False
+		super(Rebellion, self).save(*args, **kwargs)
+

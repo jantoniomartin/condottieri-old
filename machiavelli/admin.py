@@ -126,6 +126,10 @@ class ExpenseAdmin(admin.ModelAdmin):
 	list_display = ('__unicode__', 'player', 'ducats', 'type', 'unit', 'area')
 	list_filter = ('player', 'type',)
 
+class RebellionAdmin(admin.ModelAdmin):
+	list_display = ('__unicode__', 'player', 'garrisoned',)
+	list_filter = ('player',)
+
 admin.site.register(Scenario, ScenarioAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Game, GameAdmin)
@@ -141,3 +145,4 @@ admin.site.register(RetreatOrder, RetreatOrderAdmin)
 admin.site.register(Letter, LetterAdmin)
 admin.site.register(TurnLog, TurnLogAdmin)
 admin.site.register(Expense, ExpenseAdmin)
+admin.site.register(Rebellion, RebellionAdmin)
