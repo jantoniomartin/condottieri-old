@@ -293,12 +293,28 @@ def make_expense_form(player):
 			if type == 0:
 				if not area.famine:
 					raise forms.ValidationError(_("There is no famine in this area"))
+			## if pacify rebellion, check if there is a rebellion
+			elif type == 1:
+				try:
+					Rebellion.objects.get(area=area)
+				except ObjectDoesNotExist:
+					raise forms.ValidationError(_("There is no rebellion in this area"))
+			## if province to rebel
+			elif type == 2 or type == 3:
+				if area.player:
+					if type == 2 and area in area.player.controlled_home_country():
+						raise forms.ValidationError(_("This area is part of the player's home country"))
+					elif type == 3 and not area in area.player.controlled_home_country():
+						raise forms.ValidationError(_("This area is not in the home country of the player who controls it"))
+				else:
+					raise forms.ValidationError(_("This area is not controlled by anyone"))
+					
 			## if disband or buy autonomous garrison, check if the unit is an autonomous garrison
-			if type in (5, 6):
+			elif type in (5, 6):
 				if unit.type != 'G' or unit.player.country != None:
 					raise forms.ValidationError(_("You must choose an autonomous garrison"))
 			## checks for convert, disband or buy enemy units
-			if type in (7, 8, 9):
+			elif type in (7, 8, 9):
 				if unit.player == player:
 					raise forms.ValidationError(_("You cannot choose one of your own units"))
 				if unit.player.country == None:
