@@ -815,7 +815,11 @@ class Game(models.Model):
 				c.unit.to_autonomous()
 		## finally, delete all the expenses
 		Expense.objects.filter(player__game=self).delete()
-	
+
+	def get_rebellions(self):
+		""" Returns a queryset with all the rebellions in this game """
+		return Rebellion.objects.filter(area__game=self)
+
 	##------------------------
 	## turn processing methods
 	##------------------------

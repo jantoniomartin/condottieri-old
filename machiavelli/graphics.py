@@ -23,7 +23,6 @@ import os
 
 from django.conf import settings
 
-
 BASEDIR=os.path.join(settings.PROJECT_ROOT, 'machiavelli/media/machiavelli/tokens')
 BASEMAP='base-map.png'
 if settings.DEBUG:
@@ -80,6 +79,15 @@ def make_map(game):
 		for a in game.gamearea_set.filter(famine=True):
 			coords = (a.board_area.aftoken.x + 16, a.board_area.aftoken.y + 16)
 			base_map.paste(famine, coords, famine)
+	## paste rebellion markers
+	if game.configuration.finances:
+		rebellion_marker = Image.open("%s/rebellion-marker.png" % BASEDIR)
+		for r in game.get_rebellions():
+			if r.garrisoned:
+				coords = (r.area.board_area.gtoken.x, r.area.board_area.gtoken.y)
+			else:
+				coords = (r.area.board_area.aftoken.x, r.area.board_area.aftoken.y)
+			base_map.paste(rebellion_marker, coords, rebellion_marker)
 	## save the map
 	result = base_map #.resize((1250, 1780), Image.ANTIALIAS)
 	filename = os.path.join(MAPSDIR, "map-%s.jpg" % game.pk)
