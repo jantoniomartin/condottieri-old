@@ -62,7 +62,11 @@ def order_is_possible(order):
 				try:
 					gar = Unit.objects.get(type='G', area=order.unit.area)
 				except:
-					return False
+					reb = order.unit.area.has_rebellion(order.unit.player, same=True)
+					if reb and reb.garrisoned:
+						return order
+					else:
+						return False
 				else:
 					if gar.player != order.unit.player:
 						return order

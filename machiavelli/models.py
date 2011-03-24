@@ -787,6 +787,16 @@ class Game(models.Model):
 		for e in Expense.objects.filter(player__game=self, type=0):
 			e.area.famine = False
 			e.area.save()
+		## then, delete the rebellions
+		for e in Expense.objects.filter(player__game=self, type=1):
+			Rebellion.objects.filter(area=e.area).delete()
+		## then, place new rebellions
+		for e in Expense.objects.filter(player__game=self, type__in=(2,3)):
+			try:
+				rebellion = Rebellion(area=e.area)
+				rebellion.save()
+			except:
+				continue
 		## then, delete bribes that are countered
 		expenses = Expense.objects.filter(player__game=self)
 		for e in expenses:
@@ -972,6 +982,8 @@ class Game(models.Model):
 		units = Unit.objects.list_with_strength(self)
 		conditioned_invasions = []
 		conditioned_origins = []
+		finances = self.configuration.finances
+		holding = []
 		## iterate all the units
 		for u in units:
 			## discard all the units with H, S, B, C or no orders
@@ -982,6 +994,9 @@ class Game(models.Model):
 				continue
 			else:
 				info += u"%s was ordered: %s.\n" % (u, u_order)
+				if finances and u_order.code == 'H':
+					## the unit counts for removing a rebellion
+					holding.append(u)
 				if u_order.code in ['H', 'S', 'B', 'C']:
 					continue
 			##################
@@ -1158,6 +1173,16 @@ class Game(models.Model):
 			else:
 				info += u"%s converts into %s.\n" % (ci.unit, ci.conversion)
 				ci.unit.convert(ci.conversion)
+		## units in 'holding' that don't need to retreat, can put rebellions down
+		for h in holding:
+			if h.must_retreat != '':
+				continue
+			else:
+				reb = h.area.has_rebellion(h.player, same=True)
+				if reb:
+					info += u"Rebellion in %s is put down.\n" % h.area
+					reb.delete()
+		
 		info += u"End of conflicts processing"
 		return info
 
@@ -1176,27 +1201,41 @@ class Game(models.Model):
 										order__code__exact='B')
 		for b in besiegers:
 			info += u"%s besieges " % b
+			mode = ''
 			try:
 				defender = Unit.objects.get(player__game=self,
 										type__exact='G',
 										area=b.area)
 			except:
-				info += u"Besieging an empty city. Ignoring.\n"
-				b.besieging = False
-				b.save()
-				continue
+				reb = b.area.has_rebellion(b.player, same=True)
+				if reb and reb.garrisoned:
+					mode = 'rebellion'
+					info += u"a rebellion "
+				else:
+					ok = False
+					info += u"Besieging an empty city. Ignoring.\n"
+					b.besieging = False
+					b.save()
+					continue
 			else:
+				mode = 'garrison'
+			if mode != '':
 				if b.besieging:
 					info += u"for second time.\n"
 					b.besieging = False
-					info += u"Siege is successful. Garrison disbanded.\n"
-					if signals:
-						signals.unit_surrendered.send(sender=defender)
-					else:
-						self.log_event(UnitEvent, type=defender.type,
+					info += u"Siege is successful. "
+					if mode == 'garrison':
+						info += u"Garrison disbanded.\n" 
+						if signals:
+							signals.unit_surrendered.send(sender=defender)
+						else:
+							self.log_event(UnitEvent, type=defender.type,
 												area=defender.area.board_area,
 												message=2)
-					defender.delete()
+						defender.delete()
+					elif mode == 'rebellion':
+						info += u"Rebellion is put down.\n"
+						reb.delete()
 					b.save()
 				else:
 					info += u"for first time.\n"
@@ -1465,6 +1504,18 @@ class GameArea(models.Model):
 			cond = Q(board_area__borders=self.board_area, game=self.game)
 		adj = GameArea.objects.filter(cond).distinct()
 		return adj
+	
+	def has_rebellion(self, player, same=True):
+		""" If there is a rebellion in the area, either against the player or
+		against any other player, returns the rebellion. """
+		try:
+			if same:
+				reb = Rebellion.objects.get(area=self, player=player)
+			else:
+				reb = Rebellion.objects.exclude(player=player).get(area=self)
+		except ObjectDoesNotExist:
+			return False
+		return reb
 
 def check_min_karma(sender, instance=None, **kwargs):
 	if isinstance(instance, CondottieriProfile):
@@ -1831,11 +1882,11 @@ class Player(models.Model):
 	##
 	## Income calculation
 	##
-	def get_control_income(self, die, majors_ids):
+	def get_control_income(self, die, majors_ids, rebellion_ids):
 		""" Gets the sum of the control income of all controlled AND empty
 		provinces. Note that provinces affected by plague don't genearate
 		any income"""
-		gamearea_ids = self.gamearea_set.filter(famine=False).values_list('board_area', flat=True)
+		gamearea_ids = self.gamearea_set.filter(famine=False).exclude(id__in=rebellion_ids).values_list('board_area', flat=True)
 		income = Area.objects.filter(id__in = gamearea_ids).aggregate(Sum('control_income'))
 
 		i =  income['control_income__sum']
@@ -1860,13 +1911,14 @@ class Player(models.Model):
 			return i
 		return 0
 
-	def get_garrisons_income(self, die, majors_ids):
+	def get_garrisons_income(self, die, majors_ids, rebellion_ids):
 		""" Gets the sum of the income of all the non-besieged garrisons in non-controlled areas
 		"""
 		## get garrisons in non-controlled areas
 		cond = ~Q(area__player=self)
 		cond |= Q(area__player__isnull=True)
 		cond |= (Q(area__player=self, area__famine=True))
+		cond |= (Q(area__player=self, area__id__in=rebellion_ids))
 		garrisons = self.unit_set.filter(type="G")
 		garrisons = garrisons.filter(cond)
 		garrisons = garrisons.values_list('area__board_area__id', flat=True)
@@ -1898,9 +1950,10 @@ class Player(models.Model):
 
 	def get_income(self, die, majors_ids):
 		""" Gets the total income in one turn """
-		income = self.get_control_income(die, majors_ids)
+		rebellion_ids = Rebellion.objects.filter(player=self).values_list('area', flat=True)
+		income = self.get_control_income(die, majors_ids, rebellion_ids)
 		income += self.get_occupation_income()
-		income += self.get_garrisons_income(die, majors_ids)
+		income += self.get_garrisons_income(die, majors_ids, rebellion_ids)
 		income += self.get_variable_income(die)
 		return income
 
@@ -1949,6 +2002,10 @@ class UnitManager(models.Manager):
 				query &= Q(subcode__exact='-',
 						   subdestination=u_order.destination)
 		support = Order.objects.filter(query).count()
+		if game.configuration.finances:
+			if not u_order or u_order.code in ('', 'H', 'S', 'C', 'B'):
+				if u.area.has_rebellion(u.player, same=True):
+					support -= 1
 		u.strength = support
 		return u
 
@@ -1962,11 +2019,13 @@ class UnitManager(models.Manager):
 		WHERE p.game_id=%s" % game.id)
 		result_list = []
 		for row in cursor.fetchall():
+			holding = False
 			support_query = Q(unit__player__game=game,
 							  code__exact='S',
 							  subunit__pk=row[0])
 			if row[8] in (None, '', 'H', 'S', 'C', 'B'): #unit is holding
 				support_query &= Q(subcode__exact='H')
+				holding = True
 			elif row[8] == '=':
 				support_query &= Q(subcode__exact='=',
 						   		subtype__exact=row[10])
@@ -1977,6 +2036,9 @@ class UnitManager(models.Manager):
 			unit = self.model(id=row[0], type=row[1], area_id=row[2],
 							player_id=row[3], besieging=row[4],
 							must_retreat=row[5], placed=row[6], paid=row[7])
+			if game.configuration.finances:
+				if holding and unit.area.has_rebellion(unit.player, same=True):
+					support -= 1
 			unit.strength = support
 			result_list.append(unit)
 		result_list.sort(cmp=lambda x,y: cmp(x.strength, y.strength), reverse=True)
@@ -2097,6 +2159,7 @@ class Unit(models.Model):
 		self.area = ga
 		self.must_retreat = ''
 		self.save()
+		self.check_rebellion()
 
 	def retreat(self, destination):
 		if signals:
@@ -2108,6 +2171,8 @@ class Unit(models.Model):
 		if self.area == destination:
 			assert self.area.board_area.is_fortified == True, "trying to retreat to a non-fortified city"
 			self.type = 'G'
+		else:
+			self.check_rebellion()
 		self.must_retreat = ''
 		self.area = destination
 		self.save()
@@ -2124,6 +2189,14 @@ class Unit(models.Model):
 		self.type = new_type
 		self.must_retreat = ''
 		self.save()
+		if new_type != 'G':
+			self.check_rebellion()
+
+	def check_rebellion(self):
+		## if there is a rebellion against other player, put it down
+		reb = self.area.has_rebellion(self.player, same=False)
+		if reb:
+			reb.delete()
 
 	def delete_order(self):
 		order = self.get_order()
@@ -2135,6 +2208,7 @@ class Unit(models.Model):
 		assert isinstance(player, Player)
 		self.player = player
 		self.save()
+		self.check_rebellion()
 		if signals:
 			signals.unit_changed_country.send(sender=self)
 

@@ -275,8 +275,8 @@ def make_expense_form(player):
 			unit = cleaned_data.get('unit')
 	
 			## temporarily disable rebellion related expenses
-			if type in (1,2,3):
-				raise forms.ValidationError(_("This expense is not yet implemented"))
+			#if type in (1,2,3):
+			#	raise forms.ValidationError(_("This expense is not yet implemented"))
 			if type in (0,1,2,3):
 				if not isinstance(area, GameArea):
 					raise forms.ValidationError(_("You must choose an area"))
