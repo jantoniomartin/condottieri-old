@@ -554,18 +554,21 @@ def log_elimination(sender, **kwargs):
 country_eliminated.connect(log_elimination)
 
 DISASTER_EVENTS = (
-	(0, _('is affected by famine.')),
-	(1, _('has been affected by plague.'))
+	(0, _('%(area)s is affected by famine.')),
+	(1, _('%(area)s has been affected by plague.')),
+	(2, _('A rebellion has broken out in %(area)s.')),
 )
 
 class DisasterEvent(BaseEvent):
-	""" Event triggered when a province is affected by a natural disaster.
+	""" Event triggered when a province is affected by a disaster.
 
 	Currently, the conditions are:
 	
 	* The province is affected by famine.
 	
 	* The province is affected by plague.
+
+	* The province is affected by a rebellion.
 	
 	Each condition must have its own signal.
 	"""
@@ -573,10 +576,8 @@ class DisasterEvent(BaseEvent):
 	message = models.PositiveIntegerField(choices=DISASTER_EVENTS)
 
 	def __unicode__(self):
-		return "%(area)s %(message)s" % {
-									'area': self.area.name,
-									'message': self.get_message_display()
-									}
+		msg = self.get_message_display()
+		return msg % {'area': self.area.name,}
 	
 	def event_class(self):
 		return "season_%(season)s" % {'season': self.season}
@@ -598,6 +599,15 @@ def log_plague(sender, **kwargs):
 					message = 1)
 
 plague_placed.connect(log_plague)
+
+def log_rebellion(sender, **kwargs):
+	assert isinstance(sender, GameArea), "sender must be a GameArea"
+	log_event(DisasterEvent, sender.game,
+					classname="DisasterEvent",
+					area = sender.board_area,
+					message = 2)
+
+rebellion_started.connect(log_rebellion)
 
 class IncomeEvent(BaseEvent):
 	""" Event triggered when a country receives income """

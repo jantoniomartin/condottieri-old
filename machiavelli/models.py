@@ -2692,4 +2692,7 @@ class Rebellion(models.Model):
 					## there cannot be a rebellion in Venice sea area
 					return False
 		super(Rebellion, self).save(*args, **kwargs)
+		if signals:
+			signals.rebellion_started.send(sender=self.area)
+	
 
