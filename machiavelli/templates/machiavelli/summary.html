@@ -201,11 +201,11 @@
 {% forum_latest_thread_activity 5 as latest_activity %}
 <h2>{% trans "Latest forum posts" %}</h2>
 
-<ul>
+<ul class="thread-list">
 {% for thread in latest_activity %}
 <li>
 <a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
-{{ thread.latest_post_time|date }}
+({% blocktrans with thread.thread_latest_post.author as author and thread.latest_post_time|timesince as time %}{{ time }} ago by {{ author }}{% endblocktrans %})
 </li>
 {% endfor %}
 </ul>
