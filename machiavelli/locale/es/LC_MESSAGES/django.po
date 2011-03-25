@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 13:32+0100\n"
+"POT-Creation-Date: 2011-03-25 09:58+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -91,10 +91,6 @@ msgstr "Debes seleccionar un área de destino para la unidad apoyada"
 #: forms.py:127
 msgid "You must select a unit type for the supported unit"
 msgstr "Debes seleccionar un nuevo tipo para la unidad apoyada"
-
-#: forms.py:279
-msgid "This expense is not yet implemented"
-msgstr "Este gasto todavía no está implementado"
 
 #: forms.py:282
 msgid "You must choose an area"
@@ -232,174 +228,174 @@ msgstr "1 día"
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: models.py:2053
+#: models.py:2115
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
 
-#: models.py:2200
+#: models.py:2274
 #, python-format
 msgid "%(unit)s holds its position."
 msgstr "%(unit)s mantiene su posición."
 
-#: models.py:2202
+#: models.py:2276
 #, python-format
 msgid "%(unit)s tries to go to %(area)s."
 msgstr "%(unit)s intenta ir a %(area)s."
 
-#: models.py:2207
+#: models.py:2281
 #, python-format
 msgid "%(unit)s besieges the city."
 msgstr "%(unit)s asedia la ciudad."
 
-#: models.py:2209
+#: models.py:2283
 #, python-format
 msgid "%(unit)s tries to convert into %(type)s."
 msgstr "%(unit)s intenta convertirse en %(type)s."
 
-#: models.py:2214
+#: models.py:2288
 #, python-format
 msgid "%(unit)s must convoy %(subunit)s to %(area)s."
 msgstr "%(unit)s transporta a %(subunit)s a %(area)s."
 
-#: models.py:2221
+#: models.py:2295
 #, python-format
 msgid "%(unit)s supports %(subunit)s to hold its position."
 msgstr "%(unit)s apoya a %(subunit)s a mantener su posición."
 
-#: models.py:2226
+#: models.py:2300
 #, python-format
 msgid "%(unit)s supports %(subunit)s to go to %(area)s."
 msgstr "%(unit)s apoya a %(subunit)s a avanzar a %(area)s."
 
-#: models.py:2232
+#: models.py:2306
 #, python-format
 msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
 msgstr "%(unit)s apoya a %(subunit)s a convertirse en %(type)s."
 
-#: models.py:2528
+#: models.py:2602
 msgid "game"
 msgstr "juego"
 
-#: models.py:2529
+#: models.py:2603
 msgid "finances"
 msgstr "finanzas"
 
-#: models.py:2530
+#: models.py:2604
 msgid "assassinations"
 msgstr "asesinatos"
 
-#: models.py:2531 models.py:2533 models.py:2540
+#: models.py:2605 models.py:2607 models.py:2614
 msgid "will enable Finances"
 msgstr "se activarán las finanzas"
 
-#: models.py:2532
+#: models.py:2606
 msgid "bribes"
 msgstr "sobornos"
 
-#: models.py:2534
+#: models.py:2608
 msgid "excommunication"
 msgstr "excomunión"
 
-#: models.py:2536
+#: models.py:2610
 msgid "special units"
 msgstr "unidades especiales"
 
-#: models.py:2537
+#: models.py:2611
 msgid "will enable Finances and Bribes"
 msgstr "se activarán las finanzas y los sobornos"
 
-#: models.py:2538
+#: models.py:2612
 msgid "strategic movement"
 msgstr "movimiento estratégico"
 
-#: models.py:2539
+#: models.py:2613
 msgid "money lenders"
 msgstr "prestamistas"
 
-#: models.py:2541
+#: models.py:2615
 msgid "conquering"
 msgstr "conquista"
 
-#: models.py:2542
+#: models.py:2616
 msgid "famine"
 msgstr "hambruna"
 
-#: models.py:2543
+#: models.py:2617
 msgid "plague"
 msgstr "plaga"
 
-#: models.py:2568 templates/machiavelli/expenses_actions.html:20
+#: models.py:2642 templates/machiavelli/expenses_actions.html:20
 msgid "Famine relief"
 msgstr "Aliviar la hambruna"
 
-#: models.py:2569 templates/machiavelli/expenses_actions.html:23
+#: models.py:2643 templates/machiavelli/expenses_actions.html:23
 msgid "Pacify rebellion"
 msgstr "Pacificar rebelión"
 
-#: models.py:2570 templates/machiavelli/expenses_actions.html:26
+#: models.py:2644 templates/machiavelli/expenses_actions.html:26
 msgid "Conquered province to rebel"
 msgstr "Provocar rebelión en provincia conquistada"
 
-#: models.py:2571 templates/machiavelli/expenses_actions.html:29
+#: models.py:2645 templates/machiavelli/expenses_actions.html:29
 msgid "Home province to rebel"
 msgstr "Provocar rebelión en provincia de origen"
 
-#: models.py:2572 templates/machiavelli/expenses_actions.html:32
+#: models.py:2646 templates/machiavelli/expenses_actions.html:32
 msgid "Counter bribe"
 msgstr "Contrarrestar soborno"
 
-#: models.py:2573 templates/machiavelli/expenses_actions.html:35
+#: models.py:2647 templates/machiavelli/expenses_actions.html:35
 msgid "Disband autonomous garrison"
 msgstr "Desbandar guarnición autónoma"
 
-#: models.py:2574 templates/machiavelli/expenses_actions.html:38
+#: models.py:2648 templates/machiavelli/expenses_actions.html:38
 msgid "Buy autonomous garrison"
 msgstr "Comprar guarnición autónoma"
 
-#: models.py:2575 templates/machiavelli/expenses_actions.html:41
+#: models.py:2649 templates/machiavelli/expenses_actions.html:41
 msgid "Convert garrison unit"
 msgstr "Convertir guarnición en autónoma"
 
-#: models.py:2576 templates/machiavelli/expenses_actions.html:44
+#: models.py:2650 templates/machiavelli/expenses_actions.html:44
 msgid "Disband enemy unit"
 msgstr "Desbandar unidad enemiga"
 
-#: models.py:2577 templates/machiavelli/expenses_actions.html:47
+#: models.py:2651 templates/machiavelli/expenses_actions.html:47
 msgid "Buy enemy unit"
 msgstr "Comprar unidad enemiga"
 
-#: models.py:2633
+#: models.py:2707
 #, python-format
 msgid "%(country)s reliefs famine in %(area)s"
 msgstr "%(country)s alivia la hambruna en %(area)s"
 
-#: models.py:2634
+#: models.py:2708
 #, python-format
 msgid "%(country)s pacifies rebellion in %(area)s"
 msgstr "%(country)s pacifica la rebelión en %(area)s"
 
-#: models.py:2635 models.py:2636
+#: models.py:2709 models.py:2710
 #, python-format
 msgid "%(country)s promotes a rebellion in %(area)s"
 msgstr "%(country)s provoca una rebelión en %(area)s."
 
-#: models.py:2637
+#: models.py:2711
 #, python-format
 msgid "%(country)s tries to counter bribe on %(unit)s"
 msgstr "%(country)s intenta evitar un soborno sobre %(unit)s."
 
-#: models.py:2638 models.py:2641
+#: models.py:2712 models.py:2715
 #, python-format
 msgid "%(country)s tries to disband %(unit)s"
 msgstr "%(country)s intenta desbandar %(unit)s."
 
-#: models.py:2639 models.py:2642
+#: models.py:2713 models.py:2716
 #, python-format
 msgid "%(country)s tries to buy %(unit)s"
 msgstr "%(country)s intenta comprar %(unit)s."
 
-#: models.py:2640
+#: models.py:2714
 #, python-format
 msgid "%(country)s tries to turn %(unit)s into an autonomous garrison"
 msgstr "%(country)s intenta convertir %(unit)s en guarnición autónoma"
@@ -753,15 +749,15 @@ msgstr "No se pueden cancelar las excomuniones."
 msgid "You are not allowed to forgive excommunications."
 msgstr "No estás autorizado para perdonar excomuniones."
 
-#: views.py:824
+#: views.py:826
 msgid "Ranking for the user"
 msgstr "Clasificación del jugador"
 
-#: views.py:828
+#: views.py:830
 msgid "Ranking for the scenario"
 msgstr "Clasificación del escenario"
 
-#: views.py:832
+#: views.py:834
 msgid "Ranking for the country"
 msgstr "Clasificación del país"
 
@@ -1238,7 +1234,7 @@ msgstr "Jugador"
 
 #: templates/machiavelli/game_results.html:15
 #: templates/machiavelli/ranking.html:19 templates/machiavelli/ranking.html:22
-#: templates/machiavelli/scenario_detail.html:20
+#: templates/machiavelli/scenario_detail.html:21
 #: templates/machiavelli/summary.html:24
 #: templates/machiavelli/summary.html:147
 msgid "Country"
@@ -1629,15 +1625,27 @@ msgstr "Ciudades para ganar"
 msgid "Setup"
 msgstr "Despliegue"
 
-#: templates/machiavelli/scenario_detail.html:21
+#: templates/machiavelli/scenario_detail.html:20
+msgid "Coat of arms"
+msgstr ""
+
+#: templates/machiavelli/scenario_detail.html:22
 msgid "Home provinces"
 msgstr "Provincias de origen"
 
-#: templates/machiavelli/scenario_detail.html:22
+#: templates/machiavelli/scenario_detail.html:23
 msgid "Initial setup"
 msgstr "Despliegue inicial"
 
-#: templates/machiavelli/scenario_detail.html:51
+#: templates/machiavelli/scenario_detail.html:24
+msgid "Initial ducats"
+msgstr "Ducados iniciales"
+
+#: templates/machiavelli/scenario_detail.html:25
+msgid "Double income"
+msgstr "Ingreso doble"
+
+#: templates/machiavelli/scenario_detail.html:45
 msgid "Autonomous garrisons"
 msgstr "Guarniciones autónomas"
 
@@ -1819,6 +1827,9 @@ msgstr "Procesamiento de órdenes en el juego"
 #: templates/machiavelli/turn_log_list.html:40
 msgid "Timestamp"
 msgstr "Tiempo"
+
+#~ msgid "This expense is not yet implemented"
+#~ msgstr "Este gasto todavía no está implementado"
 
 #~ msgid "natural disasters"
 #~ msgstr "desastres naturales"

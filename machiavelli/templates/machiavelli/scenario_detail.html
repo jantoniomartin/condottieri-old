@@ -17,43 +17,36 @@
 <table>
 <thead>
 <tr>
+<th>{% trans "Coat of arms" %}</th>
 <th>{% trans "Country" %}</th>
 <th>{% trans "Home provinces" %}</th>
 <th>{% trans "Initial setup" %}</th>
+<th>{% trans "Initial ducats" %}</th>
+<th>{% trans "Double income" %}</th>
 </tr>
 </thead>
-{% for c in countries %}
+{% for k, v in countries.items %}
 <tr>
 <td class="data_c">
-{{ c.name }} <br />
-<img src="{{ STATIC_URL }}machiavelli/img/banner-{{ c.css_class }}.png" alt="{{ c.name }}"/>
+<img src="{{ STATIC_URL }}machiavelli/img/banner-{{ k }}.png" alt="{{ v.name }}"/>
 </td>
-<td>
-	<ul>
-	{% for k, v in homes.items %}
-		{% ifequal k c %}
-			{{ v|unordered_list }}
-		{% endifequal %}
-	{% endfor %}
-	</ul>
-</td>
-<td>
-	<ul>
-	{% for k, v in setups.items %}
-		{% ifequal k c %}
-			{{ v|unordered_list }}
-		{% endifequal %}
-	{% endfor %}
-	</ul>
-</td>
+<td>{{ v.name }}</td>
+<td>{{ v.homes|join:", " }}</td>
+<td>{{ v.setups|join:", " }}</td>
+<td class="data_c">{{ v.ducats }}</td>
+<td class="data_c">{{ v.double|yesno }}</td>
 </tr>
 {% endfor %}
-<td>{% trans "Autonomous garrisons" %}</td>
-<td></td>
-<td>
-	<ul>
-	{{ autonomous|unordered_list }}
-	</ul>
-</td>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>{% trans "Autonomous garrisons" %}</th>
+</tr>
+</thead>
+<tr>
+<td>{{ autonomous|join:", " }}</td>
+</tr>
 </table>
 {% endblock %}

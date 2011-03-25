@@ -752,7 +752,6 @@ def scenario_list(request):
 							context,
 							context_instance = RequestContext(request))
 
-
 #@cache_page(60 * 60)
 def show_scenario(request, scenario_id):
 	scenario = get_object_or_404(Scenario, id=scenario_id, enabled=True)
@@ -760,18 +759,21 @@ def show_scenario(request, scenario_id):
 	countries = Country.objects.filter(home__scenario=scenario).distinct()
 	autonomous = Setup.objects.filter(scenario=scenario, country__isnull=True)
 
-	homes_dict = {}
-	setups_dict = {}
+	countries_dict = {}
 
 	for c in countries:
-		homes_dict[c] = c.home_set.filter(scenario=scenario)
-		setups_dict[c] = c.setup_set.filter(scenario=scenario)
+		data = {}
+		data['name'] = c.name
+		data['homes'] = c.home_set.filter(scenario=scenario)
+		data['setups'] = c.setup_set.filter(scenario=scenario)
+		treasury = c.treasury_set.get(scenario=scenario)
+		data['ducats'] = treasury.ducats
+		data['double'] = treasury.double
+		countries_dict[c.static_name] = data
 
 	return render_to_response('machiavelli/scenario_detail.html',
 							{'scenario': scenario,
-							'countries': countries,
-							'homes': homes_dict,
-							'setups': setups_dict,
+							'countries': countries_dict,
 							'autonomous': autonomous},
 							context_instance=RequestContext(request))
 
