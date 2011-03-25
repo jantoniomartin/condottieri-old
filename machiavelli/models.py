@@ -772,6 +772,9 @@ class Game(models.Model):
 		""" Gets each player's income and add it to the player's treasury """
 		## get the column for variable income
 		die = dice.roll_1d6()
+		if logging:
+			msg = "Varible income: Got a %s in game %s" % (die, self)
+			logging.info(msg)
 		## get a list of the ids of the major cities that generate income
 		majors = CityIncome.objects.filter(scenario=self.scenario)
 		majors_ids = majors.values_list('city', flat=True)
