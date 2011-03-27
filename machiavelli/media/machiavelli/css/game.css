@@ -173,10 +173,7 @@ tr.closed_game a{
 	margin-top: 2.5%;
 	padding-top: 0.5em;
 	overflow: auto;
-}
-
-#log {
-	height: 75%;
+	height: 90%;
 }
 
 #letter_box ul,
