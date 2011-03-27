@@ -16,9 +16,9 @@ if "notification" in settings.INSTALLED_APPS:
 		notification.create_notice_type("new_phase",
 										_("New phase"),
 										_("a new phase has begun"))
-		notification.create_notice_type("letter_received",
-										_("Letter received"),
-										_("you have received a new letter"))
+		notification.create_notice_type("received_ducats",
+										_("Ducats received"),
+										_("you have received some ducats"))
 		notification.create_notice_type("overthrow_attempt",
 										_("Overthrow attempt"),
 										_("you are being overthrown"))

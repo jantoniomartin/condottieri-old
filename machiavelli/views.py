@@ -55,6 +55,12 @@ if "jogging" in settings.INSTALLED_APPS:
 else:
 	logging = None
 
+if "notification" in settings.INSTALLED_APPS:
+	from notification import models as notification
+else:
+	notification = None
+
+
 from machiavelli.models import Unit
 
 #@login_required
@@ -795,5 +801,39 @@ def turn_log_list(request, slug=''):
 		}
 
 	return render_to_response('machiavelli/turn_log_list.html',
+							context,
+							context_instance=RequestContext(request))
+
+@login_required
+def give_money(request, slug, player_id):
+	game = get_object_or_404(Game, slug=slug)
+	if game.phase == 0 or not game.configuration.finances:
+		return game_error(request, game, _("You cannot give money in this game."))
+	borrower = get_object_or_404(Player, id=player_id, game=game)
+	lender = get_object_or_404(Player, user=request.user, game=game)
+	context = base_context(request, game, lender)
+
+	if request.method == 'POST':
+		form = forms.LendForm(request.POST)
+		if form.is_valid():
+			ducats = form.cleaned_data['ducats']
+			if ducats > lender.ducats:
+				return game_error(request, game, _("You cannot give more money than you have"))
+			lender.ducats = F('ducats') - ducats
+			borrower.ducats = F('ducats') + ducats
+			lender.save()
+			borrower.save()
+			if notification:
+				extra_context = {'game': lender.game,
+								'ducats': ducats,
+								'country': lender.country}
+				notification.send([borrower.user,], "received_ducats", extra_context , on_site=True)
+			return redirect('show-game', slug=slug)
+	else:
+		form = forms.LendForm()
+	context['form'] = form
+	context['borrower'] = borrower
+
+	return render_to_response('machiavelli/give_money.html',
 							context,
 							context_instance=RequestContext(request))

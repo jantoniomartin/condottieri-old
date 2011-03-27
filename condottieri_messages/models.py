@@ -39,9 +39,7 @@ class Letter(messages.Message):
 	get_absolute_url = models.permalink(get_absolute_url)
 
 def notify_new_letter(sender, instance, created, **kw):
-	print "Wondering if a notice should be sent\n\n"
 	if notification and isinstance(instance, Letter) and created:
-		print "Sending notice\n\n"
 		user = [instance.recipient,]
 		extra_context = {'game': instance.recipient_player.game,
 						'letter': instance }

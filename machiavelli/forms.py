@@ -336,3 +336,9 @@ def make_expense_form(player):
 			return cleaned_data
 	
 	return ExpenseForm
+
+
+class LendForm(forms.Form):
+	ducats = forms.IntegerField(required=True, min_value=0)
+	
+
