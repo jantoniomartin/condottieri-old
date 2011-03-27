@@ -86,21 +86,23 @@
 	{% if show_users %}
 	<div><a href="{% url profile_detail username=p.user.username %}">{% avatar p.user 20 %}{{ p.user.username }}</a></div>
 	{% endif %}
-	<div>{% trans "Cities:" %} {{ p.number_of_cities }} |
-	{% trans "Units:" %} {{ p.number_of_units }}</div>
+	<div>{% trans "Cities:" %} {{ p.number_of_cities }}</div>
+	<div>{% trans "Units:" %} {{ p.number_of_units }}</div>
 {% if player %}
 	{% ifnotequal game.phase 0 %}
 	{% ifnotequal p player %}
 	{% ifnotequal p.eliminated 1 %}
-	<div><a href="{% url condottieri_messages_compose sender_id=player.id recipient_id=p.id %}">{% trans "Send message" %}</a></div>
+	<div>
+	<a href="{% url condottieri_messages_compose sender_id=player.id recipient_id=p.id %}"><img src="{{ STATIC_URL }}machiavelli/img/envelope.png" title="{% trans "Send message" %}" /></a>
+	{% if game.configuration.finances %}
+		<a href="{% url lend game.slug p.id %}"><img src="{{ STATIC_URL }}machiavelli/img/coin.png" title="{% trans "Give money" %}" /></a>
+	{% endif %}
+	</div>
 	{% endifnotequal %}
 	{% if can_excommunicate %}
 		{% ifnotequal p.excommunicated 1 %}
 		<div><a href="{% url excommunicate game.slug p.id %}">{% trans "Excommunicate" %}</a></div>
 		{% endifnotequal %}
-	{% endif %}
-	{% if game.configuration.finances %}
-		<div><a href="{% url lend game.slug p.id %}">{% trans "Give money" %}</a></div>
 	{% endif %}
 	{% endifnotequal %}
 	{% endifnotequal %}

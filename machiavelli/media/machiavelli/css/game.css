@@ -58,12 +58,12 @@ tr.closed_game a{
 }
 
 .col1 {
-	width: 13%;
+	width: 12%;
 	overflow: auto;
 }
 
 .col2 {
-	width: 55%;
+	width: 56%;
 	padding: 0;
 }
 
@@ -75,7 +75,7 @@ tr.closed_game a{
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 	line-height: 120%;
-	padding: 0.2em 0.2em;
+	padding: 0.2em 0.5em;
 	border: solid 1px #111;
 	-moz-border-radius: 10px;
 }
