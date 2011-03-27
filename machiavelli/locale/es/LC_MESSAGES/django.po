@@ -1650,7 +1650,7 @@ msgstr "Excomulgar"
 
 #: templates/machiavelli/show_game.html:103
 msgid "Give money"
-msgstr ""
+msgstr "Enviar dinero"
 
 #: templates/machiavelli/show_game.html:112
 msgid "Forgive excommunications"
