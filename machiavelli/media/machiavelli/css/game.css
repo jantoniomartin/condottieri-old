@@ -19,13 +19,6 @@ tr.closed_game a{
 	color: #111;
 }
 
-.thread-list li {
-	list-style-type: none;
-	margin: 0px;
-	padding: 0.5em;
-	border: solid 1px #444;
-}
-
 #game_info {
 	width: 95%;
 	line-height: 2em;
@@ -60,18 +53,17 @@ tr.closed_game a{
 	padding-right: 0.5%;
 	margin-left: 0;
 	margin-right: 1%;
-	/*height: 740px;*/
-	height: 900px;
+	height: 740px;
 	border: solid 1px #444;
 }
 
 .col1 {
-	width: 12%;
+	width: 13%;
 	overflow: auto;
 }
 
 .col2 {
-	width: 56%;
+	width: 55%;
 	padding: 0;
 }
 
@@ -83,7 +75,7 @@ tr.closed_game a{
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 	line-height: 120%;
-	padding: 0.2em 0.5em;
+	padding: 0.2em 0.2em;
 	border: solid 1px #111;
 	-moz-border-radius: 10px;
 }
@@ -174,8 +166,7 @@ tr.closed_game a{
 
 #map {
 	width: 100%;
-	/*height: 740px;*/
-	height: 900px;
+	height: 740px;
 }
 
 #log {
@@ -185,7 +176,7 @@ tr.closed_game a{
 }
 
 #log {
-	height: 90%;
+	height: 75%;
 }
 
 #letter_box ul,
