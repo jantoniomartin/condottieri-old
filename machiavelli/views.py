@@ -126,10 +126,6 @@ def base_context(request, game, player):
 		context['player_list'] = game.player_set.filter(user__isnull=False)
 	log = game.baseevent_set.all()
 	if player:
-		context['inbox_all'] = player.received.all().count()
-		context['inbox_unread'] = player.unread_count()
-		context['outbox_all'] = player.sent.all().count()
-		context['outbox_unread'] = player.sent.filter(read=False).count()
 		context['done'] = player.done
 		if game.configuration.finances:
 			context['ducats'] = player.ducats
@@ -642,73 +638,6 @@ def overthrow(request, revolution_id):
 	else:
 		raise Http404
 
-@never_cache
-@login_required
-def box_list(request, slug='', box='inbox'):
-	game = get_object_or_404(Game, slug=slug)
-	player = get_object_or_404(Player, game=game, user=request.user)
-	context = base_context(request, game, player)
-	context['box'] = box
-
-	if box == 'inbox':
-		letter_list = player.received.order_by('-id')
-	elif box == 'outbox':
-		letter_list = player.sent.order_by('-id')
-	else:
-		letter_list = Letter.objects.none()
-	
-	paginator = Paginator(letter_list, 10)
-	try:
-		page = int(request.GET.get('page', '1'))
-	except ValueError:
-		page = 1
-	try:
-		letters = paginator.page(page)
-	except (EmptyPage, InvalidPage):
-		letters = paginator.page(paginator.num_pages)
-	
-	context['letters'] = letters
-
-	return render_to_response('machiavelli/letter_box.html',
-							context,
-							context_instance=RequestContext(request))
-
-@login_required
-def new_letter(request, sender_id, receiver_id):
-	player = get_object_or_404(Player, user=request.user, id=sender_id, eliminated=False)
-	game = player.game
-	context = base_context(request, game, player)
-	receiver = get_object_or_404(Player, id=receiver_id, game=game, eliminated=False)
-	## if the game is inactive, return 404 error
-	if game.phase == 0:
-		return game_error(request, game, _("You cannot send letters in an inactive game."))
-	if player.country.can_excommunicate and receiver.excommunicated:
-		return game_error(request, game, _("You cannot write to a country that you have excommunicated."))
-	if request.method == 'POST':
-		letter_form = forms.LetterForm(player, receiver, data=request.POST)
-		if letter_form.is_valid():
-			letter = letter_form.save()
-			if not player.excommunicated and receiver.excommunicated:
-				player.excommunicate(year=receiver.excommunicated)
-			return redirect('show-game', slug=game.slug)
-		else:
-			print letter_form.errors
-	else:
-		letter_form = forms.LetterForm(player, receiver)
-		if not player.excommunicated and receiver.excommunicated:
-			context['excom_notice'] = True
-		if player.excommunicated and not receiver.excommunicated:
-			return game_error(request, game, _("You can write letters only to other excommunicated countries."))
-	
-	context.update({'form': letter_form,
-					'sender': player,
-					'receiver': receiver,
-					})
-
-	return render_to_response('machiavelli/letter_form.html',
-							context,
-							context_instance=RequestContext(request))
-
 @login_required
 def excommunicate(request, slug, player_id):
 	game = get_object_or_404(Game, slug=slug)
@@ -777,26 +706,6 @@ def show_scenario(request, scenario_id):
 							'autonomous': autonomous},
 							context_instance=RequestContext(request))
 
-
-@login_required
-#@cache_page(60 * 60)
-def show_letter(request, letter_id):
-	letters = Letter.objects.filter(Q(sender__user=request.user) | Q(receiver__user=request.user))
-	try:
-		letter = letters.get(id=letter_id)
-	except:
-		raise Http404
-	if letter.receiver.user == request.user:
-		letter.read = True
-		letter.save()
-	game = letter.sender.game
-	player = Player.objects.get(user=request.user, game=game)
-	context = base_context(request, game, player)
-	context['letter'] = letter
-	
-	return render_to_response('machiavelli/letter_detail.html',
-							context,
-							context_instance=RequestContext(request))
 
 #@login_required
 #@cache_page(30 * 60)

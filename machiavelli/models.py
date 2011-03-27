@@ -1888,7 +1888,6 @@ class Player(models.Model):
 			return condottieri_messages.models.Letter.objects.filter(recipient_player=self, read_at__isnull=True, recipient_deleted_at__isnull=True).count()
 		else:
 			return 0
-		#return self.received.filter(read=False).count()
 	
 	
 	##
@@ -2549,43 +2548,6 @@ class AFToken(models.Model):
 
 	def __unicode__(self):
 		return "%s, %s" % (self.x, self.y)
-
-class Letter(models.Model):
-	""" Defines a message sent from a player to another player in the same game. """
-
-	sender = models.ForeignKey(Player, related_name='sent')
-	receiver = models.ForeignKey(Player, related_name='received')
-	body = models.TextField()
-	read = models.BooleanField(default=0)
-
-	def get_style(self, box):
-		if box == 'inbox':
-			style = "%(country)s" % {'country': self.sender.country.css_class}
-		else:
-			style = "%(country)s" % {'country': self.receiver.country.css_class}
-		if box == 'inbox' and not self.read:
-			style += " unread"
-		return style
-	
-	def __unicode__(self):
-		return truncatewords(self.body, 5)
-
-	def inbox_color_output(self):
-		return "<li class='%(class)s'>%(body)s</li>" % {'class': self.get_style('inbox'),
-										'body': self}
-
-	def outbox_color_output(self):
-		return "<li class='%(class)s'>%(body)s</li>" % {'class': self.get_style('outbox'),
-										'body': self}
-
-def notify_new_letter(sender, instance, created, **kw):
-	if notification and isinstance(instance, Letter) and created:
-		user = [instance.receiver.user,]
-		extra_context = {'game': instance.receiver.game,
-						'letter': instance }
-		notification.send(user, "letter_received", extra_context , on_site=False)
-
-models.signals.post_save.connect(notify_new_letter, sender=Letter)
 
 class TurnLog(models.Model):
 	""" A TurnLog is text describing the processing of the method

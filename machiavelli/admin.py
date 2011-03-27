@@ -113,10 +113,6 @@ class GameAdmin(admin.ModelAdmin):
 class RetreatOrderAdmin(admin.ModelAdmin):
 	pass
 
-class LetterAdmin(admin.ModelAdmin):
-	ordering = ['-id']
-	list_display = ('sender', 'receiver', '__unicode__')
-
 class TurnLogAdmin(admin.ModelAdmin):
 	ordering = ['-timestamp']
 	list_display = ('game', 'timestamp')
@@ -142,7 +138,6 @@ admin.site.register(Revolution, RevolutionAdmin)
 admin.site.register(Score, ScoreAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(RetreatOrder, RetreatOrderAdmin)
-admin.site.register(Letter, LetterAdmin)
 admin.site.register(TurnLog, TurnLogAdmin)
 admin.site.register(Expense, ExpenseAdmin)
 admin.site.register(Rebellion, RebellionAdmin)

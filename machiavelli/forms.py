@@ -226,17 +226,6 @@ def make_unit_payment_form(player):
 					      label="")
 	return UnitPaymentForm
 
-
-class LetterForm(forms.ModelForm):
-	def __init__(self, sender, receiver, **kwargs):
-		super(LetterForm, self).__init__(**kwargs)
-		self.instance.sender = sender
-		self.instance.receiver = receiver
-
-	class Meta:
-		model = Letter
-		fields = ('body',)
-
 def make_ducats_list(ducats):
 	if ducats >= 3:
 		items = ducats / 3 + 1
