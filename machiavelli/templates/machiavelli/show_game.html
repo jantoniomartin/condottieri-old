@@ -92,7 +92,7 @@
 	{% ifnotequal game.phase 0 %}
 	{% ifnotequal p player %}
 	{% ifnotequal p.eliminated 1 %}
-	<div><a href="{% url new-letter sender_id=player.id receiver_id=p.id %}">{% trans "Send message" %}</a></div>
+	<div><a href="{% url condottieri_messages_compose sender_id=player.id recipient_id=p.id %}">{% trans "Send message" %}</a></div>
 	{% endifnotequal %}
 	{% if can_excommunicate %}
 		{% ifnotequal p.excommunicated 1 %}
@@ -130,35 +130,6 @@ the page in a few seconds.{% endblocktrans %}
 </div>
 
 <div class="col3">
-<div id="diplomacy">
-<h3>{% trans "Diplomacy" %}</h3>
-<table>
-<thead><tr>
-<th>{% trans "Box" %}</th>
-<th>{% trans "All" %}</th>
-<th>{% trans "Unread" %}</th>
-</tr></thead>
-<tr>
-<td><a href="{% url inbox game.slug %}">{% trans "Inbox" %}</a></td>
-<td class="data_c">{{ inbox_all }}</td>
-<td class="data_c">
-{% ifnotequal inbox_unread 0 %}
-<span style="font-weight: bold; color: #ff0000">{{ inbox_unread }}</span>
-{% endifnotequal %}
-</td>
-</tr>
-<tr>
-<td><a href="{% url outbox game.slug %}">{% trans "Outbox" %}</a></td>
-<td class="data_c">{{ outbox_all }}</td>
-<td class="data_c"></td>
-</tr>
-</table>
-<ul>
-{% for letter in inbox %}
-<a href="{% url show-letter letter.id %}">{{ letter.inbox_color_output|safe }}</a>
-{% endfor %}
-</ul>
-</div>
 
 <div id="log">
 <h3>{% trans "Campaign log" %}</h3>

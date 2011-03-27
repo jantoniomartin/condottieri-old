@@ -1,0 +1,14 @@
+{% load i18n %}
+
+{% blocktrans with game.slug as slug %}You have received a new letter in the game '{{ slug }}'{% endblocktrans %}
+
+{% trans "From" %}: {{ letter.sender_player.country }}
+
+{% trans "Subject" %}: {{ letter.subject }}
+
+{% trans "Body" %}:
+{{ letter.body }}
+
+{% trans "Read the letter" %}: {{ current_site }}{% url
+condottieri_messages_detail letter.id %}
+

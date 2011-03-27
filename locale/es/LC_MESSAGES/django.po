@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-19 12:35+0200\n"
+"POT-Creation-Date: 2011-03-27 13:09+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -15,6 +15,33 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: templates/503.html:30
+msgid "Maintenance"
+msgstr "Mantenimiento"
+
+#: templates/503.html:31
+msgid ""
+"Right now, I'm making some changes in the website. It will be back shortly."
+msgstr ""
+"Ahora mismo estoy haciendo algunos cambios en la web. Pronto estará disponible."
+
+#: templates/503.html:36 templates/site_base.html:51
+msgid "&copy; 2010 J. A. Mart&iacute;n Prieto"
+msgstr "&copy; 2010 J. A. Antonio Mart&iacute;n Prieto"
+
+#: templates/503.html:37 templates/site_base.html:52
+#: templates/about/about.html:5
+msgid "About"
+msgstr "Sobre mí"
+
+#: templates/base.html:38
+msgid "Hide announcement"
+msgstr "Ocultar anuncio"
+
+#: templates/base.html:58
+msgid "clear"
+msgstr "quitar"
 
 #: templates/homepage.html:5
 msgid "Welcome"
@@ -104,7 +131,8 @@ msgid ""
 "\t\tof the Affero GNU/GPL-3 License."
 msgstr ""
 "<b>Condottieri</b> es software libre, y\n"
-"como tal, eres libre de copiarlo, mejorarlo y modificarlo, según los términos\n"
+"como tal, eres libre de copiarlo, mejorarlo y modificarlo, según los "
+"términos\n"
 "de la Licencia Affero GNU/GPL-3."
 
 #: templates/homepage.html:45
@@ -178,11 +206,11 @@ msgstr ""
 "código de registro, por favor, danos tu dirección de e-mail."
 
 #: templates/homepage.html:73 templates/homepage.html.py:85
-#: templates/site_base.html:23
+#: templates/site_base.html:25
 msgid "Sign up"
 msgstr "Registro"
 
-#: templates/homepage.html:76 templates/site_base.html:23
+#: templates/homepage.html:76 templates/site_base.html:25
 msgid "or"
 msgstr "o"
 
@@ -190,47 +218,42 @@ msgstr "o"
 msgid "You can use a sign-up code to sign-up with the site right now."
 msgstr "Puedes usar un código de registro para darte de alta ahora mismo."
 
-#: templates/site_base.html:21 templates/account/email.html:6
+#: templates/site_base.html:23 templates/account/email.html:6
 #: templates/account/email.html.py:9
 msgid "Account"
 msgstr "Cuenta"
 
-#: templates/site_base.html:21
+#: templates/site_base.html:23
 msgid "Admin"
 msgstr "Admin"
 
-#: templates/site_base.html:21 templates/account/logout.html:5
+#: templates/site_base.html:23 templates/account/logout.html:5
 msgid "Logout"
 msgstr "Salir"
 
-#: templates/site_base.html:23 templates/account/login.html:7
+#: templates/site_base.html:25 templates/account/login.html:7
 msgid "Login"
 msgstr "Acceder"
 
-#: templates/site_base.html:33
+#: templates/site_base.html:35
 msgid "Games"
 msgstr "Juegos"
 
-#: templates/site_base.html:34
+#: templates/site_base.html:37
+msgid "Mail"
+msgstr "Correo"
+
+#: templates/site_base.html:39
 msgid "Profile"
 msgstr "Perfil"
 
-#: templates/site_base.html:35
+#: templates/site_base.html:40
 msgid "Notices"
 msgstr "Avisos"
 
-#: templates/site_base.html:36
+#: templates/site_base.html:42
 msgid "Forum"
 msgstr "Foro"
-
-#: templates/site_base.html:45
-msgid "&copy; 2010 J. A. Mart&iacute;n Prieto"
-msgstr "&copy; 2010 J. A. Antonio Mart&iacute;n Prieto"
-
-#: templates/site_base.html:46 templates/about/about.html:5
-#: templates/default/profiles/profile.html:38
-msgid "About"
-msgstr "Sobre mí"
 
 #: templates/about/about.html:9
 msgid ""
@@ -651,180 +674,6 @@ msgstr ""
 "Lamentablemente ha ocurrido un error en el servidor. Se investigará el error "
 "lo antes posible"
 
-#: templates/default/base.html:37
-msgid "Hide announcement"
-msgstr "Ocultar anuncio"
-
-#: templates/default/base.html:57
-msgid "clear"
-msgstr "quitar"
-
-#: templates/default/profiles/base.html:10
-msgid "Your Profile"
-msgstr "Tu Perfil"
-
-#: templates/default/profiles/base.html:11
-#: templates/default/profiles/profiles.html:9
-msgid "All Profiles"
-msgstr "Todos"
-
-#: templates/default/profiles/profile.html:13
-#, python-format
-msgid "Profile for %(other_user)s"
-msgstr "Perfil de %(other_user)s"
-
-#: templates/default/profiles/profile.html:31
-#, python-format
-msgid "Profile for <span class=\"nickname\">%(other_user)s</span>"
-msgstr "Perfil de <span class=\"nickname\">%(other_user)s</span>"
-
-#: templates/default/profiles/profile.html:33
-#, python-format
-msgid "Profile for <span class=\"fn nickname\">%(other_user)s</span>"
-msgstr "Perfil de <span class=\"fn nickname\">%(other_user)s</span>"
-
-#: templates/default/profiles/profile.html:37
-#: templates/default/profiles/profiles.html:26
-msgid "Name"
-msgstr "Nombre"
-
-#: templates/default/profiles/profile.html:39
-msgid "Location"
-msgstr "Ubicación"
-
-#: templates/default/profiles/profile.html:40
-msgid "Website"
-msgstr "Web"
-
-#: templates/default/profiles/profile.html:49
-msgid "Followers"
-msgstr "Seguidores"
-
-#: templates/default/profiles/profile.html:50
-msgid "Following"
-msgstr "Siguiendo"
-
-#: templates/default/profiles/profile.html:60
-msgid "unfollow"
-msgstr "no seguir"
-
-#: templates/default/profiles/profile.html:62
-msgid "follow tweets"
-msgstr "seguir tweets"
-
-#: templates/default/profiles/profile.html:69
-#, python-format
-msgid "You are friends with %(other_user)s."
-msgstr "Eres amigo de %(other_user)s."
-
-#: templates/default/profiles/profile.html:69
-msgid "Send a message"
-msgstr "Enviar una carta"
-
-#: templates/default/profiles/profile.html:73
-msgid "remove from friends"
-msgstr "quitar de tus amigos"
-
-#: templates/default/profiles/profile.html:78
-#, python-format
-msgid "%(other_user)s has requested friendship."
-msgstr "%(other_user)s ha solicitado tu amistad."
-
-#: templates/default/profiles/profile.html:87
-msgid "accept"
-msgstr "aceptar"
-
-#: templates/default/profiles/profile.html:93
-msgid "decline"
-msgstr "declinar"
-
-#: templates/default/profiles/profile.html:99
-msgid "Friendship request sent."
-msgstr "Solicitud de amistad enviada."
-
-#: templates/default/profiles/profile.html:101
-msgid "Add As Friend"
-msgstr "Añadir como amigo"
-
-#: templates/default/profiles/profile.html:108
-msgid "invite"
-msgstr "invitar"
-
-#: templates/default/profiles/profile.html:109
-#, python-format
-msgid "%(other_user)s to be a friend."
-msgstr "a %(other_user)s a que sea tu amigo."
-
-#: templates/default/profiles/profile.html:119
-msgid "Wiki Articles"
-msgstr "Artículos Wiki"
-
-#: templates/default/profiles/profile.html:136
-#, fuzzy
-msgid "No wiki articles yet."
-msgstr "Artículos Wiki"
-
-#: templates/default/profiles/profile.html:139
-msgid "Bookmarks"
-msgstr ""
-
-#: templates/default/profiles/profile.html:159
-#, python-format
-msgid ""
-"You haven't added any <a href=\"%(add_bookmark_url)s\">bookmarks</a> yet."
-msgstr ""
-
-#: templates/default/profiles/profile.html:163
-msgid "Blog Posts"
-msgstr ""
-
-#: templates/default/profiles/profile.html:170
-msgid "No blog posts yet."
-msgstr ""
-
-#: templates/default/profiles/profile.html:174
-msgid "Tweets"
-msgstr ""
-
-#: templates/default/profiles/profile.html:183
-msgid "Photos"
-msgstr ""
-
-#: templates/default/profiles/profile.html:196
-msgid "No photos uploaded yet."
-msgstr ""
-
-#: templates/default/profiles/profile.html:202
-#, python-format
-msgid ""
-"<a href=\"%(signup_url)s\">Sign up</a> and <a href=\"%(login_url)s\">log in "
-"</a> to add this person as a friend and see their tweets and blog posts."
-msgstr ""
-"Empieza <a href=\"%(signup_url)s\">registrándote</a> y <a href="
-"\"%(login_url)s\">accediendo</a>."
-
-#: templates/default/profiles/profile_edit.html:5
-#: templates/default/profiles/profile_edit.html:9
-#: templates/default/profiles/profile_edit_facebox.html:3
-msgid "Edit Profile"
-msgstr "Editar Perfil"
-
-#: templates/default/profiles/profiles.html:12
-msgid "Profiles"
-msgstr "Perfiles"
-
-#: templates/default/profiles/profiles.html:24
-msgid "Order by:"
-msgstr "Ordenar por:"
-
-#: templates/default/profiles/profiles.html:28
-msgid "Date"
-msgstr "Fecha"
-
-#: templates/default/profiles/profiles.html:38
-msgid "MONTH_DAY_FORMAT"
-msgstr "j F"
-
 #: templates/notification/email_body.txt:1
 #, python-format
 msgid ""
@@ -862,7 +711,6 @@ msgstr "ver los resultados"
 
 #: templates/notification/game_started/full.txt:3
 #: templates/notification/game_started/notice.html:3
-#: templates/notification/overthrow_attempt/notice.html:15
 #, python-format
 msgid "The game '%(slug)s' has just started. You can "
 msgstr "El juego '%(slug)s' acaba de empezar. Puedes "
@@ -955,3 +803,98 @@ msgstr ""
 "que otro jugador controle tu país. De esta forma no perderás más karma\n"
 "por no jugar la partida."
 
+#~ msgid "Your Profile"
+#~ msgstr "Tu Perfil"
+
+#~ msgid "All Profiles"
+#~ msgstr "Todos"
+
+#~ msgid "Profile for %(other_user)s"
+#~ msgstr "Perfil de %(other_user)s"
+
+#~ msgid "Profile for <span class=\"nickname\">%(other_user)s</span>"
+#~ msgstr "Perfil de <span class=\"nickname\">%(other_user)s</span>"
+
+#~ msgid "Profile for <span class=\"fn nickname\">%(other_user)s</span>"
+#~ msgstr "Perfil de <span class=\"fn nickname\">%(other_user)s</span>"
+
+#~ msgid "Name"
+#~ msgstr "Nombre"
+
+#~ msgid "Location"
+#~ msgstr "Ubicación"
+
+#~ msgid "Website"
+#~ msgstr "Web"
+
+#~ msgid "Followers"
+#~ msgstr "Seguidores"
+
+#~ msgid "Following"
+#~ msgstr "Siguiendo"
+
+#~ msgid "unfollow"
+#~ msgstr "no seguir"
+
+#~ msgid "follow tweets"
+#~ msgstr "seguir tweets"
+
+#~ msgid "You are friends with %(other_user)s."
+#~ msgstr "Eres amigo de %(other_user)s."
+
+#~ msgid "Send a message"
+#~ msgstr "Enviar una carta"
+
+#~ msgid "remove from friends"
+#~ msgstr "quitar de tus amigos"
+
+#~ msgid "%(other_user)s has requested friendship."
+#~ msgstr "%(other_user)s ha solicitado tu amistad."
+
+#~ msgid "accept"
+#~ msgstr "aceptar"
+
+#~ msgid "decline"
+#~ msgstr "declinar"
+
+#~ msgid "Friendship request sent."
+#~ msgstr "Solicitud de amistad enviada."
+
+#~ msgid "Add As Friend"
+#~ msgstr "Añadir como amigo"
+
+#~ msgid "invite"
+#~ msgstr "invitar"
+
+#~ msgid "%(other_user)s to be a friend."
+#~ msgstr "a %(other_user)s a que sea tu amigo."
+
+#~ msgid "Wiki Articles"
+#~ msgstr "Artículos Wiki"
+
+#, fuzzy
+#~ msgid "No wiki articles yet."
+#~ msgstr "Artículos Wiki"
+
+#~ msgid ""
+#~ "<a href=\"%(signup_url)s\">Sign up</a> and <a href=\"%(login_url)s\">log "
+#~ "in </a> to add this person as a friend and see their tweets and blog "
+#~ "posts."
+#~ msgstr ""
+#~ "Empieza <a href=\"%(signup_url)s\">registrándote</a> y <a href="
+#~ "\"%(login_url)s\">accediendo</a>."
+
+#~ msgid "Edit Profile"
+#~ msgstr "Editar Perfil"
+
+#~ msgid "Profiles"
+#~ msgstr "Perfiles"
+
+#~ msgid "Order by:"
+#~ msgstr "Ordenar por:"
+
+#~ msgid "Date"
+#~ msgstr "Fecha"
+
+#~ msgid "MONTH_DAY_FORMAT"
+#~ msgstr "j F"

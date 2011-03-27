@@ -46,6 +46,11 @@ if "jogging" in settings.INSTALLED_APPS:
 else:
 	logging = None
 
+if "condottieri_messages" in settings.INSTALLED_APPS:
+	import condottieri_messages as condottieri_messages 
+else:
+	condottieri_messages = None
+
 ## machiavelli
 from machiavelli.fields import AutoTranslateField
 from machiavelli.graphics import make_map
@@ -1879,7 +1884,11 @@ class Player(models.Model):
 	def unread_count(self):
 		""" Gets the number of unread received letters """
 		
-		return self.received.filter(read=False).count()
+		if condottieri_messages:
+			return condottieri_messages.models.Letter.objects.filter(recipient_player=self, read_at__isnull=True, recipient_deleted_at__isnull=True).count()
+		else:
+			return 0
+		#return self.received.filter(read=False).count()
 	
 	
 	##

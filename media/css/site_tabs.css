@@ -1,6 +1,7 @@
 /* SITE-SPECIFIC TAB STYLING */
 
 body.machiavelli #tab_machiavelli a,
+body.messages #tab_messages a,
 body.profile #tab_profile a,
 body.notices #tab_notices a,
 body.forum #tab_forum a
@@ -8,6 +9,7 @@ body.forum #tab_forum a
     color: #000; /* selected tab text colour */
 }
 body.machiavelli #tab_machiavelli,
+body.messages #tab_messages,
 body.profile #tab_profile,
 body.notices #tab_notices,
 body.forum #tab_forum

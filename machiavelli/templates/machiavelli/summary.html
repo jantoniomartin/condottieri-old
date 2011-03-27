@@ -66,7 +66,7 @@
 		{% rule_icons player.game.configuration %}
 		</td>
 		<td class="data_c">
-		<a href="{% url inbox player.game.slug %}">{{ player.unread_count }}</a>
+		<a href="{% url messages_inbox %}">{{ player.unread_count }}</a>
 		</td>
 		<td class="data_c">{{ player.ducats }}</td>
 	</tr>

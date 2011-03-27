@@ -1,0 +1,21 @@
+{% extends "machiavelli/show_game.html" %} 
+{% load i18n %} 
+{% block actions %}
+<h1>{% trans "View Message" %}</h1>
+<dl class="message-headers">
+    <dt>{% trans "Subject" %}</dt>
+    <dd><strong>{{ message.subject }}</strong></dd>
+    <dt>{% trans "Sender" %}</dt>
+    <dd>{{ message.letter.sender_player.country }}</dd>
+    <dt>{% trans "Date" %} </dt>
+    <dd>{{ message.sent_at|date:_("DATETIME_FORMAT")}}</dd>
+    <dt>{% trans "Recipient" %}</dt>
+    <dd>{{ message.letter.recipient_player.country }}</dd>
+</dl>
+{{ message.body|linebreaksbr }}<br /><br />
+
+{% ifequal message.recipient.pk user.pk %}
+<a href="{% url condottieri_messages_reply message.letter.id %}">{% trans "Reply" %}</a>
+{% endifequal %}
+<a href="{% url messages_delete message.id %}?next={{ game.get_absolute_url }}">{% trans "Delete" %}</a>
+{% endblock %}

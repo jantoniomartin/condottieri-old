@@ -33,8 +33,12 @@
 {% block right_tabs %}
         <ul class="tabs">{% spaceless %}
 			<li id="tab_machiavelli"><a href="{% url summary %}">{% trans "Games" %}</a></li>
+			{% if user.is_authenticated %}
+			<li id="tab_messages"><a href="{% url messages_inbox %}">{% trans "Mail" %}
+			({{ messages_inbox_count }})</a></li>
             <li id="tab_profile"><a href="{% url profile_detail user %}">{% trans "Profile" %}</a></li>
             <li id="tab_notices"><a href="{% url notification_notices %}">{% trans "Notices" %}{% if notice_unseen_count %} ({{ notice_unseen_count }}){% endif %}</a></li>
+			{% endif %}
 			<li id="tab_forum"><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
         {% endspaceless %}</ul>
 {% endblock %}
