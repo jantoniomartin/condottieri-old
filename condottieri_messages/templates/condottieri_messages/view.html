@@ -8,7 +8,7 @@
     <dt>{% trans "Sender" %}</dt>
     <dd>{{ message.letter.sender_player.country }}</dd>
     <dt>{% trans "Date" %} </dt>
-    <dd>{{ message.sent_at|date:_("DATETIME_FORMAT")}}</dd>
+    <dd>{{ message.letter.get_season_display }}, {{ message.letter.year }} ({{ message.sent_at|date:_("DATETIME_FORMAT")}})</dd>
     <dt>{% trans "Recipient" %}</dt>
     <dd>{{ message.letter.recipient_player.country }}</dd>
 </dl>
