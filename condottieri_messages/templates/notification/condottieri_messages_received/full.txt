@@ -9,6 +9,5 @@
 {% trans "Body" %}:
 {{ letter.body }}
 
-{% trans "Read the letter" %}: {{ current_site }}{% url
-condottieri_messages_detail letter.id %}
+{% trans "Read the letter" %}: {{ current_site }}{% url condottieri_messages_detail letter.id %}
 
