@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-27 12:55+0200\n"
+"POT-Creation-Date: 2011-03-28 11:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,17 +64,21 @@ msgstr ""
 msgid "Re: %(subject)s"
 msgstr "Re: %(subject)s"
 
-#: templates/condottieri_messages/base.html:12
+#: templates/condottieri_messages/base.html:7
+msgid "Mail"
+msgstr "Correo"
+
+#: templates/condottieri_messages/base.html:14
 #: templates/condottieri_messages/inbox.html:4
 msgid "Inbox"
 msgstr "Entrada"
 
-#: templates/condottieri_messages/base.html:13
+#: templates/condottieri_messages/base.html:15
 #: templates/condottieri_messages/outbox.html:4
 msgid "Sent Messages"
 msgstr "Mensajes Enviados"
 
-#: templates/condottieri_messages/base.html:14
+#: templates/condottieri_messages/base.html:16
 msgid "Trash"
 msgstr "Papelera"
 
@@ -96,8 +100,8 @@ msgid ""
 "Notice: This player is currently excommunicated. If you send this letter, "
 "you will be also excommunicated."
 msgstr ""
-"Aviso: Este jugador está excomulgado. Si le envías esta carta "
-"tú también estarás excomulgado."
+"Aviso: Este jugador está excomulgado. Si le envías esta carta tú también "
+"estarás excomulgado."
 
 #: templates/condottieri_messages/compose.html:19
 msgid "Send"
@@ -112,6 +116,18 @@ msgstr "Volver al juego"
 #: templates/condottieri_messages/trash.html:8
 msgid "Game"
 msgstr "Juego"
+
+#: templates/condottieri_messages/inbox.html:8
+#: templates/condottieri_messages/outbox.html:8
+#: templates/condottieri_messages/trash.html:8
+msgid "Year"
+msgstr "Año"
+
+#: templates/condottieri_messages/inbox.html:8
+#: templates/condottieri_messages/outbox.html:8
+#: templates/condottieri_messages/trash.html:8
+msgid "Season"
+msgstr "Estación"
 
 #: templates/condottieri_messages/inbox.html:8
 #: templates/condottieri_messages/trash.html:8
@@ -137,21 +153,21 @@ msgstr "Recibida"
 msgid "Action"
 msgstr "Acción"
 
-#: templates/condottieri_messages/inbox.html:21
-#: templates/condottieri_messages/outbox.html:18
-#: templates/condottieri_messages/trash.html:18
+#: templates/condottieri_messages/inbox.html:23
+#: templates/condottieri_messages/outbox.html:20
+#: templates/condottieri_messages/trash.html:20
 #: templates/condottieri_messages/view.html:11
 msgid "DATETIME_FORMAT"
 msgstr ""
 
-#: templates/condottieri_messages/inbox.html:22
-#: templates/condottieri_messages/outbox.html:19
+#: templates/condottieri_messages/inbox.html:24
+#: templates/condottieri_messages/outbox.html:21
 msgid "delete"
 msgstr "borrar"
 
-#: templates/condottieri_messages/inbox.html:28
-#: templates/condottieri_messages/outbox.html:25
-#: templates/condottieri_messages/trash.html:25
+#: templates/condottieri_messages/inbox.html:30
+#: templates/condottieri_messages/outbox.html:27
+#: templates/condottieri_messages/trash.html:27
 msgid "No messages."
 msgstr "No hay mensajes"
 
@@ -173,17 +189,17 @@ msgstr "Mensajes Borrados"
 msgid "Date"
 msgstr "Fecha"
 
-#: templates/condottieri_messages/trash.html:19
+#: templates/condottieri_messages/trash.html:21
 msgid "undelete"
 msgstr "recuperar"
 
-#: templates/condottieri_messages/trash.html:28
+#: templates/condottieri_messages/trash.html:30
 msgid ""
 "Deleted Messages are removed from the trash at unregular intervals, don't "
 "rely on this feature for long-time storage."
 msgstr ""
-"Los Mensajes Borrados se eliminan de la papelera a intervalos irregulares, no "
-"uses la papelera como archivo."
+"Los Mensajes Borrados se eliminan de la papelera a intervalos irregulares, "
+"no uses la papelera como archivo."
 
 #: templates/condottieri_messages/view.html:4
 msgid "View Message"

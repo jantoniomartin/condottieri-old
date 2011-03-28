@@ -27,6 +27,8 @@ class LetterForm(forms.ModelForm):
 		self.instance.recipient_player = recipient_player
 		self.instance.sender = sender_player.user
 		self.instance.recipient = recipient_player.user
+		self.instance.year = sender_player.game.year
+		self.instance.season = sender_player.game.season
 
 	class Meta:
 		model = Letter

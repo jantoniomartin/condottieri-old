@@ -21,7 +21,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from messages import models as messages
-from machiavelli.models import Player
+from machiavelli.models import Player, SEASONS
 
 if "notification" in settings.INSTALLED_APPS:
 	from notification import models as notification
@@ -33,6 +33,8 @@ class Letter(messages.Message):
 	recipient_player. """
 	sender_player = models.ForeignKey(Player, related_name='sent_messages', verbose_name=_("From country"))
 	recipient_player = models.ForeignKey(Player, related_name='received_messages', verbose_name=_("To country"))
+	year = models.PositiveIntegerField(default=0)
+	season = models.PositiveIntegerField(default=1, choices=SEASONS)
     
 	def get_absolute_url(self):
 		return ('condottieri_messages_detail', [self.id])
