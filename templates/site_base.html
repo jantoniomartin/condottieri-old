@@ -39,6 +39,7 @@
             <li id="tab_notices"><a href="{% url notification_notices %}">{% trans "Notices" %}{% if notice_unseen_count %} ({{ notice_unseen_count }}){% endif %}</a></li>
 			{% endif %}
 			<li id="tab_forum"><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
+			<li id="tab_help"><a href="{% url help-index %}">{% trans "Help" %}</a></li>
         {% endspaceless %}</ul>
 {% endblock %}
 

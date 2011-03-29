@@ -61,6 +61,7 @@ urlpatterns = patterns('',
 	(r'^avatar/', include('avatar.urls')),
 	## django-messages
 	(r'^mail/', include('condottieri_messages.urls')),
+	(r'^help/', include('condottieri_help.urls')),
 )
 
 if settings.SERVE_MEDIA:
