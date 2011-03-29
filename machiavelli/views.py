@@ -693,6 +693,7 @@ def show_scenario(request, scenario_id):
 
 	countries = Country.objects.filter(home__scenario=scenario).distinct()
 	autonomous = Setup.objects.filter(scenario=scenario, country__isnull=True)
+	mayor_cities = scenario.cityincome_set.all()
 
 	countries_dict = {}
 
@@ -709,7 +710,8 @@ def show_scenario(request, scenario_id):
 	return render_to_response('machiavelli/scenario_detail.html',
 							{'scenario': scenario,
 							'countries': countries_dict,
-							'autonomous': autonomous},
+							'autonomous': autonomous,
+							'mayor_cities': mayor_cities,},
 							context_instance=RequestContext(request))
 
 

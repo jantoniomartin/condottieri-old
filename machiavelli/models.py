@@ -306,7 +306,7 @@ class CityIncome(models.Model):
 	scenario = models.ForeignKey(Scenario)
 
 	def __unicode__(self):
-		return "%s" % self.city
+		return "%s" % self.city.name
 
 	class Meta:
 		unique_together = (("city", "scenario"),)
