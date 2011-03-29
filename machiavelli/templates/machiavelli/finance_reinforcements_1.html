@@ -12,9 +12,7 @@ players have done it or the time limit is reached.{% endblocktrans %}</p>
 
 {% else %}
 
-<p>{% blocktrans %}You must select which of your existing units you will pay
-in order to keep them in play. You will pay 3 ducats for every unit that you
-select. The units not selected will be disbanded.</p>{% endblocktrans %}
+<p>{% blocktrans %}Using each form below, you can buy a new unit to place in the board. Each new unit will cost 3 ducats. You cannot place two units in the same area, and you cannot place units in areas where you have not paid the existing units. If you can't or don't want to place new units, just click on the button.{% endblocktrans %}</p>
 
 <form action="{% url show-game game.slug %}" method="post">
 {% csrf_token %}

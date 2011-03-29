@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-29 19:33+0200\n"
+"POT-Creation-Date: 2011-03-29 23:34+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -737,24 +737,24 @@ msgstr "No se pueden cancelar las excomuniones."
 msgid "You are not allowed to forgive excommunications."
 msgstr "No estás autorizado para perdonar excomuniones."
 
-#: views.py:741
+#: views.py:743
 msgid "Ranking for the user"
 msgstr "Clasificación del jugador"
 
-#: views.py:745
+#: views.py:747
 msgid "Ranking for the scenario"
 msgstr "Clasificación del escenario"
 
-#: views.py:749
+#: views.py:751
 msgid "Ranking for the country"
 msgstr "Clasificación del país"
 
-#: views.py:811
+#: views.py:813
 #, fuzzy
 msgid "You cannot give money in this game."
 msgstr "No puedes excomulgar en este juego."
 
-#: views.py:821
+#: views.py:823
 #, fuzzy
 msgid "You cannot give more money than you have"
 msgstr "No puedes escribir a un país al que has excomulgado."
@@ -1080,7 +1080,6 @@ msgstr ""
 "tiempo."
 
 #: templates/machiavelli/finance_reinforcements_0.html:15
-#: templates/machiavelli/finance_reinforcements_1.html:15
 msgid ""
 "You must select which of your existing units you will pay\n"
 "in order to keep them in play. You will pay 3 ducats for every unit that "
@@ -1091,7 +1090,21 @@ msgstr ""
 "para mantenerlas en juego. Pagarás 3 ducados por cada unidad que elijas.\n"
 "Las unidades no elegidas serán desbandadas.</p>"
 
-#: templates/machiavelli/finance_reinforcements_1.html:52
+#: templates/machiavelli/finance_reinforcements_1.html:15
+msgid ""
+"Using each form below, you can buy a new unit to place in the board. Each "
+"new unit will cost 3 ducats. You cannot place two units in the same area, "
+"and you cannot place units in areas where you have not paid the existing "
+"units. If you can't or don't want to place new units, just click on the "
+"button."
+msgstr ""
+"Con cada uno de los formularios siguientes, puedes comprar una nueva unidad para colocarla "
+"en el tablero. Cada nueva unidad costará 3 ducados. No puedes colocar dos unidades en la misma "
+"área, ni puedes colocar unidades en áreas en las que no hayas pagado a las unidades existentes. "
+"Si no puedes o no quieres comprar nuevas unidades, simplemente pulsa el "
+"botón."
+
+#: templates/machiavelli/finance_reinforcements_1.html:50
 msgid "Buy units"
 msgstr "Comprar unidades"
 
