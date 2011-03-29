@@ -49,4 +49,15 @@
 <td>{{ autonomous|join:", " }}</td>
 </tr>
 </table>
+
+<table>
+<thead>
+<tr>
+<th>{% trans "Cities that give additional income" %}</th>
+</tr>
+</thead>
+<tr>
+<td>{{ scenario.city_income_set|join:", " }}</td>
+</tr>
+</table>
 {% endblock %}
