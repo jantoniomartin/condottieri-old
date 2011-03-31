@@ -350,6 +350,7 @@ def play_finance_reinforcements(request, game, player):
 			else:
 				formset = ReinforceFormSet()
 			context['formset'] = formset
+			context['max_units'] = max_units
 		else:
 			raise Http404
 		template_name = 'machiavelli/finance_reinforcements_%s.html' % step

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-29 23:34+0200\n"
+"POT-Creation-Date: 2011-03-31 11:14+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -721,40 +721,40 @@ msgstr "Mediterráneo Occidental"
 msgid "Create an acccount on %(domain)s"
 msgstr "Crear una cuenta en %(domain)s"
 
-#: views.py:651
+#: views.py:652
 msgid "You cannot excommunicate in this game."
 msgstr "No puedes excomulgar en este juego."
 
-#: views.py:664
+#: views.py:665
 msgid "You have already excommunicated a country this year."
 msgstr "Ya habías excomulgado a un país este año."
 
-#: views.py:671
+#: views.py:672
 msgid "Excommunications cannot be reset."
 msgstr "No se pueden cancelar las excomuniones."
 
-#: views.py:674
+#: views.py:675
 msgid "You are not allowed to forgive excommunications."
 msgstr "No estás autorizado para perdonar excomuniones."
 
-#: views.py:743
+#: views.py:744
 msgid "Ranking for the user"
 msgstr "Clasificación del jugador"
 
-#: views.py:747
+#: views.py:748
 msgid "Ranking for the scenario"
 msgstr "Clasificación del escenario"
 
-#: views.py:751
+#: views.py:752
 msgid "Ranking for the country"
 msgstr "Clasificación del país"
 
-#: views.py:813
+#: views.py:814
 #, fuzzy
 msgid "You cannot give money in this game."
 msgstr "No puedes excomulgar en este juego."
 
-#: views.py:823
+#: views.py:824
 #, fuzzy
 msgid "You cannot give more money than you have"
 msgstr "No puedes escribir a un país al que has excomulgado."
@@ -1090,7 +1090,17 @@ msgstr ""
 "para mantenerlas en juego. Pagarás 3 ducados por cada unidad que elijas.\n"
 "Las unidades no elegidas serán desbandadas.</p>"
 
-#: templates/machiavelli/finance_reinforcements_1.html:15
+#: templates/machiavelli/finance_reinforcements_1.html:17
+msgid ""
+"You cannot place any new units, either because you don't have enough ducats "
+"or you don't have available areas to place them. Please, press the button to "
+"end the phase."
+msgstr ""
+"No puedes colocar nuevas unidades, bien porque no tienes ducados suficientes "
+"o porque no tienes áreas disponibles para colocarlas. Por favor, pulsa el "
+"botón para terminar la fase."
+
+#: templates/machiavelli/finance_reinforcements_1.html:21
 msgid ""
 "Using each form below, you can buy a new unit to place in the board. Each "
 "new unit will cost 3 ducats. You cannot place two units in the same area, "
@@ -1098,13 +1108,17 @@ msgid ""
 "units. If you can't or don't want to place new units, just click on the "
 "button."
 msgstr ""
-"Con cada uno de los formularios siguientes, puedes comprar una nueva unidad para colocarla "
-"en el tablero. Cada nueva unidad costará 3 ducados. No puedes colocar dos unidades en la misma "
-"área, ni puedes colocar unidades en áreas en las que no hayas pagado a las unidades existentes. "
-"Si no puedes o no quieres comprar nuevas unidades, simplemente pulsa el "
-"botón."
+"Con cada uno de los formularios siguientes, puedes comprar una nueva unidad "
+"para colocarla en el tablero. Cada nueva unidad costará 3 ducados. No puedes "
+"colocar dos unidades en la misma área, ni puedes colocar unidades en áreas "
+"en las que no hayas pagado a las unidades existentes. Si no puedes o no "
+"quieres comprar nuevas unidades, simplemente pulsa el botón."
 
-#: templates/machiavelli/finance_reinforcements_1.html:50
+#: templates/machiavelli/finance_reinforcements_1.html:59
+msgid "Finish"
+msgstr "Terminar"
+
+#: templates/machiavelli/finance_reinforcements_1.html:61
 msgid "Buy units"
 msgstr "Comprar unidades"
 
@@ -2012,9 +2026,6 @@ msgstr "Has recibido %(ducats)s ducados de %(country)s en el juego '%(slug)s'."
 
 #~ msgid "Game:"
 #~ msgstr "Juego:"
-
-#~ msgid "Finished games"
-#~ msgstr "Juegos terminados"
 
 #~ msgid "Language"
 #~ msgstr "Idioma"

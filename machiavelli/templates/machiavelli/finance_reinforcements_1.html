@@ -12,7 +12,15 @@ players have done it or the time limit is reached.{% endblocktrans %}</p>
 
 {% else %}
 
+{% if max_units == 0 %}
+
+<p>{% blocktrans %}You cannot place any new units, either because you don't have enough ducats or you don't have available areas to place them. Please, press the button to end the phase.{% endblocktrans %}</p>
+
+{% else %}
+
 <p>{% blocktrans %}Using each form below, you can buy a new unit to place in the board. Each new unit will cost 3 ducats. You cannot place two units in the same area, and you cannot place units in areas where you have not paid the existing units. If you can't or don't want to place new units, just click on the button.{% endblocktrans %}</p>
+
+{% endif %}
 
 <form action="{% url show-game game.slug %}" method="post">
 {% csrf_token %}
@@ -47,7 +55,11 @@ players have done it or the time limit is reached.{% endblocktrans %}</p>
 {% endfor %}
 </table>
 
+{% if max_units == 0 %}
+<p><input type="submit" value="{% trans "Finish" %}" /></p>
+{% else %}
 <p><input type="submit" value="{% trans "Buy units" %}" /></p>
+{% endif %}
 </div>
 
 </form>
