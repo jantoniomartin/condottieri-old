@@ -28,19 +28,24 @@ from messages.utils import format_quote
 from machiavelli.models import Player
 from machiavelli.views import base_context, game_error
 
+from condottieri_messages.exceptions import LetterError
+
 import condottieri_messages.forms as forms
 from condottieri_messages.models import Letter
 
 def check_errors(request, game, sender_player, recipient_player):
+	msg = None
 	if sender_player.eliminated or recipient_player.eliminated:
-		return game_error(request, game, _("Eliminated players cannot send or receive letters"))
+		msg = _("Eliminated players cannot send or receive letters")
 	## if the game is inactive, return 404 error
-	if game.phase == 0:
-		return game_error(request, game, _("You cannot send letters in an inactive game."))
+	elif game.phase == 0:
+		msg = _("You cannot send letters in an inactive game.")
 	## check if the sender has excommunicated the recipient
-	if sender_player.country.can_excommunicate and recipient_player.excommunicated:
-		return game_error(request, game, _("You cannot write to a country that you have excommunicated."))
-	return True
+	elif sender_player.country.can_excommunicate and recipient_player.excommunicated:
+		msg = _("You cannot write to a country that you have excommunicated.")
+	else:
+		return True
+	raise LetterError(msg)
 
 @login_required
 def compose(request, sender_id, recipient_id):
@@ -49,7 +54,10 @@ def compose(request, sender_id, recipient_id):
 	game = sender_player.game
 	recipient_player = get_object_or_404(Player, id=recipient_id, game=game)
 	context = base_context(request, game, sender_player)
-	check_errors(request, game, sender_player, recipient_player)
+	try:
+		check_errors(request, game, sender_player, recipient_player)
+	except LetterError, e:
+		return game_error(request, game, e.value)	
 	if request.method == 'POST':
 		letter_form = forms.LetterForm(sender_player, recipient_player, data=request.POST)
 		if letter_form.is_valid():
@@ -85,7 +93,10 @@ def reply(request, letter_id):
 	recipient_player = parent.sender_player
 	game = sender_player.game
 	context = base_context(request, game, sender_player)
-	check_errors(request, game, sender_player, recipient_player)
+	try:
+		check_errors(request, game, sender_player, recipient_player)
+	except LetterError, e:
+		return game_error(request, game, e.value)	
 	if request.method == 'POST':
 		letter_form = forms.LetterForm(sender_player, recipient_player, data=request.POST)
 		if letter_form.is_valid():
