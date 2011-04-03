@@ -15,7 +15,9 @@
 {{ message.body|linebreaksbr }}<br /><br />
 
 {% ifequal message.recipient.pk user.pk %}
-<a href="{% url condottieri_messages_reply message.letter.id %}">{% trans "Reply" %}</a>
+<a href="{% url condottieri_messages_reply message.letter.id %}">{% trans "Reply" %}</a> |
 {% endifequal %}
-<a href="{% url messages_delete message.id %}?next={{ game.get_absolute_url }}">{% trans "Delete" %}</a>
+<a href="{% url messages_delete message.id %}?next={{ game.get_absolute_url }}">{% trans "Delete" %}</a> |
+<a href="{% url show-game game.slug %}">{% trans "Return to game" %}</a>
+
 {% endblock %}
