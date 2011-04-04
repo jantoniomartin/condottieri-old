@@ -20,6 +20,7 @@ import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.http import Http404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
@@ -48,50 +49,22 @@ def check_errors(request, game, sender_player, recipient_player):
 	raise LetterError(msg)
 
 @login_required
-def compose(request, sender_id, recipient_id):
-	## check that the sender is legitimate
-	sender_player = get_object_or_404(Player, user=request.user, id=sender_id)
-	game = sender_player.game
-	recipient_player = get_object_or_404(Player, id=recipient_id, game=game)
-	context = base_context(request, game, sender_player)
-	try:
-		check_errors(request, game, sender_player, recipient_player)
-	except LetterError, e:
-		return game_error(request, game, e.value)	
-	if request.method == 'POST':
-		letter_form = forms.LetterForm(sender_player, recipient_player, data=request.POST)
-		if letter_form.is_valid():
-			letter = letter_form.save()
-			## check if sender must be excommunicated
-			if not sender_player.excommunicated and recipient_player.excommunicated:
-				sender_player.excommunicate(year=recipient_player.excommunicated)
-			return redirect('show-game', slug=game.slug)
+def compose(request, sender_id=None, recipient_id=None, letter_id=None):
+	if sender_id and recipient_id:
+		## check that the sender is legitimate
+		sender_player = get_object_or_404(Player, user=request.user, id=sender_id)
+		game = sender_player.game
+		recipient_player = get_object_or_404(Player, id=recipient_id, game=game)
+		parent = Letter.objects.none()
+	elif letter_id:
+		parent = get_object_or_404(Letter, id=letter_id)
+		if parent.sender != request.user and parent.recipient != request.user:
+			raise Http404
+		sender_player = parent.recipient_player
+		recipient_player = parent.sender_player
+		game = sender_player.game
 	else:
-		letter_form = forms.LetterForm(sender_player, recipient_player)
-		if not sender_player.excommunicated and recipient_player.excommunicated:
-			context['excom_notice'] = True
-		if sender_player.excommunicated and not recipient_player.excommunicated:
-			return game_error(request, game, _("You can write letters only to other excommunicated countries."))
-	
-	context.update({'form': letter_form,
-					'sender_player': sender_player,
-					'recipient_player': recipient_player,
-					})
-
-	return render_to_response('condottieri_messages/compose.html',
-							context,
-							context_instance=RequestContext(request))
-
-@login_required
-def reply(request, letter_id):
-	parent = get_object_or_404(Letter, id=letter_id)
-
-	if parent.sender != request.user and parent.recipient != request.user:
 		raise Http404
-	
-	sender_player = parent.recipient_player
-	recipient_player = parent.sender_player
-	game = sender_player.game
 	context = base_context(request, game, sender_player)
 	try:
 		check_errors(request, game, sender_player, recipient_player)
@@ -106,13 +79,17 @@ def reply(request, letter_id):
 				sender_player.excommunicate(year=recipient_player.excommunicated)
 			return redirect('show-game', slug=game.slug)
 	else:
+		if parent:
+			initial = {'body': _(u"%(sender)s wrote:\n%(body)s") % {
+					'sender': parent.sender_player.country, 
+					'body': format_quote(parent.body)}, 
+					'subject': _(u"Re: %(subject)s") % {'subject': parent.subject},
+					}
+		else:
+			initial = {}
 		letter_form = forms.LetterForm(sender_player,
 									recipient_player,
-									initial = {'body': _(u"%(sender)s wrote:\n%(body)s") % {
-													'sender': parent.sender_player.country, 
-													'body': format_quote(parent.body)}, 
-									'subject': _(u"Re: %(subject)s") % {'subject': parent.subject},
-									})
+									initial=initial)
 		if not sender_player.excommunicated and recipient_player.excommunicated:
 			context['excom_notice'] = True
 		if sender_player.excommunicated and not recipient_player.excommunicated:
@@ -126,7 +103,6 @@ def reply(request, letter_id):
 	return render_to_response('condottieri_messages/compose.html',
 							context,
 							context_instance=RequestContext(request))
-
 
 @login_required
 def view(request, message_id):

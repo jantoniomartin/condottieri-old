@@ -19,6 +19,6 @@ urlpatterns = patterns('messages.views',
 ## urls that call the custom views in condottieri_messages
 urlpatterns += patterns('condottieri_messages.views',
 	url(r'^compose/(?P<sender_id>[\d]+)/(?P<recipient_id>[\d]+)/$', 'compose', name='condottieri_messages_compose'),
-    url(r'^reply/(?P<letter_id>[\d]+)/$', 'reply', name='condottieri_messages_reply'),
+    url(r'^reply/(?P<letter_id>[\d]+)/$', 'compose', name='condottieri_messages_reply'),
     url(r'^view/(?P<message_id>[\d]+)/$', 'view', name='condottieri_messages_detail'),
 )
