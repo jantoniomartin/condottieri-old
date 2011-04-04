@@ -25,8 +25,9 @@ from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from messages.utils import format_quote
+from messages.models import Message
 
-from machiavelli.models import Player
+from machiavelli.models import Player, Game
 from machiavelli.views import base_context, game_error
 
 from condottieri_messages.exceptions import LetterError
@@ -130,3 +131,40 @@ def view(request, message_id):
 	return render_to_response('condottieri_messages/view.html', 
 							context,
 							context_instance=RequestContext(request))
+
+@login_required
+def inbox(request, slug=None):
+	"""
+	Displays a list of received messages for the current user.
+	Optional Arguments:
+	``slug``: show only messages of the game with this name.
+	"""
+	context = {}
+	message_list = Message.objects.inbox_for(request.user)
+	if slug:
+		game = get_object_or_404(Game, slug=slug)
+		message_list = message_list.filter(letter__sender_player__game=game)
+		context['game'] = game
+	context['message_list'] = message_list
+	return render_to_response('condottieri_messages/inbox.html',
+   	    					context,
+							context_instance=RequestContext(request))
+
+@login_required
+def outbox(request, slug=None):
+	"""
+	Displays a list of sent messages by the current user.
+	Optional arguments:
+	``slug``: show only messages of the game with this name.
+	"""
+	context = {}
+	message_list = Message.objects.outbox_for(request.user)
+	if slug:
+		game = get_object_or_404(Game, slug=slug)
+		message_list = message_list.filter(letter__sender_player__game=game)
+		context['game'] = game
+	context['message_list'] = message_list
+	return render_to_response('condottieri_messages/outbox.html',
+   	    					context,
+							context_instance=RequestContext(request))
+

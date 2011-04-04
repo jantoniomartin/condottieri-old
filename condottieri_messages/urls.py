@@ -21,4 +21,6 @@ urlpatterns += patterns('condottieri_messages.views',
 	url(r'^compose/(?P<sender_id>[\d]+)/(?P<recipient_id>[\d]+)/$', 'compose', name='condottieri_messages_compose'),
     url(r'^reply/(?P<letter_id>[\d]+)/$', 'compose', name='condottieri_messages_reply'),
     url(r'^view/(?P<message_id>[\d]+)/$', 'view', name='condottieri_messages_detail'),
+	url(r'^inbox/(?P<slug>[-\w]+)/$', 'inbox', name='condottieri_messages_inbox'),
+	url(r'^outbox/(?P<slug>[-\w]+)/$', 'outbox', name='condottieri_messages_outbox'),
 )
