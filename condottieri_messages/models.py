@@ -22,6 +22,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from messages import models as messages
 from machiavelli.models import Player, SEASONS
+from machiavelli.signals import government_overthrown
 
 if "notification" in settings.INSTALLED_APPS:
 	from notification import models as notification
@@ -48,4 +49,11 @@ def notify_new_letter(sender, instance, created, **kw):
 		notification.send(user, "condottieri_messages_received", extra_context , on_site=False)
 
 models.signals.post_save.connect(notify_new_letter, sender=Letter)
+
+def update_letter_users(sender, **kwargs):
+	assert isinstance(sender, Player), "sender must be a Player"
+	Letter.objects.filter(sender_player=sender).update(sender=sender.user)
+	Letter.objects.filter(recipient_player=sender).update(recipient=sender.user)
+
+government_overthrown.connect(update_letter_users)
 
