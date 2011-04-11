@@ -47,10 +47,9 @@
 {% endblock %}
 
 {% block footer %}
-<div class="legal">
-    {% trans "&copy; 2010 J. A. Mart&iacute;n Prieto" %}
-    - <a href="{% url about %}">{% trans "About" %}</a>
-</div>
+<a href="{% url help-index %}">{% trans "Help" %}</a> |
+<a href="http://doc.condottierigame.net">{% trans "Documentation" %}</a> |
+<a href="http://github.com/jantoniomartin/condottieri">{% trans "Source code" %}</a>
 {% endblock %}
 
 {% block extra_body_base %}
