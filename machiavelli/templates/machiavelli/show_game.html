@@ -1,5 +1,6 @@
 {% extends "machiavelli/base.html" %}
 
+
 {% load i18n %}
 {% load game_icons %}
 {% load avatar_tags %}
@@ -128,10 +129,8 @@
 </div>
 
 <div class="col2">
-<div id="map">
-{% blocktrans %}Our cartographers are drawing a new map for you. Please, reload
-the page in a few seconds.{% endblocktrans %}
-</div>
+	<div id="map" class="viewer">
+	</div>
 </div>
 
 <div class="col3">
@@ -158,40 +157,33 @@ the page in a few seconds.{% endblocktrans %}
 
 {% endblock %}
 
-{% block extra_body %}
-
 {% block extra_game %}{% endblock %}
 
-{% if map %}
-	<script type="text/javascript">
-		var STATIC_URL = "{{ STATIC_URL }}"
-		var MEDIA_URL = "{{ MEDIA_URL }}"
-	</script>
-	<!-- Import the prototype library -->
-	<script type="text/javascript" src="{{ STATIC_URL }}machiavelli/js/prototype-1.5.0.js"></script>
-	<!-- Import the base Experience namespace -->
-	<script type="text/javascript" src="{{ STATIC_URL }}machiavelli/js/experience.js"></script>
-	<!-- Import Experience::Panorama files -->
-	<script type="text/javascript" src="{{ STATIC_URL }}machiavelli/js/experience.panorama.js"></script>
-	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}machiavelli/css/experience.panorama.css" />
-	<!-- Initialize Panorama -->
-	<script type="text/javascript">
-	var	viewer;
-	
-	window.onload = function() {
-		viewer = new experience.panorama.Viewer({
-			ImageURL: MEDIA_URL + "maps/{{ map }}",
-			ImageWidth: 1250,
-			ImageHeight: 1780,
-			RenderIn: 'map',
-			IconDirectory: STATIC_URL + "machiavelli/js/icons",
-			InnerUpperOffset: -300,
-			ShowNavigator: false,
-			ShowZoomSelectBox: true
-		});
+{% block extra_body %}
+<script src="{{ STATIC_URL }}js/jquery.mousewheel.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/jquery.iviewer.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(function() {
+		makeLayout();
+	});
+
+	function makeLayout() {
+		var MEDIA_URL = "{{ MEDIA_URL }}";
+		var viewer_opts = {
+			//src: MEDIA_URL + "maps/{{ map }}",
+			src: "/media/maps/map-25.jpg",
+			ui_disabled: true,
+			zoom: "fit",
+			zoom_max: 100,
+			zoom_min: 10,
+			zoom_delta: 1.4,
+			//zoom_base:
+			update_on_resize: true
+		};
+
+		$("#map").iviewer(viewer_opts);
 	}
-	</script>
-{% endif %}
+</script>
 
 
 {% endblock %}
