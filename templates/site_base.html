@@ -52,3 +52,10 @@
     - <a href="{% url about %}">{% trans "About" %}</a>
 </div>
 {% endblock %}
+
+{% block extra_body_base %}
+	{% block extra_body %}{% endblock %}
+	{% ifsetting INCLUDE_GOOGLE_ANALYTICS %}
+		{% include 'ganalytics.html' %}
+	{% endifsetting %}
+{% endblock %}
