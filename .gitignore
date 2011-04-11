@@ -18,3 +18,4 @@ maintenance.html*
 activate
 doc/_*
 templates/ganalytics.html
+third_party/
