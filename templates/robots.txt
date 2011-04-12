@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /account/
+Disallow: /admin/
+Disallow: /profiles/
+Disallow: /mail/
+Disallow: /notices/
+Disallow: /machiavelli/game/
+Disallow: /static/
+
