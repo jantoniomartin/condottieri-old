@@ -88,7 +88,7 @@
 	<div><a href="{% url profile_detail username=p.user.username %}">{% avatar p.user 20 %}{{ p.user.username }}</a></div>
 	{% endif %}
 	<div>{% trans "Cities:" %} {{ p.number_of_cities }}</div>
-	<div>{% trans "Units:" %} {{ p.number_of_units }}</div>
+	<div>{% trans "Units:" %} {{ p.placed_units_count }}</div>
 {% if player %}
 	{% ifnotequal game.phase 0 %}
 	{% ifnotequal p player %}

@@ -1615,7 +1615,11 @@ class Player(models.Model):
 		return len(cities)
 
 	def number_of_units(self):
+		## this funcion is deprecated
 		return self.unit_set.all().count()
+
+	def placed_units_count(self):
+		return self.unit_set.filter(placed=True).count()
 	
 	def units_to_place(self):
 		""" Return the number of units that the player must place. Negative if
