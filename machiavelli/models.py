@@ -528,10 +528,15 @@ class Game(models.Model):
 		if self.phase == PHINACTIVE :
 			return False
 		highest = self.get_highest_karma()
-		if highest <= 100:
-			time_limit = self.time_limit * highest / 100
+		if highest > 100:
+			if self.phase == PHORDERS:
+				k = 1 + (highest - 100) / 200
+			else:
+				k = 1
 		else:
-			time_limit = self.time_limit * (1 + (highest - 100)/200)
+			k = highest / 100
+		time_limit = self.time_limit * k
+		
 		duration = timedelta(0, time_limit)
 
 		return self.last_phase_change + duration
@@ -1833,10 +1838,15 @@ class Player(models.Model):
 		"""
 		
 		karma = float(self.user.get_profile().karma)
-		if karma <= 100:
-			time_limit = self.game.time_limit * karma / 100
+		if karma > 100:
+			if self.game.phase == PHORDERS:
+				k = 1 + (karma - 100) / 200
+			else:
+				k = 1
 		else:
-			time_limit = self.game.time_limit * (1 + (karma - 100)/200)
+			k = karma / 100
+		time_limit = self.game.time_limit * k
+		
 		duration = timedelta(0, time_limit)
 
 		return self.game.last_phase_change + duration
