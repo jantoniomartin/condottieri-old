@@ -20,6 +20,7 @@ table {
     border-spacing: 0;
     border: 0;
     font-size: inherit;
+	min-width: 50%;
 }
 td {
     margin: 0;

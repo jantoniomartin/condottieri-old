@@ -117,7 +117,29 @@ def game_list(request):
 	return render_to_response('machiavelli/game_list.html',
 							context,
 							context_instance=RequestContext(request))
+@never_cache
+def finished_games(request, only_user=False):
+	""" Gets a paginated list of the games that are finished """
+	games = Game.objects.filter(slots=0, phase=PHINACTIVE)
+	if only_user:
+		games = games.filter(player__user=request.user)
+	paginator = Paginator(games, 10)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		game_list = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		game_list = paginator.page(paginator.num_pages)
+	context = {
+		'game_list': game_list,
+		'only_user': only_user,
+		}
 
+	return render_to_response('machiavelli/game_list_finished.html',
+							context,
+							context_instance=RequestContext(request))
 
 def base_context(request, game, player):
 	context = {
