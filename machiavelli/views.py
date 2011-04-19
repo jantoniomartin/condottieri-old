@@ -141,6 +141,55 @@ def finished_games(request, only_user=False):
 							context,
 							context_instance=RequestContext(request))
 
+@never_cache
+def joinable_games(request):
+	""" Gets a paginated list of all the games that the user can join """
+	if request.user.is_authenticated():
+		games = Game.objects.filter(slots__gt=0).exclude(player__user=request.user)
+	else:
+		games = Game.objects.filter(slots__gt=0)
+	paginator = Paginator(games, 10)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		game_list = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		game_list = paginator.page(paginator.num_pages)
+	context = {
+		'game_list': game_list,
+		'joinable': True,
+		}
+
+	return render_to_response('machiavelli/game_list_pending.html',
+							context,
+							context_instance=RequestContext(request))
+
+@never_cache
+@login_required
+def pending_games(request):
+	""" Gets a paginated list of all the games of the player that have not yet
+	started """
+	games = Game.objects.filter(slots__gt=0, player__user=request.user)
+	paginator = Paginator(games, 10)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		game_list = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		game_list = paginator.page(paginator.num_pages)
+	context = {
+		'game_list': game_list,
+		'joinable': False,
+		}
+
+	return render_to_response('machiavelli/game_list_pending.html',
+							context,
+							context_instance=RequestContext(request))	
+
 def base_context(request, game, player):
 	context = {
 		'user': request.user,
