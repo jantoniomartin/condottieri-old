@@ -89,7 +89,7 @@ def order_is_possible(order):
 	elif order.code == 'C':
 		if order.unit.type == 'F':
 			if order.subunit.type == 'A':
-				if order.unit.area.board_area.is_sea:
+				if order.unit.area.board_area.is_sea or order.unit.area.board_area.code == 'VEN':
 					return order
 	elif order.code == 'S':
 		if order.unit.type == 'G':
