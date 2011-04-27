@@ -1654,6 +1654,8 @@ class Player(models.Model):
 		return self.home_country().filter(player=self)
 
 	def controlled_home_cities(self):
+		""" Returns a queryset with GameAreas in home country, with city, 
+		controlled by the player """
 		return self.controlled_home_country().filter(board_area__has_city=True)
 
 	def get_areas_for_new_units(self, finances=False):
@@ -1696,8 +1698,7 @@ class Player(models.Model):
 		if not self.user:
 			return False
 		## find a home city controlled by the player, and empty
-		cities = self.home_country().filter(player=self,
-										unit__isnull=True).count()
+		cities = self.controlled_home_cities().filter(unit__isnull=True).count()
 		if cities > 0:
 			print "%s has empty controlled home cities" % self
 			return False
