@@ -15,6 +15,11 @@ a, a:visited {
 img {
 	border: 0;
 }
+
+p {
+	padding: 0;
+}
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -26,6 +31,10 @@ td {
     margin: 0;
     border: 0;
     padding: 0;
+}
+
+ol, ul {
+	padding: 0;
 }
 
 /* CLEARS */
@@ -108,6 +117,7 @@ td {
 
 #body {
 	clear: both;
+	min-height: 1px;
 	margin: 0 auto;
 	padding: 10px;
 	width: 80%;
@@ -116,6 +126,15 @@ td {
 	border-left: solid 2px #666;
 	border-right: solid 2px #666;
 }
+
+#body:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
 
 #body h1 {
 	line-height: 30px;
@@ -133,11 +152,10 @@ td {
 #body h3 {
 	font-size: 12px;
 	font-weight: bold;
-	margin-left: 3em;
+	margin-left: 1em;
 }
 
 #body p {
-	width: 80%;
 	margin-left: 3em;
 }
 
@@ -173,12 +191,86 @@ td {
 }
 
 #footer {
+	clear: both;
 	width: 80%;
 	margin: 0 auto;
 	padding: 10px 10px;
 	background: #191919;
 	border-left: solid 2px #666;
 	border-right: solid 2px #666;
+}
+
+#left_column {
+	width: 70%;
+	float: left;
+}
+
+#right_column {
+	width: 25%;
+	margin-top: 1em;
+	margin-left: 75%;
+	background: #9f2727;
+}
+
+#right_column div {
+	padding: 0.5em 0.5em;
+	border-bottom: solid 1px #111;
+}
+
+#right_column h2 {
+	margin-top: 0.5em;
+}
+
+#activity_count strong {
+	font-size: larger;
+}
+
+#top_users ol li {
+	font-size: 120%;
+	line-height: 30px;
+}
+
+#top_users ol li img {
+	vertical-align: middle;
+}
+
+#top_users ol li span {
+	margin-left: 0.5em;
+}
+
+.section {
+	padding: 0px 0px 0.5em 0px;
+	background: #4f4f4f;
+	border-bottom: solid 2px #191919;
+}
+
+.section a, .section a:visited {
+	color: #d3a152;
+}
+
+.section h1, .section h2 {
+	margin-top: 1em;
+	background: #9f2727;
+	padding: 0.5em;
+}
+
+.section h3 {
+	margin-left: 0;
+	font-size: larger;
+}
+
+.section h3 a {
+	margin-left: 0;
+	font-size: larger;
+	text-decoration: none;
+}
+
+.section ul {
+	padding-left: 1em;
+}
+
+.section li {
+	line-height: 150%;
 }
 
 .game_info {
@@ -209,4 +301,22 @@ td {
 
 .game_info dt {
 	font-weight: bold;
+}
+
+.mini_game {
+	margin: 0.5em 1em auto;
+	padding: 0.5em;
+	border: solid 1px #666;
+}
+
+.mini_game h3 {
+	margin: 0;	
+}
+
+.thread_list li {
+	line-height: 150%;
+}
+
+.thread_info {
+	font-size: smaller;
 }

@@ -63,34 +63,21 @@ else:
 
 from machiavelli.models import Unit
 
-#@login_required
-#@cache_page(15 * 60) # cache 15 minutes
 def summary(request):
-	activity = Player.objects.values("user").distinct().count()
+	context = {}
+	context.update( {'activity': Player.objects.values("user").distinct().count()} )
+	context.update( {'top_users': CondottieriProfile.objects.all().order_by('-total_score').select_related('user')[:5]} )
+	context.update( {'forum': 'forum' in settings.INSTALLED_APPS} )
 	if request.user.is_authenticated():
-		your_players = Player.objects.filter(user=request.user, game__slots=0)
-		your_pending = Player.objects.filter(user=request.user, game__slots__gt=0)
-		available = Game.objects.filter(slots__gt=0).exclude(player__user=request.user)
-		other_games = Game.objects.filter(slots=0).exclude(phase=PHINACTIVE).exclude(player__user=request.user)
+		joinable = Game.objects.exclude(player__user=request.user).filter(slots__gt=0).order_by('slots').select_related('scenario', 'configuration', 'player__user')
+		my_games_ids = Game.objects.filter(player__user=request.user).values('id')
+		context.update( {'revolutions': Revolution.objects.filter(opposition__isnull=True).exclude(government__game__id__in=my_games_ids).select_related('gorvernment__game__country')} )
+		context.update( {'actions': Player.objects.filter(user=request.user, game__slots=0, done=False).select_related('game')} )
 	else:
-		your_players = Player.objects.none()
-		your_pending = Player.objects.none()
-		available = Game.objects.filter(slots__gt=0)
-		other_games = Game.objects.filter(slots=0).exclude(phase=PHINACTIVE)
-	revolutions = []
-	for r in Revolution.objects.filter(opposition__isnull=True):
-		if r.government.game in other_games:
-			revolutions.append(r)
-	context = {
-		'activity': activity,
-		'your_players': your_players,
-		'your_pending': your_pending,
-		'available': available,
-		'other_games': other_games,
-		'revolutions': revolutions,
-		'user': request.user,
-		'forum': 'forum' in settings.INSTALLED_APPS,
-	}
+		joinable = Game.objects.filter(slots__gt=0).order_by('slots').select_related('scenario', 'configuration', 'player__user')
+		context.update( {'revolutions': Revolution.objects.filter(opposition__isnull=True).select_related('government__game__country')} )
+	if joinable:
+		context.update( {'joinable_game': joinable[0]} )
 
 	return render_to_response('machiavelli/summary.html',
 							context,
