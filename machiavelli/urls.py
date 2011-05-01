@@ -9,7 +9,6 @@ from django.views.decorators.cache import cache_page
 urlpatterns = patterns('machiavelli.views',
     #url(r'^$', 'game_list', name='game-list'),
 	url(r'^$', 'summary', name='summary'),
-	url(r'^games$', 'game_list', name='game-list'),
 	url(r'^games/all_finished$', 'finished_games', name="games-all-finished"), 
 	url(r'^games/finished$', 'finished_games', {'only_user': True, }, name="games-my-finished"), 
 	url(r'^games/other_active$', 'other_active_games', name="games-other-active"), 
