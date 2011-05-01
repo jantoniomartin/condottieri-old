@@ -13,6 +13,12 @@
 	<p>{% blocktrans %}At this moment, you are not playing any games.{% endblocktrans %}</p>
 {% else %}
 	<p>{% blocktrans %}These are the games that you are currently playing.{% endblocktrans %}</p>
+{% endif %}
+<p>
+<a href="{% url games-other-active %}">{% trans "See other active games" %}</a>
+</p>	
+
+{% if player_list.object_list %}
 
 {% for player in player_list.object_list %}
 <div class="game_info">

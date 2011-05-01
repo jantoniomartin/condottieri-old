@@ -13,6 +13,9 @@
 <p>
 {% blocktrans %}These are all the finished games that you have played until the end.{% endblocktrans %}
 </p>
+<p>
+<a href="{% url games-all-finished %}">{% trans "See all the finished games" %}</a>
+</p>
 {% else %}
 <h1>{% trans "All the finished games" %}</h1>
 <p>
