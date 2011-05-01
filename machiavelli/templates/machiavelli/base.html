@@ -10,9 +10,16 @@
 {% block subnav %}
 <ul>
 <li><a href="{{ STATIC_URL }}machiavelli/img/{% trans "empty-map_en.jpg" %}" target="_blank">{% trans "Map" %}</a></li>
-<li><a href="{% url new-game %}">{% trans "New game" %}</a></li> 
-<li><a href="{% url game-list %}">{% trans "All games" %}</a></li>
-<li><a href="{% url hall-of-fame %}">{% trans "Hall of Fame" %}</a></li>
+<li><a href="{% url new-game %}">{% trans "New game" %}</a></li>
+<li><a href="{% url games-joinable %}">{% trans "Join game" %}</a></li> 
+{% if user.is_authenticated %}
+<li><a href="{% url games-my-active %}">{% trans "Active games" %}</a></li>
+<li><a href="{% url games-pending %}">{% trans "Pending games" %}</a></li>
+<li><a href="{% url games-my-finished %}">{% trans "Finished games" %}</a></li>
+{% else %}
+<li><a href="{% url games-other-active %}">{% trans "Active games" %}</a></li>
+<li><a href="{% url games-all-finished %}">{% trans "Finished games" %}</a></li>
+{% endif %}
 <li><a href="{% url scenario-list %}">{% trans "Scenarios" %}</a></li>
 </ul>
 {% endblock %}
