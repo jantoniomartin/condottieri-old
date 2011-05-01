@@ -117,6 +117,57 @@ def game_list(request):
 	return render_to_response('machiavelli/game_list.html',
 							context,
 							context_instance=RequestContext(request))
+
+@never_cache
+def my_active_games(request):
+	""" Gets a paginated list of all the ongoing games in which the user is a player. """
+	if request.user.is_authenticated():
+		my_players = Player.objects.filter(user=request.user, game__slots=0).select_related("country", "game__scenario", "game__configuration")
+	else:
+		my_players = Player.objects.none()
+	paginator = Paginator(my_players, 10)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		player_list = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		player_list = paginator.page(paginator.num_pages)
+	context = {
+		'player_list': player_list,
+		}
+
+	return render_to_response('machiavelli/game_list_my_active.html',
+							context,
+							context_instance=RequestContext(request))
+
+@never_cache
+def other_active_games(request):
+	""" Gets a paginated list of all the ongoing games in which the user is not a player """
+	if request.user.is_authenticated():
+		games = Game.objects.exclude(phase=PHINACTIVE).exclude(player__user=request.user)
+	else:
+		games = Game.objects.exclude(phase=PHINACTIVE)
+	paginator = Paginator(games, 10)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		game_list = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		game_list = paginator.page(paginator.num_pages)
+	context = {
+		'game_list': game_list,
+		}
+
+	return render_to_response('machiavelli/game_list_active.html',
+							context,
+							context_instance=RequestContext(request))
+
+
+
 @never_cache
 def finished_games(request, only_user=False):
 	""" Gets a paginated list of the games that are finished """

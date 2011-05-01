@@ -180,3 +180,34 @@ td {
 	border-left: solid 2px #666;
 	border-right: solid 2px #666;
 }
+
+.game_info {
+	width: 80%;
+	margin-left: 10%;
+	padding: 0px 0px 0.5em 0px;
+	background: #4f4f4f;
+	border-bottom: solid 2px #191919;
+}
+
+.game_info a, .game_info a:visited {
+	color: #d3a152;
+}
+
+.game_info h2 {
+	background: #191919;
+}
+
+.game_info h2 span {
+	display: block;
+	width: 100%;
+	padding-left: 1em;
+	line-height: 48px;
+}
+
+.game_info dl {
+	margin: 1em 1em 1em;
+}
+
+.game_info dt {
+	font-weight: bold;
+}
