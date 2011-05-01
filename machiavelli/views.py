@@ -63,10 +63,14 @@ else:
 
 from machiavelli.models import Unit
 
-def summary(request):
+def sidebar_context(request):
 	context = {}
 	context.update( {'activity': Player.objects.values("user").distinct().count()} )
 	context.update( {'top_users': CondottieriProfile.objects.all().order_by('-total_score').select_related('user')[:5]} )
+	return context
+
+def summary(request):
+	context = sidebar_context(request)
 	context.update( {'forum': 'forum' in settings.INSTALLED_APPS} )
 	if request.user.is_authenticated():
 		joinable = Game.objects.exclude(player__user=request.user).filter(slots__gt=0).order_by('slots').select_related('scenario', 'configuration', 'player__user')

@@ -1,6 +1,7 @@
 {% extends 'site_base.html' %}
 
 {% load i18n %}
+{% load avatar_tags %}
 
 {% block extra_head %}{% endblock %}
 
@@ -22,4 +23,28 @@
 {% endif %}
 <li><a href="{% url scenario-list %}">{% trans "Scenarios" %}</a></li>
 </ul>
+{% endblock %}
+
+{% block body %}
+<div id="left_column">
+	{% block left_column %}{% endblock %}
+</div>
+<div id="right_column">
+
+<div id="activity_count">
+{% blocktrans %}<strong>{{ activity }}</strong> people playing right now.{% endblocktrans %}
+</div>
+
+<div id="top_users">
+<h2>{% trans "Best players" %}</h2>
+<ol>
+{% for profile in top_users %}
+	<li><a href="{% url profile_detail username=profile.user.username %}">{% avatar profile.user 24 %}</a>
+	<span>{{ profile.user.username }}</span>:
+	<span>{{ profile.total_score }} {% trans "points" %}</span></li>
+{% endfor %}
+</ol>
+</div>
+
+</div>
 {% endblock %}

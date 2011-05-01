@@ -2,13 +2,11 @@
 
 {% load i18n %}
 {% load forum_tags %}
-{% load avatar_tags %}
 {% load game_icons %}
 
 {% block head_title %}{% blocktrans %}A Game Of Diplomacy And War{% endblocktrans %}{% endblock %}
 
-{% block body %}
-<div id="left_column">
+{% block left_column %}
 {% if not user.is_authenticated %}
 <div class="section">
 <h1>{% trans "Condottieri. A Game Of Diplomacy And War" %}</h1>
@@ -106,26 +104,7 @@
 </div>
 {% endif %}
 
-</div>
 
-<div id="right_column">
-
-<div id="activity_count">
-{% blocktrans %}<strong>{{ activity }}</strong> people playing right now.{% endblocktrans %}
-</div>
-
-<div id="top_users">
-<h2>{% trans "Best players" %}</h2>
-<ol>
-{% for profile in top_users %}
-	<li><a href="{% url profile_detail username=profile.user.username %}">{% avatar profile.user 24 %}</a>
-	<span>{{ profile.user.username }}</span>:
-	<span>{{ profile.total_score }} {% trans "points" %}</span></li>
-{% endfor %}
-</ol>
-</div>
-
-</div>
 
 
 {% endblock %}
