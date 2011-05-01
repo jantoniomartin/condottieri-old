@@ -90,6 +90,7 @@ def summary(request):
 @never_cache
 def my_active_games(request):
 	""" Gets a paginated list of all the ongoing games in which the user is a player. """
+	context = sidebar_context(request)
 	if request.user.is_authenticated():
 		my_players = Player.objects.filter(user=request.user, game__slots=0).select_related("country", "game__scenario", "game__configuration")
 	else:
@@ -103,9 +104,9 @@ def my_active_games(request):
 		player_list = paginator.page(page)
 	except (EmptyPage, InvalidPage):
 		player_list = paginator.page(paginator.num_pages)
-	context = {
+	context.update( {
 		'player_list': player_list,
-		}
+		})
 
 	return render_to_response('machiavelli/game_list_my_active.html',
 							context,
@@ -114,6 +115,7 @@ def my_active_games(request):
 @never_cache
 def other_active_games(request):
 	""" Gets a paginated list of all the ongoing games in which the user is not a player """
+	context = sidebar_context(request)
 	if request.user.is_authenticated():
 		games = Game.objects.exclude(phase=PHINACTIVE).exclude(player__user=request.user)
 	else:
@@ -127,9 +129,9 @@ def other_active_games(request):
 		game_list = paginator.page(page)
 	except (EmptyPage, InvalidPage):
 		game_list = paginator.page(paginator.num_pages)
-	context = {
+	context.update( {
 		'game_list': game_list,
-		}
+		})
 
 	return render_to_response('machiavelli/game_list_active.html',
 							context,
@@ -140,6 +142,7 @@ def other_active_games(request):
 @never_cache
 def finished_games(request, only_user=False):
 	""" Gets a paginated list of the games that are finished """
+	context = sidebar_context(request)
 	games = Game.objects.filter(slots=0, phase=PHINACTIVE)
 	if only_user:
 		games = games.filter(player__user=request.user)
@@ -152,10 +155,10 @@ def finished_games(request, only_user=False):
 		game_list = paginator.page(page)
 	except (EmptyPage, InvalidPage):
 		game_list = paginator.page(paginator.num_pages)
-	context = {
+	context.update( {
 		'game_list': game_list,
 		'only_user': only_user,
-		}
+		})
 
 	return render_to_response('machiavelli/game_list_finished.html',
 							context,
@@ -164,6 +167,7 @@ def finished_games(request, only_user=False):
 @never_cache
 def joinable_games(request):
 	""" Gets a paginated list of all the games that the user can join """
+	context = sidebar_context(request)
 	if request.user.is_authenticated():
 		games = Game.objects.filter(slots__gt=0).exclude(player__user=request.user)
 	else:
@@ -177,10 +181,10 @@ def joinable_games(request):
 		game_list = paginator.page(page)
 	except (EmptyPage, InvalidPage):
 		game_list = paginator.page(paginator.num_pages)
-	context = {
+	context.update( {
 		'game_list': game_list,
 		'joinable': True,
-		}
+		})
 
 	return render_to_response('machiavelli/game_list_pending.html',
 							context,
@@ -191,6 +195,7 @@ def joinable_games(request):
 def pending_games(request):
 	""" Gets a paginated list of all the games of the player that have not yet
 	started """
+	context = sidebar_context(request)
 	games = Game.objects.filter(slots__gt=0, player__user=request.user)
 	paginator = Paginator(games, 10)
 	try:
@@ -201,10 +206,10 @@ def pending_games(request):
 		game_list = paginator.page(page)
 	except (EmptyPage, InvalidPage):
 		game_list = paginator.page(paginator.num_pages)
-	context = {
+	context.update( {
 		'game_list': game_list,
 		'joinable': False,
-		}
+		})
 
 	return render_to_response('machiavelli/game_list_pending.html',
 							context,
@@ -652,7 +657,8 @@ def create_game(request):
 	if karma < settings.KARMA_TO_JOIN:
 		return low_karma_error(request)
 	##
-	context = {'user': request.user,}
+	context = sidebar_context(request)
+	context.update( {'user': request.user,})
 	if request.method == 'POST':
 		game_form = forms.GameForm(request.user, data=request.POST)
 		if game_form.is_valid():
@@ -771,9 +777,9 @@ def reset_excommunications(request, slug):
 #@cache_page(60 * 60)
 def scenario_list(request):
 	""" Gets a list of all the enabled scenarios. """
-	
+	context = sidebar_context(request)	
 	scenarios = Scenario.objects.filter(enabled=True)
-	context = {'scenarios': scenarios, }
+	context.update( {'scenarios': scenarios, })
 
 	return render_to_response('machiavelli/scenario_list.html',
 							context,

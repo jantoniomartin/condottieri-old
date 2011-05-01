@@ -7,7 +7,7 @@
 {% blocktrans %}Ongoing games{% endblocktrans %}
 {% endblock %}
 
-{% block body %}
+{% block left_column %}
 <h1>{% trans "All the ongoing games" %}</h1>
 {% if not game_list.object_list %}
 	<p>{% blocktrans %}At this moment there are no active games that you are not playing.{% endblocktrans %}</p>
