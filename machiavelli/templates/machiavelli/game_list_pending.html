@@ -31,32 +31,36 @@
 
 {% if game_list.object_list %}
 
-<table>
-	<thead>
-	<tr>
-	<th>{% trans "Title" %}</th>
-	<th>{% trans "Scenario" %}</th>
-	<th>{% trans "Time limit" %}</th>
-	<th>{% trans "Rules" %}</th>
-	<th>{% trans "Visible players" %}</th>
-	<th>{% trans "Slots" %}</th>
-	</tr>
-	</thead>
-	{% for game in game_list.object_list %}
-	<tr>
-	<td><a href="{{ game.get_absolute_url }}">{{ game.slug }}</a></td>
-	<td><a href="{% url show-scenario game.scenario.pk %}">{{ game.scenario.title }}</a></td>
-	<td>{{ game.get_time_limit_display }}</td>
-	<td>{% rule_icons game.configuration %}</td>
-	<td>{{ game.visible|yesno }}</td>
-	<td>{{ game.slots }}
+{% for game in game_list.object_list %}
+<div class="game_info">
+<h2><span><a href="{{ game.get_absolute_url }}">{{ game.slug }}</a></span>
+	<span>
 		{% if joinable %}
 		<a href="{% url join-game game.slug %}">{% trans "Join game" %}</a>
 		{% endif %}
-	</td>
-	</tr>
+		({{ game.slots }})
+	</span></h2>
+<dl>
+<dt>{% trans "Scenario" %}</dt><dd><a href="{% url show-scenario game.scenario.pk %}">{{ game.scenario.title }}</a></dd>
+<dt>{% trans "Time limit" %}</dt><dd>{{ game.get_time_limit_display }}</dd>
+<dt>{% trans "Rules" %}</dt><dd>{% rule_icons game.configuration %}</dd>
+<dt>{% trans "Players" %}</dt>
+<dd>
+	{% if game.visible %}
+	<ul>
+	{% for p in game.player_set.all %}
+		{% if p.user %}
+		<li>{{ p.user.username }}</li>
+		{% endif %}
 	{% endfor %}
-</table>
+	</ul>
+	{% else %}
+	{% trans "Players are not visible" %}
+	{% endif %}
+</dd>
+</dl>
+</div>
+{% endfor %}
 
 <div class="pagination">
 	<span class="step-links">

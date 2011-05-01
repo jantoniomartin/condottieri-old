@@ -20,28 +20,31 @@
 </p>
 {% endif %}
 
-<table>
-	<thead>
-	<tr>
-	<th>{% trans "Title" %}</th>
-	<th>{% trans "Scenario" %}</th>
-	<th>{% trans "Rules" %}</th>
-	<th>{% trans "Winner" %}</th>
-	</tr>
-	</thead>
-	{% for game in game_list.object_list %}
-	<tr>
-	<td><a href="{{ game.get_absolute_url }}">{{ game.slug }}</a></td>
-	<td><a href="{% url show-scenario game.scenario.pk %}">{{ game.scenario.title }}</a></td>
-	<td>{% rule_icons game.configuration %}</td>
-	<td>
-	{% if game.highest_score %}
-	<a href="{% url profile_detail username=game.highest_score.user.username %}">{{ game.highest_score.user }}</a> ({{ game.highest_score.country }})
-	{% endif %}
-	</td>
-	</tr>
+{% for game in game_list.object_list %}
+<div class="game_info">
+<h2><span><a href="{{ game.get_absolute_url }}">{{ game.slug }}</a></span></h2>
+<dl>
+<dt>{% trans "Scenario" %}</dt><dd><a href="{% url show-scenario game.scenario.pk %}">{{ game.scenario.title }}</a></dd>
+<dt>{% trans "Rules" %}</dt><dd>{% rule_icons game.configuration %}</dd>
+<dt>{% trans "Players" %}</dt>
+<dd>
+	<ul>
+	{% for p in game.player_set.all %}
+		{% if p.user %}
+		<li>{{ p.user.username }}</li>
+		{% endif %}
 	{% endfor %}
-</table>
+	</ul>
+</dd>
+<dt>{% trans "Winner" %}</dt>
+<dd>
+{% if game.highest_score %}
+	<a href="{% url profile_detail username=game.highest_score.user.username %}">{{ game.highest_score.user }}</a> ({{ game.highest_score.country }})
+{% endif %}
+</dd>
+</dl>
+</div>
+{% endfor %}
 
 <div class="pagination">
 	<span class="step-links">

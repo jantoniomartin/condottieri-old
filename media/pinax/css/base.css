@@ -195,11 +195,10 @@ td {
 
 .game_info h2 {
 	background: #191919;
+	width: 100%;
 }
 
 .game_info h2 span {
-	display: block;
-	width: 100%;
 	padding-left: 1em;
 	line-height: 48px;
 }

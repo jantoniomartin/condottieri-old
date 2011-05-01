@@ -16,7 +16,7 @@
 
 {% for player in player_list.object_list %}
 <div class="game_info">
-<h2><span style="background: url('{{ STATIC_URL }}machiavelli/img/banner-{{ player.country.static_name }}.png') no-repeat top right">
+<h2 style="background: #191919 url('{{ STATIC_URL }}machiavelli/img/banner-{{ player.country.static_name }}.png') no-repeat top right"><span>
 	<a href="{{ player.game.get_absolute_url }}">{{ player.game.slug }}</a>
 </span></h2>
 <dl>
