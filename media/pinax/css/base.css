@@ -303,6 +303,15 @@ ol, ul {
 	font-weight: bold;
 }
 
+.bonus_time {
+	color: green;
+}
+
+.unsafe_time {
+	color: LightCoral;
+	text-decoration: blink;
+}
+
 .mini_game {
 	margin: 0.5em 1em auto;
 	padding: 0.5em;

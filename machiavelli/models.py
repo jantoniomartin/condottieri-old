@@ -624,6 +624,11 @@ class Game(models.Model):
 		else:
 			return False
 
+	def get_bonus_deadline(self):
+		""" Returns the latest time when karma is bonified """
+		duration = timedelta(0, self.time_limit * BONUS_TIME)
+		return self.last_phase_change + duration
+	
 	def _next_season(self):
 		## take a snapshot of the units layout
 		#thread.start_new_thread(save_snapshot, (self,))
@@ -1861,6 +1866,18 @@ class Player(models.Model):
 
 		return self.next_phase_change() < datetime.now()
 
+	def get_time_status(self):
+		""" Returns a string describing the status of the player depending on the time limits.
+		This string is to be used as a css class to show the time """
+		now = datetime.now()
+		bonus = self.game.get_bonus_deadline()
+		if now <= bonus:
+			return 'bonus_time'
+		safe = self.next_phase_change()
+		if now <= safe:
+			return 'safe_time'
+		return 'unsafe_time'
+	
 	def force_phase_change(self):
 		## the player didn't take his actions, so he loses karma
 		#self.user.stats.adjust_karma(-10)

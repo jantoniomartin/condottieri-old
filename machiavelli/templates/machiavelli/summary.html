@@ -27,7 +27,7 @@
 		<div class="mini_game">
 		<h3><a href="{% url show-game player.game.slug %}">{{ player.game.slug }}</a></h3>
 		<ul>
-		<li>{{ player.game.get_phase_display }} | {{ player.game.next_phase_change|timeuntil }}</li>
+		<li>{{ player.game.get_phase_display }} | <span class="{{ player.get_time_status }}">{{ player.game.next_phase_change|timeuntil }}</span></li>
 		</ul>
 		</div>
 	{% endfor %}
