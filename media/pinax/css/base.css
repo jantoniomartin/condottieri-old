@@ -322,6 +322,7 @@ ul#messages li {
 .section_menu {
 	margin: 0;
 	padding: 0;
+	width: 100%;
 	text-align: right;
 	background: #191919;
 }
