@@ -192,6 +192,20 @@ ol, ul {
 	text-align: center;
 }
 
+#messages {
+	line-height: 150%;
+	background: #ff9090;
+	color: #333;
+}
+
+#messages a {
+	color: #333;
+}
+
+ul#messages li {
+	list-style-type: none;
+}
+
 #footer {
 	clear: both;
 	width: 80%;
