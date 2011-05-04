@@ -59,7 +59,7 @@
 	{% trans "Players are not visible" %}
 	{% endif %}
 	<ul>
-	<li><a href="{% url join-game joinable_game %}">{% trans "Join game" %}</a></li>
+	<li><a href="{% url join-game joinable_game.slug %}">{% trans "Join game" %}</a></li>
 	</ul>
 </ul>
 </div>
