@@ -292,7 +292,7 @@ ul#messages li {
 .game_info {
 	width: 80%;
 	margin-left: 10%;
-	padding: 0px 0px 0.5em 0px;
+	padding: 0px;
 	background: #4f4f4f;
 	border-bottom: solid 2px #191919;
 }
@@ -317,6 +317,21 @@ ul#messages li {
 
 .game_info dt {
 	font-weight: bold;
+}
+
+.section_menu {
+	margin: 0;
+	padding: 0;
+	text-align: right;
+	background: #191919;
+}
+
+#body .section_menu li{
+	display: inline;
+	line-height: 150%;
+	list-style-type: none;
+	margin-right: 3px;
+	border-left: solid 1px #4f4f4f;
 }
 
 .bonus_time {
