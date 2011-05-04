@@ -7,7 +7,7 @@ body.notices #tab_notices a,
 body.forum #tab_forum a,
 body.help #tab_help a
 {
-    color: #000; /* selected tab text colour */
+    color: #fff; /* selected tab text colour */
 }
 body.machiavelli #tab_machiavelli,
 body.messages #tab_messages,
@@ -16,10 +16,10 @@ body.notices #tab_notices,
 body.forum #tab_forum,
 body.help #tab_help
 {
-    margin: 0; /* to compensate for border */
+    margin: 0 0 1px; /* to compensate for border */
     padding: 5px 0 5px;
-    background-color: #DDD; /* selected tab colour */
-    border-left: 1px solid #000; /* tab border */
-    border-top: 1px solid #000; /* tab border */
-    border-right: 1px solid #000; /* tab border */
+    background-color: #9f2727; /* selected tab colour */
+    border-left: 1px solid #9f2727; /* tab border */
+    border-top: 1px solid #9f2727; /* tab border */
+    border-right: 1px solid #9f2727; /* tab border */
 }
