@@ -319,7 +319,14 @@ ul#messages li {
 	font-weight: bold;
 }
 
+.game_info .map {
+	float: right;
+	margin-right: 0.5em;
+	border: solid 1px #111;
+}
+
 .section_menu {
+	clear: both;
 	margin: 0;
 	padding: 0;
 	width: 100%;
