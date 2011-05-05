@@ -163,6 +163,9 @@ class Scenario(models.Model):
 	def get_absolute_url(self):
 		return "scenario/%s" % self.id
 
+	def get_countries(self):
+		return Country.objects.filter(home__scenario=self).distinct()
+
 if twitter_api and settings.TWEET_NEW_SCENARIO:
 	def tweet_new_scenario(sender, instance, created, **kw):
 		if twitter_api and isinstance(instance, Scenario):
