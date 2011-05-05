@@ -95,7 +95,7 @@ class ConfigurationInline(admin.TabularInline):
 	extra = 1
 
 class GameAdmin(admin.ModelAdmin):
-	list_display = ('pk', 'slug', 'year', 'season', 'phase', 'slots', 'scenario', 'created_by', 'next_phase_change', 'player_list')
+	list_display = ('pk', 'slug', 'year', 'season', 'phase', 'slots', 'scenario', 'created_by', 'next_phase_change', 'started', 'finished', 'player_list')
 	actions = ['redraw_map',
 				'check_finished_phase',]
 	inlines = [ ConfigurationInline, ]
