@@ -338,6 +338,8 @@ class Game(models.Model):
 	time_limit = models.PositiveIntegerField(choices=TIME_LIMITS)
 	## the time and date of the last phase change
 	last_phase_change = models.DateTimeField(blank=True, null=True)
+	started = models.DateTimeField(blank=True, null=True)
+	finished = models.DateTimeField(blank=True, null=True)
 
 	##------------------------
 	## representation methods
