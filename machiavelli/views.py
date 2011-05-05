@@ -145,7 +145,7 @@ def finished_games(request, only_user=False):
 	context = sidebar_context(request)
 	games = Game.objects.filter(slots=0, phase=PHINACTIVE)
 	if only_user:
-		games = games.filter(player__user=request.user)
+		games = games.filter(score__user=request.user)
 	paginator = Paginator(games, 10)
 	try:
 		page = int(request.GET.get('page', '1'))

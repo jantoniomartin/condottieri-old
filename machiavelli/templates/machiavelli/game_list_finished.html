@@ -35,10 +35,8 @@
 <dt>{% trans "Players" %}</dt>
 <dd>
 	<ul>
-	{% for p in game.player_set.all %}
-		{% if p.user %}
-		<li>{{ p.user.username }}</li>
-		{% endif %}
+	{% for s in game.score_set.all %}
+		<li>{{ s.user.username }} ({{ s.points }})</li>
 	{% endfor %}
 	</ul>
 </dd>
