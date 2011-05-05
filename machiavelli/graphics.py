@@ -92,4 +92,54 @@ def make_map(game):
 	result = base_map #.resize((1250, 1780), Image.ANTIALIAS)
 	filename = os.path.join(MAPSDIR, "map-%s.jpg" % game.pk)
 	result.save(filename)
+	make_thumb(filename)
 	return True
+
+def make_scenario_map(s):
+	""" Makes the initial map for an scenario.
+	"""
+	base_map = Image.open(os.path.join(BASEDIR, BASEMAP))
+	for c in s.get_countries():
+		## paste control markers and flags
+		controls = s.home_set.filter(country=c, is_home=True)
+		marker = Image.open("%s/control-%s.png" % (BASEDIR, c.static_name))
+		flag = Image.open("%s/flag-%s.png" % (BASEDIR, c.static_name))
+		for h in controls:
+			base_map.paste(marker, (h.area.controltoken.x, h.area.controltoken.y), marker)
+			base_map.paste(flag, (h.area.controltoken.x, h.area.controltoken.y - 15), flag)
+		## paste units
+		army = Image.open("%s/A-%s.png" % (BASEDIR, c.static_name))
+		fleet = Image.open("%s/F-%s.png" % (BASEDIR, c.static_name))
+		garrison = Image.open("%s/G-%s.png" % (BASEDIR, c.static_name))
+		for setup in c.setup_set.filter(scenario=s):
+			if setup.unit_type == 'G':
+				coords = (setup.area.gtoken.x, setup.area.gtoken.y)
+				base_map.paste(garrison, coords, garrison)
+			elif setup.unit_type == 'A':
+				coords = (setup.area.aftoken.x, setup.area.aftoken.y)
+				base_map.paste(army, coords, army)
+			elif setup.unit_type == 'F':
+				coords = (setup.area.aftoken.x, setup.area.aftoken.y)
+				base_map.paste(fleet, coords, fleet)
+			else:
+				pass
+	## paste autonomous garrisons
+	garrison = Image.open("%s/G-autonomous.png" % BASEDIR)
+	for g in s.setup_set.filter(country__isnull=True, unit_type='G'):
+		coords = (g.area.gtoken.x, g.area.gtoken.y)
+		base_map.paste(garrison, coords, garrison)
+	## save the map
+	result = base_map #.resize((1250, 1780), Image.ANTIALIAS)
+	filename = os.path.join(MAPSDIR, "scenario-%s.jpg" % s.pk)
+	result.save(filename)
+	make_thumb(filename)
+	return True
+
+def make_thumb(fd):
+	""" Make a thumbnail of the map image """
+	size = 187, 267
+	filename = os.path.split(fd)[1]
+	outfile = os.path.join(MAPSDIR, "thumbnails", filename)
+	im = Image.open(fd)
+	im.thumbnail(size, Image.ANTIALIAS)
+	im.save(outfile, "JPEG")

@@ -6,139 +6,67 @@
 
 {% block head_title %}{% blocktrans %}A Game Of Diplomacy And War{% endblocktrans %}{% endblock %}
 
-{% block body %}
+{% block left_column %}
 {% if not user.is_authenticated %}
+<div class="section">
 <h1>{% trans "Condottieri. A Game Of Diplomacy And War" %}</h1>
 <p>{% blocktrans %}Condottieri is a multiplayer, strategic game based on the classic game "Machiavelli" (a variant of "Diplomacy").{% endblocktrans %}</p>
 
 <p>{% blocktrans %}Condottieri is set in Reinassance Italy, and each player controls one of the powers that struggle to dominate the region. You will have to negotiate with other players in order to achieve this goal. Armies, fleets, garrisons and money are your best arguments in this negotiation. But beware: some of your allies will be willing to betray you for a piece of the cake.{% endblocktrans %}</p>
 
 <p>{% blocktrans %}Condottieri is a turn-based, slow-paced game. A typical game session will last for days or weeks, but you will have to spend only a few minutes every one or two days to play the game. Of course, you can play more than one game at a time.{% endblocktrans %}</p>
-
+</div>
 {% endif %}
 
-<h1>{% trans "Summary" %}</h1>
-<p>
-{% blocktrans %}This is a list of all the non-finished games in this server. The first are the ones that you are a player in. If a game has empty slots, you can join it. If you can't find any available games, you can also create one, but it's better if you join an existing game.{% endblocktrans %}
-</p>
-<p>
-{% blocktrans %}At this time, there are {{ activity }} people playing Condottieri games.{% endblocktrans %}
-</p>
-<h2>{% trans "Your games" %}</h2>
-<h3>{% trans "Ongoing games" %}</h3>
-<table>
-	<thead>
-	<tr>
-	<th>{% trans "Game" %}</th>
-	<th>{% trans "Scenario" %}</th>
-	<th>{% trans "Country" %}</th>
-	<th>{% trans "Year" %}</th>
-	<th>{% trans "Season" %}</th>
-	<th>{% trans "Phase" %}</th>
-	<th>{% trans "Time left" %}</th>
-	<th>{% trans "Rules" %}</th>
-	<th>{% trans "Unread" %}</th>
-	<th>{% trans "Ducats" %}</th>
-	</tr>
-	</thead>
-	{% for player in your_players %}
-	<tr>
-		<td><a href="{{ player.game.get_absolute_url }}">{{ player.game.slug }}</a></td>
-		<td><a href="{% url show-scenario player.game.scenario.pk %}">{{ player.game.scenario.title }}</a></td>
-		<td>{{ player.country }}</td>
-		<td class="data_c">
-		{% if player.game.year %}
-			{{ player.game.year }}
-		{% endif %}
-		</td>
-		<td class="data_c">
-		{% if player.game.season %}
-			{{ player.game.get_season_display }}
-		{% endif %}
-		</td>
-		<td class="data_c">{{ player.game.get_phase_display }}</td>
-		<td class="data_c">
-		{% if player.done %}
-			{% trans "Done" %}
-		{% else %}
-			{% if player.time_exceeded %}
-				<span style="color: LightCoral">
-					{{ player.game.next_phase_change|timeuntil }} 
-				</span>
-			{% else %}
-				<span style="color: Green">
-					{{ player.next_phase_change|timeuntil }}
-				</span>
-			{% endif %}
-		{% endif %}
-		</td>
-		<td>
-		{% rule_icons player.game.configuration %}
-		</td>
-		<td class="data_c">
-		<a href="{% url condottieri_messages_inbox player.game.slug %}">{{ player.unread_count }}</a>
-		</td>
-		<td class="data_c">{{ player.ducats }}</td>
-	</tr>
+<div class="section">
+<h2>{% trans "Unfinished actions" %}</h2>
+{% if actions %}
+	<p>{% blocktrans %}You must complete your actions in the following games:{% endblocktrans %}</p>
+	<dl>
+	{% for player in actions %}
+		<div class="mini_game">
+		<h3><a href="{% url show-game player.game.slug %}">{{ player.game.slug }}</a></h3>
+		<ul>
+		<li>{{ player.game.get_phase_display }} | <span class="{{ player.get_time_status }}">{{ player.game.next_phase_change|timeuntil }}</span></li>
+		</ul>
+		</div>
 	{% endfor %}
-</table>
-<h3>{% trans "Not started games" %}</h3>
-<table>
-	<thead>
-	<tr>
-	<th>{% trans "Game" %}</th>
-	<th>{% trans "Scenario" %}</th>
-	<th>{% trans "Creator" %}</th>
-	<th>{% trans "Time limit" %}</th>
-	<th>{% trans "Rules" %}</th>
-	<th>{% trans "Visible players" %}</th>
-	<th>{% trans "Slots" %}</th>
-	</tr>
-	</thead>
-	{% for player in your_pending %}
-	<tr>
-		<td><a href="{{ player.game.get_absolute_url }}">{{ player.game.slug }}</a></td>
-		<td><a href="{% url show-scenario player.game.scenario.pk %}">{{ player.game.scenario.title }}</a></td>
-		<td>{{ player.game.created_by }}</td>
-		<td>{{ player.game.get_time_limit_display }}</td>
-		<td>{% rule_icons player.game.configuration %}</td>
-		<td class="data_c">{{ player.game.visible|yesno }}</td>
-		<td>{{ player.game.slots }}
-			<a href="{% url leave-game player.game.slug %}">{% trans "Leave game" %}</a>
-		</td>
-	</tr>
-	{% endfor %}
-</table>
+	</dl>
+{% else %}
+	<p>{% blocktrans %}You have already completed all of your actions.{% endblocktrans %}</p>
+{% endif %}
+</div>
 
-<p><a href="{% url new-game %}">{% trans "New game" %}</a></p>
-
-<h2>{% trans "Games you can join" %}</h2>
-<table>
-	<thead>
-	<tr>
-	<th>{% trans "Game" %}</th>
-	<th>{% trans "Scenario" %}</th>
-	<th>{% trans "Creator" %}</th>
-	<th>{% trans "Time limit" %}</th>
-	<th>{% trans "Rules" %}</th>
-	<th>{% trans "Visible players" %}</th>
-	<th>{% trans "Slots" %}</th>
-	</tr>
-	</thead>
-	{% for game in available %}
-	<tr>
-		<td><a href="{{ game.get_absolute_url }}">{{ game.slug }}</a></td>
-		<td><a href="{% url show-scenario game.scenario.pk %}">{{ game.scenario.title }}</a></td>
-		<td>{{ game.created_by }}</td>
-		<td>{{ game.get_time_limit_display }}</td>
-		<td>{% rule_icons game.configuration %}</td>
-		<td class="data_c">{{ game.visible|yesno }}</td>
-		<td>{{ game.slots }}
-			<a href="{% url machiavelli.views.join_game game.slug %}">{% trans "Join game" %}</a>
-		</td>
-	</tr>
+<div class="section">
+<h2>{% trans "Join a game" %}</h2>
+{% if joinable_game %}
+<div class="mini_game">
+<h3><a href="{{ joinable_game.get_absolute_url }}">{{ joinable_game.slug }}</a></h3>
+<ul>
+<li>{% trans "Scenario" %}: <a href="{% url show-scenario joinable_game.scenario.pk %}">{{ joinable_game.scenario.title }}</a></li>
+<li>{% trans "Time limit" %}: {{ joinable_game.get_time_limit_display }}</li>
+<li>{% trans "Rules" %}: {% rule_icons joinable_game.configuration %}</li>
+<li>{% trans "Players" %}:</li>
+	{% if joinable_game.visible %}
+	<ul>
+	{% for p in joinable_game.player_set.all %}
+		{% if p.user %}
+		<li>{{ p.user.username }}</li>
+		{% endif %}
 	{% endfor %}
-</table>
+	</ul>
+	{% else %}
+	{% trans "Players are not visible" %}
+	{% endif %}
+	<ul>
+	<li><a href="{% url join-game joinable_game.slug %}">{% trans "Join game" %}</a></li>
+	</ul>
+</ul>
+</div>
+{% else %}
+	<p>{% blocktrans %}At this time there are no games waiting for players. Of course you can create a new one.{% endblocktrans %}</p>
+	<p><a href="{% url new-game %}">{% trans "New game" %}</a></p>
+{% endif %}
 
 {% if revolutions %}
 <h3>{% trans "Revolutions" %}</h3>
@@ -151,74 +79,32 @@
 <p>
 {% blocktrans %}In doing this, you will probably run a damaged country, so you will get some karma for your sacrifice.{% endblocktrans %}
 </p>
-<table>
-	<tr><thead>
-	<th>{% trans "Game" %}</th>
-	<th>{% trans "Country" %}</th>
-	<th>{% trans "Overthrow" %}</th>
-	</thead></tr>
 {% for r in revolutions %}
-	<tr>
-	<td><a href="{{ r.government.game.get_absolute_url }}">
-	{{ r.government.game.slug }}
-	</a></td>
-	<td>{{ r.government.country }}</td>
-	<td><a href="{% url machiavelli.views.overthrow r.pk %}">{% trans "Overthrow" %}</a></td>
-	</tr>
+	<div class="mini_game">
+	<h3><a href="{% url show-game r.government.game %}">{{ r.government.game.slug }}</a></h3>
+	<ul><li>{{ r.government.country }} | <a href="{% url overthrow r.pk %}">{% trans "Overthrow" %}</a></li></ul>
+	</div>
 {% endfor %}
-</table>
 {% endif %}
-
-<h2>{% trans "Games you are not playing" %}</h2>
-<table>
-	<thead>
-	<tr>
-	<th>{% trans "Game" %}</th>
-	<th>{% trans "Scenario" %}</th>
-	<th>{% trans "Year" %}</th>
-	<th>{% trans "Season" %}</th>
-	<th>{% trans "Phase" %}</th>
-	<th>{% trans "Rules" %}</th>
-	<th>{% trans "Visible players" %}</th>
-	</tr>
-	</thead>
-	{% for game in other_games %}
-	<tr>
-		<td><a href="{{ game.get_absolute_url }}">{{ game.slug }}</a></td>
-		<td><a href="{% url show-scenario game.scenario.pk %}">{{ game.scenario.title }}</a></td>
-		<td class="data_c">
-		{% if game.year %}
-			{{ game.year }}
-		{% endif %}
-		</td>
-		<td class="data_c">
-		{% if game.season %}
-			{{ game.get_season_display }}
-		{% endif %}
-		</td>
-		<td class="data_c">{{ game.get_phase_display }}</td>
-		<td>
-		{% rule_icons game.configuration %}
-		</td>
-		<td class="data_c">{{ game.visible|yesno }}</td>
-	</tr>
-	{% endfor %}
-</table>
-<p><a href="{% url new-game %}">{% trans "New game" %}</a></p>
+</div>
 
 
 {% if forum %}
+<div id="forum_latest" class="section">
 {% forum_latest_thread_activity 5 as latest_activity %}
 <h2>{% trans "Latest forum posts" %}</h2>
-
-<ul class="thread-list">
+<ul class="thread_list">
 {% for thread in latest_activity %}
 <li>
 <a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
-({% blocktrans with thread.thread_latest_post.author as author and thread.latest_post_time|timesince as time %}{{ time }} ago by {{ author }}{% endblocktrans %})
+<span class="thread_info">{% blocktrans with thread.thread_latest_post.author as author and thread.latest_post_time|timesince as time %}{{ time }} ago by {{ author }}{% endblocktrans %}</span>
 </li>
 {% endfor %}
 </ul>
+</div>
 {% endif %}
+
+
+
 
 {% endblock %}

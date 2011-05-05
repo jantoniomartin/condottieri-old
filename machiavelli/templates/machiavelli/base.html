@@ -1,6 +1,7 @@
 {% extends 'site_base.html' %}
 
 {% load i18n %}
+{% load avatar_tags %}
 
 {% block extra_head %}{% endblock %}
 
@@ -9,10 +10,42 @@
 
 {% block subnav %}
 <ul>
-<li><a href="{{ STATIC_URL }}machiavelli/img/{% trans "empty-map_en.jpg" %}" target="_blank">{% trans "Map" %}</a></li>
-<li><a href="{% url new-game %}">{% trans "New game" %}</a></li> 
-<li><a href="{% url game-list %}">{% trans "All games" %}</a></li>
-<li><a href="{% url hall-of-fame %}">{% trans "Hall of Fame" %}</a></li>
+<li><a href="{% url home %}">{% trans "Home" %}</a></li>
+<li><a href="{% url new-game %}">{% trans "New game" %}</a></li>
+<li><a href="{% url games-joinable %}">{% trans "Join game" %}</a></li> 
+{% if user.is_authenticated %}
+<li><a href="{% url games-my-active %}">{% trans "Active games" %}</a></li>
+<li><a href="{% url games-pending %}">{% trans "Pending games" %}</a></li>
+<li><a href="{% url games-my-finished %}">{% trans "Finished games" %}</a></li>
+{% else %}
+<li><a href="{% url games-other-active %}">{% trans "Active games" %}</a></li>
+<li><a href="{% url games-all-finished %}">{% trans "Finished games" %}</a></li>
+{% endif %}
 <li><a href="{% url scenario-list %}">{% trans "Scenarios" %}</a></li>
+<li><a href="{{ STATIC_URL }}machiavelli/img/{% trans "empty-map_en.jpg" %}" target="_blank">{% trans "Map" %}</a></li>
 </ul>
+{% endblock %}
+
+{% block body %}
+<div id="left_column">
+	{% block left_column %}{% endblock %}
+</div>
+<div id="right_column">
+
+<div id="activity_count">
+{% blocktrans %}<strong>{{ activity }}</strong> people playing right now.{% endblocktrans %}
+</div>
+
+<div id="top_users">
+<h2>{% trans "Best players" %}</h2>
+<ol>
+{% for profile in top_users %}
+	<li><a href="{% url profile_detail username=profile.user.username %}">{% avatar profile.user 24 %}</a>
+	<span>{{ profile.user.username }}</span>:
+	<span>{{ profile.total_score }} {% trans "points" %}</span></li>
+{% endfor %}
+</ol>
+</div>
+
+</div>
 {% endblock %}

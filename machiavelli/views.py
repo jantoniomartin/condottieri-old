@@ -63,44 +63,64 @@ else:
 
 from machiavelli.models import Unit
 
-#@login_required
-#@cache_page(15 * 60) # cache 15 minutes
+def sidebar_context(request):
+	context = {}
+	context.update( {'activity': Player.objects.values("user").distinct().count()} )
+	context.update( {'top_users': CondottieriProfile.objects.all().order_by('-total_score').select_related('user')[:5]} )
+	return context
+
 def summary(request):
-	activity = Player.objects.values("user").distinct().count()
+	context = sidebar_context(request)
+	context.update( {'forum': 'forum' in settings.INSTALLED_APPS} )
 	if request.user.is_authenticated():
-		your_players = Player.objects.filter(user=request.user, game__slots=0)
-		your_pending = Player.objects.filter(user=request.user, game__slots__gt=0)
-		available = Game.objects.filter(slots__gt=0).exclude(player__user=request.user)
-		other_games = Game.objects.filter(slots=0).exclude(phase=PHINACTIVE).exclude(player__user=request.user)
+		joinable = Game.objects.exclude(player__user=request.user).filter(slots__gt=0).order_by('slots').select_related('scenario', 'configuration', 'player__user')
+		my_games_ids = Game.objects.filter(player__user=request.user).values('id')
+		context.update( {'revolutions': Revolution.objects.filter(opposition__isnull=True).exclude(government__game__id__in=my_games_ids).select_related('gorvernment__game__country')} )
+		context.update( {'actions': Player.objects.filter(user=request.user, game__slots=0, done=False).select_related('game')} )
 	else:
-		your_players = Player.objects.none()
-		your_pending = Player.objects.none()
-		available = Game.objects.filter(slots__gt=0)
-		other_games = Game.objects.filter(slots=0).exclude(phase=PHINACTIVE)
-	revolutions = []
-	for r in Revolution.objects.filter(opposition__isnull=True):
-		if r.government.game in other_games:
-			revolutions.append(r)
-	context = {
-		'activity': activity,
-		'your_players': your_players,
-		'your_pending': your_pending,
-		'available': available,
-		'other_games': other_games,
-		'revolutions': revolutions,
-		'user': request.user,
-		'forum': 'forum' in settings.INSTALLED_APPS,
-	}
+		joinable = Game.objects.filter(slots__gt=0).order_by('slots').select_related('scenario', 'configuration', 'player__user')
+		context.update( {'revolutions': Revolution.objects.filter(opposition__isnull=True).select_related('government__game__country')} )
+	if joinable:
+		context.update( {'joinable_game': joinable[0]} )
 
 	return render_to_response('machiavelli/summary.html',
 							context,
 							context_instance=RequestContext(request))
 
-#@cache_page(10 * 60)
-def game_list(request):
-	""" Gets a paginated list of all the games in the server. """
-	all_games = Game.objects.all().order_by('-id')
-	paginator = Paginator(all_games, 10)
+@never_cache
+def my_active_games(request):
+	""" Gets a paginated list of all the ongoing games in which the user is a player. """
+	context = sidebar_context(request)
+	if request.user.is_authenticated():
+		my_players = Player.objects.filter(user=request.user, game__slots=0).select_related("country", "game__scenario", "game__configuration")
+	else:
+		my_players = Player.objects.none()
+	paginator = Paginator(my_players, 10)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		player_list = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		player_list = paginator.page(paginator.num_pages)
+	context.update( {
+		'player_list': player_list,
+		})
+
+	return render_to_response('machiavelli/game_list_my_active.html',
+							context,
+							context_instance=RequestContext(request))
+
+@never_cache
+def other_active_games(request):
+	""" Gets a paginated list of all the ongoing games in which the user is not a player """
+	context = sidebar_context(request)
+	if request.user.is_authenticated():
+		games = Game.objects.exclude(phase=PHINACTIVE).exclude(player__user=request.user)
+	else:
+		games = Game.objects.exclude(phase=PHINACTIVE)
+	paginator = Paginator(games, 10)
 	try:
 		page = int(request.GET.get('page', '1'))
 	except ValueError:
@@ -109,15 +129,91 @@ def game_list(request):
 		game_list = paginator.page(page)
 	except (EmptyPage, InvalidPage):
 		game_list = paginator.page(paginator.num_pages)
-	context = {
+	context.update( {
 		'game_list': game_list,
-		'user': request.user,
-		}
+		})
 
-	return render_to_response('machiavelli/game_list.html',
+	return render_to_response('machiavelli/game_list_active.html',
 							context,
 							context_instance=RequestContext(request))
 
+
+
+@never_cache
+def finished_games(request, only_user=False):
+	""" Gets a paginated list of the games that are finished """
+	context = sidebar_context(request)
+	games = Game.objects.filter(slots=0, phase=PHINACTIVE)
+	if only_user:
+		games = games.filter(player__user=request.user)
+	paginator = Paginator(games, 10)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		game_list = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		game_list = paginator.page(paginator.num_pages)
+	context.update( {
+		'game_list': game_list,
+		'only_user': only_user,
+		})
+
+	return render_to_response('machiavelli/game_list_finished.html',
+							context,
+							context_instance=RequestContext(request))
+
+@never_cache
+def joinable_games(request):
+	""" Gets a paginated list of all the games that the user can join """
+	context = sidebar_context(request)
+	if request.user.is_authenticated():
+		games = Game.objects.filter(slots__gt=0).exclude(player__user=request.user)
+	else:
+		games = Game.objects.filter(slots__gt=0)
+	paginator = Paginator(games, 10)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		game_list = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		game_list = paginator.page(paginator.num_pages)
+	context.update( {
+		'game_list': game_list,
+		'joinable': True,
+		})
+
+	return render_to_response('machiavelli/game_list_pending.html',
+							context,
+							context_instance=RequestContext(request))
+
+@never_cache
+@login_required
+def pending_games(request):
+	""" Gets a paginated list of all the games of the player that have not yet
+	started """
+	context = sidebar_context(request)
+	games = Game.objects.filter(slots__gt=0, player__user=request.user)
+	paginator = Paginator(games, 10)
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
+	try:
+		game_list = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		game_list = paginator.page(paginator.num_pages)
+	context.update( {
+		'game_list': game_list,
+		'joinable': False,
+		})
+
+	return render_to_response('machiavelli/game_list_pending.html',
+							context,
+							context_instance=RequestContext(request))	
 
 def base_context(request, game, player):
 	context = {
@@ -561,7 +657,8 @@ def create_game(request):
 	if karma < settings.KARMA_TO_JOIN:
 		return low_karma_error(request)
 	##
-	context = {'user': request.user,}
+	context = sidebar_context(request)
+	context.update( {'user': request.user,})
 	if request.method == 'POST':
 		game_form = forms.GameForm(request.user, data=request.POST)
 		if game_form.is_valid():
@@ -680,9 +777,9 @@ def reset_excommunications(request, slug):
 #@cache_page(60 * 60)
 def scenario_list(request):
 	""" Gets a list of all the enabled scenarios. """
-	
+	context = sidebar_context(request)	
 	scenarios = Scenario.objects.filter(enabled=True)
-	context = {'scenarios': scenarios, }
+	context.update( {'scenarios': scenarios, })
 
 	return render_to_response('machiavelli/scenario_list.html',
 							context,

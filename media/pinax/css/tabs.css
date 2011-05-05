@@ -7,7 +7,7 @@
 }
 #right_tabs {
     position: absolute;
-    right: 15px;
+    right: -1px;
     bottom: -1px; /* must be same thickness as tab border */
 }
 
@@ -17,14 +17,18 @@ ul.tabs a, ul.tabs a:visited {
     text-decoration: none;
 }
 ul.tabs a:hover {
-    color: #DDD; /* unselected tab text hover colour */
+    color: #ddd; /* unselected tab text hover colour */
+	background: #9f2727;
 }
 ul.tabs li {
     list-style-type: none;
     display: inline;
-    background-color: #444; /* unselected tab colour */
+    background-color: #111; /* unselected tab colour */
+	border-left: solid 1px #9f2727; 
+	border-top: solid 1px #9f2727; 
+	border-right: solid 1px #9f2727; 
     padding: 5px 0 4px;
-    margin: 0 1px; /* to compensate for border */
+    margin: 0; /* to compensate for border */
 }
 ul.tabs li a {
     padding: 5px 12px;
