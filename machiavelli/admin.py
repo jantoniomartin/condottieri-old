@@ -1,5 +1,7 @@
-from machiavelli.models import *
 from django.contrib import admin
+
+from machiavelli.models import *
+from machiavelli.graphics import make_scenario_map
 
 class SetupInline(admin.TabularInline):
 	model = Setup
@@ -24,6 +26,12 @@ class CityIncomeInline(admin.TabularInline):
 class ScenarioAdmin(admin.ModelAdmin):
 	list_display = ('title', 'start_year')
 	inlines = [HomeInline, SetupInline, TreasuryInline, CityIncomeInline,]
+	actions = ['make_map',]
+	
+	def make_map(self, request, queryset):
+		for obj in queryset:
+			make_scenario_map(obj)
+	make_map.short_description = "Make initial map"
 
 class CountryAdmin(admin.ModelAdmin):
 	list_display = ('name', 'css_class')

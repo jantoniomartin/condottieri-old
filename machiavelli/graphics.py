@@ -100,7 +100,7 @@ def make_scenario_map(s):
 	base_map = Image.open(os.path.join(BASEDIR, BASEMAP))
 	for c in s.get_countries():
 		## paste control markers and flags
-		controls = c.home_set.filter(scenario=s, is_home=True)
+		controls = s.home_set.filter(country=c, is_home=True)
 		marker = Image.open("%s/control-%s.png" % (BASEDIR, c.static_name))
 		flag = Image.open("%s/flag-%s.png" % (BASEDIR, c.static_name))
 		for h in controls:
@@ -110,7 +110,7 @@ def make_scenario_map(s):
 		army = Image.open("%s/A-%s.png" % (BASEDIR, c.static_name))
 		fleet = Image.open("%s/F-%s.png" % (BASEDIR, c.static_name))
 		garrison = Image.open("%s/G-%s.png" % (BASEDIR, c.static_name))
-		for setup in c.setup_set.all():
+		for setup in c.setup_set.filter(scenario=s):
 			if setup.unit_type == 'G':
 				coords = (setup.area.gtoken.x, setup.area.gtoken.y)
 				base_map.paste(garrison, coords, garrison)
