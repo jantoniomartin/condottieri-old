@@ -68,6 +68,7 @@ ol, ul {
 #tabhead {
 	position: relative;
 	width: 80%;
+	min-width: 960px;
 	margin: 0 auto;
 	padding: 0 10px;
 	border-left: solid 2px #666;
@@ -91,6 +92,7 @@ ol, ul {
     margin: 0 auto;
     padding: 0 10px;
 	width: 80%;
+	min-width: 960px;
     background: #191919; /* tab colour */
     border-bottom: 1px solid #666;
 	border-left: solid 2px #666;
@@ -123,6 +125,7 @@ ol, ul {
 	margin: 0 auto;
 	padding: 10px;
 	width: 80%;
+	min-width: 960px;
 	background: #3a3a3a;
 	color: #fff3d3;
 	border-left: solid 2px #666;
@@ -209,6 +212,7 @@ ul#messages li {
 #footer {
 	clear: both;
 	width: 80%;
+	min-width: 960px;
 	margin: 0 auto;
 	padding: 10px 10px;
 	background: #191919;
