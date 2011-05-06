@@ -315,6 +315,11 @@ ul#messages li {
 	line-height: 48px;
 }
 
+.game_info .time {
+	margin-left: 1em;
+	font-size: 80%;
+}
+
 .game_info dl {
 	margin: 1em 1em 1em;
 }
