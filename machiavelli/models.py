@@ -423,6 +423,7 @@ class Game(models.Model):
 				self.assign_initial_income()
 			#self.map_outdated = True
 			self.make_map()
+			self.started = datetime.now()
 			self.last_phase_change = datetime.now()
 			self.notify_players("game_started", {"game": self})
 		self.save()
@@ -1424,6 +1425,7 @@ class Game(models.Model):
 
 	def game_over(self):
 		self.phase = PHINACTIVE
+		self.finished = datetime.now()
 		self.save()
 		self.notify_players("game_over", {"game": self})
 		self.tweet_message("The game %(game)s is over" % {'game': self.slug})
