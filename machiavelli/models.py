@@ -1736,6 +1736,10 @@ class Player(models.Model):
 			self.eliminated = True
 			self.save()
 			signals.country_eliminated.send(sender=self, country=self.country)
+			if logging:
+				msg = "Game %s: player %s has been eliminated." % (self.game.pk,
+															self.pk)
+				logging.info(msg)
 			for unit in self.unit_set.all():
 				unit.delete()
 			for area in self.gamearea_set.all():
@@ -1751,6 +1755,9 @@ class Player(models.Model):
 	def set_conqueror(self, player):
 		if player != self:
 			signals.country_conquered.send(sender=self, country=self.country)
+			if logging:
+				msg = "Player %s conquered by player %s" % (self.pk, player.pk)
+				logging.info(msg)
 			self.conqueror = player
 			if self.game.configuration.finances:
 				if self.ducats > 0:
@@ -1784,6 +1791,9 @@ class Player(models.Model):
 			self.excommunicated = self.game.year
 		self.save()
 		signals.country_excommunicated.send(sender=self)
+		if logging:
+			msg = "Player %s excommunicated" % self.pk
+			logging.info(msg)
 
 	def end_phase(self, forced=False):
 		self.done = True
@@ -1796,9 +1806,13 @@ class Player(models.Model):
 				self.user.get_profile().adjust_karma(1)
 			## delete possible revolutions
 			Revolution.objects.filter(government=self).delete()
+			msg = "Player %s ended phase" % self.pk
 		else:
 			self.force_phase_change()
+			msg = "Player %s forced to end phase" % self.pk
 		#self.game.check_next_phase()
+		if logging:
+			logging.info(msg)
 
 	def new_phase(self):
 		## check that the player is not autonomous and is not eliminated
@@ -1987,7 +2001,9 @@ class Player(models.Model):
 		self.ducats = F('ducats') + d
 		self.save()
 		signals.income_raised.send(sender=self, ducats=d)
-
+		if logging:
+			msg = "Player %s raised %s ducats." % (self.pk, d)
+			logging.info(msg)
 
 class Revolution(models.Model):
 	""" A Revolution instance means that ``government`` is not playing, and
