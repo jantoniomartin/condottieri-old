@@ -31,7 +31,7 @@
 </div>
 {% if game.started and game.finished %}
 <div class="time">
-{% blocktrans with game.finished|date:"SHORT_DATE_FORMAT" as finished game.finished|timeuntil:game.started as time %}
+{% blocktrans with game.finished|date:"SHORT_DATE_FORMAT" as finished and game.finished|timeuntil:game.started as time %}
 Finished on {{ finished }} after {{ time }}.{% endblocktrans %}
 </div>
 {% endif %}
