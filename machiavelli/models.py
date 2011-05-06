@@ -1748,31 +1748,6 @@ class Player(models.Model):
 					self.game.player_set.all().update(excommunicated=None)
 		
 
-	def deprecated_check_eliminated(self):
-		""" If the player has lost all his home cities, eliminates him and disbands
-		all his units. Also deletes a possible revolution, and his control flags.
-
-		If excommunication rule is being used, clear excommunications.
-		.. Warning::
-			This only should be used while there's only one country that can excommunicate.
-		"""
-
-		if self.user:
-			if len(self.controlled_home_cities()) <= 0:
-				self.eliminated = True
-				self.save()
-				for unit in self.unit_set.all():
-					unit.delete()
-				for area in self.gamearea_set.all():
-					area.player = None
-					area.save()
-				for rev in self.revolution_set.all():
-					rev.delete()
-				if self.game.configuration.excommunication:
-					if self.country.can_excommunicate:
-						self.game.player_set.all().update(excommunicated=None)
-		return self.eliminated
-
 	def set_conqueror(self, player):
 		if player != self:
 			signals.country_conquered.send(sender=self, country=self.country)
