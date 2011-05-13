@@ -59,8 +59,7 @@ def make_order_form(player):
 		units_qs = Unit.objects.filter(Q(player=player) | Q(id__in=bought_ids))
 	else:
 		units_qs = player.unit_set.all()
-	all_units = Unit.objects.filter(player__game=player.game,
-									player__user__isnull=False).order_by('area__board_area__name')
+	all_units = Unit.objects.filter(player__game=player.game).order_by('area__board_area__name')
 	all_areas = player.game.gamearea_set.order_by('board_area__code')
 	
 	class OrderForm(forms.ModelForm):
