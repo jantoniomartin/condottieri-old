@@ -560,14 +560,15 @@ class Game(models.Model):
 				if self.phase == PHREINFORCE:
 					if self.configuration.finances:
 						units = Unit.objects.filter(player=p).order_by('id')
-						payable = p.ducats / 3
+						ducats = p.ducats
+						payable = ducats / 3
 						cost = 0
 						if payable > 0:
 							for u in units[:payable]:
 								u.paid = True
 								u.save()
 								cost += 3
-						p.ducats = F('ducats') - cost
+						p.ducats = ducats - cost
 						p.save()
 					else:
 						units = Unit.objects.filter(player=p).order_by('-id')
