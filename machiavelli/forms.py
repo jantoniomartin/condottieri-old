@@ -38,8 +38,7 @@ class ConfigurationForm(forms.ModelForm):
 
 	class Meta:
 		model = Configuration
-		exclude = ('finances',
-				'assassinations',
+		exclude = ('assassinations',
 				'bribes',
 				'special_units',
 				'strategic',
