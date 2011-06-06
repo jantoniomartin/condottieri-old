@@ -63,6 +63,7 @@
 	</ul>
 </ul>
 </div>
+<p><a href="{% url games-joinable %}">{% trans "Other games waiting for players" %}</a></p>
 {% else %}
 	<p>{% blocktrans %}At this time there are no games waiting for players. Of course you can create a new one.{% endblocktrans %}</p>
 	<p><a href="{% url new-game %}">{% trans "New game" %}</a></p>
