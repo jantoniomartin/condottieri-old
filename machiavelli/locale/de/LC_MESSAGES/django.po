@@ -789,7 +789,7 @@ msgstr "Zahlungseingang"
 
 #: management/base.py:21
 msgid "you have received some ducats"
-msgstr "jemand hat dich einige Dukaten überwiesen"
+msgstr "jemand hat dir einige Dukaten überwiesen"
 
 #: management/base.py:23
 msgid "Overthrow attempt"
@@ -1540,14 +1540,14 @@ msgstr ""
 
 #: templates/machiavelli/orders_actions.html:6
 msgid "Orders writing"
-msgstr "Aufträge schreiben"
+msgstr "Schreiben Befehle"
 
 #: templates/machiavelli/orders_actions.html:8
 msgid ""
 "At least one player has not yet sent his orders. You have to wait until all\n"
 "players have done it or the time limit is reached."
 msgstr ""
-"Mindestens hat ein Spieler seine Aufträge nicht gesendet. Du musst warten, "
+"Mindestens hat ein Spieler seine Befehle nicht gesendet. Du musst warten, "
 "bis alle\n"
 "Spieler es gemacht haben oder die Zeitlimit erreicht wird."
 
@@ -1555,7 +1555,7 @@ msgstr ""
 msgid ""
 "These are the valid orders (except Hold orders) that you have sent this turn:"
 msgstr ""
-"Diese sind die gültigen Aufträge (außer ,halten' Aufträge), dass du gesendet "
+"Diese sind die gültigen Befehle (außer ,halten' Befehl), dass du gesendet "
 "hast:"
 
 #: templates/machiavelli/orders_actions.html:12
@@ -1567,9 +1567,9 @@ msgid ""
 "it.\n"
 msgstr ""
 "\n"
-"In der nächsten Formular kannst du einen Auftrag für eine ihrer Einheiten "
-"erteilen. Du kannst nicht zwei Aufträge zur gleichen Einheit geben.\n"
-"Wenn eine Einheit muss nichts machen, wähl den \"Halten\" Auftrag für sie.\n"
+"In der nächsten Formular kannst du einen Befehl für eine ihrer Einheiten "
+"erteilen. Du kannst nicht zwei Befehle zur gleichen Einheit geben.\n"
+"Wenn eine Einheit muss nichts machen, wähl den \"Halten\" Befehl für sie.\n"
 
 #: templates/machiavelli/orders_actions.html:16
 msgid ""
@@ -1577,13 +1577,13 @@ msgid ""
 "you will have to fix the order. However, if you compose an impossible order, "
 "this unit will hold, instead of carrying out its order. Be careful."
 msgstr ""
-"Wenn du einen Auftrag erteilst, der die Regeln bricht, bekommst du einen "
-"Fehler und musst du den Auftrag richtigstellen. Trotzdem, wenn du einen "
-"unmöglichen Auftrag erteilst, wird die Einheit halten. Sei vorsichtig!"
+"Wenn du einen Befehl erteilst, der die Regeln bricht, bekommst du einen "
+"Fehler und musst du den Befehl richtigstellen. Trotzdem, wenn du einen "
+"unmöglichen Befehl erteilst, wird die Einheit halten. Sei vorsichtig!"
 
 #: templates/machiavelli/orders_actions.html:31
 msgid "Sent orders"
-msgstr "Gesendete Aufträge"
+msgstr "Gesendete Befehle"
 
 #: templates/machiavelli/orders_actions.html:37
 #: templates/machiavelli/orders_actions.html:76
@@ -1607,8 +1607,8 @@ msgid ""
 "The orders above are saved but <strong>are not confirmed</strong>. If you "
 "don't confirm your orders, they will be ignored."
 msgstr ""
-"Die vorstehenden Aufträge sind gespeichert, aber sie sind <strong>nicht "
-"bestätigt</strong>. Wenn du bestätigst nicht die Aufträge, sie werden "
+"Die vorstehenden Befehle sind gespeichert, aber sie sind <strong>nicht "
+"bestätigt</strong>. Wenn du bestätigst nicht die Befehle, sie werden "
 "ignoriert."
 
 #: templates/machiavelli/orders_actions.html:62
@@ -1617,8 +1617,8 @@ msgid ""
 "delete them. To confirm the orders and end your phase, click the \"Confirm\" "
 "button."
 msgstr ""
-"Nachdem du deine Aufträge bestätigt hast, kannst du nicht sie ändern oder "
-"löschen. Um deine Aufträge bestätigen, drück den Button \"Bestätigen\" "
+"Nachdem du deine Befehle bestätigt hast, kannst du nicht sie ändern oder "
+"löschen. Um deine Befehle bestätigen, drück den Button \"Bestätigen\" "
 
 #: templates/machiavelli/orders_actions.html:64
 msgid ""
@@ -1871,7 +1871,7 @@ msgstr "Unbeendete Aufgaben"
 
 #: templates/machiavelli/summary.html:24
 msgid "You must complete your actions in the following games:"
-msgstr "In diesen Spielen musst deine Aktionen machen:"
+msgstr "In diesen Spielen musst du deine Aktionen machen:"
 
 #: templates/machiavelli/summary.html:36
 msgid "You have already completed all of your actions."
