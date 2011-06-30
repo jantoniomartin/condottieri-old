@@ -9,7 +9,8 @@ from machiavelli.models import *
 import machiavelli.utils as utils
 
 class GameForm(forms.ModelForm):
-	slug = forms.SlugField(label=_("Slug"))
+	slug = forms.SlugField(label=_("Slug"),
+		help_text=_("Only letters, numbers, hyphens and underscores"))
 	scenario = forms.ModelChoiceField(queryset=Scenario.objects.filter(enabled=True),
 									empty_label=None,
 									cache_choices=True,
