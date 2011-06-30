@@ -143,7 +143,7 @@ def other_active_games(request):
 def finished_games(request, only_user=False):
 	""" Gets a paginated list of the games that are finished """
 	context = sidebar_context(request)
-	games = Game.objects.filter(slots=0, phase=PHINACTIVE)
+	games = Game.objects.filter(slots=0, phase=PHINACTIVE).order_by("-finished")
 	if only_user:
 		games = games.filter(score__user=request.user)
 	paginator = Paginator(games, 10)
