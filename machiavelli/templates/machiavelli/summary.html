@@ -44,6 +44,7 @@
 <h3><a href="{{ joinable_game.get_absolute_url }}">{{ joinable_game.slug }}</a></h3>
 <ul>
 <li>{% trans "Scenario" %}: <a href="{% url show-scenario joinable_game.scenario.pk %}">{{ joinable_game.scenario.title }}</a></li>
+<li>{% trans "Cities to win" %}: {{ game.cities_to_win }}</li>
 <li>{% trans "Time limit" %}: {{ joinable_game.get_time_limit_display }}</li>
 <li>{% trans "Rules" %}: {% rule_icons joinable_game.configuration %}</li>
 <li>{% trans "Players" %}:</li>
