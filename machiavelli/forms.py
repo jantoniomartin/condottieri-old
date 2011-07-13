@@ -8,6 +8,11 @@ from django.utils.translation import ugettext_lazy as _
 from machiavelli.models import *
 import machiavelli.utils as utils
 
+CITIES_TO_WIN = (
+	(15, _('Normal game (15 cities)')),
+	(23, _('Long game (23 cities)')),
+)
+
 class GameForm(forms.ModelForm):
 	slug = forms.SlugField(label=_("Slug"),
 		help_text=_("Only letters, numbers, hyphens and underscores"))
@@ -16,6 +21,7 @@ class GameForm(forms.ModelForm):
 									cache_choices=True,
 									label=_("Scenario"))
 	time_limit = forms.ChoiceField(choices=TIME_LIMITS, label=_("Time limit"))
+	cities_to_win = forms.ChoiceField(choices=CITIES_TO_WIN, label=_("How to win"))
 	visible = forms.BooleanField(required=False, label=_("Visible players?"))
 	
 	def __init__(self, user, **kwargs):

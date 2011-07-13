@@ -340,6 +340,7 @@ class Game(models.Model):
 	last_phase_change = models.DateTimeField(blank=True, null=True)
 	started = models.DateTimeField(blank=True, null=True)
 	finished = models.DateTimeField(blank=True, null=True)
+	cities_to_win = models.PositiveIntegerField(default=15)
 
 	##------------------------
 	## representation methods
