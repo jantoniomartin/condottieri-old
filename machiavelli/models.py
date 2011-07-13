@@ -1387,7 +1387,7 @@ class Game(models.Model):
 		""" Returns True if at least one player has reached the cities_to_win. """
 
 		for p in self.player_set.filter(user__isnull=False):
-			if p.number_of_cities() >= self.scenario.cities_to_win:
+			if p.number_of_cities() >= self.cities_to_win:
 				return True
 		return False
 		
