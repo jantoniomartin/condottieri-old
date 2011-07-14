@@ -1235,6 +1235,9 @@ class Game(models.Model):
 		for b in besiegers:
 			info += u"%s besieges " % b
 			mode = ''
+			if b.player.assassinated:
+				info += u"\n%s belongs to an assassinated player.\n"
+				continue
 			try:
 				defender = Unit.objects.get(player__game=self,
 										type__exact='G',
