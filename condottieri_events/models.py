@@ -488,6 +488,7 @@ COUNTRY_EVENTS = (
 	(1, _('Has been conquered')),
 	(2, _('Has been declared enemy of Christendom')),
 	(3, _('Has been eliminated')),
+	(4, _('Leader has been assassinated')),
 )
 
 class CountryEvent(BaseEvent):
@@ -502,6 +503,8 @@ class CountryEvent(BaseEvent):
 	* The country has been excommunicated.
 
 	* The country has been eliminated.
+
+	* The leader has been assassinated.
 	
 	Each condition must have its own signal.
 	"""
@@ -552,6 +555,15 @@ def log_elimination(sender, **kwargs):
 					message = 3)
 
 country_eliminated.connect(log_elimination)
+
+def log_assassination(sender, **kwargs):
+	assert isinstance(sender, Player), "sender must be a Player"
+	log_event(CountryEvent, sender.game,
+					classname="CountryEvent",
+					country = kwargs['country'],
+					message = 4)
+
+player_assassinated.connect(log_assassination)
 
 DISASTER_EVENTS = (
 	(0, _('%(area)s is affected by famine.')),
