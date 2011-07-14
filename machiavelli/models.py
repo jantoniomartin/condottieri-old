@@ -1856,6 +1856,11 @@ class Player(models.Model):
 			msg = "Player %s excommunicated" % self.pk
 			logging.info(msg)
 
+	def assassinate(self):
+		self.assassinated = True
+		self.save()
+		signals.player_assassinated.send(sender=self)
+
 	def end_phase(self, forced=False):
 		self.done = True
 		self.step = 0
