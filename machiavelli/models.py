@@ -665,7 +665,7 @@ class Game(models.Model):
 				## if a player is assassinated, all his orders become 'H'
 				for p in self.player_set.filter(assassinated=True):
 					p.cancel_orders()
-					for area in p.gamearea_set.exclude(is_sea=True):
+					for area in p.gamearea_set.exclude(board_area__is_sea=True):
 						area.check_assassination_rebellion()
 			self.process_orders()
 			Order.objects.filter(unit__player__game=self).delete()

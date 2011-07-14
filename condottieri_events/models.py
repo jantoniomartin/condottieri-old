@@ -560,7 +560,7 @@ def log_assassination(sender, **kwargs):
 	assert isinstance(sender, Player), "sender must be a Player"
 	log_event(CountryEvent, sender.game,
 					classname="CountryEvent",
-					country = kwargs['country'],
+					country = sender.country,
 					message = 4)
 
 player_assassinated.connect(log_assassination)
