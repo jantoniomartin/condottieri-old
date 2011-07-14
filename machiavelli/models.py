@@ -2848,4 +2848,12 @@ class Rebellion(models.Model):
 		if signals:
 			signals.rebellion_started.send(sender=self.area)
 	
+class Loan(models.Model):
+	""" A Loan describes a quantity of money that a player borrows from the bank, with a term """
+	player = models.OneToOneField(Player)
+	debt = models.PositiveIntegerField(default=0)
+	season = models.PositiveIntegerField(choices=SEASONS)
+	year = models.PositiveIntegerField(default=0)
 
+	def __unicode__(self):
+		return "%(player)s ows %(debt)s ducats" % {'player': self.player, 'debt': self.debt, }
