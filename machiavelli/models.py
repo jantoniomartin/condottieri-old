@@ -2076,6 +2076,15 @@ class Player(models.Model):
 			msg = "Player %s raised %s ducats." % (self.pk, d)
 			logging.info(msg)
 
+	def get_credit(self):
+		""" Returns the number of ducats that the player can borrow from the bank. """
+		if self.defaulted:
+			return 0
+		credit = self.gamearea_set.count() + self.unit_set.count()
+		if credit > 25:
+			credit = 25
+		return credit
+
 class Revolution(models.Model):
 	""" A Revolution instance means that ``government`` is not playing, and
 	``opposition`` is trying to replace it.
