@@ -708,6 +708,8 @@ class Game(models.Model):
 					except Exception, e:
 						print "Error assigning incomes in game %s:\n" % self.id
 						print e
+			## reset assassinations
+			self.player_set.all().update(assassinated=False)
 			self._next_season()
 			if self.season == 1:
 				## if there are not finances all units are paid
