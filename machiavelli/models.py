@@ -1582,6 +1582,7 @@ class Player(models.Model):
 	eliminated = models.BooleanField(default=False)
 	conqueror = models.ForeignKey('self', related_name='conquered', blank=True, null=True)
 	excommunicated = models.PositiveIntegerField(blank=True, null=True)
+	assassinated = models.BooleanField(default=False)
 	ducats = models.PositiveIntegerField(default=0)
 	double_income = models.BooleanField(default=False)
 	may_excommunicate = models.BooleanField(default=False)
