@@ -1236,7 +1236,7 @@ class Game(models.Model):
 			info += u"%s besieges " % b
 			mode = ''
 			if b.player.assassinated:
-				info += u"\n%s belongs to an assassinated player.\n"
+				info += u"\n%s belongs to an assassinated player.\n" % b
 				continue
 			try:
 				defender = Unit.objects.get(player__game=self,
@@ -1280,6 +1280,16 @@ class Game(models.Model):
 						signals.siege_started.send(sender=b)
 					else:
 						self.log_event(UnitEvent, type=b.type, area=b.area.board_area, message=3)
+					if mode == 'garrison' and defender.player.assassinated:
+						info += u"Player is assassinated. Garrison surrenders\n"
+						if signals:
+							signals.unit_surrendered.send(sender=defender)
+						else:
+							self.log_event(UnitEvent, type=defender.type,
+												area=defender.area.board_area,
+												message=2)
+						defender.delete()
+						b.besieging = False	
 					b.save()
 			b.delete_order()
 		return info
