@@ -661,6 +661,10 @@ class Game(models.Model):
 		elif self.phase == PHORDERS:
 			if self.configuration.finances:
 				self.process_expenses()
+			if self.configuration.assassinations or self.configuration.lenders:
+				## if a player is assassinated, all his orders become 'H'
+				for p in self.player_set.filter(assassinated=True):
+					p.cancel_orders()
 			self.process_orders()
 			Order.objects.filter(unit__player__game=self).delete()
 			retreats_count = Unit.objects.filter(player__game=self).exclude(must_retreat__exact='').count()
@@ -1705,6 +1709,10 @@ class Player(models.Model):
 		areas = areas.exclude(id__in=excludes)
 		return areas
 
+	def cancel_orders(self):
+		""" Delete all the player's orders """
+		self.order_set.all().delete()
+	
 	def check_eliminated(self):
 		""" Before updating controls, check if the player is eliminated.
 
