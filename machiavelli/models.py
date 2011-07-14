@@ -1571,6 +1571,10 @@ class GameArea(models.Model):
 		rebellion appears in the game area. """
 		if self.board_area.is_sea:
 			return False
+		## if there are units of other players in the area, there is no rebellion
+		## this is not too clear in the rules
+		if Unit.objects.filter(area=self).exclude(player=self.player).count() > 0:
+			return False
 		if not self.has_rebellion(self.player):
 			result = False
 			die = dice.roll_1d6()
