@@ -342,8 +342,15 @@ def make_expense_form(player):
 	
 	return ExpenseForm
 
-
 class LendForm(forms.Form):
 	ducats = forms.IntegerField(required=True, min_value=0)
-	
+
+TERMS = (
+	(1, _("1 year, 20%")),
+	(2, _("2 years, 50%")),
+)
+
+class BorrowForm(forms.Form):
+	ducats = forms.IntegerField(required=True, min_value=0, label=_("Ducats to borrow"))
+	term = forms.ChoiceField(required=True, choices=TERMS, label=_("Term and interest"))
 

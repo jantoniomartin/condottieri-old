@@ -20,6 +20,7 @@
 
 ## stdlib
 from datetime import datetime
+from math import ceil
 
 ## django
 from django.http import HttpResponseRedirect, Http404, HttpResponse
@@ -935,5 +936,47 @@ def give_money(request, slug, player_id):
 	context['borrower'] = borrower
 
 	return render_to_response('machiavelli/give_money.html',
+							context,
+							context_instance=RequestContext(request))
+
+@login_required
+def borrow_money(request, slug):
+	game = get_object_or_404(Game, slug=slug)
+	if game.phase != PHORDERS or not game.configuration.lenders:
+		return game_error(request, game, _("You cannot borrow money in this moment."))
+	player = get_object_or_404(Player, user=request.user, game=game)
+	context = base_context(request, game, player)
+	credit = player.get_credit()
+	try:
+		player.loan
+	except ObjectDoesNotExist:
+		pass
+	else:
+		return game_error(request, game, _("You already have a loan."))
+	context.update({'credit': credit})
+	if request.method == 'POST':
+		form = forms.BorrowForm(request.POST)
+		if form.is_valid():
+			ducats = form.cleaned_data['ducats']
+			term = int(form.cleaned_data['term'])
+			if ducats > credit:
+				return game_error(request, game, _("You cannot borrow so much money."))
+			loan = Loan(player=player, season=game.season)
+			if term == 1:
+				loan.debt = int(ceil(ducats * 1.2))
+			elif term == 2:
+				loan.debt = int(ceil(ducats * 1.5))
+			else:
+				return game_error(request, game, _("The chosen term is not valid."))
+			loan.year = game.year + term
+			loan.save()
+			player.ducats = F('ducats') + ducats
+			player.save()
+			return redirect('show-game', slug=slug)
+	else:
+		form = forms.BorrowForm()
+	context.update({'form': form})
+
+	return render_to_response('machiavelli/borrow_money.html',
 							context,
 							context_instance=RequestContext(request))
