@@ -665,6 +665,8 @@ class Game(models.Model):
 				## if a player is assassinated, all his orders become 'H'
 				for p in self.player_set.filter(assassinated=True):
 					p.cancel_orders()
+					for area in p.gamearea_set.exclude(is_sea=True):
+						area.check_assassination_rebellion()
 			self.process_orders()
 			Order.objects.filter(unit__player__game=self).delete()
 			retreats_count = Unit.objects.filter(player__game=self).exclude(must_retreat__exact='').count()
@@ -1563,6 +1565,38 @@ class GameArea(models.Model):
 		except ObjectDoesNotExist:
 			return False
 		return reb
+
+	def check_assassination_rebellion(self):
+		""" When a player is assassinated this function checks if a new
+		rebellion appears in the game area. """
+		if self.board_area.is_sea:
+			return False
+		if not self.has_rebellion(self.player):
+			result = False
+			die = dice.roll_1d6()
+			try:
+				Unit.objects.get(area=self, player=self.player)
+			except ObjectDoesNotExist:
+				occupied = False
+			else:
+				occupied = True
+			## the province is a home province
+			if self in self.player.home_country():
+				if occupied and die == 1:
+					result = True
+				elif not occupied and die in (1, 2):
+					result = True
+			## the province is conquered
+			else:
+				if occupied and die in (1, 2, 3):
+					result = True
+				elif not occupied and die != 6:
+					result = True
+			if result:
+				rebellion = Rebellion(area=self)
+				rebellion.save()
+		return False
+			
 
 def check_min_karma(sender, instance=None, **kwargs):
 	if isinstance(instance, CondottieriProfile):
