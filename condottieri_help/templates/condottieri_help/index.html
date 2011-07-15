@@ -52,6 +52,49 @@
 <p>{% blocktrans %}In this phase you may choose one of the available orders for each of your units. If you choose no order for a unit, this unit will hold its position. Orders will be automatically resolved at the end of this phase.{% endblocktrans %}</p>
 <p>{% blocktrans %}If finances are being used, you may expend some of your ducats in this phase.{% endblocktrans %}</p>
 <p>{% blocktrans %}If the time limit is reached and you have not sent your orders, all of your units will hold their positions.{% endblocktrans %}</p>
+<h3>{% trans "Expenses" %}</h3>
+<p>{% blocktrans %}You may expend some of your ducats to affect an area or a unit in different ways. Expenses take effect just before the conflicts resolution.{% endblocktrans %}</p>
+<p>{% blocktrans %}Some of the expenses are 'bribes'. You can only bribe a unit that is adjacent to one of your controlled provinces or to one of your units. Note that bribes can be countered, and that you can pay more money to make the bribe more expensive to counter. Also, if a unit is affected by more than one bribe only the best paid is applied, and the money for the others is wasted.{% endblocktrans%}</p>
+<p>{% blocktrans %}The following is a summary of all the available expenses:{% endblocktrans %}</p>
+<table style="width: 50%">
+<thead><tr>
+<th>{% trans "Expense" %}</th>
+<th>{% trans "Cost" %}</th>
+<th>{% trans "Bribe" %}</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>{% trans "Famine relief" %}</td><td>3</td><td>{% trans "No" %}</td>
+</tr>
+<tr>
+<td>{% trans "Pacify rebellion" %}</td><td>12</td><td>{% trans "No" %}</td>
+</tr>
+<tr>
+<td>{% trans "Conquered province to rebel" %}</td><td>9</td><td>{% trans "No" %}</td>
+</tr>
+<tr>
+<td>{% trans "Home province to rebel" %}</td><td>15</td><td>{% trans "No" %}</td>
+</tr>
+<tr>
+<td>{% trans "Counter bribe" %}</td><td>3+</td><td>{% trans "No" %}</td>
+</tr>
+<tr>
+<td>{% trans "Disband autonomous garrison" %}</td><td>6+</td><td>{% trans "Yes" %}</td>
+</tr>
+<tr>
+<td>{% trans "Buy autonomous garrison" %}</td><td>9+</td><td>{% trans "Yes" %}</td>
+</tr>
+<tr>
+<td>{% trans "Convert garrison unit" %}</td><td>9+</td><td>{% trans "Yes" %}</td>
+</tr>
+<tr>
+<td>{% trans "Disband enemy unit" %}</td><td>12+</td><td>{% trans "Yes" %}</td>
+</tr>
+<tr>
+<td>{% trans "Buy enemy unit" %}</td><td>18+</td><td>{% trans "Yes" %}</td>
+</tr>
+</tbody>
+</table>
 <h3>{% trans "The retreats phase" %}</h3>
 <p>{% blocktrans %}When one of your units is defeated in battle, it must retreat. In this phase, you have to decide where to retreat your defeated units. In the retreat form, if you choose the same area that the unit occupies, this unit will retreat to the city, and will become a garrison. Note that this option is only available if there is an empty fortified city in the area.{% endblocktrans %}</p>
 <p>{% blocktrans %}If the time limit is reached and you have not retreated your units, they will be disbanded.{% endblocktrans %}</p>
