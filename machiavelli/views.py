@@ -948,34 +948,45 @@ def borrow_money(request, slug):
 	context = base_context(request, game, player)
 	credit = player.get_credit()
 	try:
-		player.loan
+		loan = player.loan
 	except ObjectDoesNotExist:
-		pass
+		## the player may ask for a loan
+		if request.method == 'POST':
+			form = forms.BorrowForm(request.POST)
+			if form.is_valid():
+				ducats = form.cleaned_data['ducats']
+				term = int(form.cleaned_data['term'])
+				if ducats > credit:
+					return game_error(request, game, _("You cannot borrow so much money."))
+				loan = Loan(player=player, season=game.season)
+				if term == 1:
+					loan.debt = int(ceil(ducats * 1.2))
+				elif term == 2:
+					loan.debt = int(ceil(ducats * 1.5))
+				else:
+					return game_error(request, game, _("The chosen term is not valid."))
+				loan.year = game.year + term
+				loan.save()
+				player.ducats = F('ducats') + ducats
+				player.save()
+				return redirect('show-game', slug=slug)
+		else:
+			form = forms.BorrowForm()
 	else:
-		return game_error(request, game, _("You already have a loan."))
-	context.update({'credit': credit})
-	if request.method == 'POST':
-		form = forms.BorrowForm(request.POST)
-		if form.is_valid():
-			ducats = form.cleaned_data['ducats']
-			term = int(form.cleaned_data['term'])
-			if ducats > credit:
-				return game_error(request, game, _("You cannot borrow so much money."))
-			loan = Loan(player=player, season=game.season)
-			if term == 1:
-				loan.debt = int(ceil(ducats * 1.2))
-			elif term == 2:
-				loan.debt = int(ceil(ducats * 1.5))
+		## the player must repay a loan
+		context.update({'loan': loan})
+		if request.method == 'POST':
+			if player.ducats >= loan.debt:
+				player.ducats = F('ducats') - loan.debt
+				player.save()
+				loan.delete()
+				return redirect('show-game', slug=slug)
 			else:
-				return game_error(request, game, _("The chosen term is not valid."))
-			loan.year = game.year + term
-			loan.save()
-			player.ducats = F('ducats') + ducats
-			player.save()
-			return redirect('show-game', slug=slug)
-	else:
-		form = forms.BorrowForm()
-	context.update({'form': form})
+				return game_error(request, game, _("You don't have enough money to repay the loan."))
+		else:
+			form = forms.RepayForm()
+	context.update({'credit': credit,
+					'form': form,})
 
 	return render_to_response('machiavelli/borrow_money.html',
 							context,

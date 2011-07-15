@@ -354,3 +354,5 @@ class BorrowForm(forms.Form):
 	ducats = forms.IntegerField(required=True, min_value=0, label=_("Ducats to borrow"))
 	term = forms.ChoiceField(required=True, choices=TERMS, label=_("Term and interest"))
 
+class RepayForm(forms.Form):
+	pass
