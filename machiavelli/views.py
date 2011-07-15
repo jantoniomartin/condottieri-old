@@ -462,6 +462,13 @@ def play_orders(request, game, player):
 	context.update({'sent_orders': sent_orders})
 	if game.configuration.finances:
 		context['current_expenses'] = player.expense_set.all()
+	if game.configuration.lenders:
+		try:
+			loan = player.loan
+		except ObjectDoesNotExist:
+			pass
+		else:
+			context.update({'loan': loan})
 	if not player.done:
 		OrderForm = forms.make_order_form(player)
 		if request.method == 'POST':
@@ -942,9 +949,9 @@ def give_money(request, slug, player_id):
 @login_required
 def borrow_money(request, slug):
 	game = get_object_or_404(Game, slug=slug)
-	if game.phase != PHORDERS or not game.configuration.lenders:
-		return game_error(request, game, _("You cannot borrow money in this moment."))
 	player = get_object_or_404(Player, user=request.user, game=game)
+	if game.phase != PHORDERS or not game.configuration.lenders or player.done:
+		return game_error(request, game, _("You cannot borrow money in this moment."))
 	context = base_context(request, game, player)
 	credit = player.get_credit()
 	try:
