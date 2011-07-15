@@ -37,7 +37,7 @@ class CountryAdmin(admin.ModelAdmin):
 	list_display = ('name', 'css_class')
 
 class PlayerAdmin(admin.ModelAdmin):
-	list_display = ('user', 'game', 'country', 'done', 'eliminated', 'conqueror', 'excommunicated', 'ducats')
+	list_display = ('user', 'game', 'country', 'done', 'eliminated', 'conqueror', 'excommunicated', 'assassinated', 'defaulted', 'ducats')
 	list_filter = ('game', 'done')
 	ordering = ['game']
 
@@ -134,6 +134,9 @@ class RebellionAdmin(admin.ModelAdmin):
 	list_display = ('__unicode__', 'player', 'garrisoned',)
 	list_filter = ('player',)
 
+class LoanAdmin(admin.ModelAdmin):
+	list_display = ('player', 'debt', 'year', 'season', )
+
 admin.site.register(Scenario, ScenarioAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Game, GameAdmin)
@@ -149,3 +152,4 @@ admin.site.register(RetreatOrder, RetreatOrderAdmin)
 admin.site.register(TurnLog, TurnLogAdmin)
 admin.site.register(Expense, ExpenseAdmin)
 admin.site.register(Rebellion, RebellionAdmin)
+admin.site.register(Loan, LoanAdmin)
