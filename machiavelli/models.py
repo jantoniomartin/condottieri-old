@@ -659,6 +659,8 @@ class Game(models.Model):
 			self.adjust_units()
 			next_phase = PHORDERS
 		elif self.phase == PHORDERS:
+			if self.configuration.lenders:
+				self.check_loans()
 			if self.configuration.finances:
 				self.process_expenses()
 			if self.configuration.assassinations or self.configuration.lenders:
@@ -817,6 +819,21 @@ class Game(models.Model):
 			if i > 0:
 				p.add_ducats(i)
 
+	def check_loans(self):
+		""" Check if any loans have exceeded their terms. If so, apply the
+		penalties. """
+		loans = Loan.objects.filter(player__game=self)
+		for loan in loans:
+			if self.year >= loan.year and self.season >= loan.season:
+				## the loan has exceeded its term
+				if logging:
+					msg = "%s defaulted" % loan.player
+					logging.info(msg)
+				loan.player.defaulted = True
+				loan.player.save()
+				loan.player.assassinate()
+				loan.delete()
+	
 	def process_expenses(self):
 		## First, process famine reliefs
 		for e in Expense.objects.filter(player__game=self, type=0):
