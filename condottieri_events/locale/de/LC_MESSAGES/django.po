@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-22 21:51+0100\n"
+"POT-Creation-Date: 2011-07-15 09:07+0200\n"
 "PO-Revision-Date: 2010-10-21 09:32+0200\n"
 "Last-Translator: Jose Antonio Martin Prieto <jantonio.martin@gmail.com>\n"
 "Language-Team: \n"
@@ -130,11 +130,11 @@ msgstr "belagert ab jetzt die Stadt."
 
 #: models.py:380
 msgid "changes of country."
-msgstr ""
+msgstr "wechselt Seiten"
 
 #: models.py:381
 msgid "becomes autonomous."
-msgstr ""
+msgstr "wird autonom."
 
 #: models.py:487
 msgid "Government has been overthrown"
@@ -152,55 +152,67 @@ msgstr "Ist jetzt ein Feind der Christenheit"
 msgid "Has been eliminated"
 msgstr "Wird eliminiert"
 
-#: models.py:557
-msgid "is affected by famine."
-msgstr "wird von Hunger betroffen."
+#: models.py:491
+msgid "Leader has been assassinated"
+msgstr "Führer hat ermordet worden"
 
-#: models.py:558
-msgid "has been affected by plague."
-msgstr "hat von der Pest betroffen worden."
+#: models.py:569
+#, python-format
+msgid "%(area)s is affected by famine."
+msgstr "%(area)s wird von Hunger betroffen."
 
-#: models.py:611
+#: models.py:570
+#, python-format
+msgid "%(area)s has been affected by plague."
+msgstr "%(area)s hat von der Pest betroffen worden."
+
+#: models.py:571
+#, python-format
+msgid "A rebellion has broken out in %(area)s."
+msgstr "Eine Rebellion hat in %(area)s ausgebrochen."
+
+#: models.py:633
 #, python-format
 msgid "%(country)s raises %(ducats)s ducats."
 msgstr "%(country)s erhebt %(ducats)s Dukaten."
 
-#: models.py:644
-#, fuzzy, python-format
+#: models.py:666
+#, python-format
 msgid "%(country)s pays %(ducats)sd to relief famine in %(area)s"
-msgstr "%(country)s nimmt die Kontrolle von %(area)s."
+msgstr "%(country)s zahlt %(ducats)sd um den Hunger in %(area)s zu entfernen."
 
-#: models.py:646
+#: models.py:668
 #, python-format
 msgid "%(country)s pays %(ducats)sd to pacify the rebellion in %(area)s"
-msgstr ""
+msgstr "%(country)s zahlt %(ducats)sd um die Rebellion in %(area)s zu beruhigen."
 
-#: models.py:648
+#: models.py:670
 #, python-format
 msgid "%(country)s pays %(ducats)sd to cause a rebellion in %(area)s"
-msgstr ""
+msgstr "%(country)s zahlt %(ducats)sd um eine Rebellion in %(area)s zu entfachen"
 
-#: models.py:650
+#: models.py:672
 #, python-format
 msgid "%(country)s pays %(ducats)sd to protect %(unit)s from bribes"
-msgstr ""
+msgstr "%(country)s zahlt %(ducats)sd um %(unit)s vor Bestechungen zu schützen"
 
-#: models.py:652
-#, fuzzy, python-format
+#: models.py:674
+#, python-format
 msgid "%(country)s pays %(ducats)sd to disband %(unit)s"
-msgstr "%(country)s erhebt %(ducats)s Dukaten."
+msgstr "%(country)s zahlt %(ducats)sd um %(unit)s aufzulösen"
 
-#: models.py:654
-#, fuzzy, python-format
+#: models.py:676
+#, python-format
 msgid "%(country)s pays %(ducats)sd to buy %(unit)s"
-msgstr "%(country)s erhebt %(ducats)s Dukaten."
+msgstr "%(country)s zahlt %(ducats)sd um %(unit)s zu kaufen"
 
-#: models.py:656
+#: models.py:678
 #, python-format
 msgid ""
 "%(country)s pays %(ducats)sd to turn %(unit)s into an autonomous garrison"
 msgstr ""
+"%(country)s zahlt %(ducats)sd um %(unit)s autonom umzuwandeln"
 
-#: models.py:658
+#: models.py:680
 msgid "Unknown expense"
 msgstr ""
