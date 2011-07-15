@@ -48,8 +48,7 @@ class ConfigurationForm(forms.ModelForm):
 		exclude = ('assassinations',
 				'bribes',
 				'special_units',
-				'strategic',
-				'lenders')
+				'strategic')
 
 class UnitForm(forms.ModelForm):
 	type = forms.ChoiceField(required=True, choices=UNIT_TYPES)
