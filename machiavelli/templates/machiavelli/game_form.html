@@ -21,14 +21,12 @@ phases of the game. This time limit is reset when all the players have completed
 <th>{% trans "Title" %}</th>
 <th>{% trans "Start year" %}</th>
 <th>{% trans "Players" %}</th>
-<th>{% trans "Cities to win" %}</th>
 </tr></thead>
 {% for s in scenarios %}
 <tr>
 <td><a href="{% url show-scenario s.pk %}">{% trans s.title %}</a></td>
 <td class="data_c">{{ s.start_year }}</td>
 <td class="data_c">{{ s.get_slots }}</td>
-<td class="data_c">{{ s.cities_to_win }}</td>
 </tr>
 {% endfor %}
 </table>
