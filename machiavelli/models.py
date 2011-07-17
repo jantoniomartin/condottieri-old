@@ -422,6 +422,8 @@ class Game(models.Model):
 			self.place_initial_units()
 			if self.configuration.finances:
 				self.assign_initial_income()
+			if self.configuration.assassinations:
+				self.create_assassins()
 			#self.map_outdated = True
 			self.make_map()
 			self.started = datetime.now()
@@ -510,6 +512,15 @@ class Game(models.Model):
 			t = Treasury.objects.get(scenario=self.scenario, country=p.country)
 			p.ducats = t.ducats
 			p.save()
+
+	def create_assassins(self):
+		""" Assign each player an assassination counter for each of the other players """
+		for p in self.player_set.filter(user__isnull=False):
+			for q in self.player_set.filter(user__isnull=False):
+				if q == p:
+					continue
+				assassin = Assassin(p, q)
+				assassin.save()
 
 	##--------------------------
 	## time controlling methods
