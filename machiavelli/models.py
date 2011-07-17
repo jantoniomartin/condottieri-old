@@ -2884,3 +2884,11 @@ class Loan(models.Model):
 
 	def __unicode__(self):
 		return "%(player)s ows %(debt)s ducats" % {'player': self.player, 'debt': self.debt, }
+
+class Assassin(models.Model):
+	""" An Assassin represents a counter that a Player owns, to murder another Player """
+	owner = models.ForeignKey(Player, related_name="assassins")
+	target = models.ForeignKey(Player, related_name="assassination_attempts")
+
+	def __unicode__(self):
+		return "%(owner)s may assassinate %(target)s" % {'owner': self.owner, 'target': self.target, }
