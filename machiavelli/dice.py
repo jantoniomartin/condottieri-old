@@ -16,7 +16,8 @@
 ##
 ## AUTHOR: Jose Antonio Martin <jantonio.martin AT gmail DOT com>
 
-from random import randint
+from random import random, randint
+from math import pow
 
 def roll_1d6():
 	return randint(1, 6)
@@ -27,8 +28,6 @@ def roll_2d6():
 def check_one_six(dice=1):
 	assert isinstance(dice, int)
 	assert dice > 0
-	for i in range(dice):
-		d = randint(1, 6)
-		if d == 6:
-			return True
-	return False
+	prob = 1. - pow(5./6., dice)
+	rand = random()
+	return rand <= prob
