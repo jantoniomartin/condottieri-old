@@ -230,12 +230,14 @@ def make_unit_payment_form(player):
 					      label="")
 	return UnitPaymentForm
 
-def make_ducats_list(ducats):
-	if ducats >= 3:
-		items = ducats / 3 + 1
+def make_ducats_list(ducats, f=3):
+	assert isinstance(ducats, int)
+	assert isinstance(f, int)
+	if ducats >= f:
+		items = ducats / f + 1
 		ducats_list = ()
 		for i in range(1, items):
-			j = i * 3
+			j = i * f
 			ducats_list += ((j,j),)
 		print ducats_list
 		return ducats_list
@@ -355,3 +357,5 @@ class BorrowForm(forms.Form):
 
 class RepayForm(forms.Form):
 	pass
+
+	
