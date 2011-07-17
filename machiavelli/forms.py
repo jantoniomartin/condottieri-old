@@ -358,4 +358,12 @@ class BorrowForm(forms.Form):
 class RepayForm(forms.Form):
 	pass
 
-	
+def make_assassination_form(player):
+	ducats_list = make_ducats_list(player.ducats, 12)
+	targets_qs = Player.objects.filter(game=player.game).exclude(eliminated=True, player__isnull=True)
+
+	class AssassinationForm(forms.Form):
+		ducats = forms.ChoiceField(required=True, choices=ducats_list, label=_("Ducats to pay"))
+		target = forms.ModelChoiceField(required=True, queryset=targets_qs, label=_("Target country"))
+
+	return AssassinationForm
