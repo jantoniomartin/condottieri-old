@@ -35,18 +35,14 @@ class GameForm(forms.ModelForm):
 class ConfigurationForm(forms.ModelForm):
 	def clean(self):
 		cleaned_data = self.cleaned_data
-		return cleaned_data
 		if not cleaned_data['finances']:
-			if cleaned_data['special_units']:
-				cleaned_data['bribes'] = True
-			if cleaned_data['assassinations'] or cleaned_data['lenders'] or cleaned_data['bribes']:
+			if cleaned_data['assassinations'] or cleaned_data['lenders']:
 				cleaned_data['finances'] = True
 		return cleaned_data
 
 	class Meta:
 		model = Configuration
-		exclude = ('assassinations',
-				'bribes',
+		exclude = ('bribes',
 				'special_units',
 				'strategic')
 
@@ -231,7 +227,6 @@ def make_unit_payment_form(player):
 	return UnitPaymentForm
 
 def make_ducats_list(ducats, f=3):
-	assert isinstance(ducats, int)
 	assert isinstance(f, int)
 	if ducats >= f:
 		items = ducats / f + 1
@@ -360,7 +355,8 @@ class RepayForm(forms.Form):
 
 def make_assassination_form(player):
 	ducats_list = make_ducats_list(player.ducats, 12)
-	targets_qs = Player.objects.filter(game=player.game).exclude(eliminated=True, player__isnull=True)
+	assassin_ids = player.assassin_set.values_list('target', flat=True)
+	targets_qs = Country.objects.filter(player__game=player.game, id__in=assassin_ids).exclude(player__eliminated=True, player__user__isnull=True)
 
 	class AssassinationForm(forms.Form):
 		ducats = forms.ChoiceField(required=True, choices=ducats_list, label=_("Ducats to pay"))

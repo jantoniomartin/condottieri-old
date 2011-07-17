@@ -27,7 +27,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from django.db.models import Q, F
@@ -462,6 +462,8 @@ def play_orders(request, game, player):
 	context.update({'sent_orders': sent_orders})
 	if game.configuration.finances:
 		context['current_expenses'] = player.expense_set.all()
+	if game.configuration.assassinations:
+		context['assassinations'] = player.assassination_attempts.all()
 	if game.configuration.lenders:
 		try:
 			loan = player.loan
@@ -998,3 +1000,45 @@ def borrow_money(request, slug):
 	return render_to_response('machiavelli/borrow_money.html',
 							context,
 							context_instance=RequestContext(request))
+
+@login_required
+def assassination(request, slug):
+	game = get_object_or_404(Game, slug=slug)
+	player = get_object_or_404(Player, user=request.user, game=game)
+	if game.phase != PHORDERS or not game.configuration.assassinations or player.done:
+		return game_error(request, game, _("You cannot buy an assassination in this moment."))
+	context = base_context(request, game, player)
+	AssassinationForm = forms.make_assassination_form(player)
+	if request.method == 'POST':
+		form = AssassinationForm(request.POST)
+		if form.is_valid():
+			ducats = int(form.cleaned_data['ducats'])
+			country = form.cleaned_data['target']
+			target = Player.objects.get(game=game, country=country)
+			if ducats > player.ducats:
+				return game_error(request, game, _("You don't have enough ducats for the assassination."))
+			if target.eliminated:
+				return game_error(request, game, _("You cannot kill an eliminated player."))
+			if target == player:
+				return game_error(request, game, _("You cannot kill yourself."))
+			try:
+				assassin = Assassin.objects.get(owner=player, target=country)
+			except ObjectDoesNotExist:
+				return game_error(request, game, _("You don't have any assassins to kill this leader."))
+			except MultipleObjectsReturned:
+				assassin = Assassin.objects.filter(owner=player, target=country)[0]
+			## everything is ok and we should have an assassin token
+			assassination = Assassination(killer=player, target=target, ducats=ducats)
+			assassination.save()
+			assassin.delete()
+			player.ducats = F('ducats') - ducats
+			player.save()
+			return redirect('show-game', slug=slug)
+	else:
+		form = AssassinationForm()
+	context.update({'form': form,})
+	return render_to_response('machiavelli/assassination.html',
+							context,
+							context_instance=RequestContext(request))
+
+

@@ -73,6 +73,21 @@ orders. If you want a unit to do nothing, select the "Hold" option for it.
 {% endif %}
 {% endif %}
 
+{% if game.configuration.assassinations %}
+<h2>{% trans "Assassination attempts" %}</h2>
+
+{% if assassinations %}
+<p>{% blocktrans %}These are you assassination attempts this turn.{% endblocktrans %}
+<ul>
+{% for a in assassinations %}
+<li>{{ a.explain }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+<p><a href="{% url assassination game.slug %}">{% trans "Try an assassination" %}</a></p>
+{% endif %}
+
 {% ifequal player.done 0 %}
 <h2>{% trans "Confirm your actions" %}</h2>
 <form action="{% url confirm-orders game.slug %}" method="POST" />

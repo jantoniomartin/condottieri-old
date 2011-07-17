@@ -519,7 +519,9 @@ class Game(models.Model):
 			for q in self.player_set.filter(user__isnull=False):
 				if q == p:
 					continue
-				assassin = Assassin(p, q)
+				assassin = Assassin()
+				assassin.owner = p
+				assassin.target = q.country
 				assassin.save()
 
 	##--------------------------
@@ -674,6 +676,8 @@ class Game(models.Model):
 				self.check_loans()
 			if self.configuration.finances:
 				self.process_expenses()
+			if self.configuration.assassinations:
+				self.process_assassinations()
 			if self.configuration.assassinations or self.configuration.lenders:
 				## if a player is assassinated, all his orders become 'H'
 				for p in self.player_set.filter(assassinated=True):
@@ -892,6 +896,20 @@ class Game(models.Model):
 	def get_rebellions(self):
 		""" Returns a queryset with all the rebellions in this game """
 		return Rebellion.objects.filter(area__game=self)
+
+	def process_assassinations(self):
+		""" Resolves all the assassination attempts """
+		attempts = Assassination.objects.filter(killer__game=self)
+		victims = []
+		for a in attempts:
+			if a.target in victims:
+				continue
+			dice_rolled = int(a.ducats / 12)
+			if dice.check_one_six(dice_rolled):
+				## attempt is successful
+				a.target.assassinate()
+				victims.append(a.target)
+		attempts.delete()
 
 	##------------------------
 	## turn processing methods
@@ -2897,9 +2915,23 @@ class Loan(models.Model):
 		return "%(player)s ows %(debt)s ducats" % {'player': self.player, 'debt': self.debt, }
 
 class Assassin(models.Model):
-	""" An Assassin represents a counter that a Player owns, to murder another Player """
-	owner = models.ForeignKey(Player, related_name="assassins")
-	target = models.ForeignKey(Player, related_name="assassination_attempts")
+	""" An Assassin represents a counter that a Player owns, to murder the leader of a country """
+	owner = models.ForeignKey(Player)
+	target = models.ForeignKey(Country)
 
 	def __unicode__(self):
 		return "%(owner)s may assassinate %(target)s" % {'owner': self.owner, 'target': self.target, }
+
+class Assassination(models.Model):
+	""" An Assassination describes an attempt made by a Player to murder the leader of another
+	Country, spending some Ducats """
+	killer = models.ForeignKey(Player, related_name="assassination_attempts")
+	target = models.ForeignKey(Player, related_name="assassination_targets")
+	ducats = models.PositiveIntegerField(default=0)
+
+	def __unicode__(self):
+		return "%(killer)s tries to kill %(target)s" % {'killer': self.killer, 'target': self.target, }
+
+	def explain(self):
+		return _("%(ducats)sd to kill the leader of %(country)s.") % {'ducats': self.ducats,
+																	'country': self.target.country}

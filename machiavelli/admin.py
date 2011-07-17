@@ -137,6 +137,12 @@ class RebellionAdmin(admin.ModelAdmin):
 class LoanAdmin(admin.ModelAdmin):
 	list_display = ('player', 'debt', 'year', 'season', )
 
+class AssassinAdmin(admin.ModelAdmin):
+	pass
+
+class AssassinationAdmin(admin.ModelAdmin):
+	pass
+
 admin.site.register(Scenario, ScenarioAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Game, GameAdmin)
@@ -153,3 +159,5 @@ admin.site.register(TurnLog, TurnLogAdmin)
 admin.site.register(Expense, ExpenseAdmin)
 admin.site.register(Rebellion, RebellionAdmin)
 admin.site.register(Loan, LoanAdmin)
+admin.site.register(Assassin, AssassinAdmin)
+admin.site.register(Assassination, AssassinationAdmin)
