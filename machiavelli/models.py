@@ -916,9 +916,10 @@ class Game(models.Model):
 		for s in support_orders:
 			info += u"Checking order %s.\n" % s
 			if s.unit.type != 'G' and s.unit.area in self.get_conflict_areas():
-				attacks = Order.objects.filter((Q(code__exact='-') & Q(destination=s.unit.area)) |
+				attacks = Order.objects.filter(~Q(unit__player=s.unit.player) &
+												((Q(code__exact='-') & Q(destination=s.unit.area)) |
 												(Q(code__exact='=') & Q(unit__area=s.unit.area) &
-												Q(unit__type__exact='G')))
+												Q(unit__type__exact='G'))))
 				if len(attacks) > 0:
 					info += u"Supporting unit is being attacked.\n"
 					for a in attacks:
