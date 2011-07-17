@@ -2306,14 +2306,18 @@ class Unit(models.Model):
 			## for fleets, exclude areas that are not seas or coasts
 			cond = cond & ~Q(board_area__is_sea=False, board_area__is_coast=False)
 		## add the own area if there is no garrison
-		## and if no garrison exited the city
+		## and the attack didn't come from the city
+		## and there is no rebellion in the city
 		if self.area.board_area.is_fortified:
 			if self.type == 'A' or (self.type == 'F' and self.area.board_area.has_port):
 				if self.must_retreat != self.area.board_area.code:
 					try:
 						Unit.objects.get(area=self.area, type='G')
-					except:
-						cond = cond | Q(id__exact=self.area.id)
+					except ObjectDoesNotExist:
+						try:
+							Rebellion.objects.get(area=self.area, garrisoned=True)
+						except ObjectDoesNotExist:
+							cond = cond | Q(id__exact=self.area.id)
 	
 		return GameArea.objects.filter(cond).distinct()
 
