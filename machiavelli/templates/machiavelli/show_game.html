@@ -98,13 +98,13 @@
 	{% if game.configuration.finances %}
 		<a href="{% url lend game.slug p.id %}"><img src="{{ STATIC_URL }}machiavelli/img/coin.png" title="{% trans "Give money" %}" /></a>
 	{% endif %}
-	</div>
-	{% endifnotequal %}
 	{% if can_excommunicate %}
 		{% ifnotequal p.excommunicated 1 %}
-		<div><a href="{% url excommunicate game.slug p.id %}">{% trans "Excommunicate" %}</a></div>
+		<a href="{% url excommunicate game.slug p.id %}"><img src="{{ STATIC_URL }}machiavelli/img/excommunication-icon-16.png" title="{% trans "Excommunicate" %}" /></a>
 		{% endifnotequal %}
 	{% endif %}
+	</div>
+	{% endifnotequal %}
 	{% endifnotequal %}
 	{% endifnotequal %}
 {% endif %}
