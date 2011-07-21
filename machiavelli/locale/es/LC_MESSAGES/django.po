@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-17 17:36+0200\n"
+"POT-Creation-Date: 2011-07-21 20:59+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -270,179 +270,179 @@ msgstr "1 día"
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: models.py:2283
+#: models.py:2300
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
 
-#: models.py:2442
+#: models.py:2463
 #, python-format
 msgid "%(unit)s holds its position."
 msgstr "%(unit)s mantiene su posición."
 
-#: models.py:2444
+#: models.py:2465
 #, python-format
 msgid "%(unit)s tries to go to %(area)s."
 msgstr "%(unit)s intenta ir a %(area)s."
 
-#: models.py:2449
+#: models.py:2470
 #, python-format
 msgid "%(unit)s besieges the city."
 msgstr "%(unit)s asedia la ciudad."
 
-#: models.py:2451
+#: models.py:2472
 #, python-format
 msgid "%(unit)s tries to convert into %(type)s."
 msgstr "%(unit)s intenta convertirse en %(type)s."
 
-#: models.py:2456
+#: models.py:2477
 #, python-format
 msgid "%(unit)s must convoy %(subunit)s to %(area)s."
 msgstr "%(unit)s transporta a %(subunit)s a %(area)s."
 
-#: models.py:2463
+#: models.py:2484
 #, python-format
 msgid "%(unit)s supports %(subunit)s to hold its position."
 msgstr "%(unit)s apoya a %(subunit)s a mantener su posición."
 
-#: models.py:2468
+#: models.py:2489
 #, python-format
 msgid "%(unit)s supports %(subunit)s to go to %(area)s."
 msgstr "%(unit)s apoya a %(subunit)s a avanzar a %(area)s."
 
-#: models.py:2474
+#: models.py:2495
 #, python-format
 msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
 msgstr "%(unit)s apoya a %(subunit)s a convertirse en %(type)s."
 
-#: models.py:2733
+#: models.py:2754
 msgid "game"
 msgstr "juego"
 
-#: models.py:2734
+#: models.py:2755
 msgid "finances"
 msgstr "finanzas"
 
-#: models.py:2735
+#: models.py:2756
 msgid "assassinations"
 msgstr "asesinatos"
 
-#: models.py:2736 models.py:2738 models.py:2745
+#: models.py:2757 models.py:2759 models.py:2766
 msgid "will enable Finances"
 msgstr "se activarán las finanzas"
 
-#: models.py:2737
+#: models.py:2758
 msgid "bribes"
 msgstr "sobornos"
 
-#: models.py:2739
+#: models.py:2760
 msgid "excommunication"
 msgstr "excomunión"
 
-#: models.py:2741
+#: models.py:2762
 msgid "special units"
 msgstr "unidades especiales"
 
-#: models.py:2742
+#: models.py:2763
 msgid "will enable Finances and Bribes"
 msgstr "se activarán las finanzas y los sobornos"
 
-#: models.py:2743
+#: models.py:2764
 msgid "strategic movement"
 msgstr "movimiento estratégico"
 
-#: models.py:2744
+#: models.py:2765
 msgid "money lenders"
 msgstr "prestamistas"
 
-#: models.py:2746
+#: models.py:2767
 msgid "conquering"
 msgstr "conquista"
 
-#: models.py:2747
+#: models.py:2768
 msgid "famine"
 msgstr "hambruna"
 
-#: models.py:2748
+#: models.py:2769
 msgid "plague"
 msgstr "plaga"
 
-#: models.py:2773 templates/machiavelli/expenses_actions.html:20
+#: models.py:2794 templates/machiavelli/expenses_actions.html:20
 msgid "Famine relief"
 msgstr "Aliviar la hambruna"
 
-#: models.py:2774 templates/machiavelli/expenses_actions.html:23
+#: models.py:2795 templates/machiavelli/expenses_actions.html:23
 msgid "Pacify rebellion"
 msgstr "Pacificar rebelión"
 
-#: models.py:2775 templates/machiavelli/expenses_actions.html:26
+#: models.py:2796 templates/machiavelli/expenses_actions.html:26
 msgid "Conquered province to rebel"
 msgstr "Provocar rebelión en provincia conquistada"
 
-#: models.py:2776 templates/machiavelli/expenses_actions.html:29
+#: models.py:2797 templates/machiavelli/expenses_actions.html:29
 msgid "Home province to rebel"
 msgstr "Provocar rebelión en provincia de origen"
 
-#: models.py:2777 templates/machiavelli/expenses_actions.html:32
+#: models.py:2798 templates/machiavelli/expenses_actions.html:32
 msgid "Counter bribe"
 msgstr "Contrarrestar soborno"
 
-#: models.py:2778 templates/machiavelli/expenses_actions.html:35
+#: models.py:2799 templates/machiavelli/expenses_actions.html:35
 msgid "Disband autonomous garrison"
 msgstr "Desbandar guarnición autónoma"
 
-#: models.py:2779 templates/machiavelli/expenses_actions.html:38
+#: models.py:2800 templates/machiavelli/expenses_actions.html:38
 msgid "Buy autonomous garrison"
 msgstr "Comprar guarnición autónoma"
 
-#: models.py:2780 templates/machiavelli/expenses_actions.html:41
+#: models.py:2801 templates/machiavelli/expenses_actions.html:41
 msgid "Convert garrison unit"
 msgstr "Convertir guarnición en autónoma"
 
-#: models.py:2781 templates/machiavelli/expenses_actions.html:44
+#: models.py:2802 templates/machiavelli/expenses_actions.html:44
 msgid "Disband enemy unit"
 msgstr "Desbandar unidad enemiga"
 
-#: models.py:2782 templates/machiavelli/expenses_actions.html:47
+#: models.py:2803 templates/machiavelli/expenses_actions.html:47
 msgid "Buy enemy unit"
 msgstr "Comprar unidad enemiga"
 
-#: models.py:2838
+#: models.py:2859
 #, python-format
 msgid "%(country)s reliefs famine in %(area)s"
 msgstr "%(country)s alivia la hambruna en %(area)s"
 
-#: models.py:2839
+#: models.py:2860
 #, python-format
 msgid "%(country)s pacifies rebellion in %(area)s"
 msgstr "%(country)s pacifica la rebelión en %(area)s"
 
-#: models.py:2840 models.py:2841
+#: models.py:2861 models.py:2862
 #, python-format
 msgid "%(country)s promotes a rebellion in %(area)s"
 msgstr "%(country)s provoca una rebelión en %(area)s."
 
-#: models.py:2842
+#: models.py:2863
 #, python-format
 msgid "%(country)s tries to counter bribe on %(unit)s"
 msgstr "%(country)s intenta evitar un soborno sobre %(unit)s."
 
-#: models.py:2843 models.py:2846
+#: models.py:2864 models.py:2867
 #, python-format
 msgid "%(country)s tries to disband %(unit)s"
 msgstr "%(country)s intenta desbandar %(unit)s."
 
-#: models.py:2844 models.py:2847
+#: models.py:2865 models.py:2868
 #, python-format
 msgid "%(country)s tries to buy %(unit)s"
 msgstr "%(country)s intenta comprar %(unit)s."
 
-#: models.py:2845
+#: models.py:2866
 #, python-format
 msgid "%(country)s tries to turn %(unit)s into an autonomous garrison"
 msgstr "%(country)s intenta convertir %(unit)s en guarnición autónoma"
 
-#: models.py:2936
+#: models.py:2957
 #, python-format
 msgid "%(ducats)sd to kill the leader of %(country)s."
 msgstr "%(ducats)sd para matar al lider de %(country)s."
@@ -475,295 +475,311 @@ msgstr "El Papado"
 msgid "Turks"
 msgstr "Los Turcos"
 
-#: translate.py:12 translate.py:86
+#: translate.py:12 translate.py:91
 msgid "Venice"
 msgstr "Venecia"
 
-#: translate.py:15
+#: translate.py:13 translate.py:78
+msgid "Savoy"
+msgstr "Saboya"
+
+#: translate.py:14
+msgid "H. Roman Empire"
+msgstr "Sacro I. Romano"
+
+#: translate.py:17
 msgid "Development"
 msgstr "Desarrollo"
 
-#: translate.py:16
+#: translate.py:18
 msgid "The Spanish Preponderance"
 msgstr "La Preponderancia Española"
 
-#: translate.py:17
+#: translate.py:19
 msgid "The Balance of Power"
 msgstr "El Equilibrio de Poder"
 
 #: translate.py:20
+msgid "Struggle for Dominance I"
+msgstr "Lucha por el Dominio I"
+
+#: translate.py:21
+msgid "Struggle for Dominance II"
+msgstr "Lucha por el Dominio II"
+
+#: translate.py:22
+msgid "The Death of the Duke of Milan"
+msgstr "La Muerte del Duque de Milán"
+
+#: translate.py:25
 msgid "Albania"
 msgstr "Albania"
 
-#: translate.py:21
+#: translate.py:26
 msgid "Ancona"
 msgstr "Ancona"
 
-#: translate.py:22
+#: translate.py:27
 msgid "Aquila"
 msgstr "Aquila"
 
-#: translate.py:23
+#: translate.py:28
 msgid "Arezzo"
 msgstr "Arezzo"
 
-#: translate.py:24
+#: translate.py:29
 msgid "Avignon"
 msgstr "Aviñón"
 
-#: translate.py:25
+#: translate.py:30
 msgid "Bari"
 msgstr "Bari"
 
-#: translate.py:26
+#: translate.py:31
 msgid "Bergamo"
 msgstr "Bérgamo"
 
-#: translate.py:27
+#: translate.py:32
 msgid "Bologna"
 msgstr "Boloña"
 
-#: translate.py:28
+#: translate.py:33
 msgid "Bosnia"
 msgstr "Bosnia"
 
-#: translate.py:29
+#: translate.py:34
 msgid "Capua"
 msgstr "Capua"
 
-#: translate.py:30
+#: translate.py:35
 msgid "Carniola"
 msgstr "Carniola"
 
-#: translate.py:31
+#: translate.py:36
 msgid "Carinthia"
 msgstr "Carintia"
 
-#: translate.py:32
+#: translate.py:37
 msgid "Central Mediterranean"
 msgstr "Mediterráneo Central"
 
-#: translate.py:33
+#: translate.py:38
 msgid "Como"
 msgstr "Como"
 
-#: translate.py:34
+#: translate.py:39
 msgid "Corsica"
 msgstr "Córcega"
 
-#: translate.py:35
+#: translate.py:40
 msgid "Cremona"
 msgstr "Cremona"
 
-#: translate.py:36
+#: translate.py:41
 msgid "Croatia"
 msgstr "Croacia"
 
-#: translate.py:37
+#: translate.py:42
 msgid "Dalmatia"
 msgstr "Dalmacia"
 
-#: translate.py:38
+#: translate.py:43
 msgid "Durazzo"
 msgstr "Durazzo"
 
-#: translate.py:39
+#: translate.py:44
 msgid "Ferrara"
 msgstr "Ferrara"
 
-#: translate.py:40
+#: translate.py:45
 msgid "Fornovo"
 msgstr "Fornovo"
 
-#: translate.py:41
+#: translate.py:46
 msgid "Friuli"
 msgstr "Friuli"
 
-#: translate.py:42
+#: translate.py:47
 msgid "Genoa"
 msgstr "Génova"
 
-#: translate.py:43
+#: translate.py:48
 msgid "Gulf of Lions"
 msgstr "Golfo de Lion"
 
-#: translate.py:44
+#: translate.py:49
 msgid "Gulf of Naples"
 msgstr "Golfo de Nápoles"
 
-#: translate.py:45
+#: translate.py:50
 msgid "Herzegovina"
 msgstr "Herzegovina"
 
-#: translate.py:46
+#: translate.py:51
 msgid "Hungary"
 msgstr "Hungría"
 
-#: translate.py:47
+#: translate.py:52
 msgid "Ionian Sea"
 msgstr "Mar Jónico"
 
-#: translate.py:48
+#: translate.py:53
 msgid "Istria"
 msgstr "Istria"
 
-#: translate.py:49
+#: translate.py:54
 msgid "Lower Adriatic"
 msgstr "Adriático Inferior"
 
-#: translate.py:50
+#: translate.py:55
 msgid "Ligurian Sea"
 msgstr "Mar de Liguria"
 
-#: translate.py:51
+#: translate.py:56
 msgid "Lucca"
 msgstr "Lucca"
 
-#: translate.py:52
+#: translate.py:57
 msgid "Mantua"
 msgstr "Mantua"
 
-#: translate.py:53
+#: translate.py:58
 msgid "Marseille"
 msgstr "Marsella"
 
-#: translate.py:54
+#: translate.py:59
 msgid "Messina"
 msgstr "Messina"
 
-#: translate.py:55
+#: translate.py:60
 msgid "Modena"
 msgstr "Módena"
 
-#: translate.py:56
+#: translate.py:61
 msgid "Montferrat"
 msgstr "Montferrat"
 
-#: translate.py:57
+#: translate.py:62
 msgid "Otranto"
 msgstr "Otranto"
 
-#: translate.py:58
+#: translate.py:63
 msgid "Padua"
 msgstr "Padua"
 
-#: translate.py:59
+#: translate.py:64
 msgid "Palermo"
 msgstr "Palermo"
 
-#: translate.py:60
+#: translate.py:65
 msgid "Parma"
 msgstr "Parma"
 
-#: translate.py:61
+#: translate.py:66
 msgid "Patrimony"
 msgstr "Patrimonio"
 
-#: translate.py:62
+#: translate.py:67
 msgid "Pavia"
 msgstr "Pavía"
 
-#: translate.py:63
+#: translate.py:68
 msgid "Perugia"
 msgstr "Perusa"
 
-#: translate.py:64
+#: translate.py:69
 msgid "Piombino"
 msgstr "Piombino"
 
-#: translate.py:65
+#: translate.py:70
 msgid "Pistoia"
 msgstr "Pistoia"
 
-#: translate.py:66
+#: translate.py:71
 msgid "Pisa"
 msgstr "Pisa"
 
-#: translate.py:67
+#: translate.py:72
 msgid "Provence"
 msgstr "Provenza"
 
-#: translate.py:68
+#: translate.py:73
 msgid "Ragusa"
 msgstr "Ragusa"
 
-#: translate.py:69
+#: translate.py:74
 msgid "Rome"
 msgstr "Roma"
 
-#: translate.py:70
+#: translate.py:75
 msgid "Salerno"
 msgstr "Salerno"
 
-#: translate.py:71
+#: translate.py:76
 msgid "Saluzzo"
 msgstr "Saluzzo"
 
-#: translate.py:72
+#: translate.py:77
 msgid "Sardinia"
 msgstr "Cerdeña"
 
-#: translate.py:73
-msgid "Savoy"
-msgstr "Saboya"
-
-#: translate.py:74
+#: translate.py:79
 msgid "Siena"
 msgstr "Siena"
 
-#: translate.py:75
+#: translate.py:80
 msgid "Slavonia"
 msgstr "Eslavonia"
 
-#: translate.py:76
+#: translate.py:81
 msgid "Spoleto"
 msgstr "Espoleto"
 
-#: translate.py:77
+#: translate.py:82
 msgid "Swiss"
 msgstr "Suiza"
 
-#: translate.py:78
+#: translate.py:83
 msgid "Treviso"
 msgstr "Treviso"
 
-#: translate.py:79
+#: translate.py:84
 msgid "Trent"
 msgstr "Trento"
 
-#: translate.py:80
+#: translate.py:85
 msgid "Thyrrenian Sea"
 msgstr "Mar Tirreno"
 
-#: translate.py:81
+#: translate.py:86
 msgid "Tunis"
 msgstr "Túnez"
 
-#: translate.py:82
+#: translate.py:87
 msgid "Turin"
 msgstr "Turín"
 
-#: translate.py:83
+#: translate.py:88
 msgid "Tyrol"
 msgstr "Tirol"
 
-#: translate.py:84
+#: translate.py:89
 msgid "Upper Adriatic"
 msgstr "Adriático Superior"
 
-#: translate.py:85
+#: translate.py:90
 msgid "Urbino"
 msgstr "Urbino"
 
-#: translate.py:87
+#: translate.py:92
 msgid "Verona"
 msgstr "Verona"
 
-#: translate.py:88
+#: translate.py:93
 msgid "Western Mediterranean"
 msgstr "Mediterráneo Occidental"
 
-#: translate.py:92
+#: translate.py:97
 #, python-format
 msgid "Create an acccount on %(domain)s"
 msgstr "Crear una cuenta en %(domain)s"
@@ -784,59 +800,59 @@ msgstr "No se pueden cancelar las excomuniones."
 msgid "You are not allowed to forgive excommunications."
 msgstr "No estás autorizado para perdonar excomuniones."
 
-#: views.py:851
+#: views.py:854
 msgid "Ranking for the user"
 msgstr "Clasificación del jugador"
 
-#: views.py:855
+#: views.py:858
 msgid "Ranking for the scenario"
 msgstr "Clasificación del escenario"
 
-#: views.py:859
+#: views.py:862
 msgid "Ranking for the country"
 msgstr "Clasificación del país"
 
-#: views.py:921
+#: views.py:924
 msgid "You cannot give money in this game."
 msgstr "No puedes entregar dinero en este juego."
 
-#: views.py:931
+#: views.py:934
 msgid "You cannot give more money than you have"
 msgstr "No puedes entregar más dinero del que tienes"
 
-#: views.py:956
+#: views.py:959
 msgid "You cannot borrow money in this moment."
 msgstr "No puedes pedir un préstamo en este momento."
 
-#: views.py:969
+#: views.py:972
 msgid "You cannot borrow so much money."
 msgstr "No puedes pedir prestado tanto dinero."
 
-#: views.py:976
+#: views.py:979
 msgid "The chosen term is not valid."
 msgstr "El plazo elegido no es válido."
 
-#: views.py:994
+#: views.py:997
 msgid "You don't have enough money to repay the loan."
 msgstr "No tienes suficiente dinero para saldar el préstamo."
 
-#: views.py:1009
+#: views.py:1012
 msgid "You cannot buy an assassination in this moment."
 msgstr "No puedes comprar un asesinato en este momento."
 
-#: views.py:1019
+#: views.py:1022
 msgid "You don't have enough ducats for the assassination."
 msgstr "No tienes suficiente dinero para pagar el asesinato."
 
-#: views.py:1021
+#: views.py:1024
 msgid "You cannot kill an eliminated player."
 msgstr "No puedes asesinar a un jugador eliminado."
 
-#: views.py:1023
+#: views.py:1026
 msgid "You cannot kill yourself."
 msgstr "No puedes matarte a ti mismo."
 
-#: views.py:1027
+#: views.py:1030
 msgid "You don't have any assassins to kill this leader."
 msgstr "No tienes asesinos para matar a este líder."
 
@@ -903,9 +919,9 @@ msgid ""
 "You will have to pay at least 12d, and the more money you pay, the higher "
 "the possibility of success."
 msgstr ""
-"Aquí puedes contratar los servicios de un asesino para matar a uno de tus enemigos. "
-"Tendrás que pagar al menos 12d, y cuanto más dinero pagues, mayor es "
-"la posibilidad de éxito."
+"Aquí puedes contratar los servicios de un asesino para matar a uno de tus "
+"enemigos. Tendrás que pagar al menos 12d, y cuanto más dinero pagues, mayor "
+"es la posibilidad de éxito."
 
 #: templates/machiavelli/assassination.html:10
 msgid ""
@@ -1974,6 +1990,10 @@ msgstr "Guarniciones autónomas"
 msgid "Cities that give additional income"
 msgstr "Ciudades que proporcionan ingresos adicionales"
 
+#: templates/machiavelli/scenario_detail.html:65
+msgid "Disabled areas"
+msgstr ""
+
 #: templates/machiavelli/scenario_list.html:14
 msgid "Scores"
 msgstr "Puntuaciones"
@@ -2275,4 +2295,3 @@ msgstr "Has recibido %(ducats)s ducados de %(country)s en el juego '%(slug)s'"
 msgid ""
 "You have received %(ducats)s ducats from %(country)s in the game '%(slug)s'."
 msgstr "Has recibido %(ducats)s ducados de %(country)s en el juego '%(slug)s'."
-

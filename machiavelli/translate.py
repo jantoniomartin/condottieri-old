@@ -10,11 +10,16 @@ _("Naples")
 _("Papacy")
 _("Turks")
 _("Venice")
+_("Savoy")
+_("H. Roman Empire")
 
 ## scenario names
 _("Development")
 _("The Spanish Preponderance")
 _("The Balance of Power")
+_("Struggle for Dominance I")
+_("Struggle for Dominance II")
+_("The Death of the Duke of Milan")
 
 ## area names (excluding the areas whose name is the one of a country)
 _("Albania")
