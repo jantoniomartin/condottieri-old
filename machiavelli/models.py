@@ -251,6 +251,18 @@ actually played in GameArea objects.
 	class Meta:
 		ordering = ('code',)
 
+class DisabledArea(models.Model):
+	""" A DisabledArea is an Area that is not used in a given Scenario. """
+	scenario = models.ForeignKey(Scenario)
+	area = models.ForeignKey(Area)
+
+	def __unicode__(self):
+		return "%(area)s disabled in %(scenario)s" % {'area': self.area,
+													'scenario': self.scenario}
+	
+	class Meta:
+		unique_together = (('scenario', 'area'),) 
+
 class Home(models.Model):
 	""" This class defines which Country controls each Area in a given Scenario,
 	at the beginning of a game.
