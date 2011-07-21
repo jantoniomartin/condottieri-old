@@ -122,6 +122,14 @@ tr.closed_game a{
 	background: #3d3dff;
 	color: black;
 }
+.hre {
+	background: #ffdd11;
+	color: black;
+}
+.savoy {
+	background: #bbffdd;
+	color: black;
+}
 
 .france a,
 .france a:visited,
