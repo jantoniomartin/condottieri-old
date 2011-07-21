@@ -35,6 +35,11 @@ def make_map(game):
 	the map with an appropriate name in the maps directory.
 	"""
 	base_map = Image.open(os.path.join(BASEDIR, BASEMAP))
+	## if there are disabled areas, mark them
+	marker = Image.open("%s/disabled.png" % BASEDIR)
+	for a in  game.get_disabled_areas():
+		base_map.paste(marker, (a.aftoken.x, a.aftoken.y), marker)
+	##
 	garrisons = []
 	for player in game.player_set.filter(user__isnull=False):
 		## paste control markers
@@ -99,6 +104,11 @@ def make_scenario_map(s):
 	""" Makes the initial map for an scenario.
 	"""
 	base_map = Image.open(os.path.join(BASEDIR, BASEMAP))
+	## if there are disabled areas, mark them
+	marker = Image.open("%s/disabled.png" % BASEDIR)
+	for d in  s.disabledarea_set.all():
+		base_map.paste(marker, (d.area.aftoken.x, d.area.aftoken.y), marker)
+	##
 	for c in s.get_countries():
 		## paste control markers and flags
 		controls = s.home_set.filter(country=c, is_home=True)

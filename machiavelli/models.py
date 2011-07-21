@@ -481,12 +481,17 @@ class Game(models.Model):
 				p.double_income = t.double
 			p.save()
 
+	def get_disabled_areas(self):
+		""" Returns the disabled Areas in the game scenario """
+		return Area.objects.filter(disabledarea__scenario=self.scenario)
+
 	def create_game_board(self):
 		""" Creates the GameAreas for the Game.	"""
-
+		disabled_ids = Area.objects.filter(disabledarea__scenario=self.scenario).values_list('id', flat=True)
 		for a in Area.objects.all():
-			ga = GameArea(game=self, board_area=a)
-			ga.save()
+			if not a.id in disabled_ids:
+				ga = GameArea(game=self, board_area=a)
+				ga.save()
 
 	def get_autonomous_setups(self):
 		return Setup.objects.filter(scenario=self.scenario,
