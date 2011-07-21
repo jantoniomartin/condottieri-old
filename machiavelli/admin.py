@@ -23,9 +23,14 @@ class CityIncomeInline(admin.TabularInline):
 	extra = 1
 	ordering = ['city']
 
+class DisabledAreaInline(admin.TabularInline):
+	model = DisabledArea
+	extra = 1
+	ordering = ['area', ]
+
 class ScenarioAdmin(admin.ModelAdmin):
 	list_display = ('title', 'start_year')
-	inlines = [HomeInline, SetupInline, TreasuryInline, CityIncomeInline,]
+	inlines = [HomeInline, SetupInline, TreasuryInline, CityIncomeInline, DisabledAreaInline, ]
 	actions = ['make_map',]
 	
 	def make_map(self, request, queryset):
