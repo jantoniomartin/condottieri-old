@@ -30,7 +30,7 @@ class GameForm(forms.ModelForm):
 
 	class Meta:
 		model = Game
-		fields = ('slug', 'scenario', 'time_limit', 'visible')
+		fields = ('slug', 'scenario', 'time_limit', 'cities_to_win', 'visible')
 
 class ConfigurationForm(forms.ModelForm):
 	def clean(self):
