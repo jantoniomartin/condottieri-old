@@ -37,8 +37,12 @@ def make_map(game):
 	base_map = Image.open(os.path.join(BASEDIR, BASEMAP))
 	## if there are disabled areas, mark them
 	marker = Image.open("%s/disabled.png" % BASEDIR)
-	for a in  game.get_disabled_areas():
+	for a in game.get_disabled_areas():
 		base_map.paste(marker, (a.aftoken.x, a.aftoken.y), marker)
+	## mark special city incomes
+	marker = Image.open("%s/chest.png" % BASEDIR)
+	for i in game.scenario.cityincome_set.all():
+		base_map.paste(marker, (i.city.gtoken.x + 48, i.city.gtoken.y), marker)
 	##
 	garrisons = []
 	for player in game.player_set.filter(user__isnull=False):
@@ -108,6 +112,10 @@ def make_scenario_map(s):
 	marker = Image.open("%s/disabled.png" % BASEDIR)
 	for d in  s.disabledarea_set.all():
 		base_map.paste(marker, (d.area.aftoken.x, d.area.aftoken.y), marker)
+	## mark special city incomes
+	marker = Image.open("%s/chest.png" % BASEDIR)
+	for i in s.cityincome_set.all():
+		base_map.paste(marker, (i.city.gtoken.x + 48, i.city.gtoken.y), marker)
 	##
 	for c in s.get_countries():
 		## paste control markers and flags
