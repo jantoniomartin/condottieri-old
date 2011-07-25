@@ -918,15 +918,25 @@ class Game(models.Model):
 		""" Resolves all the assassination attempts """
 		attempts = Assassination.objects.filter(killer__game=self)
 		victims = []
+		msg = u"Processing assassinations in game %s:\n" % self
 		for a in attempts:
+			msg += u"\n%s spends %s ducats to kill %s\n" % (a.killer, a.ducats, a.target)
 			if a.target in victims:
+				msg += u"%s already killed\n" % a.target
 				continue
 			dice_rolled = int(a.ducats / 12)
+			msg += u"%s dice will be rolled\n" % dice_rolled
 			if dice.check_one_six(dice_rolled):
+				msg += u"Attempt is successful\n"
 				## attempt is successful
 				a.target.assassinate()
 				victims.append(a.target)
+			else:
+				msg += u"Attempt fails\n"
 		attempts.delete()
+		if logging:
+			logging.info(msg)
+
 
 	##------------------------
 	## turn processing methods
