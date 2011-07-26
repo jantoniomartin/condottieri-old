@@ -1961,7 +1961,7 @@ class Player(models.Model):
 		self.step = 0
 		self.save()
 		if not forced:
-			if self.game.check_bonus_time():
+			if not self.game.fast and self.game.check_bonus_time():
 				## get a karma bonus
 				#self.user.stats.adjust_karma(1)
 				self.user.get_profile().adjust_karma(1)
@@ -2004,7 +2004,10 @@ class Player(models.Model):
 		if this were the only player (i.e. only his own karma is considered)
 		"""
 		
-		karma = float(self.user.get_profile().karma)
+		if self.game.fast:
+			karma = 100.
+		else:
+			karma = float(self.user.get_profile().karma)
 		if karma > 100:
 			if self.game.phase == PHORDERS:
 				k = 1 + (karma - 100) / 200
@@ -2038,16 +2041,17 @@ class Player(models.Model):
 	
 	def force_phase_change(self):
 		## the player didn't take his actions, so he loses karma
-		#self.user.stats.adjust_karma(-10)
-		self.user.get_profile().adjust_karma(-10)
+		if not self.game.fast:
+			self.user.get_profile().adjust_karma(-10)
 		## if there is a revolution with an overthrowing player, change users
 		try:
 			rev = Revolution.objects.get(government=self)
 		except ObjectDoesNotExist:
-			## create a new possible revolution
-			rev = Revolution(government=self)
-			rev.save()
-			logging.info("New revolution for player %s" % self)
+			if not self.game.fast:
+				## create a new possible revolution
+				rev = Revolution(government=self)
+				rev.save()
+				logging.info("New revolution for player %s" % self)
 		else:
 			if rev.opposition:
 				if notification:
