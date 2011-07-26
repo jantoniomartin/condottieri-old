@@ -3,14 +3,14 @@
 div.notice {
     margin: 0;
     padding: 5px;
-    border-bottom: 1px solid #CCC;
+    border-bottom: 1px solid #666;
 }
 div.unseen_notice {
     margin: 0;
     padding: 5px;
-    background: #993333;
 	color: #fff;
-    border-bottom: 1px solid #CCC;
+    border-bottom: 1px solid #666;
+	font-weight: bold;
 }
 h2.notice_date {
     font-size: 12pt;
@@ -18,8 +18,9 @@ h2.notice_date {
     border-bottom: 1px solid #999;
 }
 span.notice_type {
-    color: #666;
+    color: #fff;
 }
+
 span.notice_message {
 }
 span.notice_time {

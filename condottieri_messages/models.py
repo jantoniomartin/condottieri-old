@@ -46,7 +46,7 @@ def notify_new_letter(sender, instance, created, **kw):
 		user = [instance.recipient,]
 		extra_context = {'game': instance.recipient_player.game,
 						'letter': instance }
-		notification.send(user, "condottieri_messages_received", extra_context , on_site=False)
+		notification.send(user, "condottieri_messages_received", extra_context , on_site=True)
 
 models.signals.post_save.connect(notify_new_letter, sender=Letter)
 
