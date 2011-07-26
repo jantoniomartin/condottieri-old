@@ -122,7 +122,7 @@ TIME_LIMITS = (
 			(2*24*60*60, _('2 days')),
 			(24*60*60, _('1 day')),
 			(12*60*60, _('1/2 day')),
-#			(15*60, _('15 min')),
+			(15*60, _('15 min')),
 )
 
 ## SCORES
@@ -353,6 +353,7 @@ class Game(models.Model):
 	time_limit = models.PositiveIntegerField(choices=TIME_LIMITS)
 	## the time and date of the last phase change
 	last_phase_change = models.DateTimeField(blank=True, null=True)
+	created = models.DateTimeField(blank=True, null=True, auto_now_add=True)
 	started = models.DateTimeField(blank=True, null=True)
 	finished = models.DateTimeField(blank=True, null=True)
 	cities_to_win = models.PositiveIntegerField(default=15)
@@ -569,14 +570,13 @@ class Game(models.Model):
 
 	def next_phase_change(self):
 		""" Returns the Time of the next compulsory phase change. """
-		
+		if self.phase == PHINACTIVE :
+			return False	
 		if self.fast:
 			## do not use karma
 			time_limit = self.time_limit
 		else:
 			## get the player with the highest karma, and not done
-			if self.phase == PHINACTIVE :
-				return False
 			highest = self.get_highest_karma()
 			if highest > 100:
 				if self.phase == PHORDERS:

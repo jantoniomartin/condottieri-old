@@ -666,15 +666,11 @@ def logs_by_game(request, slug=''):
 @login_required
 #@cache_page(60 * 60)
 def create_game(request):
-	## check minimum karma to create a game
-	karma = request.user.get_profile().karma
-	if karma < settings.KARMA_TO_JOIN:
-		return low_karma_error(request)
-	##
 	context = sidebar_context(request)
 	context.update( {'user': request.user,})
 	if request.method == 'POST':
 		game_form = forms.GameForm(request.user, data=request.POST)
+		config_form = forms.ConfigurationForm(request.POST)
 		if game_form.is_valid():
 			new_game = game_form.save(commit=False)
 			new_game.slots = new_game.scenario.get_slots() - 1
@@ -686,12 +682,10 @@ def create_game(request):
 			config_form = forms.ConfigurationForm(request.POST,
 												instance=new_game.configuration)
 			config_form.save()
-			## create the autonomous player
-			#autonomous = Player(game=new_game, done=True)
-			#autonomous.save()
 			return redirect('summary')
-	game_form = forms.GameForm(request.user)
-	config_form = forms.ConfigurationForm()
+	else:
+		game_form = forms.GameForm(request.user)
+		config_form = forms.ConfigurationForm()
 	context['scenarios'] = Scenario.objects.filter(enabled=True)
 	context['game_form'] = game_form
 	context['config_form'] = config_form
@@ -704,6 +698,8 @@ def join_game(request, slug=''):
 	g = get_object_or_404(Game, slug=slug)
 	karma = request.user.get_profile().karma
 	if karma < settings.KARMA_TO_JOIN:
+		return low_karma_error(request)
+	if g.fast and karma < settings.KARMA_TO_FAST:
 		return low_karma_error(request)
 	if g.slots > 0:
 		try:

@@ -4,6 +4,7 @@ from django.utils.safestring import mark_safe
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from machiavelli.models import *
 import machiavelli.utils as utils
@@ -27,6 +28,18 @@ class GameForm(forms.ModelForm):
 	def __init__(self, user, **kwargs):
 		super(GameForm, self).__init__(**kwargs)
 		self.instance.created_by = user
+
+	def clean(self):
+		cleaned_data = self.cleaned_data
+		karma = self.instance.created_by.get_profile().karma
+		if karma < settings.KARMA_TO_JOIN:
+			msg = _("You don't have enough karma to create a game.")
+			raise forms.ValidationError(msg)
+		if int(cleaned_data['time_limit']) in FAST_LIMITS:
+			if karma < settings.KARMA_TO_FAST :
+				msg = _("You don't have enough karma for a fast game.")
+				raise forms.ValidationError(msg)
+		return cleaned_data
 
 	class Meta:
 		model = Game

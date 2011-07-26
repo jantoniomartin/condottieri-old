@@ -32,7 +32,7 @@
 {% if game_list.object_list %}
 
 {% for game in game_list.object_list %}
-<div class="game_info">
+<div class="game_info {% if game.fast %}fast{% endif %}">
 <h2><span><a href="{{ game.get_absolute_url }}">{{ game.slug }}</a></span>
 	<span>
 		({% trans "Slots" %}: {{ game.slots }})

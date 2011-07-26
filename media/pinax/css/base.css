@@ -317,6 +317,10 @@ ul#messages li {
 	width: 100%;
 }
 
+.game_info.fast h2 {
+	background: #9f2727;
+}
+
 .game_info h2 span {
 	padding-left: 1em;
 	line-height: 48px;

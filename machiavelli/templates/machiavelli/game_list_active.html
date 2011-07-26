@@ -15,7 +15,7 @@
 	<p>{% blocktrans %}These are all the active games that you are not playing.{% endblocktrans %}</p>
 
 {% for game in game_list.object_list %}
-<div class="game_info">
+<div class="game_info {% if game.fast %}fast{% endif %}">
 <h2><span><a href="{{ game.get_absolute_url }}">{{ game.slug }}</a></span></h2>
 <div class="map">
 <img src="{{ MEDIA_URL }}maps/thumbnails/map-{{ game.pk }}.jpg" />
