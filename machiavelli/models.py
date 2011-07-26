@@ -1558,7 +1558,10 @@ class Game(models.Model):
 		if notification:
 			users = User.objects.filter(player__game=self,
 										player__eliminated=False)
-			notification.send(users, label, extra_context, on_site)
+			if self.fast:
+				notification.send_now(users, label, extra_context, on_site)
+			else:
+				notification.send(users, label, extra_context, on_site)
 
 	def tweet_message(self, message):
 		if twitter_api:
@@ -2054,7 +2057,10 @@ class Player(models.Model):
 					notification.send(user, "lost_player", extra_context, on_site=True)
 					## notify the new player
 					user = [rev.opposition]
-					notification.send(user, "got_player", extra_context, on_site=True)
+					if self.game.fast:
+						notification.send_now(user, "got_player", extra_context)	
+					else:
+						notification.send(user, "got_player", extra_context)
 				self.user = rev.opposition
 				logging.info("Government of %s is overthrown" % self.country)
 				if signals:

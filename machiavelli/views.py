@@ -940,7 +940,10 @@ def give_money(request, slug, player_id):
 				extra_context = {'game': lender.game,
 								'ducats': ducats,
 								'country': lender.country}
-				notification.send([borrower.user,], "received_ducats", extra_context , on_site=True)
+				if lender.game.fast:
+					notification.send_now([borrower.user,], "received_ducats", extra_context)
+				else:
+					notification.send([borrower.user,], "received_ducats", extra_context)
 			return redirect('show-game', slug=slug)
 	else:
 		form = forms.LendForm()

@@ -44,9 +44,13 @@ class Letter(messages.Message):
 def notify_new_letter(sender, instance, created, **kw):
 	if notification and isinstance(instance, Letter) and created:
 		user = [instance.recipient,]
-		extra_context = {'game': instance.recipient_player.game,
+		game = instance.recipient_player.game
+		extra_context = {'game': game,
 						'letter': instance }
-		notification.send(user, "condottieri_messages_received", extra_context , on_site=True)
+		if game.fast:
+			notification.send_now(user, "condottieri_messages_received", extra_context)
+		else:
+			notification.send(user, "condottieri_messages_received", extra_context)
 
 models.signals.post_save.connect(notify_new_letter, sender=Letter)
 
