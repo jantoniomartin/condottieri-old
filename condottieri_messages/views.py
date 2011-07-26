@@ -20,9 +20,10 @@ import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
 
 from messages.utils import format_quote
 from messages.models import Message
@@ -167,4 +168,71 @@ def outbox(request, slug=None):
 	return render_to_response('condottieri_messages/outbox.html',
    	    					context,
 							context_instance=RequestContext(request))
+
+##
+## 'delete' and 'undelete' code is taken from django-messages and modified
+## to disable notifications when a message is deleted or recovered
+##
+
+@login_required
+def delete(request, message_id, success_url=None):
+    """
+    Marks a message as deleted by sender or recipient. The message is not
+    really removed from the database, because two users must delete a message
+    before it's save to remove it completely. 
+    A cron-job should prune the database and remove old messages which are 
+    deleted by both users.
+    As a side effect, this makes it easy to implement a trash with undelete.
+    
+    You can pass ?next=/foo/bar/ via the url to redirect the user to a different
+    page (e.g. `/foo/bar/`) than ``success_url`` after deletion of the message.
+    """
+    user = request.user
+    now = datetime.datetime.now()
+    message = get_object_or_404(Message, id=message_id)
+    deleted = False
+    if success_url is None:
+        success_url = reverse('messages_inbox')
+    if request.GET.has_key('next'):
+        success_url = request.GET['next']
+    if message.sender == user:
+        message.sender_deleted_at = now
+        deleted = True
+    if message.recipient == user:
+        message.recipient_deleted_at = now
+        deleted = True
+    if deleted:
+        message.save()
+        user.message_set.create(message=_(u"Message successfully deleted."))
+        #if notification:
+        #    notification.send([user], "messages_deleted", {'message': message,})
+        return HttpResponseRedirect(success_url)
+    raise Http404
+
+@login_required
+def undelete(request, message_id, success_url=None):
+    """
+    Recovers a message from trash. This is achieved by removing the
+    ``(sender|recipient)_deleted_at`` from the model.
+    """
+    user = request.user
+    message = get_object_or_404(Message, id=message_id)
+    undeleted = False
+    if success_url is None:
+        success_url = reverse('messages_inbox')
+    if request.GET.has_key('next'):
+        success_url = request.GET['next']
+    if message.sender == user:
+        message.sender_deleted_at = None
+        undeleted = True
+    if message.recipient == user:
+        message.recipient_deleted_at = None
+        undeleted = True
+    if undeleted:
+        message.save()
+        user.message_set.create(message=_(u"Message successfully recovered."))
+        #if notification:
+        #    notification.send([user], "messages_recovered", {'message': message,})
+        return HttpResponseRedirect(success_url)
+    raise Http404
 

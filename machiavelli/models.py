@@ -113,6 +113,8 @@ ORDER_SUBCODES = (
 )
 
 ## time limit in seconds for a game phase
+#FAST_LIMITS = (15*60, )
+
 TIME_LIMITS = (
 			#(5*24*60*60, _('5 days')),
 			#(4*24*60*60, _('4 days')),
@@ -120,6 +122,7 @@ TIME_LIMITS = (
 			(2*24*60*60, _('2 days')),
 			(24*60*60, _('1 day')),
 			(12*60*60, _('1/2 day')),
+#			(15*60, _('15 min')),
 )
 
 ## SCORES
@@ -353,6 +356,12 @@ class Game(models.Model):
 	started = models.DateTimeField(blank=True, null=True)
 	finished = models.DateTimeField(blank=True, null=True)
 	cities_to_win = models.PositiveIntegerField(default=15)
+	#fast = models.BooleanField(default=0)
+
+	#def save(self, *args, **kwargs):
+	#	if not self.pk:
+	#		self.fast = self.time_limit in FAST_LIMITS
+	#	super(Game, self).save(*args, **kwargs)
 
 	##------------------------
 	## representation methods
@@ -560,19 +569,24 @@ class Game(models.Model):
 
 	def next_phase_change(self):
 		""" Returns the Time of the next compulsory phase change. """
-
-		## get the player with the highest karma, and not done
-		if self.phase == PHINACTIVE :
-			return False
-		highest = self.get_highest_karma()
-		if highest > 100:
-			if self.phase == PHORDERS:
-				k = 1 + (highest - 100) / 200
-			else:
-				k = 1
+		
+		#if self.fast:
+		if False:
+			## do not use karma
+			time_limit = self.time_limit
 		else:
-			k = highest / 100
-		time_limit = self.time_limit * k
+			## get the player with the highest karma, and not done
+			if self.phase == PHINACTIVE :
+				return False
+			highest = self.get_highest_karma()
+			if highest > 100:
+				if self.phase == PHORDERS:
+					k = 1 + (highest - 100) / 200
+				else:
+					k = 1
+			else:
+				k = highest / 100
+			time_limit = self.time_limit * k
 		
 		duration = timedelta(0, time_limit)
 

@@ -11,8 +11,8 @@ urlpatterns = patterns('messages.views',
     url(r'^$', redirect_to, {'url': 'inbox/'}),
 	url(r'^inbox/$', inbox, {'template_name': 'condottieri_messages/inbox.html',}, name='messages_inbox'),
     url(r'^outbox/$', outbox, {'template_name': 'condottieri_messages/outbox.html',}, name='messages_outbox'),
-    url(r'^delete/(?P<message_id>[\d]+)/$', 'delete', name='messages_delete'),
-    url(r'^undelete/(?P<message_id>[\d]+)/$', 'undelete', name='messages_undelete'),
+    #url(r'^delete/(?P<message_id>[\d]+)/$', 'delete', name='messages_delete'),
+    #url(r'^undelete/(?P<message_id>[\d]+)/$', 'undelete', name='messages_undelete'),
     url(r'^trash/$', trash, {'template_name': 'condottieri_messages/trash.html',}, name='messages_trash'),
 )
 
@@ -23,4 +23,6 @@ urlpatterns += patterns('condottieri_messages.views',
     url(r'^view/(?P<message_id>[\d]+)/$', 'view', name='condottieri_messages_detail'),
 	url(r'^inbox/(?P<slug>[-\w]+)/$', 'inbox', name='condottieri_messages_inbox'),
 	url(r'^outbox/(?P<slug>[-\w]+)/$', 'outbox', name='condottieri_messages_outbox'),
+    url(r'^delete/(?P<message_id>[\d]+)/$', 'delete', name='messages_delete'),
+    url(r'^undelete/(?P<message_id>[\d]+)/$', 'undelete', name='messages_undelete'),
 )
