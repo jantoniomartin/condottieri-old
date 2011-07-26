@@ -1,0 +1,4 @@
+{% load i18n %}
+
+{% blocktrans with game.slug as slug and game.get_phase_display as phase %}'{{ phase }}' has begun in '{{ slug }}'.{% endblocktrans %}
+

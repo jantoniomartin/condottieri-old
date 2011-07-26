@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-21 20:59+0200\n"
+"POT-Creation-Date: 2011-07-26 11:56+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -114,83 +114,83 @@ msgstr "Debes seleccionar un nuevo tipo para la unidad apoyada"
 msgid "You must choose an area"
 msgstr "Debes seleccionar un área"
 
-#: forms.py:275
+#: forms.py:276
 msgid "You must choose a unit"
 msgstr "Debes seleccionar una unidad"
 
-#: forms.py:277
+#: forms.py:279
 msgid "Unknown expense"
 msgstr "Gasto desconocido"
 
-#: forms.py:281
+#: forms.py:283
 #, python-format
 msgid "You must pay at least %s ducats"
 msgstr "Debes pagar al menos %s ducados"
 
-#: forms.py:285
+#: forms.py:287
 msgid "There is no famine in this area"
 msgstr "No hay hambruna en ese área"
 
-#: forms.py:291
+#: forms.py:293
 msgid "There is no rebellion in this area"
 msgstr "No hay una rebelión en ese área"
 
-#: forms.py:296
+#: forms.py:298
 msgid "This area is part of the player's home country"
 msgstr "El área es parte del país de origen del jugador"
 
-#: forms.py:298
+#: forms.py:300
 msgid "This area is not in the home country of the player who controls it"
 msgstr "El área no está en el país de origen del jugador que la controla"
 
-#: forms.py:300
+#: forms.py:302
 msgid "This area is not controlled by anyone"
 msgstr "Este área no está controlada por nadie"
 
-#: forms.py:305
+#: forms.py:307
 msgid "You must choose an autonomous garrison"
 msgstr "Debes elegir una guarnición autónoma"
 
-#: forms.py:309
+#: forms.py:311
 msgid "You cannot choose one of your own units"
 msgstr "No puedes elegir una de tus propias unidades"
 
-#: forms.py:311
+#: forms.py:313
 msgid "You must choose an enemy unit"
 msgstr "Debes seleccionar una unidad enemiga"
 
-#: forms.py:313
+#: forms.py:315
 msgid "You must choose a non-autonomous garrison"
 msgstr "Debes seleccionar una guarnición no autónoma"
 
-#: forms.py:336
+#: forms.py:338
 msgid ""
 "You cannot bribe this unit because it's too far from your units or areas"
 msgstr ""
 "No puedes sobornar a esta unidad porque está muy lejos de tus unidades y "
 "áreas"
 
-#: forms.py:345
+#: forms.py:347
 msgid "1 year, 20%"
 msgstr "1 año, 20%"
 
-#: forms.py:346
+#: forms.py:348
 msgid "2 years, 50%"
 msgstr "2 años, 50%"
 
-#: forms.py:350
+#: forms.py:352
 msgid "Ducats to borrow"
 msgstr "Ducados a prestar"
 
-#: forms.py:351
+#: forms.py:353
 msgid "Term and interest"
 msgstr "Plazo e interés"
 
-#: forms.py:362
+#: forms.py:364
 msgid "Ducats to pay"
 msgstr "Ducados a pagar"
 
-#: forms.py:363
+#: forms.py:365
 msgid "Target country"
 msgstr "País objetivo"
 
@@ -258,191 +258,191 @@ msgstr "Convoy"
 msgid "Support"
 msgstr "Apoyar"
 
-#: models.py:120
+#: models.py:122
 msgid "2 days"
 msgstr "2 días"
 
-#: models.py:121
+#: models.py:123
 msgid "1 day"
 msgstr "1 día"
 
-#: models.py:122
+#: models.py:124
 msgid "1/2 day"
 msgstr "1/2 día"
 
-#: models.py:2300
+#: models.py:2329
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
 
-#: models.py:2463
+#: models.py:2492
 #, python-format
 msgid "%(unit)s holds its position."
 msgstr "%(unit)s mantiene su posición."
 
-#: models.py:2465
+#: models.py:2494
 #, python-format
 msgid "%(unit)s tries to go to %(area)s."
 msgstr "%(unit)s intenta ir a %(area)s."
 
-#: models.py:2470
+#: models.py:2499
 #, python-format
 msgid "%(unit)s besieges the city."
 msgstr "%(unit)s asedia la ciudad."
 
-#: models.py:2472
+#: models.py:2501
 #, python-format
 msgid "%(unit)s tries to convert into %(type)s."
 msgstr "%(unit)s intenta convertirse en %(type)s."
 
-#: models.py:2477
+#: models.py:2506
 #, python-format
 msgid "%(unit)s must convoy %(subunit)s to %(area)s."
 msgstr "%(unit)s transporta a %(subunit)s a %(area)s."
 
-#: models.py:2484
+#: models.py:2513
 #, python-format
 msgid "%(unit)s supports %(subunit)s to hold its position."
 msgstr "%(unit)s apoya a %(subunit)s a mantener su posición."
 
-#: models.py:2489
+#: models.py:2518
 #, python-format
 msgid "%(unit)s supports %(subunit)s to go to %(area)s."
 msgstr "%(unit)s apoya a %(subunit)s a avanzar a %(area)s."
 
-#: models.py:2495
+#: models.py:2524
 #, python-format
 msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
 msgstr "%(unit)s apoya a %(subunit)s a convertirse en %(type)s."
 
-#: models.py:2754
+#: models.py:2783
 msgid "game"
 msgstr "juego"
 
-#: models.py:2755
+#: models.py:2784
 msgid "finances"
 msgstr "finanzas"
 
-#: models.py:2756
+#: models.py:2785
 msgid "assassinations"
 msgstr "asesinatos"
 
-#: models.py:2757 models.py:2759 models.py:2766
+#: models.py:2786 models.py:2788 models.py:2795
 msgid "will enable Finances"
 msgstr "se activarán las finanzas"
 
-#: models.py:2758
+#: models.py:2787
 msgid "bribes"
 msgstr "sobornos"
 
-#: models.py:2760
+#: models.py:2789
 msgid "excommunication"
 msgstr "excomunión"
 
-#: models.py:2762
+#: models.py:2791
 msgid "special units"
 msgstr "unidades especiales"
 
-#: models.py:2763
+#: models.py:2792
 msgid "will enable Finances and Bribes"
 msgstr "se activarán las finanzas y los sobornos"
 
-#: models.py:2764
+#: models.py:2793
 msgid "strategic movement"
 msgstr "movimiento estratégico"
 
-#: models.py:2765
+#: models.py:2794
 msgid "money lenders"
 msgstr "prestamistas"
 
-#: models.py:2767
+#: models.py:2796
 msgid "conquering"
 msgstr "conquista"
 
-#: models.py:2768
+#: models.py:2797
 msgid "famine"
 msgstr "hambruna"
 
-#: models.py:2769
+#: models.py:2798
 msgid "plague"
 msgstr "plaga"
 
-#: models.py:2794 templates/machiavelli/expenses_actions.html:20
+#: models.py:2823 templates/machiavelli/expenses_actions.html:20
 msgid "Famine relief"
 msgstr "Aliviar la hambruna"
 
-#: models.py:2795 templates/machiavelli/expenses_actions.html:23
+#: models.py:2824 templates/machiavelli/expenses_actions.html:23
 msgid "Pacify rebellion"
 msgstr "Pacificar rebelión"
 
-#: models.py:2796 templates/machiavelli/expenses_actions.html:26
+#: models.py:2825 templates/machiavelli/expenses_actions.html:26
 msgid "Conquered province to rebel"
 msgstr "Provocar rebelión en provincia conquistada"
 
-#: models.py:2797 templates/machiavelli/expenses_actions.html:29
+#: models.py:2826 templates/machiavelli/expenses_actions.html:29
 msgid "Home province to rebel"
 msgstr "Provocar rebelión en provincia de origen"
 
-#: models.py:2798 templates/machiavelli/expenses_actions.html:32
+#: models.py:2827 templates/machiavelli/expenses_actions.html:32
 msgid "Counter bribe"
 msgstr "Contrarrestar soborno"
 
-#: models.py:2799 templates/machiavelli/expenses_actions.html:35
+#: models.py:2828 templates/machiavelli/expenses_actions.html:35
 msgid "Disband autonomous garrison"
 msgstr "Desbandar guarnición autónoma"
 
-#: models.py:2800 templates/machiavelli/expenses_actions.html:38
+#: models.py:2829 templates/machiavelli/expenses_actions.html:38
 msgid "Buy autonomous garrison"
 msgstr "Comprar guarnición autónoma"
 
-#: models.py:2801 templates/machiavelli/expenses_actions.html:41
+#: models.py:2830 templates/machiavelli/expenses_actions.html:41
 msgid "Convert garrison unit"
 msgstr "Convertir guarnición en autónoma"
 
-#: models.py:2802 templates/machiavelli/expenses_actions.html:44
+#: models.py:2831 templates/machiavelli/expenses_actions.html:44
 msgid "Disband enemy unit"
 msgstr "Desbandar unidad enemiga"
 
-#: models.py:2803 templates/machiavelli/expenses_actions.html:47
+#: models.py:2832 templates/machiavelli/expenses_actions.html:47
 msgid "Buy enemy unit"
 msgstr "Comprar unidad enemiga"
 
-#: models.py:2859
+#: models.py:2888
 #, python-format
 msgid "%(country)s reliefs famine in %(area)s"
 msgstr "%(country)s alivia la hambruna en %(area)s"
 
-#: models.py:2860
+#: models.py:2889
 #, python-format
 msgid "%(country)s pacifies rebellion in %(area)s"
 msgstr "%(country)s pacifica la rebelión en %(area)s"
 
-#: models.py:2861 models.py:2862
+#: models.py:2890 models.py:2891
 #, python-format
 msgid "%(country)s promotes a rebellion in %(area)s"
 msgstr "%(country)s provoca una rebelión en %(area)s."
 
-#: models.py:2863
+#: models.py:2892
 #, python-format
 msgid "%(country)s tries to counter bribe on %(unit)s"
 msgstr "%(country)s intenta evitar un soborno sobre %(unit)s."
 
-#: models.py:2864 models.py:2867
+#: models.py:2893 models.py:2896
 #, python-format
 msgid "%(country)s tries to disband %(unit)s"
 msgstr "%(country)s intenta desbandar %(unit)s."
 
-#: models.py:2865 models.py:2868
+#: models.py:2894 models.py:2897
 #, python-format
 msgid "%(country)s tries to buy %(unit)s"
 msgstr "%(country)s intenta comprar %(unit)s."
 
-#: models.py:2866
+#: models.py:2895
 #, python-format
 msgid "%(country)s tries to turn %(unit)s into an autonomous garrison"
 msgstr "%(country)s intenta convertir %(unit)s en guarnición autónoma"
 
-#: models.py:2957
+#: models.py:2986
 #, python-format
 msgid "%(ducats)sd to kill the leader of %(country)s."
 msgstr "%(ducats)sd para matar al lider de %(country)s."
@@ -784,75 +784,75 @@ msgstr "Mediterráneo Occidental"
 msgid "Create an acccount on %(domain)s"
 msgstr "Crear una cuenta en %(domain)s"
 
-#: views.py:759
+#: views.py:763
 msgid "You cannot excommunicate in this game."
 msgstr "No puedes excomulgar en este juego."
 
-#: views.py:772
+#: views.py:776
 msgid "You have already excommunicated a country this year."
 msgstr "Ya habías excomulgado a un país este año."
 
-#: views.py:779
+#: views.py:783
 msgid "Excommunications cannot be reset."
 msgstr "No se pueden cancelar las excomuniones."
 
-#: views.py:782
+#: views.py:786
 msgid "You are not allowed to forgive excommunications."
 msgstr "No estás autorizado para perdonar excomuniones."
 
-#: views.py:854
+#: views.py:858
 msgid "Ranking for the user"
 msgstr "Clasificación del jugador"
 
-#: views.py:858
+#: views.py:862
 msgid "Ranking for the scenario"
 msgstr "Clasificación del escenario"
 
-#: views.py:862
+#: views.py:866
 msgid "Ranking for the country"
 msgstr "Clasificación del país"
 
-#: views.py:924
+#: views.py:928
 msgid "You cannot give money in this game."
 msgstr "No puedes entregar dinero en este juego."
 
-#: views.py:934
+#: views.py:938
 msgid "You cannot give more money than you have"
 msgstr "No puedes entregar más dinero del que tienes"
 
-#: views.py:959
+#: views.py:966
 msgid "You cannot borrow money in this moment."
 msgstr "No puedes pedir un préstamo en este momento."
 
-#: views.py:972
+#: views.py:979
 msgid "You cannot borrow so much money."
 msgstr "No puedes pedir prestado tanto dinero."
 
-#: views.py:979
+#: views.py:986
 msgid "The chosen term is not valid."
 msgstr "El plazo elegido no es válido."
 
-#: views.py:997
+#: views.py:1004
 msgid "You don't have enough money to repay the loan."
 msgstr "No tienes suficiente dinero para saldar el préstamo."
 
-#: views.py:1012
+#: views.py:1019
 msgid "You cannot buy an assassination in this moment."
 msgstr "No puedes comprar un asesinato en este momento."
 
-#: views.py:1022
+#: views.py:1029
 msgid "You don't have enough ducats for the assassination."
 msgstr "No tienes suficiente dinero para pagar el asesinato."
 
-#: views.py:1024
+#: views.py:1031
 msgid "You cannot kill an eliminated player."
 msgstr "No puedes asesinar a un jugador eliminado."
 
-#: views.py:1026
+#: views.py:1033
 msgid "You cannot kill yourself."
 msgstr "No puedes matarte a ti mismo."
 
-#: views.py:1030
+#: views.py:1037
 msgid "You don't have any assassins to kill this leader."
 msgstr "No tienes asesinos para matar a este líder."
 
@@ -2145,6 +2145,10 @@ msgstr "Últimos mensajes del foro"
 msgid "%(time)s ago by %(author)s"
 msgstr "hace %(time)s por %(author)s"
 
+#: templates/machiavelli/summary.html:116
+msgid "New notices"
+msgstr "Nuevos avisos"
+
 #: templates/machiavelli/turn_log_list.html:8
 msgid "Orders processing in game"
 msgstr "Procesamiento de órdenes en el juego"
@@ -2181,15 +2185,10 @@ msgstr "ver los resultados en "
 
 #: templates/notification/game_over/notice.html:3
 #, python-format
-msgid "The game '%(slug)s' has is over. You can "
-msgstr "El juego '%(slug)s' ha terminado. Puedes "
-
-#: templates/notification/game_over/notice.html:4
-msgid "see the results"
-msgstr "ver los resultados"
+msgid "'%(slug)s' is over."
+msgstr "'%(slug)s' ha terminado."
 
 #: templates/notification/game_started/full.txt:3
-#: templates/notification/game_started/notice.html:3
 #, python-format
 msgid "The game '%(slug)s' has just started. You can "
 msgstr "El juego '%(slug)s' acaba de empezar. Puedes "
@@ -2198,26 +2197,27 @@ msgstr "El juego '%(slug)s' acaba de empezar. Puedes "
 msgid "play it in "
 msgstr "jugar en "
 
-#: templates/notification/game_started/notice.html:4
-msgid "play it now"
-msgstr "jugar ahora"
+#: templates/notification/game_started/notice.html:3
+#, python-format
+msgid "'%(slug)s' has just started."
+msgstr "'%(slug)s' acaba de empezar."
 
 #: templates/notification/got_player/full.txt:3
-#: templates/notification/got_player/notice.html:3
 #, python-format
 msgid "You are now playing the game '%(slug)s'."
 msgstr "Ahora estás jugando en el juego '%(slug)s'."
 
 #: templates/notification/got_player/full.txt:5
-#: templates/notification/got_player/notice.html:5
 #: templates/notification/lost_player/full.txt:5
-#: templates/notification/lost_player/notice.html:5
 #: templates/notification/overthrow_attempt/full.txt:10
-#: templates/notification/overthrow_attempt/notice.html:10
 #: templates/notification/received_ducats/full.txt:5
-#: templates/notification/received_ducats/notice.html:5
 msgid "Go to the game"
 msgstr "Ir al juego"
+
+#: templates/notification/got_player/notice.html:3
+#, python-format
+msgid "You are now playing in '%(slug)s'."
+msgstr "Ahora estás jugando en '%(slug)s'."
 
 #: templates/notification/letter_received/full.txt:3
 #, python-format
@@ -2237,10 +2237,14 @@ msgid "Read the letter"
 msgstr "Leer la carta"
 
 #: templates/notification/lost_player/full.txt:3
-#: templates/notification/lost_player/notice.html:3
 #, python-format
 msgid "You have been overthrown in game '%(slug)s'."
 msgstr "Has sido derrocado en el juego '%(slug)s'."
+
+#: templates/notification/lost_player/notice.html:3
+#, python-format
+msgid "You have been overthrown in '%(slug)s'."
+msgstr "Has sido derrocado en '%(slug)s'."
 
 #: templates/notification/new_phase/full.txt:3
 #, python-format
@@ -2251,8 +2255,12 @@ msgstr "La fase '%(phase)s' ha comenzado en el juego '%(slug)s'. Puedes "
 msgid "go to the game"
 msgstr "ir al juego"
 
+#: templates/notification/new_phase/notice.html:3
+#, python-format
+msgid "'%(phase)s' has begun in '%(slug)s'."
+msgstr "'%(phase)s' ha comenzado en '%(slug)s'."
+
 #: templates/notification/overthrow_attempt/full.txt:3
-#: templates/notification/overthrow_attempt/notice.html:3
 #, python-format
 msgid ""
 "You have neglected your government\n"
@@ -2262,7 +2270,6 @@ msgstr ""
 "en el juego '%(slug)s' y alguien quiere ocupar tu lugar."
 
 #: templates/notification/overthrow_attempt/full.txt:6
-#: templates/notification/overthrow_attempt/notice.html:6
 msgid ""
 "If you want to keep playing in this game, you have only to\n"
 "make your actions, and you will keep your country. If you don't make your\n"
@@ -2273,7 +2280,6 @@ msgstr ""
 "acciones en la fase actual, otro jugador se hará cargo de tu país."
 
 #: templates/notification/overthrow_attempt/full.txt:12
-#: templates/notification/overthrow_attempt/notice.html:12
 msgid ""
 "If you do not want to play this game, it's better that you\n"
 "let the other player to take your country. This way you won't lose more "
@@ -2284,6 +2290,11 @@ msgstr ""
 "dejes al otro jugador tomar tu país. De esta forma no perderás más karma\n"
 "por no jugar en ese juego."
 
+#: templates/notification/overthrow_attempt/notice.html:3
+#, python-format
+msgid "Someone tries to overthrow you in '%(slug)s'."
+msgstr "Alguien intenta derrocarte en '%(slug)s'."
+
 #: templates/notification/received_ducats/full.txt:3
 #, python-format
 msgid ""
@@ -2292,6 +2303,20 @@ msgstr "Has recibido %(ducats)s ducados de %(country)s en el juego '%(slug)s'"
 
 #: templates/notification/received_ducats/notice.html:3
 #, python-format
-msgid ""
-"You have received %(ducats)s ducats from %(country)s in the game '%(slug)s'."
-msgstr "Has recibido %(ducats)s ducados de %(country)s en el juego '%(slug)s'."
+msgid "%(country)s sent you %(ducats)sd in '%(slug)s'."
+msgstr "%(country)s te ha enviado %(ducats)sd en '%(slug)s'."
+
+#~ msgid "The game '%(slug)s' has is over. You can "
+#~ msgstr "El juego '%(slug)s' ha terminado. Puedes "
+
+#~ msgid "see the results"
+#~ msgstr "ver los resultados"
+
+#~ msgid "play it now"
+#~ msgstr "jugar ahora"
+
+#~ msgid ""
+#~ "You have received %(ducats)s ducats from %(country)s in the game "
+#~ "'%(slug)s'."
+#~ msgstr ""
+#~ "Has recibido %(ducats)s ducados de %(country)s en el juego '%(slug)s'."

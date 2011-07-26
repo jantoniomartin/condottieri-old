@@ -1,5 +1,4 @@
 {% load i18n %}
 
-<p>{% blocktrans with game.slug as slug %}You have been overthrown in game '{{ slug }}'.{% endblocktrans %}</p>
+{% blocktrans with game.slug as slug %}You have been overthrown in '{{ slug }}'.{% endblocktrans %}
 
-<p><a href="{% url show-game game.slug %}">{% trans "Go to the game" %}</a></p>

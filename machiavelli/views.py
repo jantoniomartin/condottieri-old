@@ -78,6 +78,10 @@ def summary(request):
 		my_games_ids = Game.objects.filter(player__user=request.user).values('id')
 		context.update( {'revolutions': Revolution.objects.filter(opposition__isnull=True).exclude(government__game__id__in=my_games_ids).select_related('gorvernment__game__country')} )
 		context.update( {'actions': Player.objects.filter(user=request.user, game__slots=0, done=False).select_related('game')} )
+		## show unseen notices
+		if notification:
+			new_notices = notification.Notice.objects.notices_for(request.user, unseen=True, on_site=True)
+			context.update({'new_notices': new_notices,})
 	else:
 		joinable = Game.objects.filter(slots__gt=0).order_by('slots').select_related('scenario', 'configuration', 'player__user')
 		context.update( {'revolutions': Revolution.objects.filter(opposition__isnull=True).select_related('government__game__country')} )

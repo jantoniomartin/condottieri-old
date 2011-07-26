@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% blocktrans with game.slug as slug and letter.sender_player.country as country %}New letter from {{ country }} in '{{ slug }}'{% endblocktrans %}
+
+

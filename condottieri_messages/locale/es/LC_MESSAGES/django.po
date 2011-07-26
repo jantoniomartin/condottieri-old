@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-03 19:04+0200\n"
+"POT-Creation-Date: 2011-07-26 12:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,31 +26,27 @@ msgstr "Carta Recibida"
 msgid "you have received a letter"
 msgstr "has recibido una carta"
 
-#: models.py:34
+#: models.py:35
 msgid "From country"
 msgstr "Del país"
 
-#: models.py:35
+#: models.py:36
 msgid "To country"
 msgstr "Al país"
 
-#: views.py:36
+#: views.py:42
 msgid "Eliminated players cannot send or receive letters"
 msgstr "Los jugadores eliminados no pueden enviar ni recibir cartas"
 
-#: views.py:39
+#: views.py:45
 msgid "You cannot send letters in an inactive game."
 msgstr "No puedes enviar cartas en un juego inactivo"
 
-#: views.py:42
+#: views.py:48
 msgid "You cannot write to a country that you have excommunicated."
 msgstr "No puedes escribir a un país al que has excomulgado."
 
-#: views.py:66 views.py:108
-msgid "You can write letters only to other excommunicated countries."
-msgstr "Solo puedes escribir cartas a otros países excomulgados."
-
-#: views.py:100
+#: views.py:85
 #, python-format
 msgid ""
 "%(sender)s wrote:\n"
@@ -59,10 +55,22 @@ msgstr ""
 "%(sender)s escribió:\n"
 "%(body)s"
 
-#: views.py:103
+#: views.py:88
 #, python-format
 msgid "Re: %(subject)s"
 msgstr "Re: %(subject)s"
+
+#: views.py:98
+msgid "You can write letters only to other excommunicated countries."
+msgstr "Solo puedes escribir cartas a otros países excomulgados."
+
+#: views.py:206
+msgid "Message successfully deleted."
+msgstr ""
+
+#: views.py:233
+msgid "Message successfully recovered."
+msgstr ""
 
 #: templates/condottieri_messages/base.html:7
 msgid "Mail"
@@ -112,72 +120,72 @@ msgstr "Enviar"
 msgid "Return to game"
 msgstr "Volver al juego"
 
-#: templates/condottieri_messages/inbox.html:8
-#: templates/condottieri_messages/outbox.html:8
+#: templates/condottieri_messages/inbox.html:13
+#: templates/condottieri_messages/outbox.html:13
 #: templates/condottieri_messages/trash.html:8
 msgid "Game"
 msgstr "Juego"
 
-#: templates/condottieri_messages/inbox.html:8
-#: templates/condottieri_messages/outbox.html:8
+#: templates/condottieri_messages/inbox.html:15
+#: templates/condottieri_messages/outbox.html:15
 #: templates/condottieri_messages/trash.html:8
 msgid "Year"
 msgstr "Año"
 
-#: templates/condottieri_messages/inbox.html:8
-#: templates/condottieri_messages/outbox.html:8
+#: templates/condottieri_messages/inbox.html:15
+#: templates/condottieri_messages/outbox.html:15
 #: templates/condottieri_messages/trash.html:8
 msgid "Season"
 msgstr "Estación"
 
-#: templates/condottieri_messages/inbox.html:8
+#: templates/condottieri_messages/inbox.html:15
 #: templates/condottieri_messages/trash.html:8
 #: templates/condottieri_messages/view.html:8
 msgid "Sender"
 msgstr "Remitente"
 
-#: templates/condottieri_messages/inbox.html:8
-#: templates/condottieri_messages/outbox.html:8
+#: templates/condottieri_messages/inbox.html:15
+#: templates/condottieri_messages/outbox.html:15
 #: templates/condottieri_messages/trash.html:8
 #: templates/condottieri_messages/view.html:6
 #: templates/notification/condottieri_messages_received/full.txt:7
 msgid "Subject"
 msgstr "Asunto"
 
-#: templates/condottieri_messages/inbox.html:8
+#: templates/condottieri_messages/inbox.html:15
 msgid "Received"
 msgstr "Recibida"
 
-#: templates/condottieri_messages/inbox.html:8
-#: templates/condottieri_messages/outbox.html:8
+#: templates/condottieri_messages/inbox.html:15
+#: templates/condottieri_messages/outbox.html:15
 #: templates/condottieri_messages/trash.html:8
 msgid "Action"
 msgstr "Acción"
 
-#: templates/condottieri_messages/inbox.html:23
-#: templates/condottieri_messages/outbox.html:20
+#: templates/condottieri_messages/inbox.html:32
+#: templates/condottieri_messages/outbox.html:29
 #: templates/condottieri_messages/trash.html:20
 #: templates/condottieri_messages/view.html:11
 msgid "DATETIME_FORMAT"
 msgstr ""
 
-#: templates/condottieri_messages/inbox.html:24
-#: templates/condottieri_messages/outbox.html:21
+#: templates/condottieri_messages/inbox.html:33
+#: templates/condottieri_messages/outbox.html:30
 msgid "delete"
 msgstr "borrar"
 
-#: templates/condottieri_messages/inbox.html:30
-#: templates/condottieri_messages/outbox.html:27
+#: templates/condottieri_messages/inbox.html:39
+#: templates/condottieri_messages/outbox.html:36
 #: templates/condottieri_messages/trash.html:27
 msgid "No messages."
 msgstr "No hay mensajes"
 
-#: templates/condottieri_messages/outbox.html:8
+#: templates/condottieri_messages/outbox.html:15
 #: templates/condottieri_messages/view.html:12
 msgid "Recipient"
 msgstr "Destinatario"
 
-#: templates/condottieri_messages/outbox.html:8
+#: templates/condottieri_messages/outbox.html:15
 msgid "Sent"
 msgstr "Enviada"
 
@@ -230,3 +238,8 @@ msgstr "Cuerpo"
 #: templates/notification/condottieri_messages_received/full.txt:12
 msgid "Read the letter"
 msgstr "Leer la carta"
+
+#: templates/notification/condottieri_messages_received/notice.html:3
+#, python-format
+msgid "New letter from %(country)s in '%(slug)s'"
+msgstr "Nueva carta de %(country)s en '%(slug)s'"

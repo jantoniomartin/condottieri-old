@@ -110,3 +110,14 @@
 
 
 {% endblock %}
+
+{% block right_column_extra %}
+{% if new_notices %}
+<div id="new_notices">
+<h2>{% trans "New notices" %}</h2>
+<ul>
+{{ new_notices|unordered_list }}
+</ul>
+</div>
+{% endif %}
+{% endblock %}

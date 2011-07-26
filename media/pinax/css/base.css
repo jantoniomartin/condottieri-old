@@ -241,6 +241,13 @@ ul#messages li {
 	margin-top: 0.5em;
 }
 
+#right_column ul li {
+	list-style-type: none;
+}
+#right_column ul li:before {
+	content: "\00bb \ ";
+}
+
 #activity_count strong {
 	font-size: larger;
 }

@@ -1,5 +1,3 @@
 {% load i18n %}
 
-{% blocktrans with game.slug as slug %}You have received {{ ducats }} ducats from {{ country }} in the game '{{ slug }}'.{% endblocktrans %}
-
-<a href="{% url show-game game.slug %}">{% trans "Go to the game" %}</a>.
+{% blocktrans with game.slug as slug %}{{ country }} sent you {{ ducats }}d in '{{ slug }}'.{% endblocktrans %}
