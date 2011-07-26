@@ -784,7 +784,7 @@ class Game(models.Model):
 		#self.map_changed()
 		self.save()
 		self.make_map()
-		self.notify_players("new_phase", {"game": self}, on_site=False)
+		self.notify_players("new_phase", {"game": self})
     
 	def adjust_units(self):
 		""" Places new units and disbands the ones that are not paid """
