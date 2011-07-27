@@ -47,11 +47,12 @@
 {% endfor %}
 </ol>
 </div>
+
+{% block right_column_extra %}{% endblock %}
+
 <div style="text-align: center">
 <a href="http://www.twitter.com/condottierigame"><img src="http://twitter-badges.s3.amazonaws.com/twitter-a.png" alt="Follow condottierigame on Twitter"/></a>
 </div>
-
-{% block right_column_extra %}{% endblock %}
 
 {% if user.is_authenticated %}
 {% ifsetting INCLUDE_HOSTING_BANNER %}
