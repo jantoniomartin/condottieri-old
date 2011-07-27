@@ -3,6 +3,7 @@
 {% load i18n %}
 
 {% block actions %}
+<div class="action_block">
 <h2>{% trans "Orders writing" %}</h2>
 {% if done %}
 <p>{% blocktrans %}At least one player has not yet sent his orders. You have to wait until all
@@ -39,9 +40,11 @@ orders. If you want a unit to do nothing, select the "Hold" option for it.
 </li>
 {% endfor %}
 </ul>
+</div>
 
 {% if game.configuration.lenders and not player.defaulted %}
 
+<div class="action_block">
 <h2>{% trans "Loans" %}</h2>
 {% if loan %}
 <p>{% blocktrans with loan.debt as debt %}You owe {{ debt }} ducats to a banker.{% endblocktrans %}</p>
@@ -56,10 +59,14 @@ orders. If you want a unit to do nothing, select the "Hold" option for it.
 <p><a href="{% url borrow-money game.slug %}">{% trans "Ask for a loan" %}</a>.</p>
 {% endif %}
 {% endif %}
+</div>
 
 {% endif %}
 
+
 {% if game.configuration.finances %}
+
+<div class="action_block">
 <h2>{% trans "Expenses" %}</h2>
 {% if not done %}
 <p>{% blocktrans %}Finances are applied in this game. If you want to expend some of your ducats, click on the following link.{% endblocktrans %}</p>
@@ -71,9 +78,13 @@ orders. If you want a unit to do nothing, select the "Hold" option for it.
 {{ current_expenses|unordered_list }}
 </ul>
 {% endif %}
+</div>
+
 {% endif %}
 
 {% if game.configuration.assassinations %}
+
+<div class="action_block">
 <h2>{% trans "Assassination attempts" %}</h2>
 
 {% if assassinations %}
@@ -86,9 +97,13 @@ orders. If you want a unit to do nothing, select the "Hold" option for it.
 {% endif %}
 
 <p><a href="{% url assassination game.slug %}">{% trans "Try an assassination" %}</a></p>
+</div>
+
 {% endif %}
 
 {% ifequal player.done 0 %}
+
+<div class="action_block">
 <h2>{% trans "Confirm your actions" %}</h2>
 <form action="{% url confirm-orders game.slug %}" method="POST" />
 {% csrf_token %}
@@ -97,8 +112,10 @@ orders. If you want a unit to do nothing, select the "Hold" option for it.
 {% if game.configuration.finances %}
 <p>{% blocktrans %}Note that you will not be able to make new expenses once you have clicked the "Confirm" button.{% endblocktrans %}</p>
 {% endif %}
-<input type="submit" value="{% trans "Confirm" %}" />
+<p><input type="submit" value="{% trans "Confirm" %}" /></p>
 </form>
+</div>
+
 {% endifequal %}
 
 {% endblock %}

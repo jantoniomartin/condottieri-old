@@ -3,6 +3,7 @@
 {% load i18n %}
 
 {% block actions %}
+<div class="action_block">
 <p>{% trans "This game is inactive or you are not playing in it." %}</p>
 {% if player %}
 {% else %}
@@ -10,5 +11,5 @@
 			<a href="{% url machiavelli.views.join_game game.slug %}">{% trans "Join game" %}</a>
 		{% endifnotequal %}
 {% endif %}
-
+</div>
 {% endblock %}

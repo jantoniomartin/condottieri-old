@@ -3,6 +3,7 @@
 {% load i18n %}
 
 {% block actions %}
+<div class="action_block">
 <h2>{% trans "Military Adjustment" %}</h2>
 <h3>{% trans "Military unit payment" %}</h3>
 {% if done %}
@@ -26,5 +27,5 @@ select. The units not selected will be disbanded.</p>{% endblocktrans %}
 
 </form>
 {% endif %}
-
+</div>
 {% endblock %}

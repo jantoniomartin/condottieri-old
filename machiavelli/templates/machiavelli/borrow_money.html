@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block actions %}
-
+<div class="action_block">
 {% if loan %}
 
 <h2>{% trans "Repay a loan" %}</h2>
@@ -31,10 +31,10 @@
 {% if loan %}
 <input type="submit" value="{% trans "Repay loan" %}" />
 {% else %}
-<input type="submit" value="{% trans "Confirm" %}" />
+<p><input type="submit" value="{% trans "Confirm" %}" /></p>
 {% endif %}
 </form>
 
 <p><a href="{% url show-game game.slug %}">{% trans "Return to game" %}</a></p>
-
+</div>
 {% endblock %}

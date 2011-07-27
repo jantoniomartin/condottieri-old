@@ -3,6 +3,7 @@
 {% load i18n %}
 
 {% block actions %}
+<div class="action_block">
 <h2>{% trans "Military Adjustment" %}</h2>
 {% if done %}
 
@@ -110,5 +111,5 @@ players have done it or the time limit is reached.{% endblocktrans %}</p>
 
 </form>
 {% endif %}
-
+</div>
 {% endblock %}

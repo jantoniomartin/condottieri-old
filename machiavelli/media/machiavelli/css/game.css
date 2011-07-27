@@ -274,7 +274,46 @@ tr.closed_game a{
 }
 
 #actions form fieldset {
+	width: 90%;
+	margin-left: 5%;
 	border: solid 1px #666;
+}
+
+.action_block {
+	padding: 0 0 0.5em 0;
+	background-color: #4f4f4f;
+	border-bottom: solid 2px #191919;
+}
+.action_block a, .action_block a:visited {
+	color: #d3a152;
+}
+.action_block h1, .action_block h2 {
+	margin-top: 1em;
+	background: #9f2727;
+	padding: 0.2em 0.5em;
+}
+
+.action_block h3 {
+	margin-left: 0;
+	font-size: larger;
+}
+
+.action_block h3 a {
+	margin-left: 0;
+	font-size: larger;
+	text-decoration: none;
+}
+
+.action_block ul {
+	padding-left: 1em;
+}
+
+.action_block li {
+	line-height: 150%;
+}
+
+.action_block table {
+	margin-left: 10%;
 }
 
 .action_form table {
@@ -295,7 +334,7 @@ tr.closed_game a{
 
 #sent_orders li {
 	list-style-type: none;
-	margin: 0px;
+	margin: 2px 1em;
 	padding: 0.5em;
 	border: solid 1px #444;
 }

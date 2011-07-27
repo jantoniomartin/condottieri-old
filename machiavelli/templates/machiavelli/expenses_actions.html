@@ -3,6 +3,7 @@
 {% load i18n %}
 
 {% block actions %}
+<div class="action_block">
 <h2>{% trans "Expenses" %}</h2>
 {% if not done %}
 <p>{% blocktrans %}You may expend some of your ducats to affect an area or a unit in different ways. Expenses take effect just before the conflicts resolution.{% endblocktrans %}</p>
@@ -73,6 +74,6 @@
 {% endif %}
 
 <p><a href="{% url show-game game.slug %}">{% trans "Return to game" %}</a></p>
-
+</div>
 {% endblock %}
 
