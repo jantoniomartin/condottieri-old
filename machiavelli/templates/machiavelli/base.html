@@ -1,6 +1,7 @@
 {% extends 'site_base.html' %}
 
 {% load i18n %}
+{% load ifsetting_tag %}
 {% load avatar_tags %}
 
 {% block extra_head %}{% endblock %}
@@ -51,6 +52,12 @@
 </div>
 
 {% block right_column_extra %}{% endblock %}
+
+{% if user.is_authenticated %}
+{% ifsetting INCLUDE_HOSTING_BANNER %}
+	{% include 'hosting.html' %}
+{% endifsetting %}
+{% endif %}
 </div>
 {% endblock %}
 

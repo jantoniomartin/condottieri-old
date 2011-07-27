@@ -17,4 +17,5 @@ maintenance.html*
 activate
 doc/_*
 templates/ganalytics.html
+templates/hosting.html
 third_party/
