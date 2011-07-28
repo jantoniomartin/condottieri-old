@@ -30,6 +30,7 @@ from datetime import datetime, timedelta
 from django.db import models
 from django.db.models import permalink, Q, F, Count, Sum
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.core.cache import cache
 from django.contrib.auth.models import User
 import django.forms as forms
 from django.utils.translation import ugettext_lazy as _
@@ -380,22 +381,26 @@ class Game(models.Model):
 	get_absolute_url = models.permalink(get_absolute_url)
 	
 	def player_list_ordered_by_cities(self):
-		from django.db import connection
-		cursor = connection.cursor()
-		cursor.execute("SELECT machiavelli_player.*, COUNT(machiavelli_gamearea.id) \
-		AS cities \
-		FROM machiavelli_player \
-		LEFT JOIN (machiavelli_gamearea \
-		INNER JOIN machiavelli_area \
-		ON machiavelli_gamearea.board_area_id=machiavelli_area.id) \
-		ON machiavelli_gamearea.player_id=machiavelli_player.id \
-		WHERE (machiavelli_player.game_id=%s AND machiavelli_player.country_id \
-		AND (machiavelli_area.has_city=1 OR machiavelli_gamearea.id IS NULL)) \
-		GROUP BY machiavelli_player.id \
-		ORDER BY cities DESC, machiavelli_player.id;" % self.id)
-		result_list = []
-		for row in cursor.fetchall():
-			result_list.append(Player.objects.get(id=row[0]))
+		key = "game-%s_player-list" % self.pk
+		result_list = cache.get(key)
+		if result_list is None:
+			from django.db import connection
+			cursor = connection.cursor()
+			cursor.execute("SELECT machiavelli_player.*, COUNT(machiavelli_gamearea.id) \
+			AS cities \
+			FROM machiavelli_player \
+			LEFT JOIN (machiavelli_gamearea \
+			INNER JOIN machiavelli_area \
+			ON machiavelli_gamearea.board_area_id=machiavelli_area.id) \
+			ON machiavelli_gamearea.player_id=machiavelli_player.id \
+			WHERE (machiavelli_player.game_id=%s AND machiavelli_player.country_id \
+			AND (machiavelli_area.has_city=1 OR machiavelli_gamearea.id IS NULL)) \
+			GROUP BY machiavelli_player.id \
+			ORDER BY cities DESC, machiavelli_player.id;" % self.id)
+			result_list = []
+			for row in cursor.fetchall():
+				result_list.append(Player.objects.get(id=row[0]))
+			cache.set(key, result_list)
 		return result_list
 
 	def highest_score(self):
@@ -657,6 +662,7 @@ class Game(models.Model):
 		if logging:
 			logging.info(msg)
 		self.all_players_done()
+		cache.delete("game-%s_player-list" % self.pk)
 		## If I don't reload players, p.new_phase overwrite the changes made by
 		## self.assign_incomes()
 		## TODO: optimize this
