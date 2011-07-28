@@ -35,7 +35,7 @@ from django.contrib.auth.models import User
 import django.forms as forms
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
-from django.template.defaultfilters import capfirst, truncatewords
+from django.template.defaultfilters import capfirst, truncatewords, timesince, force_escape
 
 if "notification" in settings.INSTALLED_APPS:
 	from notification import models as notification
@@ -2835,6 +2835,7 @@ class Configuration(models.Model):
 	conquering = models.BooleanField(_('conquering'), default=False)
 	famine = models.BooleanField(_('famine'), default=False)
 	plague = models.BooleanField(_('plague'), default=False)
+	gossip = models.BooleanField(_('gossip'), default=False)
 
 	def __unicode__(self):
 		return unicode(self.game)
@@ -3024,3 +3025,26 @@ class Assassination(models.Model):
 	def explain(self):
 		return _("%(ducats)sd to kill the leader of %(country)s.") % {'ducats': self.ducats,
 																	'country': self.target.country}
+
+class Whisper(models.Model):
+	""" A whisper is an _anonymous_ message that is shown in the game screen. """
+	created_at = models.DateTimeField(auto_now_add=True)
+	user = models.ForeignKey(User)
+	as_admin = models.BooleanField(default=False)
+	game = models.ForeignKey(Game)
+	text = models.CharField(max_length=140)
+
+	class Meta: ordering = ["-created_at" ,]
+
+	def __unicode__(self):
+		return self.text
+
+	def as_li(self):
+		if self.as_admin:
+			li = u"<li class=\"admin\">"
+		else:
+			li = u"<li>"
+		html = u"%(li)s%(text)s<span class=\"date\">%(date)s</span> </li>" % { 'li': li,
+																'date': timesince(self.created_at),
+																'text': force_escape(self.text), }
+		return html

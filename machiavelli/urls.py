@@ -35,6 +35,7 @@ urlpatterns = patterns('machiavelli.views',
 	url(r'^game/(?P<slug>[-\w]+)/confirm_orders$', 'confirm_orders', name='confirm-orders'),
 	url(r'^game/(?P<slug>[-\w]+)/delete_order/(?P<order_id>\d+)$', 'delete_order', name='delete-order'),
 	url(r'^game/(?P<slug>[-\w]+)/expenses$', 'play_game', kwargs={'extra': 'expenses'}, name='expenses'),
+	url(r'^game/(?P<slug>[-\w]+)/whisper$', 'new_whisper', name='new-whisper'),
 	url(r'^game/(?P<slug>[-\w]+)', 'play_game', name='show-game'),
 	#url(r'^jsgame/(?P<slug>[-\w]+)', 'js_play_game', name='js-play-game'),
 )

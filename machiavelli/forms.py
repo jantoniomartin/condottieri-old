@@ -60,6 +60,19 @@ class ConfigurationForm(forms.ModelForm):
 				'special_units',
 				'strategic')
 
+class WhisperForm(forms.ModelForm):
+	class Meta:
+		model = Whisper
+		fields = ('text',)
+		widgets = {
+			'text': forms.Textarea(attrs={'rows': 3, 'cols': 20})
+		}
+
+	def __init__(self, user, game, **kwargs):
+		super(WhisperForm, self).__init__(**kwargs)
+		self.instance.user = user
+		self.instance.game = game
+
 class UnitForm(forms.ModelForm):
 	type = forms.ChoiceField(required=True, choices=UNIT_TYPES)
     

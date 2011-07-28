@@ -148,6 +148,9 @@ class AssassinAdmin(admin.ModelAdmin):
 class AssassinationAdmin(admin.ModelAdmin):
 	pass
 
+class WhisperAdmin(admin.ModelAdmin):
+	pass
+
 admin.site.register(Scenario, ScenarioAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Game, GameAdmin)
@@ -166,3 +169,4 @@ admin.site.register(Rebellion, RebellionAdmin)
 admin.site.register(Loan, LoanAdmin)
 admin.site.register(Assassin, AssassinAdmin)
 admin.site.register(Assassination, AssassinationAdmin)
+admin.site.register(Whisper, WhisperAdmin)

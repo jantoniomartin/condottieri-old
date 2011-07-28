@@ -262,6 +262,11 @@ def base_context(request, game, player):
 	rules = game.configuration.get_enabled_rules()
 	if len(rules) > 0:
 		context['rules'] = rules
+	
+	if game.configuration.gossip:
+		whispers = game.whisper_set.all()[:10]
+		context.update({'whispers': whispers,
+						'whisper_form': forms.WhisperForm(request.user, game),})
 		
 	return context
 
@@ -1058,4 +1063,16 @@ def assassination(request, slug):
 							context,
 							context_instance=RequestContext(request))
 
+@login_required
+def new_whisper(request, slug):
+	game = get_object_or_404(Game, slug=slug)
+	try:
+		player = Player.objects.get(user=request.user, game=game)
+	except ObjectDoesNotExist:
+		return game_error(request, game, _("You cannot write messages in this game"))
+	if request.method == 'POST':
+		form = forms.WhisperForm(request.user, game, data=request.POST)
+		if form.is_valid():
+			form.save()
+	return redirect('show-game', slug=slug)
 
