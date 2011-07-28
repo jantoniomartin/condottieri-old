@@ -31,6 +31,7 @@ from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from django.db.models import Q, F
+from django.core.cache import cache
 from django.views.decorators.cache import never_cache, cache_page
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.conf import settings
@@ -65,9 +66,17 @@ else:
 from machiavelli.models import Unit
 
 def sidebar_context(request):
-	context = {}
-	context.update( {'activity': Player.objects.values("user").distinct().count()} )
-	context.update( {'top_users': CondottieriProfile.objects.all().order_by('-total_score').select_related('user')[:5]} )
+	timeout = 30*60
+	activity = cache.get('sidebar_activity')
+	if not activity:
+		activity = Player.objects.values("user").distinct().count()
+		cache.set('sidebar_activity', activity, timeout)
+	top_users = cache.get('sidebar_top_users')
+	if not top_users:
+		top_users = CondottieriProfile.objects.all().order_by('-total_score').select_related('user')[:5]
+		cache.set('sidebar_top_users', top_users, timeout)
+	context = { 'activity': activity,
+				'top_users': top_users,}
 	return context
 
 def summary(request):
@@ -682,6 +691,7 @@ def create_game(request):
 			config_form = forms.ConfigurationForm(request.POST,
 												instance=new_game.configuration)
 			config_form.save()
+			cache.delete('sidebar_activity')
 			return redirect('summary')
 	else:
 		game_form = forms.GameForm(request.user)
@@ -709,6 +719,7 @@ def join_game(request, slug=''):
 			new_player = Player(user=request.user, game=g)
 			new_player.save()
 			g.player_joined()
+			cache.delete('sidebar_activity')
 	return redirect('summary')
 
 @login_required
@@ -724,6 +735,7 @@ def leave_game(request, slug=''):
 			player.delete()
 			g.slots += 1
 			g.save()
+			cache.delete('sidebar_activity')
 	else:
 		## you cannot leave a game that has already started
 		raise Http404
