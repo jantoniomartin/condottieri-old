@@ -411,6 +411,24 @@ class Game(models.Model):
 		scores = self.score_set.all().order_by('-points')
 		return scores[0]
 
+	def get_all_units(self):
+		""" Returns a queryset with all the units in the board. """
+		key = "game-%s_all-units" % self.pk
+		all_units = cache.get(key)
+		if all_units is None:
+			all_units = Unit.objects.select_related().filter(player__game=self).order_by('area__board_area__name')
+			cache.set(key, all_units)
+		return all_units
+
+	def get_all_gameareas(self):
+		""" Returns a queryset with all the game areas in the board. """
+		key = "game-%s_all-areas" % self.pk
+		all_areas = cache.get(key)
+		if all_areas is None:
+			all_areas = self.gamearea_set.select_related().order_by('board_area__code')
+			cache.set(key, all_areas)
+		return all_areas
+
 	##------------------------
 	## map methods
 	##------------------------
@@ -562,6 +580,15 @@ class Game(models.Model):
 	## time controlling methods
 	##--------------------------
 
+	def clear_phase_cache(self):
+		cache_keys = [
+			"game-%s_player_list" % self.pk,
+			"game-%s_all-units" % self.pk,
+			"game-%s_all-areas" % self.pk,
+		]
+		for k in cache_keys:
+			cache.delete(k)
+
 	def get_highest_karma(self):
 		""" Returns the karma of the non-finished player with the highest value.
 			
@@ -662,7 +689,7 @@ class Game(models.Model):
 		if logging:
 			logging.info(msg)
 		self.all_players_done()
-		cache.delete("game-%s_player-list" % self.pk)
+		self.clear_phase_cache()
 		## If I don't reload players, p.new_phase overwrite the changes made by
 		## self.assign_incomes()
 		## TODO: optimize this

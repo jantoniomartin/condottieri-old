@@ -1,4 +1,5 @@
 import django.forms as forms
+from django.core.cache import cache
 from django.forms.formsets import BaseFormSet
 from django.utils.safestring import mark_safe
 from django.db.models import Q
@@ -72,9 +73,9 @@ def make_order_form(player):
 		bought_ids = Expense.objects.filter(player=player, type__in=(6,9)).values_list('unit', flat=True)
 		units_qs = Unit.objects.filter(Q(player=player) | Q(id__in=bought_ids))
 	else:
-		units_qs = player.unit_set.all()
-	all_units = Unit.objects.filter(player__game=player.game).order_by('area__board_area__name')
-	all_areas = player.game.gamearea_set.order_by('board_area__code')
+		units_qs = player.unit_set.select_related().all()
+	all_units = player.game.get_all_units()
+	all_areas = player.game.get_all_gameareas()
 	
 	class OrderForm(forms.ModelForm):
 		unit = forms.ModelChoiceField(queryset=units_qs, label=_("Unit"))
