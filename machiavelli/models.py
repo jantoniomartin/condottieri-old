@@ -153,12 +153,14 @@ class Scenario(models.Model):
 	name = models.CharField(max_length=16, unique=True)
 	title = AutoTranslateField(max_length=128)
 	start_year = models.PositiveIntegerField()
+	## this field is added to improve the performance of some queries
+	number_of_players = models.PositiveIntegerField(default=0)
 	cities_to_win = models.PositiveIntegerField(default=15)
 	enabled = models.BooleanField(default=False) # this allows me to create the new setups in the admin
 
 	def get_slots(self):
-		slots = len(self.setup_set.values('country').distinct()) - 1
-		return slots
+		#slots = len(self.setup_set.values('country').distinct()) - 1
+		return self.number_of_players
 
 	def __unicode__(self):
 		return self.title
