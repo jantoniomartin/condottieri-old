@@ -1,10 +1,14 @@
 {% extends "machiavelli/base.html" %}
 
+{% load cache %}
 {% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
 
 {% block head_title %}{% trans "Scenario" %}: {{ scenario.title }}{% endblock %}
 
 {% block body %}
+{% cache 1800 "scenario" scenario.id LANGUAGE_CODE %}
 <h1>{% trans "Scenario" %}: {{ scenario.title }}</h1>
 <h2>{% trans "Basic data" %}</h2>
 <dl>
@@ -55,7 +59,7 @@
 </tr>
 </thead>
 <tr>
-<td>{{ mayor_cities|join:", " }}</td>
+<td>{{ major_cities|join:", " }}</td>
 </tr>
 </table>
 
@@ -69,4 +73,5 @@
 <td>{{ disabled_areas|join:", " }}</td>
 </tr>
 </table>
+{% endcache %}
 {% endblock %}

@@ -66,15 +66,14 @@ else:
 from machiavelli.models import Unit
 
 def sidebar_context(request):
-	timeout = 30*60
 	activity = cache.get('sidebar_activity')
 	if not activity:
 		activity = Player.objects.values("user").distinct().count()
-		cache.set('sidebar_activity', activity, timeout)
+		cache.set('sidebar_activity', activity)
 	top_users = cache.get('sidebar_top_users')
 	if not top_users:
 		top_users = CondottieriProfile.objects.all().order_by('-total_score').select_related('user')[:5]
-		cache.set('sidebar_top_users', top_users, timeout)
+		cache.set('sidebar_top_users', top_users)
 	context = { 'activity': activity,
 				'top_users': top_users,}
 	return context
@@ -821,8 +820,8 @@ def show_scenario(request, scenario_id):
 	for c in countries:
 		data = {}
 		data['name'] = c.name
-		data['homes'] = c.home_set.filter(scenario=scenario)
-		data['setups'] = c.setup_set.filter(scenario=scenario)
+		data['homes'] = c.home_set.select_related().filter(scenario=scenario)
+		data['setups'] = c.setup_set.select_related().filter(scenario=scenario)
 		treasury = c.treasury_set.get(scenario=scenario)
 		data['ducats'] = treasury.ducats
 		data['double'] = treasury.double
