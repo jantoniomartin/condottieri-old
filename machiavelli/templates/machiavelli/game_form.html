@@ -1,12 +1,17 @@
 {% extends "machiavelli/base.html" %}
 
 {% load i18n %}
+{% load cache %}
+
+{% get_current_language as LANGUAGE_CODE %}
 
 {% load uni_form_tags %}
 
 {% block head_title %}{% blocktrans %}Games{% endblocktrans %}{% endblock %}
 
 {% block left_column %}
+
+{% cache 3600 new_game LANGUAGE_CODE %}
 <h1>{% trans "New game" %}</h1>
 <p>{% blocktrans %}Here you can create a new game. You will be the first player of any game
 you create. You must choose a short name for the game, that will be used only to identify it.{% endblocktrans %}</p>
@@ -30,6 +35,9 @@ phases of the game. This time limit is reset when all the players have completed
 </tr>
 {% endfor %}
 </table>
+
+{% endcache %}
+
 <h2>{% trans "Create a new game" %}</h2>
 
 <div style="width: 50%">
