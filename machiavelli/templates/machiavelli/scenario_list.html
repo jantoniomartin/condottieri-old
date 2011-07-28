@@ -1,10 +1,14 @@
 {% extends "machiavelli/base.html" %}
 
 {% load i18n %}
+{% load cache %}
+
+{% get_current_language as LANGUAGE_CODE %}
 
 {% block head_title %}{% trans "Scenarios" %}{% endblock %}
 
 {% block left_column %}
+{% cache 3600 scenarios LANGUAGE_CODE %}
 <h1>{% trans "Scenarios" %}</h1>
 <table>
 <thead><tr>
@@ -23,4 +27,5 @@
 {% endfor %}
 </table>
 
+{% endcache %}
 {% endblock %}
