@@ -1,8 +1,11 @@
 {% extends "machiavelli/base.html" %}
 
 {% load i18n %}
+{% load cache %}
 {% load forum_tags %}
 {% load game_icons %}
+
+{% get_current_language as LANGUAGE_CODE %}
 
 {% block head_title %}{% blocktrans %}A Game Of Diplomacy And War{% endblocktrans %}{% endblock %}
 
@@ -92,6 +95,7 @@
 
 
 {% if forum %}
+{% cache 600 "forum_latest" LANGUAGE_CODE %}
 <div id="forum_latest" class="section">
 {% forum_latest_thread_activity 5 as latest_activity %}
 <h2>{% trans "Latest forum posts" %}</h2>
@@ -104,6 +108,7 @@
 {% endfor %}
 </ul>
 </div>
+{% endcache %}
 {% endif %}
 
 
