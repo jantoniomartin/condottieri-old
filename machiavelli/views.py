@@ -1076,3 +1076,14 @@ def new_whisper(request, slug):
 			form.save()
 	return redirect('show-game', slug=slug)
 
+@login_required
+def whisper_list(request, slug):
+	game = get_object_or_404(Game, slug=slug)
+	whisper_list = game.whisper_set.all()
+	context = {
+		'game': game,
+		'whisper_list': whisper_list,
+		}
+	return render_to_response('machiavelli/whisper_list.html',
+							context,
+							context_instance=RequestContext(request))

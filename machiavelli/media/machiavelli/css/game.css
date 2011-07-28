@@ -339,7 +339,7 @@ tr.closed_game a{
 	border: solid 1px #444;
 }
 
-#shoutbox {
+#mini_shoutbox {
 	width: 24%;
 	margin-left: 75%;
 	padding: 0 0 0.5em 0;
@@ -347,31 +347,31 @@ tr.closed_game a{
 	background-color: #4f4f4f;
 }
 
-#shoutbox h2 {
+#mini_shoutbox h2 {
 	background: #9f2727;
 	padding: 0.2em 0.5em;
 }
 
-#shoutbox ul li {
+#shoutbox ul li, #mini_shoutbox ul li {
 	list-style-type: none;
 	padding: 0.5em;
 }
 
-#shoutbox .date {
+#shoutbox .date, #mini_shoutbox .date {
 	display: block;
 	font-size: smaller;
 	color: #ccc;
 }
 
-#shoutbox .admin {
+#shoutbox .admin, #mini_shoutbox .admin {
 	background-color: #c14200;
 	font-style: italic;
 }
 
-#shoutbox form {
+#mini_shoutbox form {
 	margin-left: 5%;
 }
 
-#shoutbox textarea {
+#mini_shoutbox textarea {
 	width: 90%;
 }
