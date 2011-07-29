@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-29 09:18+0200\n"
+"POT-Creation-Date: 2011-07-29 12:42+0200\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -282,183 +282,188 @@ msgstr "1/2 día"
 msgid "15 min"
 msgstr "15 min"
 
-#: models.py:2405
+#: models.py:301
+#, python-format
+msgid "%(unit)s in %(area)s"
+msgstr "%(unit)s en %(area)s"
+
+#: models.py:2406
 #, python-format
 msgid "%(type)s in %(area)s"
 msgstr "%(type)s en %(area)s"
 
-#: models.py:2568
+#: models.py:2569
 #, python-format
 msgid "%(unit)s holds its position."
 msgstr "%(unit)s mantiene su posición."
 
-#: models.py:2570
+#: models.py:2571
 #, python-format
 msgid "%(unit)s tries to go to %(area)s."
 msgstr "%(unit)s intenta ir a %(area)s."
 
-#: models.py:2575
+#: models.py:2576
 #, python-format
 msgid "%(unit)s besieges the city."
 msgstr "%(unit)s asedia la ciudad."
 
-#: models.py:2577
+#: models.py:2578
 #, python-format
 msgid "%(unit)s tries to convert into %(type)s."
 msgstr "%(unit)s intenta convertirse en %(type)s."
 
-#: models.py:2582
+#: models.py:2583
 #, python-format
 msgid "%(unit)s must convoy %(subunit)s to %(area)s."
 msgstr "%(unit)s transporta a %(subunit)s a %(area)s."
 
-#: models.py:2589
+#: models.py:2590
 #, python-format
 msgid "%(unit)s supports %(subunit)s to hold its position."
 msgstr "%(unit)s apoya a %(subunit)s a mantener su posición."
 
-#: models.py:2594
+#: models.py:2595
 #, python-format
 msgid "%(unit)s supports %(subunit)s to go to %(area)s."
 msgstr "%(unit)s apoya a %(subunit)s a avanzar a %(area)s."
 
-#: models.py:2600
+#: models.py:2601
 #, python-format
 msgid "%(unit)s supports %(subunit)s to convert into %(type)s."
 msgstr "%(unit)s apoya a %(subunit)s a convertirse en %(type)s."
 
-#: models.py:2852
+#: models.py:2853
 msgid "game"
 msgstr "juego"
 
-#: models.py:2853
+#: models.py:2854
 msgid "finances"
 msgstr "finanzas"
 
-#: models.py:2854
+#: models.py:2855
 msgid "assassinations"
 msgstr "asesinatos"
 
-#: models.py:2855 models.py:2857 models.py:2864
+#: models.py:2856 models.py:2858 models.py:2865
 msgid "will enable Finances"
 msgstr "se activarán las finanzas"
 
-#: models.py:2856
+#: models.py:2857
 msgid "bribes"
 msgstr "sobornos"
 
-#: models.py:2858
+#: models.py:2859
 msgid "excommunication"
 msgstr "excomunión"
 
-#: models.py:2860
+#: models.py:2861
 msgid "special units"
 msgstr "unidades especiales"
 
-#: models.py:2861
+#: models.py:2862
 msgid "will enable Finances and Bribes"
 msgstr "se activarán las finanzas y los sobornos"
 
-#: models.py:2862
+#: models.py:2863
 msgid "strategic movement"
 msgstr "movimiento estratégico"
 
-#: models.py:2863
+#: models.py:2864
 msgid "money lenders"
 msgstr "prestamistas"
 
-#: models.py:2865
+#: models.py:2866
 msgid "conquering"
 msgstr "conquista"
 
-#: models.py:2866
+#: models.py:2867
 msgid "famine"
 msgstr "hambruna"
 
-#: models.py:2867
+#: models.py:2868
 msgid "plague"
 msgstr "plaga"
 
-#: models.py:2868
+#: models.py:2869
 msgid "gossip"
 msgstr "rumores"
 
-#: models.py:2893 templates/machiavelli/expenses_actions.html:21
+#: models.py:2894 templates/machiavelli/expenses_actions.html:21
 msgid "Famine relief"
 msgstr "Aliviar la hambruna"
 
-#: models.py:2894 templates/machiavelli/expenses_actions.html:24
+#: models.py:2895 templates/machiavelli/expenses_actions.html:24
 msgid "Pacify rebellion"
 msgstr "Pacificar rebelión"
 
-#: models.py:2895 templates/machiavelli/expenses_actions.html:27
+#: models.py:2896 templates/machiavelli/expenses_actions.html:27
 msgid "Conquered province to rebel"
 msgstr "Provocar rebelión en provincia conquistada"
 
-#: models.py:2896 templates/machiavelli/expenses_actions.html:30
+#: models.py:2897 templates/machiavelli/expenses_actions.html:30
 msgid "Home province to rebel"
 msgstr "Provocar rebelión en provincia de origen"
 
-#: models.py:2897 templates/machiavelli/expenses_actions.html:33
+#: models.py:2898 templates/machiavelli/expenses_actions.html:33
 msgid "Counter bribe"
 msgstr "Contrarrestar soborno"
 
-#: models.py:2898 templates/machiavelli/expenses_actions.html:36
+#: models.py:2899 templates/machiavelli/expenses_actions.html:36
 msgid "Disband autonomous garrison"
 msgstr "Desbandar guarnición autónoma"
 
-#: models.py:2899 templates/machiavelli/expenses_actions.html:39
+#: models.py:2900 templates/machiavelli/expenses_actions.html:39
 msgid "Buy autonomous garrison"
 msgstr "Comprar guarnición autónoma"
 
-#: models.py:2900 templates/machiavelli/expenses_actions.html:42
+#: models.py:2901 templates/machiavelli/expenses_actions.html:42
 msgid "Convert garrison unit"
 msgstr "Convertir guarnición en autónoma"
 
-#: models.py:2901 templates/machiavelli/expenses_actions.html:45
+#: models.py:2902 templates/machiavelli/expenses_actions.html:45
 msgid "Disband enemy unit"
 msgstr "Desbandar unidad enemiga"
 
-#: models.py:2902 templates/machiavelli/expenses_actions.html:48
+#: models.py:2903 templates/machiavelli/expenses_actions.html:48
 msgid "Buy enemy unit"
 msgstr "Comprar unidad enemiga"
 
-#: models.py:2958
+#: models.py:2959
 #, python-format
 msgid "%(country)s reliefs famine in %(area)s"
 msgstr "%(country)s alivia la hambruna en %(area)s"
 
-#: models.py:2959
+#: models.py:2960
 #, python-format
 msgid "%(country)s pacifies rebellion in %(area)s"
 msgstr "%(country)s pacifica la rebelión en %(area)s"
 
-#: models.py:2960 models.py:2961
+#: models.py:2961 models.py:2962
 #, python-format
 msgid "%(country)s promotes a rebellion in %(area)s"
 msgstr "%(country)s provoca una rebelión en %(area)s."
 
-#: models.py:2962
+#: models.py:2963
 #, python-format
 msgid "%(country)s tries to counter bribe on %(unit)s"
 msgstr "%(country)s intenta evitar un soborno sobre %(unit)s."
 
-#: models.py:2963 models.py:2966
+#: models.py:2964 models.py:2967
 #, python-format
 msgid "%(country)s tries to disband %(unit)s"
 msgstr "%(country)s intenta desbandar %(unit)s."
 
-#: models.py:2964 models.py:2967
+#: models.py:2965 models.py:2968
 #, python-format
 msgid "%(country)s tries to buy %(unit)s"
 msgstr "%(country)s intenta comprar %(unit)s."
 
-#: models.py:2965
+#: models.py:2966
 #, python-format
 msgid "%(country)s tries to turn %(unit)s into an autonomous garrison"
 msgstr "%(country)s intenta convertir %(unit)s en guarnición autónoma"
 
-#: models.py:3056
+#: models.py:3057
 #, python-format
 msgid "%(ducats)sd to kill the leader of %(country)s."
 msgstr "%(ducats)sd para matar al lider de %(country)s."
@@ -800,79 +805,79 @@ msgstr "Mediterráneo Occidental"
 msgid "Create an acccount on %(domain)s"
 msgstr "Crear una cuenta en %(domain)s"
 
-#: views.py:791
+#: views.py:795
 msgid "You cannot excommunicate in this game."
 msgstr "No puedes excomulgar en este juego."
 
-#: views.py:804
+#: views.py:808
 msgid "You have already excommunicated a country this year."
 msgstr "Ya habías excomulgado a un país este año."
 
-#: views.py:811
+#: views.py:815
 msgid "Excommunications cannot be reset."
 msgstr "No se pueden cancelar las excomuniones."
 
-#: views.py:814
+#: views.py:818
 msgid "You are not allowed to forgive excommunications."
 msgstr "No estás autorizado para perdonar excomuniones."
 
-#: views.py:886
+#: views.py:890
 msgid "Ranking for the user"
 msgstr "Clasificación del jugador"
 
-#: views.py:890
+#: views.py:894
 msgid "Ranking for the scenario"
 msgstr "Clasificación del escenario"
 
-#: views.py:894
+#: views.py:898
 msgid "Ranking for the country"
 msgstr "Clasificación del país"
 
-#: views.py:956
+#: views.py:960
 msgid "You cannot give money in this game."
 msgstr "No puedes entregar dinero en este juego."
 
-#: views.py:966
+#: views.py:970
 msgid "You cannot give more money than you have"
 msgstr "No puedes entregar más dinero del que tienes"
 
-#: views.py:994
+#: views.py:998
 msgid "You cannot borrow money in this moment."
 msgstr "No puedes pedir un préstamo en este momento."
 
-#: views.py:1007
+#: views.py:1011
 msgid "You cannot borrow so much money."
 msgstr "No puedes pedir prestado tanto dinero."
 
-#: views.py:1014
+#: views.py:1018
 msgid "The chosen term is not valid."
 msgstr "El plazo elegido no es válido."
 
-#: views.py:1032
+#: views.py:1036
 msgid "You don't have enough money to repay the loan."
 msgstr "No tienes suficiente dinero para saldar el préstamo."
 
-#: views.py:1047
+#: views.py:1051
 msgid "You cannot buy an assassination in this moment."
 msgstr "No puedes comprar un asesinato en este momento."
 
-#: views.py:1057
+#: views.py:1061
 msgid "You don't have enough ducats for the assassination."
 msgstr "No tienes suficiente dinero para pagar el asesinato."
 
-#: views.py:1059
+#: views.py:1063
 msgid "You cannot kill an eliminated player."
 msgstr "No puedes asesinar a un jugador eliminado."
 
-#: views.py:1061
+#: views.py:1065
 msgid "You cannot kill yourself."
 msgstr "No puedes matarte a ti mismo."
 
-#: views.py:1065
+#: views.py:1069
 msgid "You don't have any assassins to kill this leader."
 msgstr "No tienes asesinos para matar a este líder."
 
-#: views.py:1088
+#: views.py:1092
 msgid "You cannot write messages in this game"
 msgstr "No puedes escribir mensajes en este juego."
 
@@ -1361,7 +1366,6 @@ msgstr "Crear un nuevo juego"
 
 #: templates/machiavelli/game_form.html:48
 #: templates/machiavelli/game_list.html:21
-#: templates/machiavelli/show_game.html:56
 #: templates/machiavelli/summary.html:52
 msgid "Rules"
 msgstr "Reglas"
@@ -1380,11 +1384,11 @@ msgstr "Lista de juegos"
 
 #: templates/machiavelli/game_list.html:13
 msgid "This is a list of all the games in this server, be they active or not."
-msgstr "Esta es una lista de todos los juegos en este servidor, estén activos o no."
+msgstr ""
+"Esta es una lista de todos los juegos en este servidor, estén activos o no."
 
 #: templates/machiavelli/game_list.html:18
 #: templates/machiavelli/ranking.html:16
-#: templates/machiavelli/show_game.html:22
 msgid "Game"
 msgstr "Juego"
 
@@ -1533,7 +1537,6 @@ msgstr "Has completado tus acciones."
 
 #: templates/machiavelli/game_list_my_active.html:43
 #: templates/machiavelli/log_list.html:14
-#: templates/machiavelli/show_game.html:26
 #: templates/machiavelli/turn_log_list.html:14
 msgid "Time left"
 msgstr "Tiempo restante"
@@ -1712,27 +1715,23 @@ msgid "Log of the game"
 msgstr "Diario del juego"
 
 #: templates/machiavelli/log_list.html:11
-#: templates/machiavelli/show_game.html:23
 #: templates/machiavelli/turn_log_list.html:11
 #: templates/machiavelli/turn_log_list.html:36
 msgid "Year"
 msgstr "Año"
 
 #: templates/machiavelli/log_list.html:12
-#: templates/machiavelli/show_game.html:24
 #: templates/machiavelli/turn_log_list.html:12
 #: templates/machiavelli/turn_log_list.html:38
 msgid "Season"
 msgstr "Estación"
 
 #: templates/machiavelli/log_list.html:13
-#: templates/machiavelli/show_game.html:25
 #: templates/machiavelli/turn_log_list.html:13
 msgid "Phase"
 msgstr "Fase"
 
 #: templates/machiavelli/log_list.html:15
-#: templates/machiavelli/show_game.html:42
 #: templates/machiavelli/turn_log_list.html:15
 msgid "Power"
 msgstr "Estado"

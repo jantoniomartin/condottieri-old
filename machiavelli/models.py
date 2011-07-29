@@ -298,7 +298,8 @@ class Setup(models.Model):
 	unit_type = models.CharField(max_length=1, choices=UNIT_TYPES)
     
 	def __unicode__(self):
-		return "%s in %s" % (self.get_unit_type_display(), self.area.name)
+		return _("%(unit)s in %(area)s") % { 'unit': self.get_unit_type_display(),
+											'area': self.area.name }
 
 	class Meta:
 		unique_together = (("scenario", "area", "unit_type"),)
