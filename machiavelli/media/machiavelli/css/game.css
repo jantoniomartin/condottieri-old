@@ -21,15 +21,14 @@ tr.closed_game a{
 
 #game_info {
 	width: 95%;
-	line-height: 2em;
 	padding: 0.5em;
 	margin-top: 0;
 	margin-bottom: 1em;
 	clear: both;
 	display: table;
-	/*background: #2A2A2A;*/
-	border: solid 1px #444;
+	background: #4f4f4f;
 	color: #ccc;
+	font-weight: bold;
 }
 
 #game_info ul {

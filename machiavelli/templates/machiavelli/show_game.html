@@ -19,11 +19,11 @@
 {% block body %}
 <div id="game_info">
 <ul>
-<li>{% trans "Game" %}: {{ game.slug }}</li>
-<li>{% trans "Year" %}: {{ game.year|default_if_none:"" }}</li>
-<li>{% trans "Season" %}: {{ game.get_season_display|default_if_none:"" }}</li>
-<li>{% trans "Phase" %}: {{ game.get_phase_display }}</li>
-<li>{% trans "Time left" %}: 
+<li>{{ game.slug }}</li>
+<li>{{ game.year|default_if_none:"" }} |
+{{ game.get_season_display|default_if_none:"" }} |
+{{ game.get_phase_display }}</li>
+<li>
 {% if player and game.slots == 0 %}
 	{% if time_exceeded %}
 	<span style="color: LightCoral">
@@ -39,7 +39,7 @@
 {% endif %}
 </li>
 {% if player %}
-<li>{% trans "Power" %}:
+<li>
 	{% if player.country %}
 		{{ player.country }}
 	{% endif %}
@@ -53,7 +53,7 @@
 {% endif %}
 {% if rules %}
 <li>
-{% trans "Rules" %}: {% rule_icons game.configuration %}
+{% rule_icons game.configuration %}
 </li>
 {% endif %}
 
