@@ -162,7 +162,7 @@
 {{ w.as_li|safe }}
 {% endfor %}
 </ul>
-{% if player %}
+{% if whisper_form %}
 <form action="{% url new-whisper game.slug %}" method="POST">
 {% csrf_token %}
 {{ whisper_form.text }}

@@ -268,8 +268,9 @@ def base_context(request, game, player):
 	
 	if game.configuration.gossip:
 		whispers = game.whisper_set.all()[:10]
-		context.update({'whispers': whispers,
-						'whisper_form': forms.WhisperForm(request.user, game),})
+		context.update({'whispers': whispers, })
+		if player:
+			context.update({'whisper_form': forms.WhisperForm(request.user, game),})
 		
 	return context
 
