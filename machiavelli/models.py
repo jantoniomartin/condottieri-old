@@ -662,15 +662,20 @@ class Game(models.Model):
 					Unit.objects.filter(player=p).exclude(must_retreat__exact='').delete()
 				p.end_phase(forced=True)
 		
-	def time_is_exceeded(self):
-		""" Checks if the time limit has been reached. If yes, return True """
-
+	def time_to_limit(self):
+		""" Calculates the time to the next phase change and returns it as a
+		timedelta.
+		"""
 		if not self.phase == PHINACTIVE:
 			limit = self.next_phase_change()
-			to_limit = limit - datetime.now()
-			return to_limit <= timedelta(0, 0)
-			#self.force_phase_change()
+			return limit - datetime.now()
 	
+	def time_is_exceeded(self):
+		"""
+		Checks if the time limit has been reached. If yes, return True
+		"""
+		return self.time_to_limit() <= timedelta(0, 0)
+
 	def check_finished_phase(self):
 		""" This method is to be called by a management script, called by cron.
 		It checks if all the players are done, then process the phase.
@@ -1429,17 +1434,36 @@ class Game(models.Model):
 				self.log_event(UnitEvent, type=u.type, area=u.area.board_area, message=1)
 		return info
 
-	def process_orders(self):
-		""" Run a batch of methods in the correct order to process all the orders.
+	def preprocess_orders(self):
 		"""
-
-		info = u"Processing orders in game %s\n" % self.slug
-		info += u"------------------------------\n\n"
+		Deletes unconfirmed orders and logs confirmed ones.
+		"""
 		## delete all orders that were not confirmed
 		Order.objects.filter(unit__player__game=self, confirmed=False).delete()
 		## delete all orders sent by players that don't control the unit
 		if self.configuration.finances:
 			Order.objects.filter(player__game=self).exclude(player=F('unit__player')).delete()
+		## cancel interrupted sieges
+		besieging = Unit.objects.filter(player__game=self, besieging=True)
+		for u in besieging:
+			try:
+				Order.objects.get(unit=u, code='B')
+			except ObjectDoesNotExist:
+				u.besieging = False
+				u.save()
+		## log the rest of the orders
+		for o in Order.objects.filter(player__game=self, confirmed=True):
+			if o.code != 'H':
+				if signals:
+					signals.order_placed.send(sender=o)
+	
+	def process_orders(self):
+		""" Run a batch of methods in the correct order to process all the orders.
+		"""
+
+		self.preprocess_orders()
+		info = u"Processing orders in game %s\n" % self.slug
+		info += u"------------------------------\n\n"
 		## resolve =G that are not opposed
 		info += self.resolve_auto_garrisons()
 		info += u"\n"
@@ -2056,6 +2080,19 @@ class Player(models.Model):
 
 		return self.game.last_phase_change + duration
 	
+	def time_to_limit(self):
+		"""
+		Calculates the time to the next phase change and returns it as a
+		timedelta.
+		"""
+		return self.next_phase_change() - datetime.now()
+	
+	def in_last_seconds(self):
+		"""
+		Returns True if the next phase change would happen in a few minutes.
+		"""
+		return self.time_to_limit() <= timedelta(seconds=settings.LAST_SECONDS)
+	
 	def time_exceeded(self):
 		""" Returns true if the player has exceeded his own time, and he is playing because
 		other players have not yet finished. """
@@ -2570,14 +2607,7 @@ class Order(models.Model):
 	def confirm(self):
 		self.confirmed = True
 		self.save()
-		if self.code != 'H':
-			## do not log Hold orders
-			if signals:
-				signals.order_placed.send(sender=self)
-		if self.code != 'B':
-			self.unit.besieging = False
-			self.unit.save()
-
+	
 	def format_suborder(self):
 		""" Returns a string with the abbreviated code (as in Machiavelli) of
 		the suborder.

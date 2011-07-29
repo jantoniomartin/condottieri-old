@@ -247,6 +247,9 @@ def base_context(request, game, player):
 		context['can_excommunicate'] = player.can_excommunicate()
 		if game.slots == 0:
 			context['time_exceeded'] = player.time_exceeded()
+		if game.phase == PHORDERS:
+			if player.done and not player.in_last_seconds():
+				context.update({'undoable': True,})
 	log = log.exclude(season__exact=game.season,
 							phase__exact=game.phase)
 	if len(log) > 0:
@@ -290,6 +293,19 @@ def base_context(request, game, player):
 #						context,
 #						context_instance=RequestContext(request))
 #
+
+@login_required
+def undo_actions(request, slug=''):
+	game = get_object_or_404(Game, slug=slug)
+	player = get_object_or_404(Player, game=game, user=request.user)
+	if request.method == 'POST':
+		if game.phase == PHORDERS:
+			if player.done and not player.in_last_seconds():
+				player.done = False
+				player.order_set.update(confirmed=False)
+				player.save()
+
+	return redirect('show-game', slug=slug)
 
 @never_cache
 #@login_required
