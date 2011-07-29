@@ -304,6 +304,9 @@ def undo_actions(request, slug=''):
 			if player.done and not player.in_last_seconds():
 				player.done = False
 				player.order_set.update(confirmed=False)
+				## TODO: improve the way that karma is increased/decreased
+				if game.check_bonus_time():
+					player.karma = F('karma') - 1
 				player.save()
 
 	return redirect('show-game', slug=slug)
