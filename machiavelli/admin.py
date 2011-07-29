@@ -149,7 +149,7 @@ class AssassinationAdmin(admin.ModelAdmin):
 	pass
 
 class WhisperAdmin(admin.ModelAdmin):
-	pass
+	list_display = ('__unicode__', 'user', 'game',)
 
 admin.site.register(Scenario, ScenarioAdmin)
 admin.site.register(Country, CountryAdmin)
