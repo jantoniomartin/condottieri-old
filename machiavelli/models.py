@@ -1732,6 +1732,8 @@ class GameArea(models.Model):
 				Unit.objects.get(area=self, player=self.player)
 			except ObjectDoesNotExist:
 				occupied = False
+			except MultipleObjectsReturned:
+				occupied = True
 			else:
 				occupied = True
 			## the province is a home province
