@@ -69,6 +69,11 @@ class ConfigurationForm(forms.ModelForm):
 				'special_units',
 				'strategic')
 
+class InvitationForm(forms.Form):
+	user_list = forms.CharField(required=True,
+								label=_("User list, comma separated"))
+	
+
 class WhisperForm(forms.ModelForm):
 	class Meta:
 		model = Whisper

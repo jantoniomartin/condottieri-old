@@ -28,6 +28,12 @@ if "notification" in settings.INSTALLED_APPS:
 		notification.create_notice_type("got_player",
 										_("Overthrow"),
 										_("you have overthrown a government"))
+		notification.create_notice_type("new_invitation",
+										_("New invitation"),
+										_("you have been invited to a private game"))
+		notification.create_notice_type("lost_invitation",
+										_("Invitation revoked"),
+										_("your invitation to a private game has been revoked"))
 
 	signals.post_syncdb.connect(create_notice_types, sender=notification)
 else:

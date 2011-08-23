@@ -36,7 +36,11 @@
 <h2><span><a href="{{ game.get_absolute_url }}">{{ game.slug }}</a></span>
 	<span>
 		({% trans "Slots" %}: {{ game.slots }})
-	</span></h2>
+	</span>
+	{% if game.private %}
+	<span>{% trans "Private" %}</span>
+	{% endif %}
+	</h2>
 <div class="map">
 <img src="{{ MEDIA_URL }}maps/thumbnails/scenario-{{ game.scenario.pk }}.jpg" />
 </div>

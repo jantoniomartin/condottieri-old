@@ -728,13 +728,67 @@ def create_game(request):
 							context_instance=RequestContext(request))
 
 @login_required
+def invite_users(request, slug=''):
+	g = get_object_or_404(Game, slug=slug)
+	## check that the game is open
+	if g.slots == 0:
+		raise Http404
+	## check that the current user is the creator of the game
+	if g.created_by != request.user:
+		raise Http404
+	context = sidebar_context(request)
+	context.update({'game': g,})
+	context.update({'players': g.player_set.exclude(user__isnull=True)})
+	invitations = Invitation.objects.filter(game=g)
+	context.update({'invitations': invitations})
+	if request.method == 'POST':
+		form = forms.InvitationForm(request.POST)
+		if form.is_valid():
+			user_list = form.cleaned_data['user_list']
+			user_names = user_list.split(',')
+			for u in user_names:
+				name = u.strip()
+				try:
+					print "Looking for user '%s'" % name 
+					user = User.objects.get(username=name)
+				except ObjectDoesNotExist:
+					print "User does not exist"
+					continue
+				else:
+					## check that the user is not already in the game
+					try:
+						Player.objects.get(game=g, user=user)
+					except ObjectDoesNotExist:
+						## check for existing invitation
+						try:
+							Invitation.objects.get(game=g, user=user)
+						except ObjectDoesNotExist:
+							i = Invitation()
+							i.game = g
+							i.user = user
+							i.save()
+	else:
+		form = forms.InvitationForm()
+	context.update({'form': form})
+	return render_to_response('machiavelli/invitation_form.html',
+							context,
+							context_instance=RequestContext(request))
+
+@login_required
 def join_game(request, slug=''):
 	g = get_object_or_404(Game, slug=slug)
-	karma = request.user.get_profile().karma
-	if karma < settings.KARMA_TO_JOIN:
-		return low_karma_error(request)
-	if g.fast and karma < settings.KARMA_TO_FAST:
-		return low_karma_error(request)
+	if g.private:
+		## check if user has been invited
+		try:
+			invitation = Invitation.objects.get(game=g, user=request.user)
+		except ObjectDoesNotExist:
+			raise Http404
+	else:
+		karma = request.user.get_profile().karma
+		if karma < settings.KARMA_TO_JOIN:
+			return low_karma_error(request)
+		if g.fast and karma < settings.KARMA_TO_FAST:
+			return low_karma_error(request)
 	if g.slots > 0:
 		try:
 			Player.objects.get(user=request.user, game=g)
@@ -742,6 +796,8 @@ def join_game(request, slug=''):
 			## the user is not in the game
 			new_player = Player(user=request.user, game=g)
 			new_player.save()
+			if invitation:
+				invitation.delete()
 			g.player_joined()
 			cache.delete('sidebar_activity')
 	return redirect('summary')

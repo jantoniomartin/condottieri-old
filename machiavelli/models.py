@@ -461,6 +461,8 @@ class Game(models.Model):
 			#the game has all its players and should start
 			if logging:
 				logging.info("Starting game %s" % self.id)
+			if self.private:
+				self.invitation_set.all().delete()
 			self.year = self.scenario.start_year
 			self.season = 1
 			self.phase = PHORDERS
@@ -3089,6 +3091,17 @@ class Invitation(models.Model):
 	game = models.ForeignKey(Game)
 	user = models.ForeignKey(User)
 
+	class Meta:
+		unique_together = (('game', 'user'),)
+
 	def __unicode__(self):
 		return "%s invited to %s" % (self.user, self.game)
+
+def notify_new_invitation(sender, instance, created, **kw):
+	if notification and isinstance(instance, Invitation) and created:
+		user = [instance.user,]
+		extra_context = {'game': instance.game,}
+		notification.send(user, "new_invitation", extra_context , on_site=True)
+
+models.signals.post_save.connect(notify_new_invitation, sender=Invitation)
 
