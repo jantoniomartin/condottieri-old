@@ -362,6 +362,7 @@ class Game(models.Model):
 	finished = models.DateTimeField(blank=True, null=True)
 	cities_to_win = models.PositiveIntegerField(default=15)
 	fast = models.BooleanField(default=0)
+	private = models.BooleanField(default=0)
 
 	def save(self, *args, **kwargs):
 		if not self.pk:

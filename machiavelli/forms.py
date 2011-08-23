@@ -37,14 +37,23 @@ class GameForm(forms.ModelForm):
 			msg = _("You don't have enough karma to create a game.")
 			raise forms.ValidationError(msg)
 		if int(cleaned_data['time_limit']) in FAST_LIMITS:
-			if karma < settings.KARMA_TO_FAST :
+			if karma < settings.KARMA_TO_FAST:
 				msg = _("You don't have enough karma for a fast game.")
+				raise forms.ValidationError(msg)
+		if cleaned_data['private']:
+			if karma < settings.KARMA_TO_PRIVATE:
+				msg = _("You don't have enough karma to create a private game.")
 				raise forms.ValidationError(msg)
 		return cleaned_data
 
 	class Meta:
 		model = Game
-		fields = ('slug', 'scenario', 'time_limit', 'cities_to_win', 'visible')
+		fields = ('slug',
+				'scenario',
+				'time_limit',
+				'cities_to_win',
+				'visible',
+				'private')
 
 class ConfigurationForm(forms.ModelForm):
 	def clean(self):
