@@ -151,6 +151,9 @@ class AssassinationAdmin(admin.ModelAdmin):
 class WhisperAdmin(admin.ModelAdmin):
 	list_display = ('__unicode__', 'user', 'game',)
 
+class InvitationAdmin(admin.ModelAdmin):
+	pass
+
 admin.site.register(Scenario, ScenarioAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Game, GameAdmin)
@@ -170,3 +173,4 @@ admin.site.register(Loan, LoanAdmin)
 admin.site.register(Assassin, AssassinAdmin)
 admin.site.register(Assassination, AssassinationAdmin)
 admin.site.register(Whisper, WhisperAdmin)
+admin.site.register(Invitation, InvitationAdmin)

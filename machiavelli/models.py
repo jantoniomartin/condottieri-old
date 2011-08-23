@@ -3082,3 +3082,13 @@ class Whisper(models.Model):
 																'date': timesince(self.created_at),
 																'text': force_escape(self.text), }
 		return html
+
+class Invitation(models.Model):
+	""" A private game accepts only users that have been invited by the creator
+	of the game. """
+	game = models.ForeignKey(Game)
+	user = models.ForeignKey(User)
+
+	def __unicode__(self):
+		return "%s invited to %s" % (self.user, self.game)
+
