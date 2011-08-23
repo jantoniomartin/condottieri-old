@@ -1764,9 +1764,10 @@ def check_min_karma(sender, instance=None, **kwargs):
 											game__slots__gt=0)
 			for p in players:
 				game = p.game
-				p.delete()
-				game.slots += 1
-				game.save()
+				if not game.private:
+					p.delete()
+					game.slots += 1
+					game.save()
 	
 models.signals.post_save.connect(check_min_karma, sender=CondottieriProfile)
 
