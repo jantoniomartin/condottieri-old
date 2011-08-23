@@ -780,6 +780,7 @@ def invite_users(request, slug=''):
 @login_required
 def join_game(request, slug=''):
 	g = get_object_or_404(Game, slug=slug)
+	invitation = None
 	if g.private:
 		## check if user has been invited
 		try:
