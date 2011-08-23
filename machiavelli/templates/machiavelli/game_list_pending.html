@@ -66,6 +66,11 @@
 </dl>
 <ul class="section_menu">
 	<li>{% rule_icons game.configuration %}</li>
+	{% if game.private %}
+		{% ifequal game.created_by user %}
+			<li><a href="{% url invite-users game.slug %}">{% trans "Invitations" %}</a></li>
+		{% endifequal %}
+	{% endif %}
 	<li><a href="{% url show-game game.slug %}">{% trans "View game" %}</a></li>
 	{% if joinable %}
 	<li><a href="{% url join-game game.slug %}">{% trans "Join game" %}</a></li>
