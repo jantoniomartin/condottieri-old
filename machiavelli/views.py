@@ -82,7 +82,7 @@ def summary(request):
 	context = sidebar_context(request)
 	context.update( {'forum': 'forum' in settings.INSTALLED_APPS} )
 	if request.user.is_authenticated():
-		joinable = Game.objects.exclude(player__user=request.user).filter(slots__gt=0).order_by('slots').select_related('scenario', 'configuration', 'player__user')
+		joinable = Game.objects.exclude(player__user=request.user).filter(slots__gt=0, private=False).order_by('slots').select_related('scenario', 'configuration', 'player__user')
 		my_games_ids = Game.objects.filter(player__user=request.user).values('id')
 		context.update( {'revolutions': Revolution.objects.filter(opposition__isnull=True).exclude(government__game__id__in=my_games_ids).select_related('gorvernment__game__country')} )
 		context.update( {'actions': Player.objects.filter(user=request.user, game__slots=0, done=False).select_related('game')} )
@@ -91,7 +91,7 @@ def summary(request):
 			new_notices = notification.Notice.objects.notices_for(request.user, unseen=True, on_site=True)
 			context.update({'new_notices': new_notices,})
 	else:
-		joinable = Game.objects.filter(slots__gt=0).order_by('slots').select_related('scenario', 'configuration', 'player__user')
+		joinable = Game.objects.filter(slots__gt=0, private=False).order_by('slots').select_related('scenario', 'configuration', 'player__user')
 		context.update( {'revolutions': Revolution.objects.filter(opposition__isnull=True).select_related('government__game__country')} )
 	if joinable:
 		context.update( {'joinable_game': joinable[0]} )
