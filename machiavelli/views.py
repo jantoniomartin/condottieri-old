@@ -716,7 +716,10 @@ def create_game(request):
 												instance=new_game.configuration)
 			config_form.save()
 			cache.delete('sidebar_activity')
-			return redirect('summary')
+			if new_game.private:
+				return redirect('invite-users', slug=new_game.slug)
+			else:
+				return redirect('summary')
 	else:
 		game_form = forms.GameForm(request.user)
 		config_form = forms.ConfigurationForm()
