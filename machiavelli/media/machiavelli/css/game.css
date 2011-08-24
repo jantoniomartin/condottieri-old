@@ -21,7 +21,7 @@ tr.closed_game a{
 
 #game_info {
 	width: 95%;
-	padding: 0.5em;
+	padding: 0;
 	margin-top: 0;
 	margin-bottom: 1em;
 	clear: both;
@@ -37,7 +37,13 @@ tr.closed_game a{
 
 #game_info ul li {
 	display: table-cell;
+	padding: 0.5em;
 	text-align: center;
+}
+
+#cities_to_win {
+	background-color: #9f2727;
+	font-size: 110%;
 }
 
 #game_rules {
