@@ -1,5 +1,7 @@
 {% load i18n %}
 
 {% blocktrans with game.slug as slug and letter.sender_player.country as country %}New letter from {{ country }} in '{{ slug }}'{% endblocktrans %}
+<a href="{% url condottieri_messages_detail letter.id %}"><img src="{{ STATIC_URL }}condottieri_messages/img/link.png" alt="Read" /></a>
+
 
 

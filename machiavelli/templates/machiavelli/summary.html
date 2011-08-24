@@ -121,7 +121,9 @@
 <div id="new_notices">
 <h2>{% trans "New notices" %}</h2>
 <ul>
-{{ new_notices|unordered_list }}
+{% for n in new_notices %}
+<li>{{ n|safe }}</li>
+{% endfor %}
 </ul>
 </div>
 {% endif %}
