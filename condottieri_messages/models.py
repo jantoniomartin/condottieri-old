@@ -46,7 +46,8 @@ def notify_new_letter(sender, instance, created, **kw):
 		user = [instance.recipient,]
 		game = instance.recipient_player.game
 		extra_context = {'game': game,
-						'letter': instance }
+						'letter': instance,
+						'STATIC_URL': settings.STATIC_URL,}
 		if game.fast:
 			notification.send_now(user, "condottieri_messages_received", extra_context)
 		else:
