@@ -46,6 +46,9 @@ import machiavelli.forms as forms
 ## condottieri_profiles
 from condottieri_profiles.models import CondottieriProfile
 
+## condottieri_events
+import condottieri_events.paginator as events_paginator
+
 ## clones detection
 if 'clones' in settings.INSTALLED_APPS:
 	from clones import models as clones
@@ -64,6 +67,7 @@ else:
 
 
 from machiavelli.models import Unit
+
 
 def sidebar_context(request):
 	activity = cache.get('sidebar_activity')
@@ -677,20 +681,23 @@ def logs_by_game(request, slug=''):
 	except:
 		player = Player.objects.none()
 	context = base_context(request, game, player)
-	log_list = game.baseevent_set.all()
-	log_list = log_list.exclude(season__exact=game.season,
-						phase__exact=game.phase)
-	paginator = Paginator(log_list, 25)
+	log_list = game.baseevent_set.exclude(season__exact=game.season,
+										phase__exact=game.phase)
+	paginator = events_paginator.SeasonPaginator(log_list)
 	try:
-		page = int(request.GET.get('page', '1'))
-	except ValueError:
-		page = 1
+		year = int(request.GET.get('year'))
+	except TypeError:
+		year = None
 	try:
-		log = paginator.page(page)
-	except (EmptyPage, InvalidPage):
-		log = paginator.page(paginator.num_pages)
+		season = int(request.GET.get('season'))
+	except TypeError:
+		season = None
+	try:
+		log = paginator.page(year, season)
+	except (events_paginator.EmptyPage, events_paginator.InvalidPage):
+		log = paginator.page()
 
-	context['log'] = log 
+	context['log'] = log
 
 	return render_to_response('machiavelli/log_list.html',
 							context,
