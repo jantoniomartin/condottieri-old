@@ -117,6 +117,20 @@
 {% endblock %}
 
 {% block right_column_extra %}
+
+{% if whispers %}
+<div id="latest_gossip">
+<h2>{% trans "Latest gossip" %}</h2>
+<ul>
+{% for w in whispers %}
+<li>{{ w.text|escape }}
+<a href="{% url show-game w.game.slug %}"><img src="{{ STATIC_URL }}machiavelli/img/link.png" alt="Go" /></a>
+<span class="date">{{ w.created_at|timesince }}</span></li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
 {% if new_notices %}
 <div id="new_notices">
 <h2>{% trans "New notices" %}</h2>

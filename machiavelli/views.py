@@ -78,8 +78,13 @@ def sidebar_context(request):
 	if not top_users:
 		top_users = CondottieriProfile.objects.all().order_by('-total_score').select_related('user')[:5]
 		cache.set('sidebar_top_users', top_users)
+	latest_gossip = cache.get('latest_gossip')
+	if not latest_gossip:
+		latest_gossip = Whisper.objects.all()[:5]
+		cache.set('latest_gossip', latest_gossip)
 	context = { 'activity': activity,
-				'top_users': top_users,}
+				'top_users': top_users,
+				'whispers': latest_gossip,}
 	return context
 
 def summary(request):

@@ -357,18 +357,18 @@ tr.closed_game a{
 	padding: 0.2em 0.5em;
 }
 
-#shoutbox ul li, #mini_shoutbox ul li {
+#shoutbox ul li, #mini_shoutbox ul li, #latest_gossip ul li {
 	list-style-type: none;
 	padding: 0.5em;
 }
 
-#shoutbox .date, #mini_shoutbox .date {
+#shoutbox .date, #mini_shoutbox .date, #latest_gossip .date {
 	display: block;
 	font-size: smaller;
 	color: #ccc;
 }
 
-#shoutbox .admin, #mini_shoutbox .admin {
+#shoutbox .admin, #mini_shoutbox .admin, #latest_gossip .admin {
 	background-color: #c14200;
 	font-style: italic;
 }
