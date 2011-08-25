@@ -1617,10 +1617,11 @@ class Game(models.Model):
 	## notification methods
 	##------------------------
 
-	def notify_players(self, label, extra_context=None, on_site=True):
+	def notify_players(self, label, extra_context={}, on_site=True):
 		if notification:
 			users = User.objects.filter(player__game=self,
 										player__eliminated=False)
+			extra_context.update({'STATIC_URL': settings.STATIC_URL, })
 			if self.fast:
 				notification.send_now(users, label, extra_context, on_site)
 			else:
