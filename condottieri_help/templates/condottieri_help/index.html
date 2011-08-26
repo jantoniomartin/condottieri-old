@@ -83,22 +83,23 @@
 <td>{% trans "Counter bribe" %}</td><td>3+</td><td>{% trans "No" %}</td>
 </tr>
 <tr>
-<td>{% trans "Disband autonomous garrison" %}</td><td>6+</td><td>{% trans "Yes" %}</td>
+<td>{% trans "Disband autonomous garrison" %}</td><td>6+&dagger;</td><td>{% trans "Yes" %}</td>
 </tr>
 <tr>
-<td>{% trans "Buy autonomous garrison" %}</td><td>9+</td><td>{% trans "Yes" %}</td>
+<td>{% trans "Buy autonomous garrison" %}</td><td>9+&dagger;</td><td>{% trans "Yes" %}</td>
 </tr>
 <tr>
-<td>{% trans "Convert garrison unit" %}</td><td>9+</td><td>{% trans "Yes" %}</td>
+<td>{% trans "Convert garrison unit" %}</td><td>9+&dagger;</td><td>{% trans "Yes" %}</td>
 </tr>
 <tr>
-<td>{% trans "Disband enemy unit" %}</td><td>12+</td><td>{% trans "Yes" %}</td>
+<td>{% trans "Disband enemy unit" %}</td><td>12+&dagger;</td><td>{% trans "Yes" %}</td>
 </tr>
 <tr>
-<td>{% trans "Buy enemy unit" %}</td><td>18+</td><td>{% trans "Yes" %}</td>
+<td>{% trans "Buy enemy unit" %}</td><td>18+&dagger;</td><td>{% trans "Yes" %}</td>
 </tr>
 </tbody>
 </table>
+<p>&dagger; {% blocktrans %}The minimum cost of these bribes is doubled if the bribed unit is a garrison in a major city (the ones with a number inside the circle).{% endblocktrans %}</p>
 <h3>{% trans "The retreats phase" %}</h3>
 <p>{% blocktrans %}When one of your units is defeated in battle, it must retreat. In this phase, you have to decide where to retreat your defeated units. In the retreat form, if you choose the same area that the unit occupies, this unit will retreat to the city, and will become a garrison. Note that this option is only available if there is an empty fortified city in the area.{% endblocktrans %}</p>
 <p>{% blocktrans %}If the time limit is reached and you have not retreated your units, they will be disbanded.{% endblocktrans %}</p>
