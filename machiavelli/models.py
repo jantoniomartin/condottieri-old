@@ -3098,7 +3098,7 @@ class Invitation(models.Model):
 		unique_together = (('game', 'user'),)
 
 	def __unicode__(self):
-		return "%s invited to %s" % (self.user, self.game)
+		return "%s" % self.user
 
 def notify_new_invitation(sender, instance, created, **kw):
 	if notification and isinstance(instance, Invitation) and created:
