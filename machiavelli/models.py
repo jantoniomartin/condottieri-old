@@ -3092,6 +3092,7 @@ class Invitation(models.Model):
 	of the game. """
 	game = models.ForeignKey(Game)
 	user = models.ForeignKey(User)
+	message = models.TextField(default="", blank=True)
 
 	class Meta:
 		unique_together = (('game', 'user'),)
@@ -3102,7 +3103,8 @@ class Invitation(models.Model):
 def notify_new_invitation(sender, instance, created, **kw):
 	if notification and isinstance(instance, Invitation) and created:
 		user = [instance.user,]
-		extra_context = {'game': instance.game,}
+		extra_context = {'game': instance.game,
+						'invitation': instance,}
 		notification.send(user, "new_invitation", extra_context , on_site=True)
 
 models.signals.post_save.connect(notify_new_invitation, sender=Invitation)

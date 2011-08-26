@@ -759,6 +759,7 @@ def invite_users(request, slug=''):
 	if request.method == 'POST':
 		form = forms.InvitationForm(request.POST)
 		if form.is_valid():
+			message = form.cleaned_data['message']
 			user_list = form.cleaned_data['user_list']
 			user_names = user_list.split(',')
 			for u in user_names:
@@ -781,6 +782,7 @@ def invite_users(request, slug=''):
 							i = Invitation()
 							i.game = g
 							i.user = user
+							i.message = message
 							i.save()
 	else:
 		form = forms.InvitationForm()

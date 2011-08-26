@@ -25,7 +25,7 @@
 {% endfor %}
 </ul>
 <p>{% blocktrans %}If you want to invite more users, type their user names, separated by commas. There is no limit to the number of users that you can invite.{% endblocktrans %}</p>
-<form action='' method='POST'>
+<form action='' method='POST' class="uniForm">
 {% csrf_token %}
 {{ form|as_uni_form }}
 <p><input type="submit" value="{% trans "Invite" %}" /></p>

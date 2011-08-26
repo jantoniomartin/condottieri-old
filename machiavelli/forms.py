@@ -72,7 +72,9 @@ class ConfigurationForm(forms.ModelForm):
 class InvitationForm(forms.Form):
 	user_list = forms.CharField(required=True,
 								label=_("User list, comma separated"))
-	
+	message = forms.CharField(label=_("Optional message"),
+								required=False,
+								widget=forms.Textarea)
 
 class WhisperForm(forms.ModelForm):
 	class Meta:
