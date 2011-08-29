@@ -204,7 +204,7 @@ tr.closed_game a{
 	border-top: solid 1px #111;
 }
 
-#log ul li {
+#log ul li, #log li {
 	list-style-type: none;
 	min-height: 28px;
 	margin-left: 0;
