@@ -1049,7 +1049,8 @@ def give_money(request, slug, player_id):
 			if notification:
 				extra_context = {'game': lender.game,
 								'ducats': ducats,
-								'country': lender.country}
+								'country': lender.country,
+								'STATIC_URL': settings.STATIC_URL}
 				if lender.game.fast:
 					notification.send_now([borrower.user,], "received_ducats", extra_context)
 				else:
