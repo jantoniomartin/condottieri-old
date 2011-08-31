@@ -88,50 +88,50 @@ tr.closed_game a{
 /*
  * Country styles
  */
-.france {
+#powers .france {
 	background: #a375d1;
 	color: black;
 }
 
-.milan {
+#powers .milan {
 	background: #cc0000;
 	color: black;
 }
 
-.florence {
+#powers .florence {
 	background: #66ccff;
 	color: black;
 }
 
-.austria {
+#powers .austria {
 	background: #b8b8b8;
 	color: black;
 }
 
-.papacy {
+#powers .papacy {
 	background: #00991a;
 	color: black;
 }
 
-.venice {
+#powers .venice {
 	background: #996600;
 	color: black;
 }
 
-.turks {
+#powers .turks {
 	background: #00cccc;
 	color: black;
 }
 
-.naples {
+#powers .naples {
 	background: #3d3dff;
 	color: black;
 }
-.hre {
+#powers .hre {
 	background: #ffdd11;
 	color: black;
 }
-.savoy {
+#powers .savoy {
 	background: #bbffdd;
 	color: black;
 }
@@ -192,8 +192,7 @@ tr.closed_game a{
 	height: 90%;
 }
 
-#letter_box ul,
-#log ul {
+#letter_box ul, #log ul {
 	padding-left: 0;
 }
 
@@ -204,14 +203,30 @@ tr.closed_game a{
 	border-top: solid 1px #111;
 }
 
-#log ul li, #log li {
+#log ul li {
 	list-style-type: none;
-	min-height: 28px;
+	min-height: 38px;
 	margin-left: 0;
-	padding: 0.2em 30px;
+	padding: 0.1em 30px 0 0;
 	border-top: solid 1px #111;
-	background-position: left center;
+	background-position: right center;
 	background-repeat: no-repeat;
+}
+
+#log li span {
+	background-position: left 4px;
+	background-repeat: no-repeat;
+	vertical-align: text-bottom;
+	display: block;
+	min-height: 38px;
+	padding-left: 30px;
+}
+
+#log li span.florence {
+	background-image: url('../img/icon-florence.png');
+}
+#log li span.papacy {
+	background-image: url('../img/icon-papacy.png');
 }
 
 #log li.besieging-event {

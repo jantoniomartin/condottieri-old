@@ -64,12 +64,21 @@ BaseEvent is the parent class for all kind of game events.
 	def event_class(self):
 		""" Returns a css class name depending on the type of event """
 		return self.get_concrete().event_class()
+
+	def country_class(self):
+		""" Returns a css class name if the event is related to a country """
+		try:
+			country = self.get_concrete().country.css_class
+		except:
+			country = ''
+		return country
 	
 	def color_output(self):
 		""" Returns a html list item with season and event styles """
-		return "<li class=\"%(season_class)s %(event_class)s\">%(log)s</li>" % {
+		return "<li class=\"%(season_class)s %(event_class)s\"><span class=\"%(country_class)s\">%(log)s</span></li>" % {
 							'season_class': self.season_class(),
 							'event_class': self.event_class(),
+							'country_class': self.country_class(),
 							'log': capfirst(self)
 							}
 
@@ -100,7 +109,7 @@ class NewUnitEvent(BaseEvent):
 		return "new-unit-event"
 
 	def __unicode__(self):
-		return _("%(country)s recruits a new %(type)s in %(area)s.") % {
+		return _("New %(type)s in %(area)s.") % {
 						'country': self.country,
 						'type': self.get_type_display(),
 						'area': self.area.name
@@ -127,7 +136,7 @@ class DisbandEvent(BaseEvent):
 
 	def __unicode__(self):
 		if self.country:
-			return _("%(country)s's %(type)s in %(area)s is disbanded.") % {
+			return _("%(type)s in %(area)s is disbanded.") % {
 						'country': self.country,
 						'type': self.get_type_display(),
 						'area': self.area.name
@@ -165,9 +174,10 @@ class OrderEvent(BaseEvent):
 		return "order-event"
 
 	def __unicode__(self):
-		country_info = "<small>(%s)</small>" % (unicode(self.country),)
-		msg = self.get_message()
-		return "%s %s" % (country_info, msg)
+		return self.get_message()
+		#country_info = "<small>(%s)</small>" % (unicode(self.country),)
+		#msg = self.get_message()
+		#return "%s %s" % (country_info, msg)
 	
 	def get_message(self):
 		unit = self.unit_string(self.type, self.origin)
@@ -268,6 +278,7 @@ standoff_happened.connect(log_standoff)
 class ConversionEvent(BaseEvent):
 	""" Event triggered when a unit changes its type. """
 
+	country = models.ForeignKey(Country, null=True, blank=True)
 	area = models.ForeignKey(Area)
 	before = models.CharField(max_length=1, choices=UNIT_TYPES)
 	after = models.CharField(max_length=1, choices=UNIT_TYPES)
@@ -285,6 +296,7 @@ def log_conversion(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(ConversionEvent, sender.player.game,
 					classname="ConversionEvent",
+					country=sender.player.country,
 					area=sender.area.board_area,
 					before=kwargs["before"],
 					after=kwargs["after"])
@@ -317,6 +329,7 @@ area_controlled.connect(log_control)
 class MovementEvent(BaseEvent):
 	""" Event triggered when a unit moves to a different province. """
 
+	country = models.ForeignKey(Country, null=True, blank=True)
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	origin = models.ForeignKey(Area, related_name="movement_origin")
 	destination = models.ForeignKey(Area, related_name="movement_destination")
@@ -334,6 +347,7 @@ def log_movement(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(MovementEvent, sender.player.game,
 					classname="MovementEvent",
+					country = sender.player.country,
 					type=sender.type,
 					origin=sender.area.board_area,
 					destination=kwargs['destination'].board_area)
@@ -343,6 +357,7 @@ unit_moved.connect(log_movement)
 class RetreatEvent(BaseEvent):
 	""" Event triggered when a unit retreats. """
 
+	country = models.ForeignKey(Country, null=True, blank=True)
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	origin = models.ForeignKey(Area, related_name="retreat_origin")
 	destination = models.ForeignKey(Area, related_name="retreat_destination")
@@ -366,6 +381,7 @@ def log_retreat(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(RetreatEvent, sender.player.game,
 					classname="RetreatEvent",
+					country = sender.player.country,
 					type=sender.type,
 					origin=sender.area.board_area,
 					destination=kwargs['destination'].board_area)
@@ -401,6 +417,7 @@ class UnitEvent(BaseEvent):
 	Each condition must have its own signal.
 	"""
 
+	country = models.ForeignKey(Country, null=True, blank=True)
 	type = models.CharField(max_length=1, choices=UNIT_TYPES)
 	area = models.ForeignKey(Area)
 	message = models.PositiveIntegerField(choices=UNIT_EVENTS)
@@ -427,6 +444,7 @@ def log_broken_support(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(UnitEvent, sender.player.game,
 					classname="UnitEvent",
+					country = sender.player.country,
 					type=sender.type,
 					area=sender.area.board_area,
 					message=0)
@@ -437,6 +455,7 @@ def log_forced_retreat(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(UnitEvent, sender.player.game,
 				classname="UnitEvent",
+				country = sender.player.country,
 				type=sender.type,
 				area=sender.area.board_area,
 				message=1)
@@ -447,6 +466,7 @@ def log_unit_surrender(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(UnitEvent, sender.player.game,
 				classname="UnitEvent",
+				country = sender.player.country,
 				type=sender.type,
 				area=sender.area.board_area,
 				message=2)
@@ -457,6 +477,7 @@ def log_siege_start(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(UnitEvent, sender.player.game,
 				classname="UnitEvent",
+				country = sender.player.country,
 				type=sender.type,
 				area=sender.area.board_area,
 				message=3)
@@ -467,6 +488,7 @@ def log_change_country(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(UnitEvent, sender.player.game,
 				classname="UnitEvent",
+				country = sender.player.country,
 				type=sender.type,
 				area=sender.area.board_area,
 				message=4)
@@ -477,6 +499,7 @@ def log_to_autonomous(sender, **kwargs):
 	assert isinstance(sender, Unit), "sender must be a Unit"
 	log_event(UnitEvent, sender.player.game,
 				classname="UnitEvent",
+				country = sender.player.country,
 				type=sender.type,
 				area=sender.area.board_area,
 				message=5)

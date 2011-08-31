@@ -31,11 +31,13 @@
 		{% endif %}
 	</span>
 </div>
-<ul id="log">
+<div id="log">
+<ul>
 {% for event in log.object_list %}
 {{ event.color_output|safe }}
 {% endfor %}
 </ul>
+</div>
 
 <p><a href="{% url show-game game.slug %}">{% trans "Return to game" %}</a></p>
 
