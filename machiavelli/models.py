@@ -3074,7 +3074,7 @@ class Whisper(models.Model):
 	order = models.PositiveIntegerField(editable=False, default=0)
 
 	class Meta:
-		ordering = ["-order", "-created_at" ,]
+		ordering = ["-created_at" ,]
 		unique_together = (("game", "order"),)
 
 	def __unicode__(self):
