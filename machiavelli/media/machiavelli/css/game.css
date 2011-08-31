@@ -222,11 +222,35 @@ tr.closed_game a{
 	padding-left: 30px;
 }
 
+#log li span.austria {
+	background-image: url('../img/icon-austria.png');
+}
 #log li span.florence {
 	background-image: url('../img/icon-florence.png');
 }
+#log li span.france {
+	background-image: url('../img/icon-france.png');
+}
+#log li span.hre {
+	background-image: url('../img/icon-hre.png');
+}
+#log li span.milan {
+	background-image: url('../img/icon-milan.png');
+}
+#log li span.naples {
+	background-image: url('../img/icon-naples.png');
+}
 #log li span.papacy {
 	background-image: url('../img/icon-papacy.png');
+}
+#log li span.savoy {
+	background-image: url('../img/icon-savoy.png');
+}
+#log li span.turks {
+	background-image: url('../img/icon-turks.png');
+}
+#log li span.venice {
+	background-image: url('../img/icon-venice.png');
 }
 
 #log li.besieging-event {
