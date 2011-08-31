@@ -149,7 +149,7 @@ class AssassinationAdmin(admin.ModelAdmin):
 	pass
 
 class WhisperAdmin(admin.ModelAdmin):
-	list_display = ('__unicode__', 'user', 'game',)
+	list_display = ('__unicode__', 'user', 'game', 'order',)
 
 class InvitationAdmin(admin.ModelAdmin):
 	pass

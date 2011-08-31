@@ -3071,8 +3071,11 @@ class Whisper(models.Model):
 	as_admin = models.BooleanField(default=False)
 	game = models.ForeignKey(Game)
 	text = models.CharField(max_length=140)
+	order = models.PositiveIntegerField(editable=False, default=0)
 
-	class Meta: ordering = ["-created_at" ,]
+	class Meta:
+		ordering = ["-order", "-created_at" ,]
+		#unique_together = (("game", "order"),)
 
 	def __unicode__(self):
 		return self.text
@@ -3082,10 +3085,22 @@ class Whisper(models.Model):
 			li = u"<li class=\"admin\">"
 		else:
 			li = u"<li>"
-		html = u"%(li)s%(text)s<span class=\"date\">%(date)s</span> </li>" % { 'li': li,
-																'date': timesince(self.created_at),
-																'text': force_escape(self.text), }
+		html = u"%(li)s<strong>#%(order)s</strong>&nbsp;&nbsp;%(text)s<span class=\"date\">%(date)s</span> </li>" % {
+								'order': self.order,
+								'li': li,
+								'date': timesince(self.created_at),
+								'text': force_escape(self.text), }
 		return html
+
+def whisper_order(sender, instance, **kw):
+	""" Checks if a whisper has already an 'order' value and, if not, calculate
+	and assign one """
+	if instance.order is None or instance.order == 0:
+		whispers = Whisper.objects.filter(game=instance.game).order_by("-order")
+		last = whispers[0].order
+		instance.order = last + 1
+
+models.signals.pre_save.connect(whisper_order, sender=Whisper)
 
 class Invitation(models.Model):
 	""" A private game accepts only users that have been invited by the creator
