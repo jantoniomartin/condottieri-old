@@ -911,7 +911,7 @@ def show_scenario(request, scenario_id):
 
 	countries = Country.objects.filter(home__scenario=scenario).distinct()
 	autonomous = Setup.objects.filter(scenario=scenario, country__isnull=True)
-	mayor_cities = scenario.cityincome_set.all()
+	major_cities = scenario.cityincome_set.all()
 	disabled_areas = Area.objects.filter(disabledarea__scenario=scenario).values_list('name', flat=True)
 
 	countries_dict = {}
@@ -930,7 +930,7 @@ def show_scenario(request, scenario_id):
 							{'scenario': scenario,
 							'countries': countries_dict,
 							'autonomous': autonomous,
-							'mayor_cities': mayor_cities,
+							'major_cities': major_cities,
 							'disabled_areas': disabled_areas,
 							},
 							context_instance=RequestContext(request))
