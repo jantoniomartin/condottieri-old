@@ -3097,8 +3097,11 @@ def whisper_order(sender, instance, **kw):
 	and assign one """
 	if instance.order is None or instance.order == 0:
 		whispers = Whisper.objects.filter(game=instance.game).order_by("-order")
-		last = whispers[0].order
-		instance.order = last + 1
+		try:
+			last = whispers[0].order
+			instance.order = last + 1
+		except IndexError:
+			instance.order = 1
 
 models.signals.pre_save.connect(whisper_order, sender=Whisper)
 
