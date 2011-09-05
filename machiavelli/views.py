@@ -839,6 +839,15 @@ def leave_game(request, slug=''):
 	return redirect('summary')
 
 @login_required
+def make_public(request, slug=''):
+	g = get_object_or_404(Game, slug=slug, slots__gt=0,
+						private=True, created_by=request.user)
+	g.private = False
+	g.save()
+	g.invitation_set.all().delete()
+	return redirect('games-pending')
+
+@login_required
 def overthrow(request, revolution_id):
 	revolution = get_object_or_404(Revolution, pk=revolution_id)
 	g = revolution.government.game
