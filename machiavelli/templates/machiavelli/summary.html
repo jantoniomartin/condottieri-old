@@ -65,7 +65,7 @@
 	<ul>
 	<li><a href="{% url join-game joinable_game.slug %}">{% trans "Join game" %}</a></li>
 	</ul>
-{% if game.comment %}
+{% if joinable_game.comment %}
 	<li>{{ game.comment }}</li>
 {% endif %}
 </ul>
