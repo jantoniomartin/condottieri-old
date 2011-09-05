@@ -363,6 +363,7 @@ class Game(models.Model):
 	cities_to_win = models.PositiveIntegerField(default=15)
 	fast = models.BooleanField(default=0)
 	private = models.BooleanField(default=0)
+	comment = models.TextField(max_length=255, blank=True, null=True)
 
 	def save(self, *args, **kwargs):
 		if not self.pk:

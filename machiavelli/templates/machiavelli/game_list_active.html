@@ -43,6 +43,10 @@
 	{% trans "Players are not visible" %}
 	{% endif %}
 </dd>
+{% if game.comment %}
+<dt>{% trans "Comment" %}</dt>
+<dd>{{ game.comment }}</dd>
+{% endif %}
 </dl>
 <ul class="section_menu">
 	<li>{% rule_icons game.configuration %}</li>

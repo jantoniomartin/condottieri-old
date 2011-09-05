@@ -53,7 +53,8 @@ class GameForm(forms.ModelForm):
 				'time_limit',
 				'cities_to_win',
 				'visible',
-				'private')
+				'private',
+				'comment',)
 
 class ConfigurationForm(forms.ModelForm):
 	def clean(self):

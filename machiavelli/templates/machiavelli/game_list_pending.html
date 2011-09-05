@@ -67,6 +67,10 @@
 <dt>{% trans "Invited users" %}</dt>
 <dd>{{ game.invitation_set.all|join:", " }}</dd>
 {% endif %}
+{% if game.comment %}
+<dt>{% trans "Comment" %}</dt>
+<dd>{{ game.comment }}</dd>
+{% endif %}
 </dl>
 <ul class="section_menu">
 	<li>{% rule_icons game.configuration %}</li>
