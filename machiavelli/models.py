@@ -2517,7 +2517,12 @@ class Unit(models.Model):
 
 	def to_autonomous(self):
 		assert self.type == 'G'
-		self.player = None
+		## find the autonomous player
+		try:
+			aplayer = Player.objects.get(game=self.player.game, user__isnull=True)
+		except ObjectDoesNotExist:
+			return
+		self.player = aplayer
 		self.save()
 		if signals:
 			signals.unit_to_autonomous.send(sender=self)
