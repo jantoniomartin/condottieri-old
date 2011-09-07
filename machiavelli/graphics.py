@@ -101,7 +101,7 @@ def make_map(game):
 	result = base_map #.resize((1250, 1780), Image.ANTIALIAS)
 	filename = os.path.join(MAPSDIR, "map-%s.jpg" % game.pk)
 	result.save(filename)
-	make_thumb(filename)
+	make_thumb(filename, 187, 267, "thumbnails")
 	return True
 
 def make_scenario_map(s):
@@ -150,14 +150,15 @@ def make_scenario_map(s):
 	result = base_map #.resize((1250, 1780), Image.ANTIALIAS)
 	filename = os.path.join(MAPSDIR, "scenario-%s.jpg" % s.pk)
 	result.save(filename)
-	make_thumb(filename)
+	make_thumb(filename, 187, 267, "thumbnails")
+	make_thumb(filename, 625, 890, "625x890")
 	return True
 
-def make_thumb(fd):
+def make_thumb(fd, w, h, dirname):
 	""" Make a thumbnail of the map image """
-	size = 187, 267
+	size = w, h
 	filename = os.path.split(fd)[1]
-	outfile = os.path.join(MAPSDIR, "thumbnails", filename)
+	outfile = os.path.join(MAPSDIR, dirname, filename)
 	im = Image.open(fd)
 	im.thumbnail(size, Image.ANTIALIAS)
 	im.save(outfile, "JPEG")

@@ -388,3 +388,12 @@ ul#messages li {
 .thread_info {
 	font-size: smaller;
 }
+
+#scenario_map {
+	width: 90%;
+	text-align: center;
+}
+
+#scenario_map img {
+	border: solid 1px black;
+}

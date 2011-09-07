@@ -8,7 +8,7 @@
 {% block head_title %}{% trans "Scenario" %}: {{ scenario.title }}{% endblock %}
 
 {% block body %}
-{% cache 1800 "scenario" scenario.id LANGUAGE_CODE %}
+{# cache 1800 "scenario" scenario.id LANGUAGE_CODE #}
 <h1>{% trans "Scenario" %}: {{ scenario.title }}</h1>
 <h2>{% trans "Basic data" %}</h2>
 <dl>
@@ -73,5 +73,8 @@
 <td>{{ disabled_areas|join:", " }}</td>
 </tr>
 </table>
-{% endcache %}
+<div id="scenario_map">
+<img src="{{ MEDIA_URL }}maps/625x890/scenario-{{ scenario.pk }}.jpg" />
+</div>
+{# endcache #}
 {% endblock %}
