@@ -2523,6 +2523,7 @@ class Unit(models.Model):
 		except ObjectDoesNotExist:
 			return
 		self.player = aplayer
+		self.paid = True
 		self.save()
 		if signals:
 			signals.unit_to_autonomous.send(sender=self)
