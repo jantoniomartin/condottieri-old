@@ -27,7 +27,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned, ValidationError
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from django.db.models import Q, F
@@ -475,8 +475,11 @@ def play_finance_reinforcements(request, game, player):
 								formset=forms.BaseReinforceFormSet,
 								extra=max_units)
 			if request.method == 'POST':
-				formset = ReinforceFormSet(request.POST)
-				if formset.is_valid():
+				try:
+					formset = ReinforceFormSet(request.POST)
+				except ValidationError:
+					formset = None
+				if formset and formset.is_valid():
 					cost = 0
 					for f in formset.forms:
 						if 'area' in f.cleaned_data:
