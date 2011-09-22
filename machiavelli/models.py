@@ -983,6 +983,9 @@ class Game(models.Model):
 				msg += u"%s already killed\n" % a.target
 				continue
 			dice_rolled = int(a.ducats / 12)
+			if dice_rolled < 1:
+				msg += u"%s are not enough" % a.ducats
+				continue
 			msg += u"%s dice will be rolled\n" % dice_rolled
 			if dice.check_one_six(dice_rolled):
 				msg += u"Attempt is successful\n"
