@@ -264,7 +264,7 @@ def make_disband_form(player):
 
 def make_unit_payment_form(player):
 	class UnitPaymentForm(forms.Form):
-		units = forms.ModelMultipleChoiceField(required=True,
+		units = forms.ModelMultipleChoiceField(required=False,
 					      queryset=player.unit_set.filter(placed=True),
 						  widget=forms.CheckboxSelectMultiple,
 					      label="")
