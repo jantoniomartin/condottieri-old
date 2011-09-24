@@ -4,6 +4,7 @@
 {% load cache %}
 {% load forum_tags %}
 {% load game_icons %}
+{% load stars %}
 
 {% get_current_language as LANGUAGE_CODE %}
 
@@ -46,6 +47,8 @@
 <div class="mini_game">
 <h3><a href="{{ joinable_game.get_absolute_url }}">{{ joinable_game.slug }}</a></h3>
 <ul>
+<li>{% trans "Average score" %}: {{ joinable_game.get_average_score|score_stars }}</li>
+<li>{% trans "Average karma" %}: {{ joinable_game.get_average_karma|karma_stars }}</li>
 <li>{% trans "Scenario" %}: <a href="{% url show-scenario joinable_game.scenario.pk %}">{{ joinable_game.scenario.title }}</a></li>
 <li>{% trans "Cities to win" %}: {{ joinable_game.cities_to_win }}</li>
 <li>{% trans "Time limit" %}: {{ joinable_game.get_time_limit_display }}</li>
