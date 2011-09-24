@@ -413,6 +413,12 @@ class Game(models.Model):
 			return Score.objects.none()
 		scores = self.score_set.all().order_by('-points')
 		return scores[0]
+	
+	def get_average_score(self):
+		""" Returns the average score of the current list of players """
+		
+		result = CondottieriProfile.objects.filter(user__player__game=self).aggregate(average_score=Avg('score'))
+		return result['average_score']
 
 	def get_average_karma(self):
 		""" Returns the average karma of the current list of players """
