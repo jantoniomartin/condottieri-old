@@ -382,6 +382,11 @@ class Game(models.Model):
 	def get_absolute_url(self):
 		return ('show-game', None, {'slug': self.slug})
 	get_absolute_url = models.permalink(get_absolute_url)
+
+	def reset_players_cache(self):
+		""" Deletes the player list from the cache """
+		key = "game-%s_player-list" % self.pk
+		cache.delete(key)
 	
 	def player_list_ordered_by_cities(self):
 		key = "game-%s_player-list" % self.pk
@@ -2029,6 +2034,7 @@ class Player(models.Model):
 		else:
 			self.excommunicated = self.game.year
 		self.save()
+		self.game.reset_players_cache()
 		signals.country_excommunicated.send(sender=self)
 		if logging:
 			msg = "Player %s excommunicated" % self.pk

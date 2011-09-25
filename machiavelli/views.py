@@ -902,6 +902,7 @@ def reset_excommunications(request, slug):
 	if not player.can_excommunicate():
 		return game_error(request, game, _("You are not allowed to forgive excommunications."))
 	game.player_set.all().update(excommunicated=None)
+	game.reset_players_cache()
 	return redirect(game)
 
 
