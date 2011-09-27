@@ -879,14 +879,22 @@ class Game(models.Model):
 			return
 		## a player can only be conquered if he is eliminated
 		for p in self.player_set.filter(eliminated=True):
+			## try fo find a home province that is not controlled by any player
+			neutral = GameArea.objects.filter(game=self,
+									board_area__home__country=p.country,
+									board_area__home__scenario=self.scenario,
+									board_area__home__is_home=True,
+									player__isnull=True).count()
+			if neutral > 0:
+				continue
 			## get the players that control part of this player's home country
 			controllers = self.player_set.filter(gamearea__board_area__home__country=p.country,
 									gamearea__board_area__home__scenario=self.scenario,
 									gamearea__board_area__home__is_home=True).distinct()
 			if len(controllers) == 1:
-				 ## all the areas in home country belong to the same player
-				 if p != controllers[0] and p.conqueror != controllers[0]:
-				 	## controllers[0] conquers p
+				## all the areas in home country belong to the same player
+				if p != controllers[0] and p.conqueror != controllers[0]:
+					## controllers[0] conquers p
 					p.set_conqueror(controllers[0])
 
 	def mark_famine_areas(self):
