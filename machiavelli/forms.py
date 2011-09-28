@@ -315,10 +315,12 @@ def make_expense_form(player):
 				if not isinstance(area, GameArea):
 					raise forms.ValidationError(_("You must choose an area"))
 				unit = None
+				del cleaned_data['unit']
 			elif type in (4,5,6,7,8,9):
 				if not isinstance(unit, Unit):
 					raise forms.ValidationError(_("You must choose a unit"))
 				area = None
+				del cleaned_data['area']
 			else:
 				raise forms.ValidationError(_("Unknown expense"))
 			## check that the minimum cost is paid
