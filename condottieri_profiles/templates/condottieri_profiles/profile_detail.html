@@ -2,6 +2,8 @@
 
 {% load i18n %}
 {% load avatar_tags %}
+{# stars defined in machiavelli app #}
+{% load stars %}
 
 {% block head_title %}{% trans "Profile" %}{% endblock %}
 
@@ -26,13 +28,15 @@
 <dt>{% trans "Location" %}</dt>
 <dd>{{ user_shown.get_profile.location }}</dd>
 {% endif %}
-{% if is_own %}
 <dt>{% trans "Karma" %}</dt>
-<dd>{{ user_shown.get_profile.karma }}</dd>
-{% endif %}
+<dd>{{ user_shown.get_profile.karma|karma_stars }}
+	{% if is_own %}
+	({{ user_shown.get_profile.karma }})
+	{% endif %}
+</dd>
 <dt>{% trans "Total score" %}</dt>
-<dd>{{ user_shown.get_profile.total_score }}
-(<a href="{% url ranking "user" user_shown.username %}">{% trans "Detail" %}</a>)
+<dd>{{ user_shown.get_profile.total_score|score_stars }} ({{ user_shown.get_profile.total_score }}
+<a href="{% url ranking "user" user_shown.username %}">{% trans "Detail" %}</a>)
 </dd>
 </dl>
 
