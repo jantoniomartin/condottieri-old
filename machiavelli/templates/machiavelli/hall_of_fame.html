@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load avatar_tags %}
+{% load stars %}
 
 {% block head_title %}{% trans "Hall of Fame" %}{% endblock %}
 
@@ -14,6 +15,7 @@ server{% endblocktrans %}</p>
 	<thead>
 	<tr>
 	<th colspan=2>{% trans "User" %}</th>
+	<th>{% trans "Karma" %}</th>
 	<th>{% trans "Score" %}</th>
 	<th>{% trans "Details" %}</th>
 	</tr>
@@ -22,11 +24,12 @@ server{% endblocktrans %}</p>
 	<tr>
 	<td>{% avatar p.user %}</td>
 	<td><a href="{% url profile_detail username=p.user.username %}">{{ p }}</a></td>
+	<td>{{ p.karma|karma_stars }}</td>
 	<td class="data_c">
 	{% if p.total_score %}
-		{{ p.total_score }}
+		{{ p.total_score|score_stars }} ({{ p.total_score }})
 	{% else %}
-		0
+		{{ 0|score_stars }} (0)
 	{% endif %}
 	</td>
 	<td><a href="{% url ranking "user" p.user.username %}">{% trans "Details" %}</a></td>
