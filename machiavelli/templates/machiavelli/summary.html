@@ -108,7 +108,7 @@
 <ul class="thread_list">
 {% for thread in latest_activity %}
 <li>
-<a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
+<a href="{{ thread.thread_latest_post.get_absolute_url }}">{{ thread.title }}</a>
 <span class="thread_info">{% blocktrans with thread.thread_latest_post.author as author and thread.latest_post_time|timesince as time %}{{ time }} ago by {{ author }}{% endblocktrans %}</span>
 </li>
 {% endfor %}
