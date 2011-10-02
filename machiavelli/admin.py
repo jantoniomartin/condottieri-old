@@ -60,10 +60,10 @@ class UnitAdmin(admin.ModelAdmin):
 	list_filter = ('player', 'must_retreat')
 
 class GameAreaAdmin(admin.ModelAdmin):
-	list_display = ('game', 'board_area', 'player', 'standoff', 'famine')
+	list_display = ('game', 'board_area', 'player', 'standoff', 'famine', 'storm')
 	list_per_page = 73
 	ordering = ['board_area']
-	list_filter = ('game', 'player', 'standoff', 'famine')
+	list_filter = ('game', 'player', 'standoff', 'famine', 'storm')
 
 class SetupAdmin(admin.ModelAdmin):
 	list_display = ('scenario', 'country', 'area', 'unit_type')
