@@ -592,6 +592,7 @@ DISASTER_EVENTS = (
 	(0, _('%(area)s is affected by famine.')),
 	(1, _('%(area)s has been affected by plague.')),
 	(2, _('A rebellion has broken out in %(area)s.')),
+	(3, _('%(area)s is affected by a storm.')),
 )
 
 class DisasterEvent(BaseEvent):
@@ -604,6 +605,8 @@ class DisasterEvent(BaseEvent):
 	* The province is affected by plague.
 
 	* The province is affected by a rebellion.
+
+	* The sea is affected by a storm
 	
 	Each condition must have its own signal.
 	"""
@@ -643,6 +646,15 @@ def log_rebellion(sender, **kwargs):
 					message = 2)
 
 rebellion_started.connect(log_rebellion)
+
+def log_storm_marker(sender, **kwargs):
+	assert isinstance(sender, GameArea), "sender must be a GameArea"
+	log_event(DisasterEvent, sender.game,
+					classname="DisasterEvent",
+					area = sender.board_area,
+					message = 3)
+
+storm_marker_placed.connect(log_storm_marker)
 
 class IncomeEvent(BaseEvent):
 	""" Event triggered when a country receives income """
