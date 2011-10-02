@@ -88,6 +88,12 @@ def make_map(game):
 		for a in game.gamearea_set.filter(famine=True):
 			coords = (a.board_area.aftoken.x + 16, a.board_area.aftoken.y + 16)
 			base_map.paste(famine, coords, famine)
+	## paste storm markers
+	if game.configuration.storms:
+		storm = Image.open("%s/storm-marker.png" % BASEDIR)
+		for a in game.gamearea_set.filter(storm=True):
+			coords = (a.board_area.aftoken.x + 16, a.board_area.aftoken.y + 16)
+			base_map.paste(storm, coords, storm)
 	## paste rebellion markers
 	if game.configuration.finances:
 		rebellion_marker = Image.open("%s/rebellion-marker.png" % BASEDIR)
