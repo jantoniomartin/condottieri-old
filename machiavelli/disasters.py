@@ -49,8 +49,22 @@ FAMINE_TABLE = [
 ['FER'  , ''     , 'ROME' , 'PAV'  , ''     , ''     , 'ARE'  , ''     , 'SALZ' , 'ALB'  , 'GEN'  ],
 [''     , ''     , 'CRO'  , ''     , 'FLO'  , 'TUR'  , 'MAN'  , 'CAP'  , 'TRE'  , ''     , ''     ],
 ['SAV'  , ''     , 'SAR'  , ''     , 'PAR'  , 'BOS'  , 'TYR'  , ''     , 'NAP'  , ''     , 'DAL'  ],
-[''     , ''     , 'VEN'  , ''     , ''     , ''     , ''     , 'CAR'  , ''     , 'MES'  , ''  ],
+[''     , ''     , 'VEN'  , ''     , ''     , ''     , ''     , 'CAR'  , ''     , 'MES'  , ''     ],
 [''     , ''     , ''     , 'PISA' , 'AQU'  , 'AVI'  , 'LUC'  , ''     , 'IST'  , ''     , ''     ]
+]
+
+STORM_TABLE = [
+[''     , ''     , ''     , 'IS'   , ''     , ''     , ''     , ''     , ''     , ''     , ''     ],
+['UA'   , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , 'WM'   , ''     ],
+[''     , ''     , 'GOL'  , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     ],
+[''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     ],
+[''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     ],
+[''     , ''     , ''     , ''     , ''     , 'TS'   , ''     , ''     , ''     , ''     , ''     ],
+[''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     ],
+[''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     ],
+[''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , ''     , 'LS'   , ''     ],
+[''     , 'CM'   , ''     , ''     , ''     , ''     , ''     , ''     , 'GON'  , ''     , ''     ],
+[''     , ''     , ''     , ''     , ''     , ''     , ''     , 'LA'   , ''     , ''     , ''     ],
 ]
 
 def get_year():
@@ -101,4 +115,8 @@ def get_plague():
 def get_famine():
 	""" A proxy function to call ``get_provinces`` with ``FAMINE_TABLE``. """
 	return get_provinces(FAMINE_TABLE)
+
+def get_storms():
+	""" A proxy function to call ``get_provinces`` with ``STORM_TABLE``. """
+	return get_provinces(STORM_TABLE)
 
