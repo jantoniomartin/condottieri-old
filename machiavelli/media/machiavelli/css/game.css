@@ -297,6 +297,10 @@ tr.closed_game a{
 	background-image: url('../img/surrender-event.png');
 }
 
+#log li.storm-event {
+	background-image: url('../img/storm-event.png');
+}
+
 #diplomacy a {
 	text-decoration: none;
 }

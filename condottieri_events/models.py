@@ -618,7 +618,16 @@ class DisasterEvent(BaseEvent):
 		return msg % {'area': self.area.name,}
 	
 	def event_class(self):
-		return "season_%(season)s" % {'season': self.season}
+		if self.message == 0:
+			return "famine-event"
+		elif self.message == 1:
+			return "plague-event"
+		elif self.message == 2:
+			return "rebellion-event"
+		elif self.message == 3:
+			return "storm-event"
+		else:
+			return ""
 
 def log_famine_marker(sender, **kwargs):
 	assert isinstance(sender, GameArea), "sender must be a GameArea"
