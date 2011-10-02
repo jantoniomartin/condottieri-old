@@ -18,7 +18,7 @@ def rule_icons(config):
 	if config.plague:
 		icons.append('plague')
 	if config.storms:
-		icons.append('storm')
+		icons.append('storms')
 	if config.special_units:
 		icons.append('special-units')
 	if config.strategic:
