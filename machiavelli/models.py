@@ -797,7 +797,17 @@ class Game(models.Model):
 					self.gamearea_set.all().update(famine=False)
 					## check plagues
 					self.kill_plague_units()
+			elif self.season == 2:
+				## if storms are enabled, place storm markers
+				self.mark_storm_areas()
 			elif self.season == 3:
+				## if storms are enabled, delete fleets in storm areas
+				if self.configuration.storms:
+					storm_units = Unit.objects.filter(player__game=self, area__storm=True)
+					for f in storm_units:
+						f.delete()
+					## reset storm markers
+					self.gamearea_set.all().update(storm=False)
 				## if conquering is enabled, check if any users are eliminated
 				if self.configuration.conquering:
 					for p in self.player_set.filter(eliminated=False,
@@ -906,6 +916,16 @@ class Game(models.Model):
 			f.famine=True
 			f.save()
 			signals.famine_marker_placed.send(sender=f)
+	
+	def mark_storm_areas(self):
+		if not self.configuration.storms:
+			return
+		codes = disasters.get_storms()
+		storm_areas = GameArea.objects.filter(game=self, board_area__code__in=codes)
+		for f in storm_areas:
+			f.storm=True
+			f.save()
+			signals.storm_marker_placed.send(sender=f)
 	
 	def kill_plague_units(self):
 		if not self.configuration.plague:
@@ -1689,6 +1709,7 @@ class GameArea(models.Model):
 	player = models.ForeignKey('Player', blank=True, null=True)
 	standoff = models.BooleanField(default=False)
 	famine = models.BooleanField(default=False)
+	storm = models.BooleanField(default=False)
 
 	def abbr(self):
 		return "%s (%s)" % (self.board_area.code, self.board_area.name)

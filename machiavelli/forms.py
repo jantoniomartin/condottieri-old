@@ -161,6 +161,9 @@ def make_order_form(player):
 					raise forms.ValidationError(_("You must select a unit to convoy"))
 				if not subdestination:
 					raise forms.ValidationError(_("You must select a destination area to convoy the unit"))
+				## check if the unit is in a sea affected by a storm
+				if unit.area.storm == True:
+					raise forms.ValidationError(_("A fleet cannot convoy while affected by a storm"))
 			if code == 'S':
 				if not subunit:
 					raise forms.ValidationError(_("You must select a unit to support"))
