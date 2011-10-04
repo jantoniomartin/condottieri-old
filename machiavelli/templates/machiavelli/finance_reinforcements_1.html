@@ -66,4 +66,15 @@ players have done it or the time limit is reached.{% endblocktrans %}</p>
 </form>
 {% endif %}
 </div>
+
+
+{% if loan %}
+<div class="action_block">
+<h2>{% trans "Loans" %}</h2>
+<p>{% blocktrans with loan.debt as debt %}You owe {{ debt }} ducats to a banker.{% endblocktrans %}</p>
+<p>{% blocktrans with loan.get_season_display as season and loan.year as year %}Your debt must be paid before confirming your orders in the {{ season }} of {{ year }}.{% endblocktrans %}</p>
+<p>{% blocktrans %}If you don't repay your debt in the due term, you will be assassinated and, of course, you won't be able to borrow money anymore.{% endblocktrans %}</p>
+</div>
+{% endif %}
+
 {% endblock %}

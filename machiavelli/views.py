@@ -445,6 +445,13 @@ def play_finance_reinforcements(request, game, player):
 		template_name = 'machiavelli/reinforcements_actions.html'
 	else:
 		step = player.step
+		if game.configuration.lenders:
+			try:
+				loan = player.loan
+			except ObjectDoesNotExist:
+				pass
+			else:
+				context.update({'loan': loan})
 		if step == 0:
 			## the player must select the units that he wants to pay and keep
 			UnitPaymentForm = forms.make_unit_payment_form(player)
