@@ -27,6 +27,8 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
+from machiavelli.signals import government_overthrown
+
 
 KARMA_MINIMUM = settings.KARMA_MINIMUM
 KARMA_DEFAULT = settings.KARMA_DEFAULT
@@ -49,6 +51,8 @@ class CondottieriProfile(models.Model):
 	""" Total karma value """
 	total_score = models.PositiveIntegerField(default=0, editable=False)
 	""" Sum of game scores """
+	overthrows = models.PositiveIntegerField(default=0)
+	""" Number of times that the player has been overthrown """
 
 	def __unicode__(self):
 		return self.user.username
@@ -68,6 +72,18 @@ class CondottieriProfile(models.Model):
 			new_karma = KARMA_MINIMUM
 		self.karma = new_karma
 		self.save()
+
+	def overthrow(self):
+		""" Add 1 to the overthrows counter of the profile """
+		self.overthrows += 1
+		self.save()
+
+def add_overthrow(sender, **kwargs):
+	profile = sender.user.get_profile()
+	profile.overthrow()
+
+government_overthrown.connect(add_overthrow)
+
 
 def create_profile(sender, instance=None, **kwargs):
 	""" Creates a profile associated to a User	"""

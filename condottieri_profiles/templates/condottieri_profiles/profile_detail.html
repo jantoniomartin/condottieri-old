@@ -38,6 +38,8 @@
 <dd>{{ user_shown.get_profile.total_score|score_stars }} ({{ user_shown.get_profile.total_score }}
 <a href="{% url ranking "user" user_shown.username %}">{% trans "Detail" %}</a>)
 </dd>
+<dt>{% trans "Times overthrown" %}</dt>
+<dd>{{ user_shown.get_profile.overthrows }}</dd>
 </dl>
 
 {% if is_own %}

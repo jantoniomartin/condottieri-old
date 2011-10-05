@@ -2196,7 +2196,6 @@ class Player(models.Model):
 						notification.send_now(user, "got_player", extra_context)	
 					else:
 						notification.send(user, "got_player", extra_context)
-				self.user = rev.opposition
 				logging.info("Government of %s is overthrown" % self.country)
 				if signals:
 					signals.government_overthrown.send(sender=self)
@@ -2204,6 +2203,7 @@ class Player(models.Model):
 					self.game.log_event(CountryEvent,
 								country=self.country,
 								message=0)
+				self.user = rev.opposition
 				self.save()
 				rev.delete()
 				self.user.get_profile().adjust_karma(10)
