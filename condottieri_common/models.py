@@ -21,6 +21,16 @@
 """
 
 from django.db import models
+from django.conf import settings
+
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+
+if "jogging" in settings.INSTALLED_APPS:
+	from jogging import logging
+else:
+	logging = None
+
+from machiavelli.signals import game_finished
 
 class Server(models.Model):
 	""" Defines core attributes for the whole site """
@@ -30,3 +40,17 @@ class Server(models.Model):
 	def __unicode__(self):
 		return "Server %s" % self.pk
 
+def outdate_ranking(sender, **kwargs):
+	try:
+		server = Server.models.get()
+	except MultipleObjectsReturned:
+		if logging:
+			logging.error("Multiple servers found")
+	except ObjectDoesNotExist:
+		if logging:
+			logging.error("No configured server")
+	else:
+		server.ranking_outdated = True
+		server.save()
+
+game_finished.connect(outdate_ranking)
