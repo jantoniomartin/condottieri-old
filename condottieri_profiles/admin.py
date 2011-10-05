@@ -3,6 +3,6 @@ from django.contrib import admin
 
 class CondottieriProfileAdmin(admin.ModelAdmin):
 	ordering = ['user__username']
-	list_display = ('__unicode__', 'location', 'karma', 'total_score', 'overthrows')
+	list_display = ('__unicode__', 'location', 'karma', 'total_score', 'weighted_score', 'overthrows')
 
 admin.site.register(CondottieriProfile, CondottieriProfileAdmin)
