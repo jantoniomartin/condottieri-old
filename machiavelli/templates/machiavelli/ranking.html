@@ -26,6 +26,7 @@
 	<th>{% trans "Scenario" %}</th>
 	<th>{% trans "User" %}</th>
 	{% endif %}
+	<th>{% trans "Date" %}</th>
 	</tr>
 	</thead>
 	{% for q in qualification.object_list %}
@@ -46,6 +47,7 @@
 	<td><a href="{% url show-scenario q.game.scenario.pk %}">{{ q.game.scenario }}</a></td>
 	<td><a href="{% url profile_detail username=q.user.username %}">{{ q.user }}</a></td>
 	{% endif %}
+	<td>{{ q.created_at|date:"SHORT_DATE_FORMAT" }}
 	</tr>
 	{% endfor %}
 
