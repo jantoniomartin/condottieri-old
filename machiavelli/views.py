@@ -964,7 +964,7 @@ def show_scenario(request, scenario_id):
 #@login_required
 #@cache_page(30 * 60)
 def hall_of_fame(request):
-	profiles_list = CondottieriProfile.objects.all().order_by('-total_score')
+	profiles_list = CondottieriProfile.objects.all().order_by('-weighted_score')
 	paginator = Paginator(profiles_list, 10)
 	try:
 		page = int(request.GET.get('page', '1'))
