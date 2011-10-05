@@ -51,6 +51,8 @@ class CondottieriProfile(models.Model):
 	""" Total karma value """
 	total_score = models.PositiveIntegerField(default=0, editable=False)
 	""" Sum of game scores """
+	weighted_score = models.PositiveIntegerField(default=0, editable=False)
+	""" Sum of devaluated game scores """
 	overthrows = models.PositiveIntegerField(default=0)
 	""" Number of times that the player has been overthrown """
 
