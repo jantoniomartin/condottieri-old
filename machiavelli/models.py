@@ -1832,6 +1832,8 @@ class Score(models.Model):
 	points = models.PositiveIntegerField(default=0)
 	cities = models.PositiveIntegerField(default=0)
 	position = models.PositiveIntegerField(default=0)
+	""" Default value is added for compatibility with south, to be deleted after migration """
+	created_at = models.DateTimeField(default=datetime.now())
 
 	def __unicode__(self):
 		return "%s (%s)" % (self.user, self.game)
