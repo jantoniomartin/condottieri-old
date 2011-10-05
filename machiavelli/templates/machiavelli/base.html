@@ -43,9 +43,10 @@
 {% for profile in top_users %}
 	<li><a href="{% url profile_detail username=profile.user.username %}">{% avatar profile.user 24 %}</a>
 	<span>{{ profile.user.username }}</span>:
-	<span>{{ profile.total_score }} {% trans "points" %}</span></li>
+	<span>{{ profile.weighted_score }}</span></li>
 {% endfor %}
 </ol>
+<p style="font-size:smaller">{% trans "Last updated:" %} {{ ranking_last_update|date:"SHORT_DATE_FORMAT" }}</p>
 </div>
 
 {% block right_column_extra %}{% endblock %}

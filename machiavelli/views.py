@@ -43,6 +43,9 @@ from machiavelli.models import *
 import machiavelli.utils as utils
 import machiavelli.forms as forms
 
+## condottieri_common
+from condottieri_common.models import Server
+
 ## condottieri_profiles
 from condottieri_profiles.models import CondottieriProfile
 
@@ -76,15 +79,18 @@ def sidebar_context(request):
 		cache.set('sidebar_activity', activity)
 	top_users = cache.get('sidebar_top_users')
 	if not top_users:
-		top_users = CondottieriProfile.objects.all().order_by('-total_score').select_related('user')[:5]
+		top_users = CondottieriProfile.objects.all().order_by('-weighted_score').select_related('user')[:5]
 		cache.set('sidebar_top_users', top_users)
 	latest_gossip = cache.get('latest_gossip')
 	if not latest_gossip:
 		latest_gossip = Whisper.objects.all()[:5]
 		cache.set('latest_gossip', latest_gossip)
+	server = Server.objects.get()
+	ranking_last_update = server.ranking_last_update
 	context = { 'activity': activity,
 				'top_users': top_users,
-				'whispers': latest_gossip,}
+				'whispers': latest_gossip,
+				'ranking_last_update': ranking_last_update,}
 	return context
 
 def summary(request):
