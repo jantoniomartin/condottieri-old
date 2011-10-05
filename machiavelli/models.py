@@ -1650,6 +1650,8 @@ class Game(models.Model):
 		self.phase = PHINACTIVE
 		self.finished = datetime.now()
 		self.save()
+		if signals:
+			signals.game_finished.send(sender=self)
 		self.notify_players("game_over", {"game": self})
 		self.tweet_message("The game %(game)s is over" % {'game': self.slug})
 		self.tweet_results()
