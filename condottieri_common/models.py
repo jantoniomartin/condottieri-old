@@ -27,3 +27,6 @@ class Server(models.Model):
 	ranking_last_update = models.DateTimeField()
 	ranking_outdated = models.BooleanField(default=False)
 
+	def __unicode__(self):
+		return "Server %s" % self.pk
+
