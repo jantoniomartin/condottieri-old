@@ -42,7 +42,7 @@ class Server(models.Model):
 
 def outdate_ranking(sender, **kwargs):
 	try:
-		server = Server.models.get()
+		server = Server.objects.get()
 	except MultipleObjectsReturned:
 		if logging:
 			logging.error("Multiple servers found")
