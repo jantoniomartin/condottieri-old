@@ -305,6 +305,8 @@ ul#messages li {
 	margin-left: 10%;
 	padding: 0px;
 	background: #4f4f4f;
+	border-left: solid 1px #666;
+	border-right: solid 1px #666;
 }
 
 .game_info a, .game_info a:visited {
@@ -313,7 +315,7 @@ ul#messages li {
 
 .game_info h2 {
 	background: #191919;
-	width: 100%;
+	/*width: 100%;*/
 	padding-top: 0px;
 	padding-bottom: 0px;
 }
@@ -350,7 +352,7 @@ ul#messages li {
 	clear: both;
 	margin: 0;
 	padding: 0;
-	width: 100%;
+	/*width: 100%;*/
 	text-align: right;
 	background: #191919;
 }
