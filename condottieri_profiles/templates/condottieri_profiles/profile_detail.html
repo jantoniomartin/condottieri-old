@@ -38,6 +38,8 @@
 <dd>{{ profile.total_score|score_stars }} ({{ profile.total_score }}
 <a href="{% url ranking "user" profile.user.username %}">{% trans "Detail" %}</a>)
 </dd>
+<dt>{% trans "Average points per game" %}</dt>
+<dd>{{ profile.average_score }}</dd>
 <dt>{% trans "Ranking score" %}</dt>
 <dd>{{ profile.weighted_score }}</dd>
 <dt>{% trans "Times overthrown" %}</dt>

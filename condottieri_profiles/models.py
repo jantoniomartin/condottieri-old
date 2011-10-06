@@ -62,6 +62,13 @@ class CondottieriProfile(models.Model):
 	def get_absolute_url(self):
 		return ('profile_detail', None, {'username': self.user.username})
 	get_absolute_url = models.permalink(get_absolute_url)
+
+	def average_score(self):
+		games = self.user.score_set.count()
+		if games > 0:
+			return self.total_score / games
+		else:	
+			return 0
 	
 	def adjust_karma(self, k):
 		""" Adds or substracts some karma to the total """
