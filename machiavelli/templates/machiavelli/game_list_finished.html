@@ -42,7 +42,7 @@ Finished on {{ finished }} after {{ time }}.{% endblocktrans %}
 <dd>
 	<ul>
 	{% for s in game.score_set.all %}
-		<li>{{ s.user.username }} ({{ s.points }})</li>
+		<li><a href="{% url profile_detail username=s.user.username %}">{{ s.user.username }}</a> ({{ s.points }})</li>
 	{% endfor %}
 	</ul>
 </dd>

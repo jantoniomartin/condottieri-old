@@ -38,7 +38,7 @@
 	<ul>
 	{% for p in game.player_set.all %}
 		{% if p.user %}
-		<li>{{ p.user.username }}</li>
+		<li><a href="{% url profile_detail username=p.user.username %}">{{ p.user.username }}</a></li>
 		{% endif %}
 	{% endfor %}
 	</ul>
