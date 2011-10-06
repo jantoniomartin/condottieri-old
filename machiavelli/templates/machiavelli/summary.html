@@ -44,16 +44,25 @@
 <div class="section">
 <h2>{% trans "Join a game" %}</h2>
 {% if joinable_game %}
-<div class="mini_game">
-<h3><a href="{{ joinable_game.get_absolute_url }}">{{ joinable_game.slug }}</a></h3>
-<ul>
-<li>{% trans "Average score" %}: {{ joinable_game.get_average_score|score_stars }}</li>
-<li>{% trans "Average karma" %}: {{ joinable_game.get_average_karma|karma_stars }}</li>
-<li>{% trans "Scenario" %}: <a href="{% url show-scenario joinable_game.scenario.pk %}">{{ joinable_game.scenario.title }}</a></li>
-<li>{% trans "Cities to win" %}: {{ joinable_game.cities_to_win }}</li>
-<li>{% trans "Time limit" %}: {{ joinable_game.get_time_limit_display }}</li>
-<li>{% trans "Rules" %}: {% rule_icons joinable_game.configuration %}</li>
-<li>{% trans "Players" %}:</li>
+
+<div class="game_info {% if joinable_game.fast %}fast{% endif %}">
+<h2><span><a href="{{ joinable_game.get_absolute_url }}">{{ joinable_game.slug }}</a></span>
+	<span>
+		({% trans "Slots" %}: {{ joinable_game.slots }})
+	</span>
+	</h2>
+<div class="map">
+<img src="{{ MEDIA_URL }}maps/thumbnails/scenario-{{ joinable_game.scenario.pk }}.jpg" />
+</div>
+<dl>
+<dt>{% trans "Average score" %}</dt><dd>{{ joinable_game.get_average_score|score_stars }}</dd>
+<dt>{% trans "Average karma" %}</dt><dd>{{ joinable_game.get_average_karma|karma_stars }}</dd>
+<dt>{% trans "Scenario" %}</dt><dd><a href="{% url show-scenario joinable_game.scenario.pk %}">{{ joinable_game.scenario.title }}</a></dd>
+<dt>{% trans "Cities to win" %}</dt><dd>{{ joinable_game.cities_to_win }}</dd>
+<dt>{% trans "Time limit" %}</dt><dd>{{ joinable_game.get_time_limit_display }}</dd>
+<dt>{% trans "Creator" %}</dt><dd>{{ joinable_game.created_by.username }}</dd>
+<dt>{% trans "Players" %}</dt>
+<dd>
 	{% if joinable_game.visible %}
 	<ul>
 	{% for p in joinable_game.player_set.all %}
@@ -65,15 +74,20 @@
 	{% else %}
 	{% trans "Players are not visible" %}
 	{% endif %}
-	<ul>
-	<li><a href="{% url join-game joinable_game.slug %}">{% trans "Join game" %}</a></li>
-	</ul>
+</dd>
 {% if joinable_game.comment %}
-	<li>{{ joinable_game.comment }}</li>
+<dt>{% trans "Comment" %}</dt>
+<dd>{{ joinable_game.comment }}</dd>
 {% endif %}
+</dl>
+<ul class="section_menu">
+	<li>{% rule_icons joinable_game.configuration %}</li>
+	<li><a href="{% url join-game joinable_game.slug %}">{% trans "Join game" %}</a></li>
 </ul>
 </div>
+
 <p><a href="{% url games-joinable %}">{% trans "Other games waiting for players" %}</a></p>
+
 {% else %}
 	<p>{% blocktrans %}At this time there are no games waiting for players. Of course you can create a new one.{% endblocktrans %}</p>
 	<p><a href="{% url new-game %}">{% trans "New game" %}</a></p>
