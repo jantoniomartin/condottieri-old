@@ -8,40 +8,40 @@
 {% block head_title %}{% trans "Profile" %}{% endblock %}
 
 {% block body %}
-<h1>{% trans "Profile for" %} {{ user_shown.username }}</h1>
+<h1>{% trans "Profile for" %} {{ profile.user.username }}</h1>
 <div>
-{% avatar user_shown %}<br/>
+{% avatar profile.user %}<br/>
 {% if is_own %}
 <a href="{% url avatar_change %}">{% trans "Change avatar" %}</a>
 {% endif %}
 </div>
 <dl>
-{% if user_shown.get_profile.name %}
+{% if profile.name %}
 <dt>{% trans "Name" %}</dt>
-<dd>{{ user_shown.get_profile.name }}</dd>
+<dd>{{ profile.name }}</dd>
 {% endif %}
-{% if user_shown.get_profile.about %}
+{% if profile.about %}
 <dt>{% trans "About" %}</dt>
-<dd>{{ user_shown.get_profile.about }}</dd>
+<dd>{{ profile.about }}</dd>
 {% endif %}
-{% if user_shown.get_profile.location %}
+{% if profile.location %}
 <dt>{% trans "Location" %}</dt>
-<dd>{{ user_shown.get_profile.location }}</dd>
+<dd>{{ profile.location }}</dd>
 {% endif %}
 <dt>{% trans "Karma" %}</dt>
-<dd>{{ user_shown.get_profile.karma|karma_stars }}
+<dd>{{ profile.karma|karma_stars }}
 	{% if is_own %}
-	({{ user_shown.get_profile.karma }})
+	({{ profile.karma }})
 	{% endif %}
 </dd>
 <dt>{% trans "Total score" %}</dt>
-<dd>{{ user_shown.get_profile.total_score|score_stars }} ({{ user_shown.get_profile.total_score }}
-<a href="{% url ranking "user" user_shown.username %}">{% trans "Detail" %}</a>)
+<dd>{{ profile.total_score|score_stars }} ({{ profile.total_score }}
+<a href="{% url ranking "user" profile.user.username %}">{% trans "Detail" %}</a>)
 </dd>
 <dt>{% trans "Ranking score" %}</dt>
-<dd>{{ user_shown.get_profile.weighted_score }}</dd>
+<dd>{{ profile.weighted_score }}</dd>
 <dt>{% trans "Times overthrown" %}</dt>
-<dd>{{ user_shown.get_profile.overthrows }}</dd>
+<dd>{{ profile.overthrows }}</dd>
 </dl>
 
 {% if is_own %}

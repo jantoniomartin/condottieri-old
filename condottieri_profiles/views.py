@@ -10,11 +10,11 @@ from condottieri_profiles.forms import *
 
 @login_required
 def profile_detail(request, username=''):
-	user_shown = get_object_or_404(User, username=username)
-	is_own = (request.user == user_shown)
+	profile = get_object_or_404(CondottieriProfile, user__username=username)
+	is_own = (request.user == profile.user)
 
 	return render_to_response('condottieri_profiles/profile_detail.html',
-							{'user_shown': user_shown,
+							{'profile': profile,
 							'is_own': is_own},
 							context_instance=RequestContext(request))
 
