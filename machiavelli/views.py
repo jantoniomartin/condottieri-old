@@ -702,7 +702,8 @@ def logs_by_game(request, slug=''):
 	except:
 		player = Player.objects.none()
 	context = base_context(request, game, player)
-	log_list = game.baseevent_set.exclude(season__exact=game.season,
+	log_list = game.baseevent_set.exclude(year__exact=game.year,
+										season__exact=game.season,
 										phase__exact=game.phase)
 	paginator = events_paginator.SeasonPaginator(log_list)
 	try:
