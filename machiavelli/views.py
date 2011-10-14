@@ -716,7 +716,7 @@ def logs_by_game(request, slug=''):
 	try:
 		log = paginator.page(year, season)
 	except (events_paginator.EmptyPage, events_paginator.InvalidPage):
-		log = paginator.page()
+		raise Http404
 
 	context['log'] = log
 

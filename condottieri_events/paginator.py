@@ -79,6 +79,8 @@ class SeasonPaginator(object):
 		else:
 			year, season = self.validate_date(year, season)
 		object_list = self.object_list.filter(year=year, season=season)
+		if object_list.count() <= 0:
+			raise EmptyPage('No events for this date.')
 		return Page(object_list, year, season, self)
 
 	def _get_newest_year(self):
@@ -107,6 +109,7 @@ class SeasonPaginator(object):
 			try:
 				self._newest_season = self.object_list[0].season
 			except IndexError:
+				## there are no seasons yet
 				pass
 		return self._newest_season
 	newest_season = property(_get_newest_season)
@@ -122,7 +125,10 @@ class Page(object):
 		self.year = year
 		self.season = season
 		self.paginator = paginator
-		self.season_name = SEASONS[season]
+		if season is not None:
+			self.season_name = SEASONS[season]
+		else:
+			self.season_name = None
 
 	def __repr__(self):
 		return '<Page for %s %s>' % (self.year, self.season)
