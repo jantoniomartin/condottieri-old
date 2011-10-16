@@ -260,6 +260,7 @@ def base_context(request, game, player):
 		if game.configuration.finances:
 			context['ducats'] = player.ducats
 		context['can_excommunicate'] = player.can_excommunicate()
+		context['can_forgive'] = player.can_forgive()
 		if game.slots == 0:
 			context['time_exceeded'] = player.time_exceeded()
 		if game.phase == PHORDERS:
@@ -892,33 +893,42 @@ def excommunicate(request, slug, player_id):
 	game = get_object_or_404(Game, slug=slug)
 	if game.phase == 0 or not game.configuration.excommunication:
 		return game_error(request, game, _("You cannot excommunicate in this game."))
-	player = get_object_or_404(Player, id=player_id,
-								game=game,
-								excommunicated__isnull=True,
-								country__can_excommunicate=False)
 	papacy = get_object_or_404(Player, user=request.user,
 								game=game,
-								country__can_excommunicate=True)
-	## check if someone has been excommunicated this year
-	if papacy.can_excommunicate():
-		player.excommunicate()
+								may_excommunicate=True)
+	if not papacy.can_excommunicate():
+		return game_error(request, game, _("You cannot excommunicate in the current season."))
+	try:
+		player = Player.objects.get(game=game, id=player_id, eliminated=False,
+									conqueror__isnull=True, may_excommunicate=False)
+	except ObjectDoesNotExist:
+		return game_error(request, game, _("You cannot excommunicate this country."))
 	else:
-		## a player has been already excommunicated this year
-		return game_error(request, game, _("You have already excommunicated a country this year."))
+		player.set_excommunication(by_pope=True)
+		papacy.has_sentenced = True
+		papacy.save()
 	return redirect(game)
 
 @login_required
-def reset_excommunications(request, slug):
+def forgive_excommunication(request, slug, player_id):
 	game = get_object_or_404(Game, slug=slug)
 	if game.phase == 0 or not game.configuration.excommunication:
-		return game_error(request, game, _("Excommunications cannot be reset."))
-	player = get_object_or_404(Player, game=game, user=request.user)
-	if not player.can_excommunicate():
-		return game_error(request, game, _("You are not allowed to forgive excommunications."))
-	game.player_set.all().update(excommunicated=None)
-	game.reset_players_cache()
+		return game_error(request, game, _("You cannot forgive excommunications in this game."))
+	papacy = get_object_or_404(Player, user=request.user,
+								game=game,
+								may_excommunicate=True)
+	if not papacy.can_forgive():
+		return game_error(request, game, _("You cannot forgive excommunications in the current season."))
+	try:
+		player = Player.objects.get(game=game, id=player_id, eliminated=False,
+									conqueror__isnull=True, is_excommunicated=True)
+	except ObjectDoesNotExist:
+		return game_error(request, game, _("You cannot forgive this country."))
+	else:
+		player.unset_excommunication()
+		papacy.has_sentenced = True
+		papacy.save()
 	return redirect(game)
-
 
 #@cache_page(60 * 60)
 def scenario_list(request):

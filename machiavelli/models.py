@@ -833,8 +833,8 @@ class Game(models.Model):
 					except Exception, e:
 						print "Error assigning incomes in game %s:\n" % self.id
 						print e
-			## reset assassinations
-			self.player_set.all().update(assassinated=False)
+			## reset assassinations, and the pope can excommunicate again
+			self.player_set.all().update(assassinated=False, has_sentenced=False)
 			self._next_season()
 			if self.season == 1:
 				## if there are not finances all units are paid
@@ -1857,6 +1857,15 @@ class Player(models.Model):
 	may_excommunicate = models.BooleanField(default=False)
 	static_name = models.CharField(max_length=20, default="")
 	step = models.PositiveIntegerField(default=0)
+	""" has_sentenced is True if the player has excommunicated OR forgiven any other player
+	this turn; false if not."""
+	has_sentenced = models.BooleanField(default=False)
+	""" is_excommunicated is True if the player has been excommunicated, either explicitly or
+	because of talking to other excommunicated player """
+	is_excommunicated = models.BooleanField(default=False)
+	""" pope_excommunicated is True if the player has been explicitly excommunicated """
+	pope_excommunicated = models.BooleanField(default=False)
+
 
 	def __unicode__(self):
 		if self.user:
@@ -2025,9 +2034,8 @@ class Player(models.Model):
 			for rev in self.revolution_set.all():
 				rev.delete()
 			if self.game.configuration.excommunication:
-				if self.country.can_excommunicate:
-					self.game.player_set.all().update(excommunicated=None)
-		
+				if self.may_excommunicate:
+					self.game.player_set.all().update(is_excommunicated=False, pope_excommunicated=False)
 
 	def set_conqueror(self, player):
 		if player != self:
@@ -2044,33 +2052,49 @@ class Player(models.Model):
 			self.save()
 
 	def can_excommunicate(self):
-		""" Returns true if player.may_excommunicate and nobody has been
-		excommunicated this year.
-		"""
+		""" Returns true if player.may_excommunicate and the Player has not excommunicated or
+		forgiven anyone this turn and there is no other player explicitly excommunicated """
 
 		if self.eliminated:
 			return False
 		if self.game.configuration.excommunication:
-			if self.may_excommunicate:
+			if self.may_excommunicate and not self.has_sentenced:
 				try:
-					Player.objects.get(game=self.game,
-									excommunicated=self.game.year)
+					Player.objects.get(game=self.game, pope_excommunicated=True)
 				except ObjectDoesNotExist:
 					return True
-				except MultipleObjectsReturned:
-					return False
 		return False
-	
-	def excommunicate(self, year=None):
-		if year:
-			self.excommunicated = year
-		else:
-			self.excommunicated = self.game.year
+
+	def can_forgive(self):
+		""" Returns true if player.may_excommunicate and the Player has not excommunicated or
+		forgiven anyone this turn. """
+		
+		if self.eliminated:
+			return False
+		if self.game.configuration.excommunication:
+			if self.may_excommunicate and not self.has_sentenced:
+				return True
+		return False
+
+	def set_excommunication(self, by_pope=False):
+		""" Excommunicates the player """
+		self.is_excommunicated = True
+		self.pope_excommunicated = by_pope
 		self.save()
 		self.game.reset_players_cache()
 		signals.country_excommunicated.send(sender=self)
 		if logging:
 			msg = "Player %s excommunicated" % self.pk
+			logging.info(msg)
+	
+	def unset_excommunication(self):
+		self.is_excommunicated = False
+		self.pope_excommunicated = False
+		self.save()
+		self.game.reset_players_cache()
+		signals.country_forgiven.send(sender=self)
+		if logging:
+			msg = "Player %s is forgiven" % self.pk
 			logging.info(msg)
 
 	def assassinate(self):

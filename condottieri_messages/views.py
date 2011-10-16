@@ -44,7 +44,7 @@ def check_errors(request, game, sender_player, recipient_player):
 	elif game.phase == 0:
 		msg = _("You cannot send letters in an inactive game.")
 	## check if the sender has excommunicated the recipient
-	elif sender_player.country.can_excommunicate and recipient_player.excommunicated:
+	elif sender_player.may_excommunicate and recipient_player.is_excommunicated:
 		msg = _("You cannot write to a country that you have excommunicated.")
 	else:
 		return True
@@ -77,8 +77,8 @@ def compose(request, sender_id=None, recipient_id=None, letter_id=None):
 		if letter_form.is_valid():
 			letter = letter_form.save()
 			## check if sender must be excommunicated
-			if not sender_player.excommunicated and recipient_player.excommunicated:
-				sender_player.excommunicate(year=recipient_player.excommunicated)
+			if not sender_player.is_excommunicated and recipient_player.is_excommunicated:
+				sender_player.set_excommunication(by_pope=False)
 			return redirect('show-game', slug=game.slug)
 	else:
 		if parent:
@@ -92,9 +92,9 @@ def compose(request, sender_id=None, recipient_id=None, letter_id=None):
 		letter_form = forms.LetterForm(sender_player,
 									recipient_player,
 									initial=initial)
-		if not sender_player.excommunicated and recipient_player.excommunicated:
+		if not sender_player.is_excommunicated and recipient_player.is_excommunicated:
 			context['excom_notice'] = True
-		if sender_player.excommunicated and not recipient_player.excommunicated:
+		if sender_player.is_excommunicated and not recipient_player.is_excommunicated:
 			return game_error(request, game, _("You can write letters only to other excommunicated countries."))
 	
 	context.update({'form': letter_form,

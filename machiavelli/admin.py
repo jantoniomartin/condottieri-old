@@ -42,7 +42,7 @@ class CountryAdmin(admin.ModelAdmin):
 	list_display = ('name', 'css_class')
 
 class PlayerAdmin(admin.ModelAdmin):
-	list_display = ('user', 'game', 'country', 'done', 'eliminated', 'conqueror', 'excommunicated', 'assassinated', 'defaulted', 'ducats')
+	list_display = ('user', 'game', 'country', 'done', 'eliminated', 'conqueror', 'is_excommunicated', 'assassinated', 'defaulted', 'ducats')
 	list_filter = ('game', 'done')
 	ordering = ['game']
 
