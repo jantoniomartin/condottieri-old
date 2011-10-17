@@ -2336,7 +2336,7 @@ class Player(models.Model):
 		""" Returns the number of ducats that the player can borrow from the bank. """
 		if self.defaulted:
 			return 0
-		if self.game.configuration.unbanlanced_loans:
+		if self.game.configuration.unbalanced_loans:
 			credit = 25
 		else:
 			credit = self.gamearea_set.count() + self.unit_set.count()
