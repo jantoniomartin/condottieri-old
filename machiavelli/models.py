@@ -2336,9 +2336,12 @@ class Player(models.Model):
 		""" Returns the number of ducats that the player can borrow from the bank. """
 		if self.defaulted:
 			return 0
-		credit = self.gamearea_set.count() + self.unit_set.count()
-		if credit > 25:
+		if self.game.configuration.unbanlanced_loans:
 			credit = 25
+		else:
+			credit = self.gamearea_set.count() + self.unit_set.count()
+			if credit > 25:
+				credit = 25
 		return credit
 
 class Revolution(models.Model):
@@ -2955,6 +2958,8 @@ class Configuration(models.Model):
 	strategic = models.BooleanField(_('strategic movement'), default=False)
 	lenders = models.BooleanField(_('money lenders'), default=False,
 					help_text=_('will enable Finances'))
+	unbalanced_loans = models.BooleanField(_('unbalanced loans'), default=False,
+		help_text=_('the credit for all players will be 25d'))
 	conquering = models.BooleanField(_('conquering'), default=False)
 	famine = models.BooleanField(_('famine'), default=False)
 	plague = models.BooleanField(_('plague'), default=False)

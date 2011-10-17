@@ -59,9 +59,10 @@ class GameForm(forms.ModelForm):
 class ConfigurationForm(forms.ModelForm):
 	def clean(self):
 		cleaned_data = self.cleaned_data
-		if not cleaned_data['finances']:
-			if cleaned_data['assassinations'] or cleaned_data['lenders']:
-				cleaned_data['finances'] = True
+		if cleaned_data['unbalanced_loans']:
+			cleaned_data['lenders'] = True
+		if cleaned_data['assassinations'] or cleaned_data['lenders']:
+			cleaned_data['finances'] = True
 		return cleaned_data
 
 	class Meta:
