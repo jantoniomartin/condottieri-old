@@ -1663,6 +1663,8 @@ class Game(models.Model):
 
 		self.player_set.all().delete()
 		self.gamearea_set.all().delete()
+		self.invitation_set.all().delete()
+		self.whisper_set.all().delete()
 	
 	##------------------------
 	## notification methods
