@@ -2557,11 +2557,13 @@ class Unit(models.Model):
 		if self.area == destination:
 			assert self.area.board_area.is_fortified == True, "trying to retreat to a non-fortified city"
 			self.type = 'G'
+			self.must_retreat = ''
+			self.save()
 		else:
+			self.must_retreat = ''
+			self.area = destination
+			self.save()
 			self.check_rebellion()
-		self.must_retreat = ''
-		self.area = destination
-		self.save()
 
 	def convert(self, new_type):
 		if signals:
