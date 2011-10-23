@@ -2418,7 +2418,7 @@ class UnitManager(models.Manager):
 	def list_with_strength(self, game):
 		from django.db import connection
 		cursor = connection.cursor()
-		cursor.execute("SELECT u.id, u.type, u.area_id, u.player_id, u.besieging, u.must_retreat, u.placed, u.paid, \
+		cursor.execute("SELECT u.id, u.type, u.area_id, u.player_id, u.besieging, u.must_retreat, u.placed, u.paid, u.cost, u.power, u.loyalty, \
 		o.code, o.destination_id, o.type \
 		FROM (machiavelli_player p INNER JOIN machiavelli_unit u on p.id=u.player_id) \
 		LEFT JOIN machiavelli_order o ON u.id=o.unit_id \
@@ -2441,7 +2441,8 @@ class UnitManager(models.Manager):
 			support = Order.objects.filter(support_query).count()
 			unit = self.model(id=row[0], type=row[1], area_id=row[2],
 							player_id=row[3], besieging=row[4],
-							must_retreat=row[5], placed=row[6], paid=row[7])
+							must_retreat=row[5], placed=row[6], paid=row[7],
+							cost=row[8], power=row[9], loyalty=row[10])
 			if game.configuration.finances:
 				if holding and unit.area.has_rebellion(unit.player, same=True):
 					support -= 1
