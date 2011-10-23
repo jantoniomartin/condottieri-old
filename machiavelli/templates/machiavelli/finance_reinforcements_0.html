@@ -14,8 +14,8 @@ players have done it or the time limit is reached.{% endblocktrans %}</p>
 {% else %}
 
 <p>{% blocktrans %}You must select which of your existing units you will pay
-in order to keep them in play. You will pay 3 ducats for every unit that you
-select. The units not selected will be disbanded.</p>{% endblocktrans %}
+in order to keep them in play. You will pay the cost in ducats of every unit that you
+select. The units not selected won't be paid and will be disbanded.</p>{% endblocktrans %}
 
 <form action="{% url show-game game.slug %}" method="post">
 {% csrf_token %}

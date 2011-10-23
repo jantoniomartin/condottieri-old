@@ -19,7 +19,18 @@ players have done it or the time limit is reached.{% endblocktrans %}</p>
 
 {% else %}
 
+	{% if special_units %}
+
+<p>{% blocktrans %}Using each form below, you can buy a new unit to place in the board. The cost of the
+unit depends on its class. Regular units cost 3 ducats, and special units cost more than 3 ducats. See the 'Help' section for more information on special units.{% endblocktrans %}</p>
+
+<p>{% blocktrans %}You cannot place two units in the same area, and you cannot place units in areas where you have not paid the existing units. Also, you cannot buy a special unit if you already have one. If you can't or won't place new units, just push the button.{% endblocktrans %}</p>
+
+	{% else %}
+
 <p>{% blocktrans %}Using each form below, you can buy a new unit to place in the board. Each new unit will cost 3 ducats. You cannot place two units in the same area, and you cannot place units in areas where you have not paid the existing units. If you can't or don't want to place new units, just click on the button.{% endblocktrans %}</p>
+
+	{% endif %}
 
 {% endif %}
 
@@ -66,7 +77,7 @@ players have done it or the time limit is reached.{% endblocktrans %}</p>
 {% if max_units == 0 %}
 <p><input type="submit" value="{% trans "Finish" %}" /></p>
 {% else %}
-<p><input type="submit" value="{% trans "Buy units" %}" /></p>
+<p><input type="submit" value="{% trans "Confirm" %}" /></p>
 {% endif %}
 </div>
 
