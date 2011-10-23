@@ -277,9 +277,13 @@ def make_disband_form(player):
 					      label="Units to disband")
 	return DisbandForm
 
+class UnitPaymentMultipleChoiceField(forms.ModelMultipleChoiceField):
+	def label_from_instance(self, obj):
+		return obj.describe_with_cost()
+
 def make_unit_payment_form(player):
 	class UnitPaymentForm(forms.Form):
-		units = forms.ModelMultipleChoiceField(required=False,
+		units = UnitPaymentMultipleChoiceField(required=False,
 					      queryset=player.unit_set.filter(placed=True),
 						  widget=forms.CheckboxSelectMultiple,
 					      label="")

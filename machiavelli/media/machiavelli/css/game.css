@@ -367,7 +367,7 @@ tr.closed_game a{
 .action_form table {
 	margin-left: 0;
 	width: 100%;
-	table-layout: fixed;
+	/*table-layout: fixed;*/
 }
 
 .action_form table td {

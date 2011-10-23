@@ -2537,6 +2537,11 @@ class Unit(models.Model):
 	
 	def __unicode__(self):
 		return _("%(type)s in %(area)s") % {'type': self.get_type_display(), 'area': self.area}
+
+	def describe_with_cost(self):
+		return _("%(type)s in %(area)s (%(cost)s ducats)") % {'type': self.get_type_display(),
+														'area': self.area,
+														'cost': self.cost,}
     
 	def get_possible_retreats(self):
 		## possible_retreats includes all adjancent, non-standoff areas, and the

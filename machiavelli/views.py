@@ -30,7 +30,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned, ValidationError
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
-from django.db.models import Q, F
+from django.db.models import Q, F, Sum
 from django.core.cache import cache
 from django.views.decorators.cache import never_cache, cache_page
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
@@ -465,7 +465,12 @@ def play_finance_reinforcements(request, game, player):
 			if request.method == 'POST':
 				form = UnitPaymentForm(request.POST)
 				if form.is_valid():
-					cost = len(form.cleaned_data['units']) * 3
+					#cost = len(form.cleaned_data['units']) * 3
+					cost_agg = form.cleaned_data['units'].aggregate(Sum('cost'))
+					if cost_agg['cost__sum'] is None:
+						cost = 0
+					else:
+						cost = int(cost_agg['cost__sum'])
 					if cost <= player.ducats:
 						for u in form.cleaned_data['units']:
 							u.paid = True
