@@ -264,14 +264,10 @@ class BaseReinforceFormSet(BaseFormSet):
 		special_count = 0
 		for i in range(0, self.total_form_count()):
 			form = self.forms[i]
-			print "Checking form in formset"
 			if 'unit_class' in form.cleaned_data:
-				print "unit_class in form.cleaned_data"
 				if not form.cleaned_data['unit_class'] is None:
-					print "unit_class is not none"
 					special_count += 1
 				if special_count > 1:
-					print "special_count > 1"
 					raise forms.ValidationError, _("You cannot buy more than one special unit")
 
 def make_disband_form(player):

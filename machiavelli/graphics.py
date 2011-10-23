@@ -35,6 +35,13 @@ def make_map(game):
 	the map with an appropriate name in the maps directory.
 	"""
 	base_map = Image.open(os.path.join(BASEDIR, BASEMAP))
+	if game.configuration.special_units:
+		loyal_army = Image.open("%s/loyal-army.png" % BASEDIR)
+		loyal_fleet = Image.open("%s/loyal-fleet.png" % BASEDIR)
+		loyal_garrison = Image.open("%s/loyal-garrison.png" % BASEDIR)
+		elite_army = Image.open("%s/elite-army.png" % BASEDIR)
+		elite_fleet = Image.open("%s/elite-fleet.png" % BASEDIR)
+		elite_garrison = Image.open("%s/elite-garrison.png" % BASEDIR)
 	## if there are disabled areas, mark them
 	marker = Image.open("%s/disabled.png" % BASEDIR)
 	for a in game.get_disabled_areas():
@@ -68,8 +75,16 @@ def make_map(game):
 				coords = (unit.area.board_area.aftoken.x, unit.area.board_area.aftoken.y)
 			if unit.type == 'A':
 				base_map.paste(army, coords, army)
+				if unit.power > 1:
+					base_map.paste(elite_army, coords, elite_army)
+				if unit.loyalty > 1:
+					base_map.paste(loyal_army, coords, loyal_army)
 			elif unit.type == 'F':
 				base_map.paste(fleet, coords, fleet)
+				if unit.power > 1:
+					base_map.paste(elite_fleet, coords, elite_fleet)
+				if unit.loyalty > 1:
+					base_map.paste(loyal_fleet, coords, loyal_fleet)
 			else:
 				pass
 	## paste garrisons
@@ -82,6 +97,10 @@ def make_map(game):
 		for unit in player.unit_set.filter(type__exact='G'):
 			coords = (unit.area.board_area.gtoken.x, unit.area.board_area.gtoken.y)
 			base_map.paste(garrison, coords, garrison)
+			if unit.power > 1:
+				base_map.paste(elite_garrison, coords, elite_garrison)
+			if unit.loyalty > 1:
+				base_map.paste(loyal_garrison, coords, loyal_garrison)
 	## paste famine markers
 	if game.configuration.famine:
 		famine = Image.open("%s/famine-marker.png" % BASEDIR)
