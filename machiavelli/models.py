@@ -2407,12 +2407,17 @@ class UnitManager(models.Manager):
 			elif u_order.code == '-':
 				query &= Q(subcode__exact='-',
 						   subdestination=u_order.destination)
-		support = Order.objects.filter(query).count()
+		#support = Order.objects.filter(query).count()
+		support_sum = Order.objects.filter(query).aggregate(Sum('unit__power'))
+		if support_sum['unit__power__sum'] is None:
+			support = 0
+		else:
+			support = int(support_sum['unit__power__sum'])
 		if game.configuration.finances:
 			if not u_order or u_order.code in ('', 'H', 'S', 'C', 'B'):
 				if u.area.has_rebellion(u.player, same=True):
 					support -= 1
-		u.strength = support
+		u.strength = u.power + support
 		return u
 
 	def list_with_strength(self, game):
@@ -2438,7 +2443,12 @@ class UnitManager(models.Manager):
 			elif row[8] == '-':
 				support_query &= Q(subcode__exact='-',
 								subdestination__pk__exact=row[9])
-			support = Order.objects.filter(support_query).count()
+			#support = Order.objects.filter(support_query).count()
+			support_sum = Order.objects.filter(support_query).aggregate(Sum('unit__power'))
+			if support_sum['unit__power__sum'] is None:
+				support = 0
+			else:
+				support = int(support_sum['unit__power__sum'])
 			unit = self.model(id=row[0], type=row[1], area_id=row[2],
 							player_id=row[3], besieging=row[4],
 							must_retreat=row[5], placed=row[6], paid=row[7],
@@ -2446,7 +2456,7 @@ class UnitManager(models.Manager):
 			if game.configuration.finances:
 				if holding and unit.area.has_rebellion(unit.player, same=True):
 					support -= 1
-			unit.strength = support
+			unit.strength = unit.power + support
 			result_list.append(unit)
 		result_list.sort(cmp=lambda x,y: cmp(x.strength, y.strength), reverse=True)
 		return result_list
