@@ -181,6 +181,21 @@ if twitter_api and settings.TWEET_NEW_SCENARIO:
 
 	models.signals.post_save.connect(tweet_new_scenario, sender=Scenario)
 
+class SpecialUnit(models.Model):
+	""" A SpecialUnit describes the attributes of a unit that costs more ducats than usual
+	and can be more powerful or more loyal """
+	static_title = models.CharField(max_length=50)
+	title = AutoTranslateField(max_length=50)
+	cost = models.PositiveIntegerField()
+	power = models.PositiveIntegerField()
+	loyalty = models.PositiveIntegerField()
+
+	def __unicode__(self):
+		return self.static_title
+
+	def describe(self):
+		return _("Costs %s; Strength %s; Loyalty %s") % (self.cost, self.power, self.loyalty)
+
 class Country(models.Model):
 	""" This class defines a Machiavelly country. """
 
@@ -188,6 +203,7 @@ class Country(models.Model):
 	css_class = models.CharField(max_length=20, unique=True)
 	can_excommunicate = models.BooleanField(default=False)
 	static_name = models.CharField(max_length=20, default="")
+	special_units = models.ManyToManyField(SpecialUnit)
 
 	def __unicode__(self):
 		return self.name
@@ -2433,10 +2449,15 @@ class Unit(models.Model):
 	area = models.ForeignKey(GameArea)
 	player = models.ForeignKey(Player)
 	besieging = models.BooleanField(default=0)
-	## must_retreat contains the code, if any, of the area where the attack came from
+	""" must_retreat contains the code, if any, of the area where the attack came from """
 	must_retreat = models.CharField(max_length=5, blank=True, default='')
 	placed = models.BooleanField(default=True)
 	paid = models.BooleanField(default=True)
+	""" power is the individual strength of the unit, usually 1 """
+	power = models.PositiveIntegerField(default=1)
+	""" loyalty is a multiplier to calculate the cost of a bribe against the unit """
+	loyalty = models.PositiveIntegerField(default=1)
+	
 	objects = UnitManager()
 
 	def get_order(self):

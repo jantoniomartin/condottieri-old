@@ -55,9 +55,12 @@ class ScoreAdmin(admin.ModelAdmin):
 	ordering = ['game']
 
 class UnitAdmin(admin.ModelAdmin):
-	list_display = ('__unicode__', 'player', 'must_retreat', 'placed', 'paid')
+	list_display = ('__unicode__', 'player', 'must_retreat', 'power', 'loyalty', 'placed', 'paid')
 	ordering = ['player']
 	list_filter = ('player', 'must_retreat')
+
+class SpecialUnitAdmin(admin.ModelAdmin):
+	list_display = ('__unicode__', 'cost', 'power', 'loyalty')
 
 class GameAreaAdmin(admin.ModelAdmin):
 	list_display = ('game', 'board_area', 'player', 'standoff', 'famine', 'storm')
@@ -158,6 +161,7 @@ admin.site.register(Scenario, ScenarioAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Game, GameAdmin)
 admin.site.register(Unit, UnitAdmin)
+admin.site.register(SpecialUnit, SpecialUnitAdmin)
 admin.site.register(GameArea, GameAreaAdmin)
 admin.site.register(Area, AreaAdmin)
 admin.site.register(Setup, SetupAdmin)
