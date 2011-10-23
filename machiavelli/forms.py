@@ -61,14 +61,13 @@ class ConfigurationForm(forms.ModelForm):
 		cleaned_data = self.cleaned_data
 		if cleaned_data['unbalanced_loans']:
 			cleaned_data['lenders'] = True
-		if cleaned_data['assassinations'] or cleaned_data['lenders']:
+		if cleaned_data['assassinations'] or cleaned_data['lenders'] or cleaned_data['special_units']:
 			cleaned_data['finances'] = True
 		return cleaned_data
 
 	class Meta:
 		model = Configuration
 		exclude = ('bribes',
-				'special_units',
 				'strategic')
 
 class InvitationForm(forms.Form):

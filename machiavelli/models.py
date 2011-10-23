@@ -2979,7 +2979,7 @@ class Configuration(models.Model):
 	excommunication = models.BooleanField(_('excommunication'), default=False)
 	#disasters = models.BooleanField(_('natural disasters'), default=False)
 	special_units = models.BooleanField(_('special units'), default=False,
-					help_text=_('will enable Finances and Bribes'))
+					help_text=_('will enable Finances'))
 	strategic = models.BooleanField(_('strategic movement'), default=False)
 	lenders = models.BooleanField(_('money lenders'), default=False,
 					help_text=_('will enable Finances'))
