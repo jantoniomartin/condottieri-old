@@ -191,10 +191,13 @@ class SpecialUnit(models.Model):
 	loyalty = models.PositiveIntegerField()
 
 	def __unicode__(self):
-		return _("%s (%sd)") % (self.title, self.cost)
+		return _("%(title)s (%(cost)sd)") % {'title': self.title,
+											'cost': self.cost}
 
 	def describe(self):
-		return _("Costs %s; Strength %s; Loyalty %s") % (self.cost, self.power, self.loyalty)
+		return _("Costs %(cost)s; Strength %(power)s; Loyalty %(loyalty)s") % {'cost': self.cost,
+																		'power': self.power,
+																		'loyalty': self.loyalty}
 
 class Country(models.Model):
 	""" This class defines a Machiavelly country. """

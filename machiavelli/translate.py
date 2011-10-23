@@ -92,6 +92,11 @@ _("Venice")
 _("Verona")
 _("Western Mediterranean")
 
+## Special units titles
+_("Regular")
+_("Citizen militia")
+_("Elite mercenaries")
+_("Elite professionals")
 
 ## subject of the signup code email
 _("Create an acccount on %(domain)s")

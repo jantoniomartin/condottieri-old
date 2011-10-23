@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-26 14:40+0200\n"
+"POT-Creation-Date: 2011-10-23 16:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -314,10 +314,10 @@ msgid ""
 "game waits for new players only for 60 minutes. After this time, if there "
 "are not enough players to play the game, it will be deleted."
 msgstr ""
-"Antes de crear una partida rápida, debes acordar con otros usuarios una fecha "
-"y hora en las que todos puedan dedicar unas horas a jugar la partida. Una "
-"partida rápida espera a nuevos jugadores solo durante 60 minutos. Después de "
-"ese tiempo, si no hay jugadores suficientes, se borrará."
+"Antes de crear una partida rápida, debes acordar con otros usuarios una "
+"fecha y hora en las que todos puedan dedicar unas horas a jugar la partida. "
+"Una partida rápida espera a nuevos jugadores solo durante 60 minutos. "
+"Después de ese tiempo, si no hay jugadores suficientes, se borrará."
 
 #: templates/condottieri_help/index.html:49
 msgid ""
@@ -327,13 +327,50 @@ msgid ""
 msgstr ""
 "Las partidas rápidas se juegan con las mismas reglas que las normales, y los "
 "puntos se asignan de la misma forma. Sin embargo, no se usan las reglas de "
-"karma. No pierdes ni ganas karma, y todos los jugadores tienen el mismo tiempo para jugar."
+"karma. No pierdes ni ganas karma, y todos los jugadores tienen el mismo "
+"tiempo para jugar."
 
 #: templates/condottieri_help/index.html:50
+msgid "Private games"
+msgstr "Partidas privadas"
+
+#: templates/condottieri_help/index.html:51
+msgid ""
+"A private game is open only to users that have been invited by the creator "
+"of the game. In order to create a private game, a minimum karma of 110 is "
+"required. However, to join this kind of game, a minimum karma is not "
+"required. It's up to the creator which user he invites."
+msgstr ""
+"Una partida privada está abierta solo a usuarios que han sido invitados por el creador "
+"de la misma. Para crear una partida privada se necesita un karma de 110 "
+"Sin embargo, para unirse a este tipo de partida, no es necesario un karma "
+"mínimo. El creador decide a qué usuarios invita."
+
+#: templates/condottieri_help/index.html:52
+msgid ""
+"Once the game has been created, a list of invited users must be defined. "
+"It's possible to invite more users than needed but. At the same time, if too "
+"few users are invited the game won't start. As long as the game has not yet "
+"started, it's possible to invite new users."
+msgstr ""
+"Una vez creada, se debe definir una lista de usuarios. "
+"Es posible invitar a más usuarios de los necesarios pero, al mismo tiempo, si se "
+"invita a menos usuarios de los necesarios, la partida no empezará. Mientras la partida "
+"no haya empezado es posible invitar a nuevos usuarios."
+
+#: templates/condottieri_help/index.html:53
+msgid ""
+"Even the game being private, a non invited user could join it through a "
+"revolution, as usual."
+msgstr ""
+"Incluso siendo una partida privada, un usuario no invitado podría unirse "
+"mediante una revolución, de la forma normal."
+
+#: templates/condottieri_help/index.html:54
 msgid "Country assignation"
 msgstr "Asiganción de países"
 
-#: templates/condottieri_help/index.html:51
+#: templates/condottieri_help/index.html:55
 msgid ""
 "Once the last player joins a game, all the countries in the scenario are "
 "randomly assigned."
@@ -341,11 +378,11 @@ msgstr ""
 "Una vez el último jugador se ha unido a una partida, todos los países del "
 "escenario se reparten aleatoriamente."
 
-#: templates/condottieri_help/index.html:52
+#: templates/condottieri_help/index.html:56
 msgid "The reinforcement phase"
 msgstr "La fase de refuerzo"
 
-#: templates/condottieri_help/index.html:53
+#: templates/condottieri_help/index.html:57
 msgid ""
 "Depending on the cities (or money if finances are applied) you have, you "
 "will have to place new units or disband existing ones."
@@ -353,7 +390,7 @@ msgstr ""
 "Dependiendo de las ciudades (o dinero si se aplican las finanzas) que "
 "tengas, tendrás que colocar nuevas unidades o desbandar unidades existentes."
 
-#: templates/condottieri_help/index.html:54
+#: templates/condottieri_help/index.html:58
 msgid ""
 "If the time limit is reached and you have not played this phase, either you "
 "will not place new units (if you could place them) or some of your units "
@@ -363,11 +400,78 @@ msgstr ""
 "nuevas unidades (si podías) o bien se eliminarán algunas de tus unidades. "
 "Las unidades más recientes se eliminarán primero."
 
-#: templates/condottieri_help/index.html:55
+#: templates/condottieri_help/index.html:59
+msgid "Special units"
+msgstr "Unidades especiales"
+
+#: templates/condottieri_help/index.html:60
+msgid ""
+"If \"special units\" are enabled in a game, you can build a unit with some "
+"special features, and that is more expensive than a regular unit. The types "
+"of special units that you can build depend on your country. You can never "
+"build a new special unit if you already have one. However, you could have "
+"more than one of this units if you bribe a special unit of other player."
+msgstr ""
+"Si las \"unidades especiales\" están activadas en una partida, puedes construir una "
+"unidad con algunas características especiales, más cara que una unidad regular. Los tipos "
+"de unidades especiales que puedes construir dependen de tu país. No puedes "
+"construir una nueva unidad especial si ya tienes alguna. Sin embargo, podrías tener "
+"más de una de estas unidades si sobornas una unidad especial de otro jugador."
+
+#: templates/condottieri_help/index.html:61
+msgid ""
+" In the board, special stronger units are marked with a red star, and "
+"special loyaler units are marked with two yellow coins."
+msgstr ""
+"En el tablero, las unidades especiales más fuertes se marcan con una estrella roja, y "
+"las unidades especiales más leales se marcan con dos monedas amarillas."
+
+#: templates/condottieri_help/index.html:62
+msgid ""
+"Available special units (and regular units) are summarized in the following "
+"table."
+msgstr ""
+"Las unidades especiales disponibles (así como las regulares) se resumen en la siguiente "
+"tabla."
+
+#: templates/condottieri_help/index.html:66
+msgid "Class"
+msgstr "Clase"
+
+#: templates/condottieri_help/index.html:67
+#: templates/condottieri_help/index.html:102
+msgid "Cost"
+msgstr "Coste"
+
+#: templates/condottieri_help/index.html:68
+msgid "Strength"
+msgstr "Fuerza"
+
+#: templates/condottieri_help/index.html:69
+msgid "Loyalty"
+msgstr "Lealtad"
+
+#: templates/condottieri_help/index.html:74
+msgid "Regular"
+msgstr "Regular"
+
+#: templates/condottieri_help/index.html:78
+msgid "Citizen militia"
+msgstr "Milicia ciudadana"
+
+#: templates/condottieri_help/index.html:82
+msgid "Elite mercenaries"
+msgstr "Mercenarios de élite"
+
+#: templates/condottieri_help/index.html:86
+msgid "Elite professionals"
+msgstr "Profesionales de élite"
+
+#: templates/condottieri_help/index.html:91
 msgid "The order writing phase"
 msgstr "La fase de escritura de órdenes"
 
-#: templates/condottieri_help/index.html:56
+#: templates/condottieri_help/index.html:92
 msgid ""
 "In this phase you may choose one of the available orders for each of your "
 "units. If you choose no order for a unit, this unit will hold its position. "
@@ -377,13 +481,13 @@ msgstr ""
 "tus unidades. Si no eliges una orden para una unidad, ésta aguantará su "
 "posición. Las órdenes se resolverán automáticamente al final de esta fase."
 
-#: templates/condottieri_help/index.html:57
+#: templates/condottieri_help/index.html:93
 msgid ""
 "If finances are being used, you may expend some of your ducats in this phase."
 msgstr ""
 "Si se usan las finanzas, puedes gastar algunos de tus ducados en esta fase."
 
-#: templates/condottieri_help/index.html:58
+#: templates/condottieri_help/index.html:94
 msgid ""
 "If the time limit is reached and you have not sent your orders, all of your "
 "units will hold their positions."
@@ -391,17 +495,17 @@ msgstr ""
 "Si se alcanza el tiempo límite y no has enviado tus órdenes, todas tus "
 "unidades mantendrán sus posiciones."
 
-#: templates/condottieri_help/index.html:59
+#: templates/condottieri_help/index.html:95
 msgid "Expenses"
 msgstr ""
 
-#: templates/condottieri_help/index.html:60
+#: templates/condottieri_help/index.html:96
 msgid ""
 "You may expend some of your ducats to affect an area or a unit in different "
 "ways. Expenses take effect just before the conflicts resolution."
 msgstr ""
 
-#: templates/condottieri_help/index.html:61
+#: templates/condottieri_help/index.html:97
 msgid ""
 "Some of the expenses are 'bribes'. You can only bribe a unit that is "
 "adjacent to one of your controlled provinces or to one of your units. Note "
@@ -411,84 +515,86 @@ msgid ""
 "wasted."
 msgstr ""
 
-#: templates/condottieri_help/index.html:62
+#: templates/condottieri_help/index.html:98
 msgid "The following is a summary of all the available expenses:"
 msgstr ""
 
-#: templates/condottieri_help/index.html:65
+#: templates/condottieri_help/index.html:101
 msgid "Expense"
 msgstr ""
 
-#: templates/condottieri_help/index.html:66
-msgid "Cost"
-msgstr ""
-
-#: templates/condottieri_help/index.html:67
+#: templates/condottieri_help/index.html:103
 msgid "Bribe"
 msgstr ""
 
-#: templates/condottieri_help/index.html:71
+#: templates/condottieri_help/index.html:107
 #, fuzzy
 msgid "Famine relief"
 msgstr "Hambruna"
 
-#: templates/condottieri_help/index.html:71
-#: templates/condottieri_help/index.html:74
-#: templates/condottieri_help/index.html:77
-#: templates/condottieri_help/index.html:80
-#: templates/condottieri_help/index.html:83
+#: templates/condottieri_help/index.html:107
+#: templates/condottieri_help/index.html:110
+#: templates/condottieri_help/index.html:113
+#: templates/condottieri_help/index.html:116
+#: templates/condottieri_help/index.html:119
 msgid "No"
 msgstr ""
 
-#: templates/condottieri_help/index.html:74
+#: templates/condottieri_help/index.html:110
 msgid "Pacify rebellion"
 msgstr ""
 
-#: templates/condottieri_help/index.html:77
+#: templates/condottieri_help/index.html:113
 msgid "Conquered province to rebel"
 msgstr ""
 
-#: templates/condottieri_help/index.html:80
+#: templates/condottieri_help/index.html:116
 msgid "Home province to rebel"
 msgstr ""
 
-#: templates/condottieri_help/index.html:83
+#: templates/condottieri_help/index.html:119
 msgid "Counter bribe"
 msgstr ""
 
-#: templates/condottieri_help/index.html:86
+#: templates/condottieri_help/index.html:122
 msgid "Disband autonomous garrison"
 msgstr ""
 
-#: templates/condottieri_help/index.html:86
-#: templates/condottieri_help/index.html:89
-#: templates/condottieri_help/index.html:92
-#: templates/condottieri_help/index.html:95
-#: templates/condottieri_help/index.html:98
+#: templates/condottieri_help/index.html:122
+#: templates/condottieri_help/index.html:125
+#: templates/condottieri_help/index.html:128
+#: templates/condottieri_help/index.html:131
+#: templates/condottieri_help/index.html:134
 msgid "Yes"
 msgstr ""
 
-#: templates/condottieri_help/index.html:89
+#: templates/condottieri_help/index.html:125
 msgid "Buy autonomous garrison"
 msgstr ""
 
-#: templates/condottieri_help/index.html:92
+#: templates/condottieri_help/index.html:128
 msgid "Convert garrison unit"
 msgstr ""
 
-#: templates/condottieri_help/index.html:95
+#: templates/condottieri_help/index.html:131
 msgid "Disband enemy unit"
 msgstr ""
 
-#: templates/condottieri_help/index.html:98
+#: templates/condottieri_help/index.html:134
 msgid "Buy enemy unit"
 msgstr ""
 
-#: templates/condottieri_help/index.html:102
+#: templates/condottieri_help/index.html:138
+msgid ""
+"The minimum cost of these bribes is doubled if the bribed unit is a garrison "
+"in a major city (the ones with a number inside the circle)."
+msgstr ""
+
+#: templates/condottieri_help/index.html:139
 msgid "The retreats phase"
 msgstr "La fase de retiradas"
 
-#: templates/condottieri_help/index.html:103
+#: templates/condottieri_help/index.html:140
 msgid ""
 "When one of your units is defeated in battle, it must retreat. In this "
 "phase, you have to decide where to retreat your defeated units. In the "
@@ -502,7 +608,7 @@ msgstr ""
 "unidad se retirará a la ciudad, y se convertirá en guarnición. Esta opción "
 "solo está disponible si hay una ciudad fortificada vacía en el área."
 
-#: templates/condottieri_help/index.html:104
+#: templates/condottieri_help/index.html:141
 msgid ""
 "If the time limit is reached and you have not retreated your units, they "
 "will be disbanded."
@@ -510,11 +616,11 @@ msgstr ""
 "Si se alcanza el tiempo límite y no has retirado tus unidades, serán "
 "desbandadas."
 
-#: templates/condottieri_help/index.html:105
+#: templates/condottieri_help/index.html:142
 msgid "Winning the game"
 msgstr "Ganar el juego"
 
-#: templates/condottieri_help/index.html:106
+#: templates/condottieri_help/index.html:143
 msgid ""
 "The goal of the game is to control a number of cities at the end of a year. "
 "This number depends on the scenario that was chosen when the game was "
@@ -526,11 +632,11 @@ msgstr ""
 "Cuando uno o más jugadores controlen este número de ciudades, la partida "
 "termina."
 
-#: templates/condottieri_help/index.html:107
+#: templates/condottieri_help/index.html:144
 msgid "Scores"
 msgstr "Puntuaciones"
 
-#: templates/condottieri_help/index.html:108
+#: templates/condottieri_help/index.html:145
 msgid ""
 "When a game is over, each player gets a score depending on the number of "
 "cities that he controls at the end of the game. Scores are assigned as "
@@ -540,42 +646,42 @@ msgstr ""
 "número de ciudades que controle al final del juego. Las puntuaciones se "
 "asignan como sigue:"
 
-#: templates/condottieri_help/index.html:111
+#: templates/condottieri_help/index.html:148
 msgid "1st player"
 msgstr "1er jugador"
 
-#: templates/condottieri_help/index.html:111
-#: templates/condottieri_help/index.html:114
-#: templates/condottieri_help/index.html:117
-#: templates/condottieri_help/index.html:120
+#: templates/condottieri_help/index.html:148
+#: templates/condottieri_help/index.html:151
+#: templates/condottieri_help/index.html:154
+#: templates/condottieri_help/index.html:157
 msgid "points"
 msgstr "puntos"
 
-#: templates/condottieri_help/index.html:114
+#: templates/condottieri_help/index.html:151
 msgid "2nd player"
 msgstr "2o jugador"
 
-#: templates/condottieri_help/index.html:117
+#: templates/condottieri_help/index.html:154
 msgid "3rd player"
 msgstr "3er jugador"
 
-#: templates/condottieri_help/index.html:120
+#: templates/condottieri_help/index.html:157
 msgid "Other players"
 msgstr "Otros jugadores"
 
-#: templates/condottieri_help/index.html:123
+#: templates/condottieri_help/index.html:160
 msgid "Each controlled city"
 msgstr "Cada ciudad controlada"
 
-#: templates/condottieri_help/index.html:123
+#: templates/condottieri_help/index.html:160
 msgid "point"
 msgstr "punto"
 
-#: templates/condottieri_help/index.html:126
+#: templates/condottieri_help/index.html:163
 msgid "Diplomacy"
 msgstr "Diplomacia"
 
-#: templates/condottieri_help/index.html:127
+#: templates/condottieri_help/index.html:164
 msgid ""
 "Anytime while playing a game you can send \"letters\" to other players to "
 "discuss with them about strategies or any other things."
@@ -583,7 +689,7 @@ msgstr ""
 "En cualquier momento de una partida puedes enviar \"cartas\" a otros "
 "jugadores para discutir con ellos sobre estrategias o cualquier otra cosa."
 
-#: templates/condottieri_help/index.html:128
+#: templates/condottieri_help/index.html:165
 msgid ""
 "IMPORTANT: All the messages that are sent while playing a game will be "
 "deleted when this game is over. If you want to keep a copy of any given "
