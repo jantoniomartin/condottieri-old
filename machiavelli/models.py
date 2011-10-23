@@ -2453,6 +2453,8 @@ class Unit(models.Model):
 	must_retreat = models.CharField(max_length=5, blank=True, default='')
 	placed = models.BooleanField(default=True)
 	paid = models.BooleanField(default=True)
+	""" cost is the cost of the unit if finances are used, usually 3 """
+	cost = models.PositiveIntegerField(default=3)
 	""" power is the individual strength of the unit, usually 1 """
 	power = models.PositiveIntegerField(default=1)
 	""" loyalty is a multiplier to calculate the cost of a bribe against the unit """
