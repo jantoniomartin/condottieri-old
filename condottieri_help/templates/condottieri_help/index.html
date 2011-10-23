@@ -56,6 +56,37 @@
 <h3>{% trans "The reinforcement phase" %}</h3>
 <p>{% blocktrans %}Depending on the cities (or money if finances are applied) you have, you will have to place new units or disband existing ones.{% endblocktrans %}</p>
 <p>{% blocktrans %}If the time limit is reached and you have not played this phase, either you will not place new units (if you could place them) or some of your units will be disbanded. The newest units will be disbanded first.{% endblocktrans %}</p>
+<h3>{% trans "Special units" %}</h3>
+<p>{% blocktrans %}If "special units" are enabled in a game, you can build a unit with some special features, and that is more expensive than a regular unit. The types of special units that you can build depend on your country. You can never build a new special unit if you already have one. However, you could have more than one of this units if you bribe a special unit of other player.{% endblocktrans %}
+<p>{% blocktrans %}Available special units (and regular units) are summarized in the following table.{% endblocktrans %}</p>
+<table>
+<thead>
+<tr>
+<th>{% trans "Class" %}</th>
+<th>{% trans "Cost" %}</th>
+<th>{% trans "Strength" %}</th>
+<th>{% trans "Loyalty" %}</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{% trans "Regular" %}</td>
+<td>3</td><td>1</td><td>1</td>
+</tr>
+<tr>
+<td>{% trans "Citizen militia" %}</td>
+<td>6</td><td>1</td><td>2</td>
+</tr>
+<tr>
+<td>{% trans "Elite mercenaries" %}</td>
+<td>6</td><td>2</td><td>1</td>
+</tr>
+<tr>
+<td>{% trans "Elite professionals" %}</td>
+<td>9</td><td>2</td><td>2</td>
+</tr>
+</tbody>
+</table>
 <h3>{% trans "The order writing phase" %}</h3>
 <p>{% blocktrans %}In this phase you may choose one of the available orders for each of your units. If you choose no order for a unit, this unit will hold its position. Orders will be automatically resolved at the end of this phase.{% endblocktrans %}</p>
 <p>{% blocktrans %}If finances are being used, you may expend some of your ducats in this phase.{% endblocktrans %}</p>
