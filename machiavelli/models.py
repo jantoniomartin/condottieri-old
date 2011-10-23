@@ -191,7 +191,7 @@ class SpecialUnit(models.Model):
 	loyalty = models.PositiveIntegerField()
 
 	def __unicode__(self):
-		return self.static_title
+		return _("%s (%sd)") % (self.title, self.cost)
 
 	def describe(self):
 		return _("Costs %s; Strength %s; Loyalty %s") % (self.cost, self.power, self.loyalty)
@@ -2119,6 +2119,14 @@ class Player(models.Model):
 		self.assassinated = True
 		self.save()
 		signals.player_assassinated.send(sender=self)
+
+	def has_special_unit(self):
+		try:
+			Unit.objects.get(player=self, paid=True, cost__gt=3)
+		except ObjectDoesNotExist:
+			return False
+		else:
+			return True
 
 	def end_phase(self, forced=False):
 		self.done = True

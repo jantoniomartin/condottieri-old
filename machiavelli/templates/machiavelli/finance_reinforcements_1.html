@@ -27,7 +27,14 @@ players have done it or the time limit is reached.{% endblocktrans %}</p>
 {% csrf_token %}
 
 <div class="action_form">
-<p>{{ formset.non_form_errors }}</p>
+<ul>
+{% for dict in formset.errors %}
+	{% for error in dict.values %}
+		{{ error }}
+	{% endfor %}
+{% endfor %}
+{{ formset.non_form_errors|unordered_list }}
+<ul>
 {{ formset.management_form }}
 
 {# Taken from http://djangosnippets.org/snippets/1442/ #}

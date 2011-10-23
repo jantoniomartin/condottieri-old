@@ -484,7 +484,8 @@ def play_finance_reinforcements(request, game, player):
 			can_place = player.get_areas_for_new_units(finances=True).count()
 			max_units = min(can_buy, can_place)
 			print "Max no of units is %s" % max_units
-			ReinforceForm = forms.make_reinforce_form(player, finances=True)
+			ReinforceForm = forms.make_reinforce_form(player, finances=True,
+												special_units=game.configuration.special_units)
 			ReinforceFormSet = formset_factory(ReinforceForm,
 								formset=forms.BaseReinforceFormSet,
 								extra=max_units)
@@ -494,16 +495,23 @@ def play_finance_reinforcements(request, game, player):
 				except ValidationError:
 					formset = None
 				if formset and formset.is_valid():
-					cost = 0
+					total_cost = 0
 					for f in formset.forms:
 						if 'area' in f.cleaned_data:
 							new_unit = Unit(type=f.cleaned_data['type'],
 									area=f.cleaned_data['area'],
 									player=player,
 									placed=False)
+							if 'unit_class' in f.cleaned_data:
+								if not f.cleaned_data['unit_class'] is None:
+									unit_class = f.cleaned_data['unit_class']
+									## it's a special unit
+									new_unit.cost = unit_class.cost
+									new_unit.power = unit_class.power
+									new_unit.loyalty = unit_class.loyalty
 							new_unit.save()
-							cost += 3
-					player.ducats = player.ducats - cost
+							total_cost += new_unit.cost
+					player.ducats = player.ducats - total_cost
 					player.save()
 					player.end_phase()
 					return HttpResponseRedirect(request.path)

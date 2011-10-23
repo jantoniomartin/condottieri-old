@@ -219,7 +219,7 @@ def make_retreat_form(u):
 	
 	return RetreatForm
 
-def make_reinforce_form(player, finances=False):
+def make_reinforce_form(player, finances=False, special_units=False):
 	if finances:
 		unit_types = (('', '---'),) + UNIT_TYPES
 		noarea_label = '---'
@@ -233,13 +233,18 @@ def make_reinforce_form(player, finances=False):
 		area = forms.ModelChoiceField(required=True,
 					      queryset=area_qs,
 					      empty_label=noarea_label)
+		if special_units and not player.has_special_unit():
+			## special units are available for the player
+			unit_class = forms.ModelChoiceField(required=True,
+											queryset=player.country.special_units.all(),
+											empty_label=_("Regular (3d)"))
 
 		def clean(self):
 			cleaned_data = self.cleaned_data
 			type = cleaned_data.get('type')
 			area = cleaned_data.get('area')
 			if not type in area.possible_reinforcements():
-				raise forms.ValidationError('This unit cannot be placed in this area')
+				raise forms.ValidationError(_('This unit cannot be placed in this area'))
 			return cleaned_data
 
 	return ReinforceForm
@@ -254,9 +259,20 @@ class BaseReinforceFormSet(BaseFormSet):
 			if 'area' in form.cleaned_data:
 				area = form.cleaned_data['area']
 				if area in areas:
-					print 'Two units in one area error'
-					raise forms.ValidationError, 'You cannot place two units in the same area in one turn'
+					raise forms.ValidationError(_('You cannot place two units in the same area in one turn'))
 				areas.append(area)
+		special_count = 0
+		for i in range(0, self.total_form_count()):
+			form = self.forms[i]
+			print "Checking form in formset"
+			if 'unit_class' in form.cleaned_data:
+				print "unit_class in form.cleaned_data"
+				if not form.cleaned_data['unit_class'] is None:
+					print "unit_class is not none"
+					special_count += 1
+				if special_count > 1:
+					print "special_count > 1"
+					raise forms.ValidationError, _("You cannot buy more than one special unit")
 
 def make_disband_form(player):
 	class DisbandForm(forms.Form):
