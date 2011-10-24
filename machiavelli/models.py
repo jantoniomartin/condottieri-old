@@ -1337,7 +1337,7 @@ class Game(models.Model):
 						## is not a friend, and the attacker has supports
 						## it invades the area, and the unit in the province
 						## must retreat (if it invades another area, it mustnt).
-						if unit_leaving.player != u.player and u.strength > 0:
+						if unit_leaving.player != u.player and u.strength > 1:
 							info += u"There is a unit in %s, but attacker is supported.\n" % conflict_area
 							unit_leaving.must_retreat = u.area.board_area.code
 							unit_leaving.save()
