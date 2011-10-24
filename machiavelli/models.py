@@ -827,12 +827,11 @@ class Game(models.Model):
 						f.delete()
 					## reset storm markers
 					self.gamearea_set.all().update(storm=False)
-				## if conquering is enabled, check if any users are eliminated
-				if self.configuration.conquering:
-					for p in self.player_set.filter(eliminated=False,
-													user__isnull=False):
-						if p.check_eliminated():
-							p.eliminate()
+				## check if any users are eliminated
+				for p in self.player_set.filter(eliminated=False,
+												user__isnull=False):
+					if p.check_eliminated():
+						p.eliminate()
 				self.update_controls()
 				## if conquering is enabled, check conquerings
 				if self.configuration.conquering:
@@ -2041,6 +2040,7 @@ class Player(models.Model):
 		
 		if self.user:
 			self.eliminated = True
+			self.ducats = 0
 			self.save()
 			signals.country_eliminated.send(sender=self, country=self.country)
 			if logging:
