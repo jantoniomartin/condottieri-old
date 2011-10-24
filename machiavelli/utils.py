@@ -33,8 +33,6 @@ def order_is_possible(order):
 	If ``order`` is possible, returns the same ``order``. If not, returns False.
 	"""
 
-	if logging:
-		logging.debug("Checking if order is possible: %s" % order)
 	if order.code == 'H':
 		return order
 	elif order.code == '-':
