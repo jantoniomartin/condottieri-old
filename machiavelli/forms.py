@@ -8,7 +8,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 from machiavelli.models import *
-import machiavelli.utils as utils
 
 CITIES_TO_WIN = (
 	(15, _('Normal game (15 cities)')),
