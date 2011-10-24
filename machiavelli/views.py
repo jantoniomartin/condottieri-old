@@ -606,7 +606,11 @@ def confirm_orders(request, slug=''):
 	game = get_object_or_404(Game, slug=slug)
 	player = get_object_or_404(Player, game=game, user=request.user, done=False)
 	if request.method == 'POST':
-		msg = u"Confirming orders for player %s in game %s:\n" % (player.id, game.id) 
+		msg = u"Confirming orders for player %s (%s, %s) in game %s (%s):\n" % (player.id,
+																		player.static_name,
+																		player.user.username,
+																		game.id,
+																		game.slug) 
 		sent_orders = player.order_set.all()
 		for order in sent_orders:
 			msg += u"%s => " % order.format()
