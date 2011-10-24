@@ -2065,11 +2065,11 @@ class Player(models.Model):
 				msg = "Player %s conquered by player %s" % (self.pk, player.pk)
 				logging.info(msg)
 			self.conqueror = player
-			if self.game.configuration.finances:
-				if self.ducats > 0:
-					player.ducats = F('ducats') + self.ducats
-					player.save()
-					self.ducats = 0
+			#if self.game.configuration.finances:
+			#	if self.ducats > 0:
+			#		player.ducats = F('ducats') + self.ducats
+			#		player.save()
+			#		self.ducats = 0
 			self.save()
 
 	def can_excommunicate(self):
