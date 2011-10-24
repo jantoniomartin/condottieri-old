@@ -235,7 +235,7 @@ def make_reinforce_form(player, finances=False, special_units=False):
 					      empty_label=noarea_label)
 		if special_units and not player.has_special_unit():
 			## special units are available for the player
-			unit_class = forms.ModelChoiceField(required=True,
+			unit_class = forms.ModelChoiceField(required=False,
 											queryset=player.country.special_units.all(),
 											empty_label=_("Regular (3d)"))
 
