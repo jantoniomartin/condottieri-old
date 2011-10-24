@@ -2929,6 +2929,90 @@ class Order(models.Model):
 		else:
 			return GameArea.objects.none()
 	
+	def is_possible(self):
+		"""
+		Checks if an Order is possible as stated in the rules.
+		"""
+	
+		if self.code == 'H':
+			return True
+		elif self.code == '-':
+			## only A and F can advance
+			if self.unit.type == 'A':
+				## it only can advance to adjacent or coastal provinces (with convoy)
+				## it cannot go to Venice or seas
+				if self.destination.board_area.is_sea or self.destination.board_area.code=='VEN':
+					return False
+				if self.unit.area.board_area.is_coast and self.destination.board_area.is_coast:
+					return True
+				if self.unit.area.board_area.is_adjacent(self.destination.board_area):
+					return True
+			elif self.unit.type == 'F':
+				## it only can go to adjacent seas or coastal provinces
+				if self.destination.board_area.is_sea or self.destination.board_area.is_coast:
+					if self.unit.area.board_area.is_adjacent(self.destination.board_area, fleet=True):
+						return True
+		elif self.code == 'B':
+			## only fortified cities can be besieged
+			if self.unit.area.board_area.is_fortified:
+				## only As and Fs in ports can besiege
+				if self.unit.type == 'A' or (self.unit.type == 'F' and self.unit.area.board_area.has_port):
+					## is there an enemy Garrison in the city
+					try:
+						gar = Unit.objects.get(type='G', area=self.unit.area)
+					except:
+						reb = self.unit.area.has_rebellion(self.unit.player, same=True)
+						if reb and reb.garrisoned:
+							return True
+						else:
+							return False
+					else:
+						if gar.player != self.unit.player:
+							return True
+		elif self.code == '=':
+			if self.unit.area.board_area.is_fortified:
+				if self.unit.type == 'G':
+					if self.type == 'A' and not self.unit.area.board_area.is_sea:
+						return True
+					if self.type == 'F' and self.unit.area.board_area.has_port:
+						return True
+				if self.type == 'G':
+					try:
+						## if there is already a garrison, the unit cannot be converted
+						gar = Unit.objects.get(type='G', area=self.unit.area)
+					except:
+						if self.unit.type == 'A':
+							return True
+						if self.unit.type == 'F' and self.unit.area.board_area.has_port:
+							return True
+		elif self.code == 'C':
+			if self.unit.type == 'F':
+				if self.subunit.type == 'A':
+					if self.unit.area.board_area.is_sea or self.unit.area.board_area.code == 'VEN':
+						return True
+		elif self.code == 'S':
+			if self.unit.type == 'G':
+				if self.subcode == '-' and self.subdestination == self.unit.area:
+					return True
+				if self.subcode == 'H' and self.subunit.area == self.unit.area:
+					return True
+			elif self.unit.type == 'F':
+				if self.subcode == '-':
+					sup_area = self.subdestination.board_area
+				elif self.subcode in ('H', 'B', '='):
+					sup_area = self.subunit.area.board_area
+				if sup_area.is_sea or sup_area.is_coast:
+					if sup_area.is_adjacent(self.unit.area.board_area, fleet=True):
+						return True
+			elif self.unit.type == 'A':
+				if self.subcode == '-':
+					sup_area = self.subdestination.board_area
+				elif self.subcode in ('H', 'B', '='):
+					sup_area = self.subunit.area.board_area
+				if not sup_area.is_sea and sup_area.is_adjacent(self.unit.area.board_area):
+					return True
+		return False
+
 	def __unicode__(self):
 		return self.format()
 

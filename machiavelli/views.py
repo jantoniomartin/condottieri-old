@@ -40,7 +40,6 @@ from django.utils import simplejson
 
 ## machiavelli
 from machiavelli.models import *
-import machiavelli.utils as utils
 import machiavelli.forms as forms
 
 ## condottieri_common
@@ -611,7 +610,7 @@ def confirm_orders(request, slug=''):
 		sent_orders = player.order_set.all()
 		for order in sent_orders:
 			msg += u"%s => " % order.format()
-			if utils.order_is_possible(order):
+			if order.is_possible():
 				order.confirm()
 				msg += u"OK\n"
 			else:
