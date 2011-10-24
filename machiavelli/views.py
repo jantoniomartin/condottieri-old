@@ -468,11 +468,9 @@ def play_finance_reinforcements(request, game, player):
 				form = UnitPaymentForm(request.POST)
 				if form.is_valid():
 					#cost = len(form.cleaned_data['units']) * 3
-					cost_agg = form.cleaned_data['units'].aggregate(Sum('cost'))
-					if cost_agg['cost__sum'] is None:
-						cost = 0
-					else:
-						cost = int(cost_agg['cost__sum'])
+					cost = 0
+					for u in form.cleaned_data['units']:
+						cost += u.cost
 					if cost <= player.ducats:
 						for u in form.cleaned_data['units']:
 							u.paid = True
