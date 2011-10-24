@@ -607,17 +607,17 @@ def confirm_orders(request, slug=''):
 	game = get_object_or_404(Game, slug=slug)
 	player = get_object_or_404(Player, game=game, user=request.user, done=False)
 	if request.method == 'POST':
-		#sent_orders = Order.objects.filter(unit__in=player.unit_set.all())
+		msg = u"Confirming orders for player %s in game %s:\n" % (player.id, game.id) 
 		sent_orders = player.order_set.all()
 		for order in sent_orders:
+			msg += u"%s => " % order.format()
 			if utils.order_is_possible(order):
 				order.confirm()
-				if logging:
-					logging.info("Confirmed order %s" % order.format())
+				msg += u"OK\n"
 			else:
-				if logging:
-					logging.info("Deleting order %s" % order.format())
-				#order.delete()
+				msg += u"Invalid\n"
+		if logging:
+			logging.info(msg)
 		player.end_phase()
 	return redirect(game)		
 	
