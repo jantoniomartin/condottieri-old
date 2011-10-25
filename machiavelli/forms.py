@@ -15,8 +15,6 @@ CITIES_TO_WIN = (
 )
 
 class GameForm(forms.ModelForm):
-	slug = forms.SlugField(label=_("Slug"),
-		help_text=_("Only letters, numbers, hyphens and underscores"))
 	scenario = forms.ModelChoiceField(queryset=Scenario.objects.filter(enabled=True),
 									empty_label=None,
 									cache_choices=True,
@@ -31,6 +29,9 @@ class GameForm(forms.ModelForm):
 
 	def clean(self):
 		cleaned_data = self.cleaned_data
+		if cleaned_data['slug'] and len(cleaned_data['slug']) < 4:
+			msg = _("Slug is too short")
+			raise forms.ValidationError(msg)
 		karma = self.instance.created_by.get_profile().karma
 		if karma < settings.KARMA_TO_JOIN:
 			msg = _("You don't have enough karma to create a game.")
