@@ -3305,7 +3305,8 @@ class Whisper(models.Model):
 	user = models.ForeignKey(User)
 	as_admin = models.BooleanField(default=False)
 	game = models.ForeignKey(Game)
-	text = models.CharField(max_length=140)
+	text = models.CharField(max_length=140,
+		help_text=_("limit of 140 characters"))
 	order = models.PositiveIntegerField(editable=False, default=0)
 
 	class Meta:
