@@ -361,7 +361,8 @@ class Game(models.Model):
 	and will be populated when the game is started, from the scenario data.
 	"""
 
-	slug = models.SlugField(max_length=20, unique=True)
+	slug = models.SlugField(max_length=20, unique=True,
+				help_text=_("4-20 characters, only letters, numbers, hyphens and underscores"))
 	year = models.PositiveIntegerField(blank=True, null=True)
 	season = models.PositiveIntegerField(blank=True, null=True,
 					     choices=SEASONS)
@@ -371,18 +372,23 @@ class Game(models.Model):
 	scenario = models.ForeignKey(Scenario)
 	created_by = models.ForeignKey(User, editable=False)
 	## whether the player of each country is visible
-	visible = models.BooleanField(default=0)
+	visible = models.BooleanField(default=0,
+				help_text=_("if checked, it will be known who controls each country"))
 	map_outdated = models.BooleanField(default=0)
-	time_limit = models.PositiveIntegerField(choices=TIME_LIMITS)
+	time_limit = models.PositiveIntegerField(choices=TIME_LIMITS,
+				help_text=_("time available to play a turn"))
 	## the time and date of the last phase change
 	last_phase_change = models.DateTimeField(blank=True, null=True)
 	created = models.DateTimeField(blank=True, null=True, auto_now_add=True)
 	started = models.DateTimeField(blank=True, null=True)
 	finished = models.DateTimeField(blank=True, null=True)
-	cities_to_win = models.PositiveIntegerField(default=15)
+	cities_to_win = models.PositiveIntegerField(default=15,
+				help_text=_("cities that must be controlled to win a game"))
 	fast = models.BooleanField(default=0)
-	private = models.BooleanField(default=0)
-	comment = models.TextField(max_length=255, blank=True, null=True)
+	private = models.BooleanField(default=0,
+				help_text=_("only invited users can join the game"))
+	comment = models.TextField(max_length=255, blank=True, null=True,
+				help_text=_("optional comment for joining users"))
 
 	def save(self, *args, **kwargs):
 		if not self.pk:

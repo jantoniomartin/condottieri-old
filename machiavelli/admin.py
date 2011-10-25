@@ -73,6 +73,7 @@ class SetupAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
 	list_display = ('player', '__unicode__', 'explain', 'confirmed')
+	list_editable = ('confirmed', )
 	list_filter = ('confirmed',)
 
 	#def player_info(self, obj):
