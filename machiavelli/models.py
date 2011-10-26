@@ -3235,6 +3235,20 @@ class Expense(models.Model):
 			## then, find the borders of self.unit
 			adjacent = self.unit.area.get_adjacent_areas()
 
+	def undo(self):
+		""" Deletes the expense and returns the money to the player """
+		if self.type in (6, 9):
+			## trying to buy a unit
+			try:
+				order = Order.objects.get(player=self.player, unit=self.unit)
+			except ObjectDoesNotExist:
+				pass
+			else:
+				order.delete()
+		self.player.ducats += self.ducats
+		self.player.save()
+		self.delete()
+
 class Rebellion(models.Model):
 	"""
 	A Rebellion may be placed in a GameArea if finances rules are applied.

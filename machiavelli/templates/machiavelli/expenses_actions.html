@@ -69,7 +69,11 @@
 {% if current_expenses %}
 <h3>{% trans "Your expenses for this turn" %}</h3>
 <ul>
-{{ current_expenses|unordered_list }}
+{% for e in current_expenses %}
+<li id="expense_{{ e.id }}">{{ e }}
+(<a href="{% url undo-expense game.slug e.id %}">{% trans "Delete" %}</a>)
+</li>
+{% endfor %}
 </ul>
 {% endif %}
 

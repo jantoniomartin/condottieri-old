@@ -681,6 +681,18 @@ def play_expenses(request, game, player):
 							context,
 							context_instance=RequestContext(request))
 
+@login_required
+def undo_expense(request, slug='', expense_id=''):
+	game = get_object_or_404(Game, slug=slug)
+	player = get_object_or_404(Player, game=game, user=request.user)
+	expense = get_object_or_404(Expense, id=expense_id, player=player)
+	try:
+		expense.undo()
+	except:
+		return game_error(request, game, _("Expense could not be undone."))
+		
+	return redirect(game)
+
 def game_error(request, game, message=''):
 	try:
 		player = Player.objects.get(game=game, user=request.user)
