@@ -319,6 +319,7 @@ def undo_actions(request, slug=''):
 			if player.done and not player.in_last_seconds():
 				player.done = False
 				player.order_set.update(confirmed=False)
+				player.expense_set.update(confirmed=False)
 				## TODO: improve the way that karma is increased/decreased
 				if game.check_bonus_time():
 					player.karma = F('karma') - 1
@@ -603,6 +604,7 @@ def delete_order(request, slug='', order_id=''):
 
 @login_required
 def confirm_orders(request, slug=''):
+	""" Confirms orders and expenses in Order Writing phase """
 	game = get_object_or_404(Game, slug=slug)
 	player = get_object_or_404(Player, game=game, user=request.user, done=False)
 	if request.method == 'POST':
@@ -619,6 +621,8 @@ def confirm_orders(request, slug=''):
 				msg += u"OK\n"
 			else:
 				msg += u"Invalid\n"
+		## confirm expenses
+		player.expense_set.all().update(confirmed=True)
 		if logging:
 			logging.info(msg)
 		player.end_phase()

@@ -136,7 +136,7 @@ class TurnLogAdmin(admin.ModelAdmin):
 	list_filter = ('game',)
 
 class ExpenseAdmin(admin.ModelAdmin):
-	list_display = ('__unicode__', 'player', 'ducats', 'type', 'unit', 'area')
+	list_display = ('__unicode__', 'player', 'ducats', 'type', 'unit', 'area', 'confirmed')
 	list_filter = ('player', 'type',)
 
 class RebellionAdmin(admin.ModelAdmin):

@@ -994,9 +994,13 @@ class Game(models.Model):
 				loan.delete()
 	
 	def process_expenses(self):
+		## undo unconfirmed expenses
+		invalid_expenses = Expense.objects.filter(player__game=self, confirmed=False)
+		for e in invalid_expenses:
+			e.undo()
 		## log expenses
 		if signals:
-			for e in Expense.objects.filter(player__game=self):
+			for e in Expense.objects.filter(player__game=self, confirmed=True):
 				signals.expense_paid.send(sender=e)
 		## then, process famine reliefs
 		for e in Expense.objects.filter(player__game=self, type=0):
@@ -3185,6 +3189,7 @@ class Expense(models.Model):
 	type = models.PositiveIntegerField(choices=EXPENSE_TYPES)
 	area = models.ForeignKey(GameArea, null=True, blank=True)
 	unit = models.ForeignKey(Unit, null=True, blank=True)
+	confirmed = models.BooleanField(default=False)
 
 	def save(self, *args, **kwargs):
 		## expenses that need an area
