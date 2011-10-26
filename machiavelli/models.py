@@ -3197,6 +3197,10 @@ class Expense(models.Model):
 			raise ValueError, "Wrong expense type %s" % self.type
 		## if no errors raised, save the expense
 		super(Expense, self).save(*args, **kwargs)
+		if logging:
+			msg = "New expense in game %s: %s" % (self.player.game.id,
+													self)
+			logging.info(msg)
 	
 	def __unicode__(self):
 		data = {
@@ -3247,6 +3251,10 @@ class Expense(models.Model):
 				order.delete()
 		self.player.ducats += self.ducats
 		self.player.save()
+		if logging:
+			msg = "Deleting expense in game %s: %s." % (self.player.game.id,
+													self)
+			logging.info(msg)
 		self.delete()
 
 class Rebellion(models.Model):
