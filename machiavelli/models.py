@@ -1216,7 +1216,7 @@ class Game(models.Model):
 		"""
 
 		## units sorted (reverse) by a temporary strength attribute
-		## strength = 0 means unit without supports
+		## strength = 1 means unit without supports
 		info = u"Step 5: Process conflicts.\n"
 		units = Unit.objects.list_with_strength(self)
 		conditioned_invasions = []
@@ -1240,7 +1240,7 @@ class Game(models.Model):
 					continue
 			##################
 			s = u.strength
-			info += u"Supported by = %s.\n" % s
+			info += u"Total strength = %s.\n" % s
 			## rivals and defender are the units trying to enter into or stay
 			## in the same area as 'u'
 			rivals = u_order.get_rivals()
@@ -1259,7 +1259,7 @@ class Game(models.Model):
 			## if not, check for defenders
 			for r in rivals:
 				strength = Unit.objects.get_with_strength(self, id=r.id).strength
-				info += u"Rival %s has %s supports.\n" % (r, strength)
+				info += u"Rival %s has strength %s.\n" % (r, strength)
 				if strength >= s: #in fact, strength cannot be greater
 					info += u"Rival wins.\n"
 					standoff = True
@@ -1289,7 +1289,7 @@ class Game(models.Model):
 					else:
 						strength = Unit.objects.get_with_strength(self,
 														id=defender.id).strength
-					info += u"Defender %s has %s supports.\n" % (defender, strength)
+					info += u"Defender %s has strength %s.\n" % (defender, strength)
 					## if attacker is not as strong as defender
 					if strength >= s:
 						## if the defender is trying to exchange areas with
