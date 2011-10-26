@@ -3000,6 +3000,8 @@ class Order(models.Model):
 					if self.unit.area.board_area.is_sea or self.unit.area.board_area.code == 'VEN':
 						return True
 		elif self.code == 'S':
+			if self.subunit.type == 'G' and self.subcode != '=':
+				return False
 			if self.unit.type == 'G':
 				if self.subcode == '-' and self.subdestination == self.unit.area:
 					return True
