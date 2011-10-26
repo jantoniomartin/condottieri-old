@@ -2689,6 +2689,9 @@ class Order(models.Model):
 	## player field is to be used when a player buys an enemy unit. It can be null for backwards
 	## compatibility
 	player = models.ForeignKey(Player, null=True)
+
+	class Meta:
+		unique_together = (('unit', 'player'),)
 	
 	def as_dict(self):
 		result = {
