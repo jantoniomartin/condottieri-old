@@ -72,6 +72,7 @@ from machiavelli.models import Unit
 
 
 def sidebar_context(request):
+	context = {}
 	activity = cache.get('sidebar_activity')
 	if not activity:
 		activity = Player.objects.values("user").distinct().count()
@@ -80,16 +81,21 @@ def sidebar_context(request):
 	if not top_users:
 		top_users = CondottieriProfile.objects.all().order_by('-weighted_score').select_related('user')[:5]
 		cache.set('sidebar_top_users', top_users)
+	if request.user.is_authenticated():
+		if not request.user.get_profile() in top_users:
+			my_score = request.user.get_profile().weighted_score
+			my_position = CondottieriProfile.objects.filter(weighted_score__gt=my_score).count() + 1
+			context.update({'my_position': my_position,})
 	latest_gossip = cache.get('latest_gossip')
 	if not latest_gossip:
 		latest_gossip = Whisper.objects.all()[:5]
 		cache.set('latest_gossip', latest_gossip)
 	server = Server.objects.get()
 	ranking_last_update = server.ranking_last_update
-	context = { 'activity': activity,
+	context.update({ 'activity': activity,
 				'top_users': top_users,
 				'whispers': latest_gossip,
-				'ranking_last_update': ranking_last_update,}
+				'ranking_last_update': ranking_last_update,})
 	return context
 
 def summary(request):

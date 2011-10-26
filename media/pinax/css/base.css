@@ -252,17 +252,22 @@ ul#messages li {
 	font-size: larger;
 }
 
-#top_users ol li {
+#top_users ul li {
 	font-size: 120%;
 	line-height: 30px;
+	list-style-type: none;
 }
 
-#top_users ol li img {
+#top_users ul li img {
 	vertical-align: middle;
 }
 
-#top_users ol li span {
+#top_users ul li span {
 	margin-left: 0.5em;
+}
+
+.my_position {
+	border: dotted 1px #fff3d3;
 }
 
 .section {

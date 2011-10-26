@@ -39,13 +39,27 @@
 
 <div id="top_users">
 <h2>{% trans "Best players" %}</h2>
-<ol>
+<ul>
 {% for profile in top_users %}
-	<li><a href="{% url profile_detail username=profile.user.username %}">{% avatar profile.user 24 %}</a>
+	<li
+	{% ifequal user.get_profile profile %}
+	class="my_position"
+	{% endifequal %}
+	>
+	<span>{% cycle "1" "2" "3" "4" "5" %}. </span>
+	<a href="{% url profile_detail username=profile.user.username %}">{% avatar profile.user 24 %}</a>
 	<span>{{ profile.user.username }}</span>:
 	<span>{{ profile.weighted_score }}</span></li>
 {% endfor %}
-</ol>
+	{% if my_position %}
+		<li class="my_position">
+		<span>{{ my_position }}. </span>
+		<a href="{% url profile_detail username=user.username %}">{% avatar user 24 %}</a>
+		<span>{{ user.username }}</span>:
+		<span>{{ user.get_profile.weighted_score }}</span>
+		</li>
+	{% endif %}
+</ul>
 <p style="font-size:smaller">{% trans "Last updated:" %} {{ ranking_last_update|date:"SHORT_DATE_FORMAT" }}</p>
 </div>
 
