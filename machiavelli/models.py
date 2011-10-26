@@ -994,7 +994,11 @@ class Game(models.Model):
 				loan.delete()
 	
 	def process_expenses(self):
-		## First, process famine reliefs
+		## log expenses
+		if signals:
+			for e in Expense.objects.filter(player__game=self):
+				signals.expense_paid.send(sender=e)
+		## then, process famine reliefs
 		for e in Expense.objects.filter(player__game=self, type=0):
 			e.area.famine = False
 			e.area.save()
@@ -3193,8 +3197,6 @@ class Expense(models.Model):
 			raise ValueError, "Wrong expense type %s" % self.type
 		## if no errors raised, save the expense
 		super(Expense, self).save(*args, **kwargs)
-		if signals:
-			signals.expense_paid.send(sender=self)
 	
 	def __unicode__(self):
 		data = {
