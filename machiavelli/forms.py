@@ -29,7 +29,7 @@ class GameForm(forms.ModelForm):
 
 	def clean(self):
 		cleaned_data = self.cleaned_data
-		if cleaned_data['slug'] and len(cleaned_data['slug']) < 4:
+		if not cleaned_data['slug'] or len(cleaned_data['slug']) < 4:
 			msg = _("Slug is too short")
 			raise forms.ValidationError(msg)
 		karma = self.instance.created_by.get_profile().karma
