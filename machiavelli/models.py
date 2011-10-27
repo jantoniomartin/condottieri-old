@@ -3179,8 +3179,9 @@ def get_expense_cost(type, unit=None):
 		## if the unit is in a major city
 		if unit.type == 'G' and unit.area.board_area.garrison_income > 1:
 			k = 2
-	return k * unit.loyalty * EXPENSE_COST[type]
-		
+		return k * unit.loyalty * EXPENSE_COST[type]
+	else:
+		return k * EXPENSE_COST[type]
 
 class Expense(models.Model):
 	""" A player may expend unit to affect some units or areas in the game. """
