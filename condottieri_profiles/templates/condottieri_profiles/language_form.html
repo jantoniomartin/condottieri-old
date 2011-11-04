@@ -1,0 +1,27 @@
+{% extends 'condottieri_profiles/base.html' %}
+
+{% load i18n %}
+{% load uni_form_tags %}
+
+{% block head_title %}{% trans "Profile" %}{% endblock %}
+
+{% block body %}
+<h1>{% trans "Known languages" %}</h1>
+
+<p>{% blocktrans %}Please, define here which languages can you read and write, so that other players know how to communicate with you. You can change them whenever you want.{% endblocktrans %}</p>
+<p>{% blocktrans %}If one of your languages is not listed, you can use the "About" section of your profile to mention it.{% endblocktrans %}</p>
+
+
+<form action="{% url profile_languages_edit %}" method="POST" class="uniForm">
+{% csrf_token %}
+{{ formset.management_form }}
+<fieldset class="inlineLabels">
+{% for form in formset.forms %}
+{{ form|as_uni_form }}
+{% endfor %}
+<div class="form_block">
+<input type="submit" value="{% trans "Save" %}" />
+</div>
+</fieldset>
+</form>
+{% endblock %}
