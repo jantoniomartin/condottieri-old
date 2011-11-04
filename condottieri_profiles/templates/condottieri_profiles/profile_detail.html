@@ -28,6 +28,10 @@
 <dt>{% trans "Location" %}</dt>
 <dd>{{ profile.location }}</dd>
 {% endif %}
+{% if profile.website %}
+<dt>{% trans "Website" %}</dt>
+<dd><a href="{{ profile.website }}">{{ profile.website }}</a></dd>
+{% endif %}
 <dt>{% trans "Karma" %}</dt>
 <dd>{{ profile.karma|karma_stars }}
 	{% if is_own %}
