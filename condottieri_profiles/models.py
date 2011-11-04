@@ -26,6 +26,7 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.conf import global_settings
 
 from machiavelli.signals import government_overthrown
 
@@ -102,3 +103,15 @@ def create_profile(sender, instance=None, **kwargs):
 	profile, created = CondottieriProfile.objects.get_or_create(user=instance)
 
 post_save.connect(create_profile, sender=User)
+
+class SpokenLanguage(models.Model):
+	""" Defines a language that a User understands """
+	code = models.CharField(_("language"), max_length=8, choices=global_settings.LANGUAGES)
+	profile = models.ForeignKey(CondottieriProfile)
+
+	def __unicode__(self):
+		return self.get_code_display()
+	
+	class Meta:
+		unique_together = (('code', 'profile',),)
+

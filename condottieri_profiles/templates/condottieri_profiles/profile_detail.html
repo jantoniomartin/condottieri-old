@@ -28,6 +28,8 @@
 <dt>{% trans "Location" %}</dt>
 <dd>{{ profile.location }}</dd>
 {% endif %}
+<dt>{% trans "Known languages" %} (<a href="{% url profile_languages_edit %}">{% trans "Edit" %}</a>)</dt>
+<dd>{{ profile.spokenlanguage_set.all|join:", " }}</dd>
 {% if profile.website %}
 <dt>{% trans "Website" %}</dt>
 <dd><a href="{{ profile.website }}">{{ profile.website }}</a></dd>
