@@ -74,17 +74,18 @@ def compose(request, sender_id=None, recipient_id=None, letter_id=None):
 	except LetterError, e:
 		return game_error(request, game, e.value)
 	## try to find a common language for the two players
-	common_language = None
+	common_language_code = None
 	sender_lang = sender_player.user.get_profile().spokenlanguage_set.values_list('code', flat=True)
 	recipient_lang = recipient_player.user.get_profile().spokenlanguage_set.values_list('code', flat=True)
 	for lang in sender_lang:
 		if lang in recipient_lang:
 			common_language_code = lang
 			break
-	lang_dict = dict(global_settings.LANGUAGES)
-	if common_language_code in lang_dict.keys():
-		common_language = lang_dict[common_language_code]
-	context.update({'common_language': common_language })
+	if common_language_code is not None:
+		lang_dict = dict(global_settings.LANGUAGES)
+		if common_language_code in lang_dict.keys():
+			common_language = lang_dict[common_language_code]
+		context.update({'common_language': common_language })
 	if request.method == 'POST':
 		letter_form = forms.LetterForm(sender_player, recipient_player, data=request.POST)
 		if letter_form.is_valid():
