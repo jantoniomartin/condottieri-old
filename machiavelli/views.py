@@ -320,15 +320,15 @@ def base_context(request, game, player):
 def undo_actions(request, slug=''):
 	game = get_object_or_404(Game, slug=slug)
 	player = get_object_or_404(Player, game=game, user=request.user)
+	profile = request.user.get_profile()
 	if request.method == 'POST':
 		if game.phase == PHORDERS:
 			if player.done and not player.in_last_seconds():
 				player.done = False
 				player.order_set.update(confirmed=False)
 				player.expense_set.update(confirmed=False)
-				## TODO: improve the way that karma is increased/decreased
 				if game.check_bonus_time():
-					player.karma = F('karma') - 1
+					profile.adjust_karma( -1 )
 				player.save()
 
 	return redirect('show-game', slug=slug)
