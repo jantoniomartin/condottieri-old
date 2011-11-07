@@ -10,6 +10,9 @@ New letter for {{ country }}
 {% if excom_notice %}
 <p>{% blocktrans %}Notice: This player is currently excommunicated. If you send this letter, you will be also excommunicated.{% endblocktrans %}
 {% endif %}
+{% if common_language %}
+{{ common_language }}
+{% endif %}
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 <form action="{% url condottieri_messages_compose sender_player.id recipient_player.id %}" method="post">
 {% csrf_token %}

@@ -2440,8 +2440,20 @@ class UnitManager(models.Manager):
 	def list_with_strength(self, game):
 		from django.db import connection
 		cursor = connection.cursor()
-		cursor.execute("SELECT u.id, u.type, u.area_id, u.player_id, u.besieging, u.must_retreat, u.placed, u.paid, u.cost, u.power, u.loyalty, \
-		o.code, o.destination_id, o.type \
+		cursor.execute("SELECT u.id, \
+							u.type, \
+							u.area_id, \
+							u.player_id, \
+							u.besieging, \
+							u.must_retreat, \
+							u.placed, \
+							u.paid, \
+							u.cost, \
+							u.power, \
+							u.loyalty, \
+							o.code, \
+							o.destination_id, \
+							o.type \
 		FROM (machiavelli_player p INNER JOIN machiavelli_unit u on p.id=u.player_id) \
 		LEFT JOIN machiavelli_order o ON u.id=o.unit_id \
 		WHERE p.game_id=%s" % game.id)
@@ -2451,15 +2463,15 @@ class UnitManager(models.Manager):
 			support_query = Q(unit__player__game=game,
 							  code__exact='S',
 							  subunit__pk=row[0])
-			if row[8] in (None, '', 'H', 'S', 'C', 'B'): #unit is holding
+			if row[11] in (None, '', 'H', 'S', 'C', 'B'): #unit is holding
 				support_query &= Q(subcode__exact='H')
 				holding = True
-			elif row[8] == '=':
+			elif row[11] == '=':
 				support_query &= Q(subcode__exact='=',
-						   		subtype__exact=row[10])
-			elif row[8] == '-':
+						   		subtype__exact=row[13])
+			elif row[11] == '-':
 				support_query &= Q(subcode__exact='-',
-								subdestination__pk__exact=row[9])
+								subdestination__pk__exact=row[12])
 			#support = Order.objects.filter(support_query).count()
 			support_sum = Order.objects.filter(support_query).aggregate(Sum('unit__power'))
 			if support_sum['unit__power__sum'] is None:
