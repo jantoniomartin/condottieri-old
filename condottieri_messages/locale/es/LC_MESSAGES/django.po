@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-26 12:03+0200\n"
+"POT-Creation-Date: 2011-11-07 12:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,19 +34,19 @@ msgstr "Del país"
 msgid "To country"
 msgstr "Al país"
 
-#: views.py:42
+#: views.py:43
 msgid "Eliminated players cannot send or receive letters"
 msgstr "Los jugadores eliminados no pueden enviar ni recibir cartas"
 
-#: views.py:45
+#: views.py:46
 msgid "You cannot send letters in an inactive game."
 msgstr "No puedes enviar cartas en un juego inactivo"
 
-#: views.py:48
+#: views.py:49
 msgid "You cannot write to a country that you have excommunicated."
 msgstr "No puedes escribir a un país al que has excomulgado."
 
-#: views.py:85
+#: views.py:98
 #, python-format
 msgid ""
 "%(sender)s wrote:\n"
@@ -55,22 +55,22 @@ msgstr ""
 "%(sender)s escribió:\n"
 "%(body)s"
 
-#: views.py:88
+#: views.py:101
 #, python-format
 msgid "Re: %(subject)s"
 msgstr "Re: %(subject)s"
 
-#: views.py:98
+#: views.py:111
 msgid "You can write letters only to other excommunicated countries."
 msgstr "Solo puedes escribir cartas a otros países excomulgados."
 
-#: views.py:206
+#: views.py:219
 msgid "Message successfully deleted."
-msgstr ""
+msgstr "Mensaje borrado correctamente."
 
-#: views.py:233
+#: views.py:246
 msgid "Message successfully recovered."
-msgstr ""
+msgstr "Mensaje recuperado correctamente."
 
 #: templates/condottieri_messages/base.html:7
 msgid "Mail"
@@ -111,11 +111,26 @@ msgstr ""
 "Aviso: Este jugador está excomulgado. Si le envías esta carta tú también "
 "estarás excomulgado."
 
+#: templates/condottieri_messages/compose.html:15
+#, python-format
+msgid "Tip: Both you and %(country)s understand %(common_language)s."
+msgstr "Aviso: tanto %(country)s como tú entendéis %(common_language)s."
+
 #: templates/condottieri_messages/compose.html:19
+msgid ""
+"Tip: See the user profile to know which languages you both have in common."
+msgstr ""
+"Consejo: mira el perfil del usuario para saber qué idiomas tenéis en común."
+
+#: templates/condottieri_messages/compose.html:20
+msgid "User profile"
+msgstr "Perfil de usuario"
+
+#: templates/condottieri_messages/compose.html:29
 msgid "Send"
 msgstr "Enviar"
 
-#: templates/condottieri_messages/compose.html:22
+#: templates/condottieri_messages/compose.html:32
 #: templates/condottieri_messages/view.html:21
 msgid "Return to game"
 msgstr "Volver al juego"
@@ -148,7 +163,6 @@ msgstr "Remitente"
 #: templates/condottieri_messages/outbox.html:15
 #: templates/condottieri_messages/trash.html:8
 #: templates/condottieri_messages/view.html:6
-#: templates/notification/condottieri_messages_received/full.txt:7
 msgid "Subject"
 msgstr "Asunto"
 
@@ -222,24 +236,19 @@ msgstr "Responder"
 msgid "Delete"
 msgstr "Borrar"
 
-#: templates/notification/condottieri_messages_received/full.txt:3
-#, python-format
-msgid "You have received a new letter in the game '%(slug)s'"
-msgstr "Has recibido una nueva carta en el juego '%(slug)s'"
-
-#: templates/notification/condottieri_messages_received/full.txt:5
-msgid "From"
-msgstr "De"
-
-#: templates/notification/condottieri_messages_received/full.txt:9
-msgid "Body"
-msgstr "Cuerpo"
-
-#: templates/notification/condottieri_messages_received/full.txt:12
-msgid "Read the letter"
-msgstr "Leer la carta"
-
 #: templates/notification/condottieri_messages_received/notice.html:3
 #, python-format
 msgid "New letter from %(country)s in '%(slug)s'"
 msgstr "Nueva carta de %(country)s en '%(slug)s'"
+
+#~ msgid "You have received a new letter in the game '%(slug)s'"
+#~ msgstr "Has recibido una nueva carta en el juego '%(slug)s'"
+
+#~ msgid "From"
+#~ msgstr "De"
+
+#~ msgid "Body"
+#~ msgstr "Cuerpo"
+
+#~ msgid "Read the letter"
+#~ msgstr "Leer la carta"
