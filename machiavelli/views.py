@@ -714,17 +714,6 @@ def undo_expense(request, slug='', expense_id=''):
 		
 	return redirect(game)
 
-def game_error(request, game, message=''):
-	try:
-		player = Player.objects.get(game=game, user=request.user)
-	except:
-		player = Player.objects.none()
-	context = base_context(request, game, player)
-	context.update({'error': message })
-	return render_to_response('machiavelli/game_error.html',
-							context,
-							context_instance=RequestContext(request))
-
 #@login_required
 #@cache_page(60 * 60) # cache 1 hour
 def game_results(request, slug=''):
@@ -1098,18 +1087,6 @@ def ranking(request, key='', val=''):
 		'title': title,
 		}
 	return render_to_response('machiavelli/ranking.html',
-							context,
-							context_instance=RequestContext(request))
-
-
-@login_required
-#@cache_page(120 * 60) # cache 2 hours
-def low_karma_error(request):
-	context = {
-		'karma': request.user.get_profile().karma,
-		'minimum': settings.KARMA_TO_JOIN,
-	}
-	return render_to_response('machiavelli/low_karma.html',
 							context,
 							context_instance=RequestContext(request))
 

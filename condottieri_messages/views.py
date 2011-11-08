@@ -32,7 +32,7 @@ from messages.models import Message
 from django.contrib import messages
 
 from machiavelli.models import Player, Game
-from machiavelli.views import base_context, game_error
+from machiavelli.views import base_context
 
 from condottieri_messages.exceptions import LetterError
 

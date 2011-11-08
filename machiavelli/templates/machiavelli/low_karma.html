@@ -1,9 +1,0 @@
-{% extends "machiavelli/base.html" %}
-
-{% load i18n %}
-
-{% block body %}
-<h1>{% trans "Error" %}</h1>
-<p>{% blocktrans %}Because of your low karma ({{ karma }}), you can't join games or create new ones. You need a minimum karma of {{ minimum }}.{% endblocktrans %}</p>
-<p>{% blocktrans %}You will recover some karma every day. You can read the basics of this karma system in the FAQ section.{% endblocktrans %}</p>
-{% endblock %}
