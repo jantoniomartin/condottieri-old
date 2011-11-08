@@ -7,29 +7,46 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-23 19:13+0200\n"
+"POT-Creation-Date: 2011-11-08 10:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:29
+#: models.py:44
 msgid "user"
 msgstr "usuario"
 
-#: models.py:30
+#: models.py:46
 msgid "name"
 msgstr "nombre"
 
-#: models.py:31
+#: models.py:48
 msgid "about"
 msgstr "descripción"
 
-#: models.py:32
+#: models.py:50
 msgid "location"
 msgstr "ubicación"
+
+#: models.py:52
+msgid "website"
+msgstr "página web"
+
+#: models.py:121
+msgid "language"
+msgstr "idioma"
+
+#: views.py:31
+msgid "Your profile has been updated."
+msgstr "Tu perfil ha sido actualizado."
+
+#: views.py:48
+msgid "Your languages have been updated."
+msgstr "Tus idiomas han sido actualizados."
 
 #: management/base.py:11
 msgid "Karma healed"
@@ -39,45 +56,95 @@ msgstr "Karma curado"
 msgid "you have recovered the minimum karma to join games"
 msgstr "has recuperado el karma mínimo para unirte a juegos"
 
-#: templates/condottieri_profiles/profile_detail.html:5
+#: templates/condottieri_profiles/language_form.html:6
+#: templates/condottieri_profiles/profile_detail.html:8
 #: templates/condottieri_profiles/profile_form.html:6
 msgid "Profile"
 msgstr "Perfil"
 
-#: templates/condottieri_profiles/profile_detail.html:8
+#: templates/condottieri_profiles/language_form.html:9
+#: templates/condottieri_profiles/profile_detail.html:31
+msgid "Known languages"
+msgstr "Idiomas conocidos"
+
+#: templates/condottieri_profiles/language_form.html:11
+msgid ""
+"Please, define here which languages can you read and write, so that other "
+"players know how to communicate with you. You can change them whenever you "
+"want."
+msgstr ""
+"Por favor, define aquí que idiomas puedes leer y escribir, para que otros "
+"jugadores sepan cómo comunicarse contigo. Puedes cambiarlos en cualquier "
+"momento. "
+
+#: templates/condottieri_profiles/language_form.html:12
+msgid ""
+"If one of your languages is not listed, you can use the \"About\" section of "
+"your profile to mention it."
+msgstr ""
+"Si uno de tus idiomas no aparece en la lista puedes usar la sección "
+"\"Descripción\" de tu perfil para mencionarlo."
+
+#: templates/condottieri_profiles/language_form.html:23
+#: templates/condottieri_profiles/profile_form.html:16
+msgid "Save"
+msgstr "Guardar"
+
+#: templates/condottieri_profiles/profile_detail.html:11
 #: templates/condottieri_profiles/profile_form.html:9
 msgid "Profile for"
 msgstr "Perfil de"
 
-#: templates/condottieri_profiles/profile_detail.html:11
+#: templates/condottieri_profiles/profile_detail.html:15
+msgid "Change avatar"
+msgstr "Cambiar avatar"
+
+#: templates/condottieri_profiles/profile_detail.html:20
 msgid "Name"
 msgstr "Nombre"
 
-#: templates/condottieri_profiles/profile_detail.html:15
+#: templates/condottieri_profiles/profile_detail.html:24
 msgid "About"
 msgstr "Descripción"
 
-#: templates/condottieri_profiles/profile_detail.html:19
+#: templates/condottieri_profiles/profile_detail.html:28
 msgid "Location"
 msgstr "Ubicación"
 
-#: templates/condottieri_profiles/profile_detail.html:23
-msgid "Karma"
-msgstr "Karma"
-
-#: templates/condottieri_profiles/profile_detail.html:26
-msgid "Total score"
-msgstr "Puntuación total"
-
 #: templates/condottieri_profiles/profile_detail.html:31
+#: templates/condottieri_profiles/profile_detail.html:56
 msgid "Edit"
 msgstr "Editar"
 
-#: templates/condottieri_profiles/profile_form.html:15
-msgid "Save"
-msgstr "Guardar"
+#: templates/condottieri_profiles/profile_detail.html:34
+msgid "Website"
+msgstr "Página web"
 
-#: templates/condottieri_profiles/notification/healed_karma/full.txt:3
+#: templates/condottieri_profiles/profile_detail.html:37
+msgid "Karma"
+msgstr "Karma"
+
+#: templates/condottieri_profiles/profile_detail.html:43
+msgid "Total score"
+msgstr "Puntuación total"
+
+#: templates/condottieri_profiles/profile_detail.html:45
+msgid "Detail"
+msgstr "Detalle"
+
+#: templates/condottieri_profiles/profile_detail.html:47
+msgid "Average points per game"
+msgstr "Media de puntos por partida"
+
+#: templates/condottieri_profiles/profile_detail.html:49
+msgid "Ranking score"
+msgstr "Puntuación en el ranking"
+
+#: templates/condottieri_profiles/profile_detail.html:51
+msgid "Times overthrown"
+msgstr "Veces derrocado"
+
+#: templates/notification/karma_healed/full.txt:3
 msgid ""
 "You have recovered enough karma to join a game or create a new\n"
 "one."
@@ -85,11 +152,10 @@ msgstr ""
 "Has recuperado el karma mínimo para unirte a un juego o crear uno\n"
 "nuevo."
 
-#: templates/condottieri_profiles/notification/healed_karma/full.txt:6
+#: templates/notification/karma_healed/full.txt:6
 msgid ""
 "Before joining or creating a game, please, be sure that you\n"
 "are really interested in playing it."
 msgstr ""
 "Antes de unirte a un juego o crear uno, por favor, asegúrate de que\n"
 "estás realmente interesado en participar."
-
