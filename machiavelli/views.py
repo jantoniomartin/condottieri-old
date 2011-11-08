@@ -862,8 +862,10 @@ def join_game(request, slug=''):
 	g = get_object_or_404(Game, slug=slug)
 	invitation = None
 	## check if the user has defined his languages
-	#if not request.user.get_profile().has_languages():
-	#	pass #TODO
+	if not request.user.get_profile().has_languages():
+		messages.error(request, _("You must define at least one known language before joining a game."))
+		messages.info(request, _("Define your languages and then, try again."))
+		return redirect("profile_languages_edit")
 	if g.private:
 		## check if user has been invited
 		try:

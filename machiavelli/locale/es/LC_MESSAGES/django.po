@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 10:40+0100\n"
+"POT-Creation-Date: 2011-11-08 11:18+0100\n"
 "PO-Revision-Date: 2010-03-07 10:35+0100\n"
 "Last-Translator: José Antonio Martín <jantonio.martin@gmail.com>\n"
 "Language-Team: ES <LL@li.org>\n"
@@ -907,7 +907,8 @@ msgstr "Crear una cuenta en %(domain)s"
 
 #: views.py:334
 msgid "Your actions are now unconfirmed. You'll have to confirm then again."
-msgstr "Ahora tus acciones no están confirmadas. Tendrás que confirmarlas de nuevo."
+msgstr ""
+"Ahora tus acciones no están confirmadas. Tendrás que confirmarlas de nuevo."
 
 #: views.py:420 views.py:447 views.py:533
 msgid "You have successfully made your reinforcements."
@@ -941,163 +942,170 @@ msgstr "Gasto anulado correctamente."
 msgid "Game successfully created."
 msgstr "Juego creado correctamente."
 
-#: views.py:872
+#: views.py:866
+msgid "You must define at least one known language before joining a game."
+msgstr "Debes declarar al menos un idioma conocido antes de unirte a una partida."
+
+#: views.py:867
+msgid "Define your languages and then, try again."
+msgstr "Declara tus idiomas y después, inténtalo de nuevo."
+
+#: views.py:874
 msgid "This game is private and you have not been invited."
 msgstr "Esta partida es privada y no has sido invitado."
 
-#: views.py:877 views.py:944
+#: views.py:879 views.py:946
 #, python-format
 msgid "You need a minimum karma of %s to join a game."
 msgstr "Necesitas un karma mínimo de %s para unirte a una partida."
 
-#: views.py:881
+#: views.py:883
 #, python-format
 msgid "You need a minimum karma of %s to join a fast game."
 msgstr "Necesitas un karma mínimo de %s para unirte a una partida rápida."
 
-#: views.py:894
+#: views.py:896
 msgid "You have successfully joined the game."
 msgstr "Te has unido a la partida correctamente."
 
-#: views.py:897
+#: views.py:899
 msgid "You had already joined this game."
 msgstr "Ya te habías unido a esta partida."
 
-#: views.py:907
+#: views.py:909
 msgid "You had not joined this game."
 msgstr "No te habías unido a esta partida."
 
-#: views.py:913
+#: views.py:915
 msgid "You have left the game."
 msgstr "Has abandonado la partida."
 
-#: views.py:917
+#: views.py:919
 msgid "The game has been deleted."
 msgstr "La partida se ha borrado."
 
-#: views.py:927
+#: views.py:929
 msgid "The game is now open to all users."
 msgstr "Ahora el juego está abierto a todos los usuarios."
 
-#: views.py:949
+#: views.py:951
 msgid "Your overthrow attempt has been saved."
 msgstr "Tu intento de derrocamiento se ha guardado."
 
-#: views.py:951
+#: views.py:953
 msgid ""
 "You are already attempting an overthrow on another player in the same game."
-msgstr ""
-"Ya estabas intentando derrocar a otro jugador en la misma partida."
+msgstr "Ya estabas intentando derrocar a otro jugador en la misma partida."
 
-#: views.py:953
+#: views.py:955
 msgid "You are already playing this game."
 msgstr "Ya estás jugando esta partida."
 
-#: views.py:960
+#: views.py:962
 msgid "You cannot excommunicate in this game."
 msgstr "No puedes excomulgar en este juego."
 
-#: views.py:966
+#: views.py:968
 msgid "You cannot excommunicate in the current season."
 msgstr "No puedes excomulgar durante la estación actual."
 
-#: views.py:972
+#: views.py:974
 msgid "You cannot excommunicate this country."
 msgstr "No puedes excomulgar a este país."
 
-#: views.py:977
+#: views.py:979
 msgid "The country has been excommunicated."
 msgstr "El país ha sido excomulgado."
 
-#: views.py:984
+#: views.py:986
 msgid "You cannot forgive excommunications in this game."
 msgstr "No puedes perdonar excomuniones en este juego."
 
-#: views.py:990
+#: views.py:992
 msgid "You cannot forgive excommunications in the current season."
 msgstr "No puedes perdonar excomuniones en la estación actual."
 
-#: views.py:996
+#: views.py:998
 msgid "You cannot forgive this country."
 msgstr "No puedes perdonar a este país.."
 
-#: views.py:1001
+#: views.py:1003
 msgid "The country has been forgiven."
 msgstr "El país ha sido perdonado."
 
-#: views.py:1071
+#: views.py:1073
 msgid "Ranking for the user"
 msgstr "Clasificación del jugador"
 
-#: views.py:1075
+#: views.py:1077
 msgid "Ranking for the scenario"
 msgstr "Clasificación del escenario"
 
-#: views.py:1079
+#: views.py:1081
 msgid "Ranking for the country"
 msgstr "Clasificación del país"
 
-#: views.py:1141
+#: views.py:1143
 msgid "You cannot give money in this game."
 msgstr "No puedes entregar dinero en este juego."
 
-#: views.py:1153
+#: views.py:1155
 msgid "You cannot give more money than you have"
 msgstr "No puedes entregar más dinero del que tienes"
 
-#: views.py:1159
+#: views.py:1161
 msgid "The money has been successfully sent."
 msgstr "El dinero se ha enviado correctamente."
 
-#: views.py:1184
+#: views.py:1186
 msgid "You cannot borrow money in this moment."
 msgstr "No puedes pedir un préstamo en este momento."
 
-#: views.py:1198
+#: views.py:1200
 msgid "You cannot borrow so much money."
 msgstr "No puedes pedir prestado tanto dinero."
 
-#: views.py:1206
+#: views.py:1208
 msgid "The chosen term is not valid."
 msgstr "El plazo elegido no es válido."
 
-#: views.py:1212
+#: views.py:1214
 msgid "You have got the loan."
 msgstr "Has conseguido el préstamo."
 
-#: views.py:1224
+#: views.py:1226
 msgid "You have repaid the loan."
 msgstr "Has saldado el préstamo."
 
-#: views.py:1226
+#: views.py:1228
 msgid "You don't have enough money to repay the loan."
 msgstr "No tienes suficiente dinero para saldar el préstamo."
 
-#: views.py:1242
+#: views.py:1244
 msgid "You cannot buy an assassination in this moment."
 msgstr "No puedes comprar un asesinato en este momento."
 
-#: views.py:1253
+#: views.py:1255
 msgid "You don't have enough ducats for the assassination."
 msgstr "No tienes suficiente dinero para pagar el asesinato."
 
-#: views.py:1256
+#: views.py:1258
 msgid "You cannot kill an eliminated player."
 msgstr "No puedes asesinar a un jugador eliminado."
 
-#: views.py:1259
+#: views.py:1261
 msgid "You cannot kill yourself."
 msgstr "No puedes matarte a ti mismo."
 
-#: views.py:1264
+#: views.py:1266
 msgid "You don't have any assassins to kill this leader."
 msgstr "No tienes asesinos para matar a este líder."
 
-#: views.py:1274
+#: views.py:1276
 msgid "The assassination attempt has been saved."
 msgstr "El intento de asesinato se ha guardado."
 
-#: views.py:1290
+#: views.py:1292
 msgid "You cannot write messages in this game"
 msgstr "No puedes escribir mensajes en este juego."
 
