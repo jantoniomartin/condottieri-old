@@ -27,6 +27,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.conf import global_settings
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from machiavelli.signals import government_overthrown
 
@@ -64,6 +65,17 @@ class CondottieriProfile(models.Model):
 	def get_absolute_url(self):
 		return ('profile_detail', None, {'username': self.user.username})
 	get_absolute_url = models.permalink(get_absolute_url)
+
+	def has_languages(self):
+		""" Returns true if the user has defined at least one known language """
+		try:
+			SpokenLanguage.objects.get(profile=self)
+		except MultipleObjectsReturned:
+			return True
+		except ObjectDoesNotExist:
+			return False
+		else:
+			return True
 
 	def average_score(self):
 		games = self.user.score_set.count()
