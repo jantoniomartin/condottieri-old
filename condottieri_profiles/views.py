@@ -4,6 +4,8 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
+from django.contrib import messages
+from django.utils.translation import ugettext_lazy as _
 
 ## condottieri_profiles
 from condottieri_profiles.models import *
@@ -26,6 +28,7 @@ def profile_edit(request):
 		form = ProfileForm(data=request.POST, instance=profile)
 		if form.is_valid():
 			form.save()
+			messages.success(request, _("Your profile has been updated."))
 			return redirect(profile)
 	else:	
 		form = ProfileForm(instance=profile)
@@ -42,6 +45,7 @@ def languages_edit(request):
 		formset = LangInlineFormSet(request.POST, instance=profile)
 		if formset.is_valid():
 			formset.save()
+			messages.success(request, _("Your languages have been updated."))
 			return redirect(profile)
 	else:
 		formset = LangInlineFormSet(instance=profile)
