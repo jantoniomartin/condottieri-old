@@ -29,6 +29,8 @@ from django.conf import global_settings
 from messages.utils import format_quote
 from messages.models import Message
 
+from django.contrib import messages
+
 from machiavelli.models import Player, Game
 from machiavelli.views import base_context, game_error
 
@@ -72,7 +74,8 @@ def compose(request, sender_id=None, recipient_id=None, letter_id=None):
 	try:
 		check_errors(request, game, sender_player, recipient_player)
 	except LetterError, e:
-		return game_error(request, game, e.value)
+		messages.error(request, e.value)
+		return redirect(game)
 	## try to find a common language for the two players
 	common_language_code = None
 	sender_lang = sender_player.user.get_profile().spokenlanguage_set.values_list('code', flat=True)
@@ -90,10 +93,12 @@ def compose(request, sender_id=None, recipient_id=None, letter_id=None):
 		letter_form = forms.LetterForm(sender_player, recipient_player, data=request.POST)
 		if letter_form.is_valid():
 			letter = letter_form.save()
+			messages.success(request, _("The letter has been successfully sent."))
 			## check if sender must be excommunicated
 			if not sender_player.is_excommunicated and recipient_player.is_excommunicated:
 				sender_player.set_excommunication(by_pope=False)
-			return redirect('show-game', slug=game.slug)
+				messages.info(request, _("You have been excommunicated."))
+			return redirect(game)
 	else:
 		if parent:
 			initial = {'body': _(u"%(sender)s wrote:\n%(body)s") % {
@@ -109,7 +114,8 @@ def compose(request, sender_id=None, recipient_id=None, letter_id=None):
 		if not sender_player.is_excommunicated and recipient_player.is_excommunicated:
 			context['excom_notice'] = True
 		if sender_player.is_excommunicated and not recipient_player.is_excommunicated:
-			return game_error(request, game, _("You can write letters only to other excommunicated countries."))
+			messages.error(request, _("You can write letters only to other excommunicated countries."))
+			return redirect(game)
 	
 	context.update({'form': letter_form,
 					'sender_player': sender_player,
@@ -217,7 +223,7 @@ def delete(request, message_id, success_url=None):
         deleted = True
     if deleted:
         message.save()
-        user.message_set.create(message=_(u"Message successfully deleted."))
+        messages.success(request, _(u"Message successfully deleted."))
         #if notification:
         #    notification.send([user], "messages_deleted", {'message': message,})
         return HttpResponseRedirect(success_url)
@@ -244,7 +250,7 @@ def undelete(request, message_id, success_url=None):
         undeleted = True
     if undeleted:
         message.save()
-        user.message_set.create(message=_(u"Message successfully recovered."))
+        messages.success(request, _(u"Message successfully recovered."))
         #if notification:
         #    notification.send([user], "messages_recovered", {'message': message,})
         return HttpResponseRedirect(success_url)
