@@ -37,6 +37,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils import simplejson
+from django.contrib import messages
 
 ## machiavelli
 from machiavelli.models import *
@@ -330,6 +331,7 @@ def undo_actions(request, slug=''):
 				if game.check_bonus_time():
 					profile.adjust_karma( -1 )
 				player.save()
+				messages.success(request, _("Your actions are now unconfirmed. You'll have to confirm then again."))
 
 	return redirect('show-game', slug=slug)
 
@@ -415,6 +417,7 @@ def play_reinforcements(request, game, player):
 					## not sure, but i think i could remove the fol. line
 					player = Player.objects.get(id=player.pk) ## see below
 					player.end_phase()
+					messages.success(request, _("You have successfully made your reinforcements."))
 					return HttpResponseRedirect(request.path)
 			else:
 				reinforce_form = ReinforceFormSet()
@@ -441,6 +444,7 @@ def play_reinforcements(request, game, player):
 						player = Player.objects.get(id=player.pk)
 						## --
 						player.end_phase()
+						messages.success(request, _("You have successfully made your reinforcements."))
 						return HttpResponseRedirect(request.path)
 			else:
 				disband_form = DisbandForm()
@@ -485,6 +489,7 @@ def play_finance_reinforcements(request, game, player):
 						step = 1
 						player.step = step
 						player.save()
+						messages.success(request, _("You have successfully paid your units."))
 						return HttpResponseRedirect(request.path)
 			else:
 				form = UnitPaymentForm()
@@ -525,6 +530,7 @@ def play_finance_reinforcements(request, game, player):
 					player.ducats = player.ducats - total_cost
 					player.save()
 					player.end_phase()
+					messages.success(request, _("You have successfully made your reinforcements."))
 					return HttpResponseRedirect(request.path)
 			else:
 				formset = ReinforceFormSet()
@@ -615,10 +621,10 @@ def confirm_orders(request, slug=''):
 	player = get_object_or_404(Player, game=game, user=request.user, done=False)
 	if request.method == 'POST':
 		msg = u"Confirming orders for player %s (%s, %s) in game %s (%s):\n" % (player.id,
-																		player.static_name,
-																		player.user.username,
-																		game.id,
-																		game.slug) 
+			player.static_name,
+			player.user.username,
+			game.id,
+			game.slug) 
 		sent_orders = player.order_set.all()
 		for order in sent_orders:
 			msg += u"%s => " % order.format()
@@ -632,6 +638,7 @@ def confirm_orders(request, slug=''):
 		if logging:
 			logging.info(msg)
 		player.end_phase()
+		messages.success(request, _("You have successfully confirmed your actions."))
 	return redirect(game)		
 	
 def play_retreats(request, game, player):
@@ -660,6 +667,7 @@ def play_retreats(request, game, player):
 						retreat = RetreatOrder(unit=unit)
 					retreat.save()
 			player.end_phase()
+			messages.success(request, _("You have successfully retreated your units."))
 			return HttpResponseRedirect(request.path)
 		else:
 			for u in units:
@@ -681,6 +689,7 @@ def play_expenses(request, game, player):
 			expense = form.save()
 			player.ducats = F('ducats') - expense.ducats
 			player.save()
+			messages.success(request, _("Expense successfully saved."))
 			return HttpResponseRedirect(request.path)
 	else:
 		form = ExpenseForm(player)
@@ -699,7 +708,9 @@ def undo_expense(request, slug='', expense_id=''):
 	try:
 		expense.undo()
 	except:
-		return game_error(request, game, _("Expense could not be undone."))
+		messages.error(request, _("Expense could not be undone."))
+	else:
+		messages.success(request, _("Expense successfully undone."))
 		
 	return redirect(game)
 
@@ -784,6 +795,7 @@ def create_game(request):
 												instance=new_game.configuration)
 			config_form.save()
 			cache.delete('sidebar_activity')
+			messages.success(request, _("Game successfully created."))
 			if new_game.private:
 				return redirect('invite-users', slug=new_game.slug)
 			else:
@@ -821,10 +833,8 @@ def invite_users(request, slug=''):
 			for u in user_names:
 				name = u.strip()
 				try:
-					print "Looking for user '%s'" % name 
 					user = User.objects.get(username=name)
 				except ObjectDoesNotExist:
-					print "User does not exist"
 					continue
 				else:
 					## check that the user is not already in the game
@@ -851,18 +861,26 @@ def invite_users(request, slug=''):
 def join_game(request, slug=''):
 	g = get_object_or_404(Game, slug=slug)
 	invitation = None
+	## check if the user has defined his languages
+	#if not request.user.get_profile().has_languages():
+	#	pass #TODO
 	if g.private:
 		## check if user has been invited
 		try:
 			invitation = Invitation.objects.get(game=g, user=request.user)
 		except ObjectDoesNotExist:
-			raise Http404
+			messages.error(request, _("This game is private and you have not been invited."))
+			return redirect("games-joinable")
 	else:
 		karma = request.user.get_profile().karma
 		if karma < settings.KARMA_TO_JOIN:
-			return low_karma_error(request)
+			err = _("You need a minimum karma of %s to join a game.") % settings.KARMA_TO_JOIN
+			messages.error(request, err)
+			return redirect("summary")
 		if g.fast and karma < settings.KARMA_TO_FAST:
-			return low_karma_error(request)
+			err = _("You need a minimum karma of %s to join a fast game.") % settings.KARMA_TO_FAST
+			messages.error(request, err)
+			return redirect("games-joinable")
 	if g.slots > 0:
 		try:
 			Player.objects.get(user=request.user, game=g)
@@ -873,7 +891,10 @@ def join_game(request, slug=''):
 			if invitation:
 				invitation.delete()
 			g.player_joined()
+			messages.success(request, _("You have successfully joined the game."))
 			cache.delete('sidebar_activity')
+		else:
+			messages.error(request, _("You had already joined this game."))
 	return redirect('summary')
 
 @login_required
@@ -883,15 +904,17 @@ def leave_game(request, slug=''):
 		player = Player.objects.get(user=request.user, game=g)
 	except:
 		## the user is not in the game
-		raise Http404
+		messages.error(request, _("You had not joined this game."))
 	else:
 		player.delete()
 		g.slots += 1
 		g.save()
 		cache.delete('sidebar_activity')
+		messages.success(request, _("You have left the game."))
 		## if the game has no players, delete the game
 		if g.player_set.count() == 0:
 			g.delete()
+			messages.info(request, _("The game has been deleted."))
 	return redirect('summary')
 
 @login_required
@@ -901,6 +924,7 @@ def make_public(request, slug=''):
 	g.private = False
 	g.save()
 	g.invitation_set.all().delete()
+	messages.success(request, _("The game is now open to all users."))
 	return redirect('games-pending')
 
 @login_required
@@ -917,55 +941,64 @@ def overthrow(request, revolution_id):
 		except ObjectDoesNotExist:
 			karma = request.user.get_profile().karma
 			if karma < settings.KARMA_TO_JOIN:
-				return low_karma_error(request)
+				err = _("You need a minimum karma of %s to join a game.") % settings.KARMA_TO_JOIN
+				messages.error(request, err)
+				return redirect("summary")
 			revolution.opposition = request.user
 			revolution.save()
-			return redirect('summary')
+			messages.success(request, _("Your overthrow attempt has been saved."))
 		else:
-			raise Http404
+			messages.error(request, _("You are already attempting an overthrow on another player in the same game."))
 	else:
-		raise Http404
+		messages.error(request, _("You are already playing this game."))
+	return redirect("summary")
 
 @login_required
 def excommunicate(request, slug, player_id):
 	game = get_object_or_404(Game, slug=slug)
 	if game.phase == 0 or not game.configuration.excommunication:
-		return game_error(request, game, _("You cannot excommunicate in this game."))
+		messages.error(request, _("You cannot excommunicate in this game."))
+		return redirect(game)
 	papacy = get_object_or_404(Player, user=request.user,
 								game=game,
 								may_excommunicate=True)
 	if not papacy.can_excommunicate():
-		return game_error(request, game, _("You cannot excommunicate in the current season."))
+		messages.error(request, _("You cannot excommunicate in the current season."))
+		return redirect(game)
 	try:
 		player = Player.objects.get(game=game, id=player_id, eliminated=False,
 									conqueror__isnull=True, may_excommunicate=False)
 	except ObjectDoesNotExist:
-		return game_error(request, game, _("You cannot excommunicate this country."))
+		messages.error(request, _("You cannot excommunicate this country."))
 	else:
 		player.set_excommunication(by_pope=True)
 		papacy.has_sentenced = True
 		papacy.save()
+		messages.success(request, _("The country has been excommunicated."))
 	return redirect(game)
 
 @login_required
 def forgive_excommunication(request, slug, player_id):
 	game = get_object_or_404(Game, slug=slug)
 	if game.phase == 0 or not game.configuration.excommunication:
-		return game_error(request, game, _("You cannot forgive excommunications in this game."))
+		messages.error(request, _("You cannot forgive excommunications in this game."))
+		return redirect(game)
 	papacy = get_object_or_404(Player, user=request.user,
 								game=game,
 								may_excommunicate=True)
 	if not papacy.can_forgive():
-		return game_error(request, game, _("You cannot forgive excommunications in the current season."))
+		messages.error(request, _("You cannot forgive excommunications in the current season."))
+		return redirect(game)
 	try:
 		player = Player.objects.get(game=game, id=player_id, eliminated=False,
 									conqueror__isnull=True, is_excommunicated=True)
 	except ObjectDoesNotExist:
-		return game_error(request, game, _("You cannot forgive this country."))
+		messages.error(request, _("You cannot forgive this country."))
 	else:
 		player.unset_excommunication()
 		papacy.has_sentenced = True
 		papacy.save()
+		messages.success(request, _("The country has been forgiven."))
 	return redirect(game)
 
 #@cache_page(60 * 60)
@@ -1105,7 +1138,8 @@ def turn_log_list(request, slug=''):
 def give_money(request, slug, player_id):
 	game = get_object_or_404(Game, slug=slug)
 	if game.phase == 0 or not game.configuration.finances:
-		return game_error(request, game, _("You cannot give money in this game."))
+		messages.error(request, _("You cannot give money in this game."))
+		return redirect(game)
 	borrower = get_object_or_404(Player, id=player_id, game=game)
 	lender = get_object_or_404(Player, user=request.user, game=game)
 	context = base_context(request, game, lender)
@@ -1115,11 +1149,14 @@ def give_money(request, slug, player_id):
 		if form.is_valid():
 			ducats = form.cleaned_data['ducats']
 			if ducats > lender.ducats:
-				return game_error(request, game, _("You cannot give more money than you have"))
+				##TODO Move this to form validation
+				messages.error(request, _("You cannot give more money than you have"))
+				return redirect(game)
 			lender.ducats = F('ducats') - ducats
 			borrower.ducats = F('ducats') + ducats
 			lender.save()
 			borrower.save()
+			messages.success(request, _("The money has been successfully sent."))
 			if notification:
 				extra_context = {'game': lender.game,
 								'ducats': ducats,
@@ -1129,7 +1166,7 @@ def give_money(request, slug, player_id):
 					notification.send_now([borrower.user,], "received_ducats", extra_context)
 				else:
 					notification.send([borrower.user,], "received_ducats", extra_context)
-			return redirect('show-game', slug=slug)
+			return redirect(game)
 	else:
 		form = forms.LendForm()
 	context['form'] = form
@@ -1144,7 +1181,8 @@ def borrow_money(request, slug):
 	game = get_object_or_404(Game, slug=slug)
 	player = get_object_or_404(Player, user=request.user, game=game)
 	if game.phase != PHORDERS or not game.configuration.lenders or player.done:
-		return game_error(request, game, _("You cannot borrow money in this moment."))
+		messages.error(request, _("You cannot borrow money in this moment."))
+		return redirect(game)
 	context = base_context(request, game, player)
 	credit = player.get_credit()
 	try:
@@ -1157,19 +1195,22 @@ def borrow_money(request, slug):
 				ducats = form.cleaned_data['ducats']
 				term = int(form.cleaned_data['term'])
 				if ducats > credit:
-					return game_error(request, game, _("You cannot borrow so much money."))
+					messages.error(request, _("You cannot borrow so much money."))
+					return redirect("borrow-money", slug=slug)
 				loan = Loan(player=player, season=game.season)
 				if term == 1:
 					loan.debt = int(ceil(ducats * 1.2))
 				elif term == 2:
 					loan.debt = int(ceil(ducats * 1.5))
 				else:
-					return game_error(request, game, _("The chosen term is not valid."))
+					messages.error(request, _("The chosen term is not valid."))
+					return redirect("borrow-money", slug=slug)
 				loan.year = game.year + term
 				loan.save()
 				player.ducats = F('ducats') + ducats
 				player.save()
-				return redirect('show-game', slug=slug)
+				messages.success(request, _("You have got the loan."))
+				return redirect(game)
 		else:
 			form = forms.BorrowForm()
 	else:
@@ -1180,9 +1221,10 @@ def borrow_money(request, slug):
 				player.ducats = F('ducats') - loan.debt
 				player.save()
 				loan.delete()
-				return redirect('show-game', slug=slug)
+				messages.success(request, _("You have repaid the loan."))
 			else:
-				return game_error(request, game, _("You don't have enough money to repay the loan."))
+				messages.error(request, _("You don't have enough money to repay the loan."))
+			return redirect(game)
 		else:
 			form = forms.RepayForm()
 	context.update({'credit': credit,
@@ -1197,7 +1239,8 @@ def assassination(request, slug):
 	game = get_object_or_404(Game, slug=slug)
 	player = get_object_or_404(Player, user=request.user, game=game)
 	if game.phase != PHORDERS or not game.configuration.assassinations or player.done:
-		return game_error(request, game, _("You cannot buy an assassination in this moment."))
+		messages.error(request, _("You cannot buy an assassination in this moment."))
+		return redirect(game)
 	context = base_context(request, game, player)
 	AssassinationForm = forms.make_assassination_form(player)
 	if request.method == 'POST':
@@ -1207,15 +1250,19 @@ def assassination(request, slug):
 			country = form.cleaned_data['target']
 			target = Player.objects.get(game=game, country=country)
 			if ducats > player.ducats:
-				return game_error(request, game, _("You don't have enough ducats for the assassination."))
+				messages.error(request, _("You don't have enough ducats for the assassination."))
+				return redirect(game)
 			if target.eliminated:
-				return game_error(request, game, _("You cannot kill an eliminated player."))
+				messages.error(request, _("You cannot kill an eliminated player."))
+				return redirect(game)
 			if target == player:
-				return game_error(request, game, _("You cannot kill yourself."))
+				messages.error(request, _("You cannot kill yourself."))
+				return redirect(game)
 			try:
 				assassin = Assassin.objects.get(owner=player, target=country)
 			except ObjectDoesNotExist:
-				return game_error(request, game, _("You don't have any assassins to kill this leader."))
+				messages.error(request, _("You don't have any assassins to kill this leader."))
+				return redirect(game)
 			except MultipleObjectsReturned:
 				assassin = Assassin.objects.filter(owner=player, target=country)[0]
 			## everything is ok and we should have an assassin token
@@ -1224,7 +1271,9 @@ def assassination(request, slug):
 			assassin.delete()
 			player.ducats = F('ducats') - ducats
 			player.save()
-			return redirect('show-game', slug=slug)
+			messages.success(request, _("The assassination attempt has been saved."))
+
+			return redirect(game)
 	else:
 		form = AssassinationForm()
 	context.update({'form': form,})
@@ -1238,12 +1287,13 @@ def new_whisper(request, slug):
 	try:
 		player = Player.objects.get(user=request.user, game=game)
 	except ObjectDoesNotExist:
-		return game_error(request, game, _("You cannot write messages in this game"))
+		messages.error(request, _("You cannot write messages in this game"))
+		return redirect(game)
 	if request.method == 'POST':
 		form = forms.WhisperForm(request.user, game, data=request.POST)
 		if form.is_valid():
 			form.save()
-	return redirect('show-game', slug=slug)
+	return redirect(game)
 
 @login_required
 def whisper_list(request, slug):
