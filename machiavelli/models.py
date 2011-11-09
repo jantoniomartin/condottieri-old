@@ -2037,7 +2037,7 @@ class Player(models.Model):
 		## find a home city occupied only by the player
 		enemies = self.game.player_set.exclude(id=self.id)
 		occupied = self.game.gamearea_set.filter(unit__player__in=enemies).distinct().values('id')
-		safe = self.home_country().filter(unit__player=self).exclude(id__in=occupied).count()
+		safe = self.home_country().filter(board_area__has_city=True, unit__player=self).exclude(id__in=occupied).count()
 		if safe > 0:
 			print "%s has safe cities" % self
 			return False
@@ -2055,6 +2055,8 @@ class Player(models.Model):
 		if self.user:
 			self.eliminated = True
 			self.ducats = 0
+			self.is_excommunicated = False
+			self.pope_excommunicated = False
 			self.save()
 			signals.country_eliminated.send(sender=self, country=self.country)
 			if logging:
