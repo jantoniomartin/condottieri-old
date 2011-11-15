@@ -20,7 +20,11 @@
 {% block login %}
     {% if user.is_authenticated %}
 		{% avatar user 20 %}
-        <b><a href="{% url profile_detail user %}">{{ user }}</a> (K:{{ user.get_profile.karma }}, P:{{ user.get_profile.total_score }})</b> | <a href="{% url acct_email %}">{% trans "Account" %}</a> | {% if user.is_staff %}<a href="/admin/">{% trans "Admin" %}</a> | {% endif %}<a href="{% url acct_logout %}">{% trans "Logout" %}</a>
+        <b><a href="{% url profile_detail user %}">{{ user }}</a> (K:{{ user.get_profile.karma }}, P:{{ user.get_profile.total_score }})</b> |
+        <a href="{% url notification_notices %}">{% trans "Notices" %}{% if notice_unseen_count %} ({{ notice_unseen_count }}){% endif %}</a> |
+		<a href="{% url acct_email %}">{% trans "Account" %}</a> |
+		{% if user.is_staff %}<a href="/admin/">{% trans "Admin" %}</a> |
+		{% endif %}<a href="{% url acct_logout %}">{% trans "Logout" %}</a>
     {% else %}
         <a href="{% url acct_login %}">{% trans "Login" %}</a> {% ifsetting ACCOUNT_OPEN_SIGNUP %}{% trans "or" %} <a href="{% url acct_signup %}"><b>{% trans "Sign up" %}</b></a>{% endifsetting %}
     {% endif %}
@@ -37,7 +41,6 @@
 			{% if user.is_authenticated %}
 			<li id="tab_messages"><a href="{% url messages_inbox %}">{% trans "Mail" %}
 			({{ messages_inbox_count }})</a></li>
-            <li id="tab_notices"><a href="{% url notification_notices %}">{% trans "Notices" %}{% if notice_unseen_count %} ({{ notice_unseen_count }}){% endif %}</a></li>
 			{% endif %}
 			<li id="tab_forum"><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
 			<li id="tab_help"><a href="{% url help-index %}">{% trans "Help" %}</a></li>
