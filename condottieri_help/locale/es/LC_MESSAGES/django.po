@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-23 16:40+0200\n"
+"POT-Creation-Date: 2011-11-15 14:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +21,161 @@ msgstr ""
 #: templates/condottieri_help/index.html:5
 msgid "Help"
 msgstr "Ayuda"
+
+#: templates/condottieri_help/contribute.html:4
+msgid "Contribute"
+msgstr "Contribuir"
+
+#: templates/condottieri_help/contribute.html:10
+msgid "Contributing to Condottieri"
+msgstr "Contribuir a Condottieri"
+
+#: templates/condottieri_help/contribute.html:11
+msgid ""
+"Condottieri is a free (as in Freedom) and open source project that is being "
+"developed as a hobby. No profit is got from this work, except the pleasure "
+"of playing the awesome game that is Machiavelli, with an active community of "
+"players."
+msgstr ""
+"Condottieri es un proyecto de software libre que está siendo desarrollado "
+"como un hobby. De este trabajo no se obtiene ningún lucro, aparte del placer "
+"de jugar al estupendo juego que es Machiavelli con una comunidad activa de "
+"jugadores."
+
+#: templates/condottieri_help/contribute.html:13
+msgid ""
+"Like most of the libre software projects, there are some ways that you can "
+"contribute to Condottieri, if you think that the project deserves your help. "
+"You don't need to be a programmer to improve a libre software project."
+msgstr ""
+"Como la mayoría de proyectos de software libre, hay diversas formas en las "
+"que puedes contribuir a Condottieri, si piensas que el proyecto lo merece. "
+"No necesitas ser programador para mejorar un proyecto de software libre."
+
+#: templates/condottieri_help/contribute.html:15
+msgid "The hosting"
+msgstr "El alojamiento"
+
+#: templates/condottieri_help/contribute.html:16
+msgid ""
+"Condottieri is hosted by Dreamhost, a great hosting provider that gives a "
+"lot of features for a small amount of money. At present, Condottieri is "
+"hosted in a shared server, what means that a lot of websites share the "
+"resources of a single server. That's the reason that sometimes this page can "
+"be a little slow. Most of the time, however, we get an acceptable speed."
+msgstr ""
+"Condottieri está alojado en Dreamhost, un gran proveedor de hosting que "
+"ofrece muchas ventajas por poco dinero. Por ahora, Condottieri está alojado "
+"en un servidor compartido, lo que significa que un montón de webs comparten "
+"los recursos de un mismo servidor. Esta es la razón por la que a veces esta "
+"página es un poco lenta. La mayor parte del tiempo, sin embargo, tenemos una "
+"velocidad aceptable."
+
+#: templates/condottieri_help/contribute.html:18
+msgid ""
+"This hosting is being paid by me, the project leader, and some of our fellow "
+"players that have nobly contributed to ease this burden. If you have a "
+"paypal account and some spare bucks, you can be one of these generous users "
+"and pay a part (as small or big as you wish) of the hosting. Fortunately, "
+"Dreamhost offers a service that allows you to donate money directly to the "
+"hosting."
+msgstr ""
+"Este alojamiento lo pagamos yo (el líder del proyecto) y algunos de los  "
+"jugadores que han contribuido generosamente a aliviar esta carga. Si tienes "
+"una cuenta de paypal y algunos euros de sobra, puedes ser uno de esos usuarios "
+"generosos y pagar una parte (tan pequeña como quieras) del hosting. Afortunadamente, "
+"Dreamhost ofrece un servicio que permite donar dinero directamente al hosting."
+
+
+#: templates/condottieri_help/contribute.html:20
+msgid "Donate to Condottieri hosting"
+msgstr "Donar al hosting de Condottieri"
+
+#: templates/condottieri_help/contribute.html:22
+msgid ""
+"If there were enough donors, other hosting possibilities could be considered "
+"(a virtual private server, etc) that would increase the speed of the game."
+msgstr ""
+"Si hubiera suficientes donantes, se podrían considerar otras posibilidades "
+"(a servidor privado virtual, etc) que incrementarían la velocidad del juego."
+
+#: templates/condottieri_help/contribute.html:24
+msgid "The code"
+msgstr "El código"
+
+#: templates/condottieri_help/contribute.html:25
+msgid ""
+"Condottieri has been developed using mainly Python and Django. As an open "
+"source project, the source code of Condottieri is available in Github, and "
+"anyone can read, copy or modify it."
+msgstr ""
+"Condottieri se ha desarrollado usando principalmente Python y Django. Como "
+"proyecto de software libre, el código fuente de Condottieri está disponible "
+"en Github, y cualquiera puede leerlo, copiarlo o modificarlo."
+
+#: templates/condottieri_help/contribute.html:27
+msgid "Source code of Condottieri"
+msgstr "Código fuente de Condottieri"
+
+#: templates/condottieri_help/contribute.html:29
+msgid ""
+"If you have some programming experience (either with Python or with any "
+"other language), you can improve the code suggesting changes or writing your "
+"own patches."
+msgstr ""
+"Si tienes experiencia como programador (ya sea con Python o con cualquier "
+"otro lenguaje), puedes mejorar el código sugiriendo cambios o escribiendo tus "
+"propios parches."
+
+#: templates/condottieri_help/contribute.html:31
+msgid "The documentation"
+msgstr "La documentación"
+
+#: templates/condottieri_help/contribute.html:33
+msgid ""
+"Unfortunately, not all the players have a copy of Machiavelli, and I don't "
+"have the rights to publish a copy of the rules. Some players may thank you "
+"for helping them to understand how the game works. You can use the forum to "
+"answer the questions of other players."
+msgstr ""
+"Por desgracia, no todos los jugadores poseen una copia de Machiavelli, y yo "
+"no tengo los derechos para publicar las reglas. Algunos jugadores te estarán "
+"agradecidos por ayudarles a entender como funciona el juego. Puedes usar el "
+"foro para responder a las preguntas de otros jugadores."
+
+#: templates/condottieri_help/contribute.html:35
+msgid "Translations"
+msgstr "Traducciones"
+
+#: templates/condottieri_help/contribute.html:37
+msgid ""
+"At present, Condottieri is available in English and Spanish (some parts are "
+"also available in German). However, the whole code is ready to be translated "
+"to any other language. If you understand English and some other language "
+"that you would like to use Condottieri in, all you have to do is editing a "
+"text file. You can offer yourself for the translation in the forum, and I "
+"will give you some guidelines."
+msgstr ""
+"En este momento, Condottieri está disponible en Inglés y Castellano (y algunas "
+"partes en Alemán). Sin embargo, todo el código está preparado para ser traducido "
+"a cualquier otro idioma. Si entiendes inglés y algún otro idioma en el que te "
+"gustaría usar Condottieri, todo lo que tienes que hacer es editar un archivo "
+"de texto. Puede ofrecerte para la traducción en el foro, y te daré algunas "
+"directrices."
+
+#: templates/condottieri_help/contribute.html:39
+msgid "Suggestions"
+msgstr "Sugerencias"
+
+#: templates/condottieri_help/contribute.html:41
+msgid ""
+"Maybe you have an idea to improve the game (a new rule, a change in the "
+"rules, etc). You can use the forum to discuss about it with other players "
+"and decide if it should be added to the game."
+msgstr ""
+"Quizá tengas una idea para mejorar el juego (una nueva regla, un cambio "
+"en las reglas, etc). Puedes usar el foro para discutirla con otros jugadores "
+"y decidir si debería ser añadida al juego."
 
 #: templates/condottieri_help/index.html:6
 #, python-format
@@ -341,10 +495,10 @@ msgid ""
 "required. However, to join this kind of game, a minimum karma is not "
 "required. It's up to the creator which user he invites."
 msgstr ""
-"Una partida privada está abierta solo a usuarios que han sido invitados por el creador "
-"de la misma. Para crear una partida privada se necesita un karma de 110 "
-"Sin embargo, para unirse a este tipo de partida, no es necesario un karma "
-"mínimo. El creador decide a qué usuarios invita."
+"Una partida privada está abierta solo a usuarios que han sido invitados por "
+"el creador de la misma. Para crear una partida privada se necesita un karma "
+"de 110 Sin embargo, para unirse a este tipo de partida, no es necesario un "
+"karma mínimo. El creador decide a qué usuarios invita."
 
 #: templates/condottieri_help/index.html:52
 msgid ""
@@ -353,10 +507,10 @@ msgid ""
 "few users are invited the game won't start. As long as the game has not yet "
 "started, it's possible to invite new users."
 msgstr ""
-"Una vez creada, se debe definir una lista de usuarios. "
-"Es posible invitar a más usuarios de los necesarios pero, al mismo tiempo, si se "
-"invita a menos usuarios de los necesarios, la partida no empezará. Mientras la partida "
-"no haya empezado es posible invitar a nuevos usuarios."
+"Una vez creada, se debe definir una lista de usuarios. Es posible invitar a "
+"más usuarios de los necesarios pero, al mismo tiempo, si se invita a menos "
+"usuarios de los necesarios, la partida no empezará. Mientras la partida no "
+"haya empezado es posible invitar a nuevos usuarios."
 
 #: templates/condottieri_help/index.html:53
 msgid ""
@@ -412,27 +566,29 @@ msgid ""
 "build a new special unit if you already have one. However, you could have "
 "more than one of this units if you bribe a special unit of other player."
 msgstr ""
-"Si las \"unidades especiales\" están activadas en una partida, puedes construir una "
-"unidad con algunas características especiales, más cara que una unidad regular. Los tipos "
-"de unidades especiales que puedes construir dependen de tu país. No puedes "
-"construir una nueva unidad especial si ya tienes alguna. Sin embargo, podrías tener "
-"más de una de estas unidades si sobornas una unidad especial de otro jugador."
+"Si las \"unidades especiales\" están activadas en una partida, puedes "
+"construir una unidad con algunas características especiales, más cara que "
+"una unidad regular. Los tipos de unidades especiales que puedes construir "
+"dependen de tu país. No puedes construir una nueva unidad especial si ya "
+"tienes alguna. Sin embargo, podrías tener más de una de estas unidades si "
+"sobornas una unidad especial de otro jugador."
 
 #: templates/condottieri_help/index.html:61
 msgid ""
 " In the board, special stronger units are marked with a red star, and "
 "special loyaler units are marked with two yellow coins."
 msgstr ""
-"En el tablero, las unidades especiales más fuertes se marcan con una estrella roja, y "
-"las unidades especiales más leales se marcan con dos monedas amarillas."
+"En el tablero, las unidades especiales más fuertes se marcan con una "
+"estrella roja, y las unidades especiales más leales se marcan con dos "
+"monedas amarillas."
 
 #: templates/condottieri_help/index.html:62
 msgid ""
 "Available special units (and regular units) are summarized in the following "
 "table."
 msgstr ""
-"Las unidades especiales disponibles (así como las regulares) se resumen en la siguiente "
-"tabla."
+"Las unidades especiales disponibles (así como las regulares) se resumen en "
+"la siguiente tabla."
 
 #: templates/condottieri_help/index.html:66
 msgid "Class"

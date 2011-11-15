@@ -11,5 +11,6 @@ extra_context = {
 
 urlpatterns = patterns('condottieri_help.views',
     url(r'^$', direct_to_template, {'template': 'condottieri_help/index.html', 'extra_context': extra_context}, name='help-index'),
+    url(r'^contribute$', direct_to_template, {'template': 'condottieri_help/contribute.html', 'extra_context': extra_context}, name='help-contribute'),
 )
 

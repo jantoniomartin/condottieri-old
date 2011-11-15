@@ -1,0 +1,43 @@
+{% extends "condottieri_help/base.html" %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Contribute" %}{% endblock %}
+
+{% block body_class %}contribute{% endblock %}
+{% block rtab_id %}id="tab_contribute"{% endblock %}
+
+{% block content %}
+<h1>{% trans "Contributing to Condottieri" %}</h1>
+<p>{% blocktrans %}Condottieri is a free (as in Freedom) and open source project that is being developed as a hobby. No profit is got from this work, except the pleasure of playing the awesome game that is Machiavelli, with an active community of players.{% endblocktrans %}</p>
+
+<p>{% blocktrans %}Like most of the libre software projects, there are some ways that you can contribute to Condottieri, if you think that the project deserves your help. You don't need to be a programmer to improve a libre software project.{% endblocktrans %}</p>
+
+<h2>{% trans "The hosting" %}</h2>
+<p>{% blocktrans %}Condottieri is hosted by Dreamhost, a great hosting provider that gives a lot of features for a small amount of money. At present, Condottieri is hosted in a shared server, what means that a lot of websites share the resources of a single server. That's the reason that sometimes this page can be a little slow. Most of the time, however, we get an acceptable speed.{% endblocktrans %}</p>
+
+<p>{% blocktrans %}This hosting is being paid by me, the project leader, and some of our fellow players that have nobly contributed to ease this burden. If you have a paypal account and some spare bucks, you can be one of these generous users and pay a part (as small or big as you wish) of the hosting. Fortunately, Dreamhost offers a service that allows you to donate money directly to the hosting.{% endblocktrans %}</p>
+
+<p><a href="http://www.dreamhost.com/donate.cgi?id=14894">{% trans "Donate to Condottieri hosting" %}</a></p>
+
+<p>{% blocktrans %}If there were enough donors, other hosting possibilities could be considered (a virtual private server, etc) that would increase the speed of the game.{% endblocktrans %}</p>
+
+<h2>{% trans "The code" %}</h2>
+<p>{% blocktrans %}Condottieri has been developed using mainly Python and Django. As an open source project, the source code of Condottieri is available in Github, and anyone can read, copy or modify it.{% endblocktrans %}</p>
+
+<p><a href="http://github.com/jantoniomartin/condottieri">{% trans "Source code of Condottieri" %}</a></p>
+
+<p>{% blocktrans %}If you have some programming experience (either with Python or with any other language), you can improve the code suggesting changes or writing your own patches.{% endblocktrans %}
+
+<h2>{% trans "The documentation" %}</h2>
+
+<p>{% blocktrans %}Unfortunately, not all the players have a copy of Machiavelli, and I don't have the rights to publish a copy of the rules. Some players may thank you for helping them to understand how the game works. You can use the forum to answer the questions of other players.{% endblocktrans %}</p>
+
+<h2>{% trans "Translations" %}</h2>
+
+<p>{% blocktrans %}At present, Condottieri is available in English and Spanish (some parts are also available in German). However, the whole code is ready to be translated to any other language. If you understand English and some other language that you would like to use Condottieri in, all you have to do is editing a text file. You can offer yourself for the translation in the forum, and I will give you some guidelines.{% endblocktrans %}</p>
+
+<h2>{% trans "Suggestions" %}</h2>
+
+<p>{% blocktrans %}Maybe you have an idea to improve the game (a new rule, a change in the rules, etc). You can use the forum to discuss about it with other players and decide if it should be added to the game.{% endblocktrans %}</p>
+
+{% endblock %}
